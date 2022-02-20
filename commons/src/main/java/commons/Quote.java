@@ -44,6 +44,11 @@ public class Quote {
         // for object mappers
     }
 
+    /**
+     * Adding checkstyle
+     * @param person
+     * @param quote
+     */
     public Quote(Person person, String quote) {
         this.person = person;
         this.quote = quote;

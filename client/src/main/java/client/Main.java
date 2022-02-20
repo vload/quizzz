@@ -33,6 +33,12 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    /**
+     * Adding checkstyle
+     * @param args
+     * @throws URISyntaxException
+     * @throws IOException
+     */
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();
     }
