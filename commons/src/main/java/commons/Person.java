@@ -41,6 +41,11 @@ public class Person {
         // for object mapper
     }
 
+    /**
+     * Adding checkstyle
+     * @param firstName
+     * @param lastName
+     */
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

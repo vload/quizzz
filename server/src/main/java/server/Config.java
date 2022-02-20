@@ -23,6 +23,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
+    /**
+     * Adding checkstyle
+     * @return Adding checkstyle
+     */
     @Bean
     public Random getRandom() {
         return new Random();

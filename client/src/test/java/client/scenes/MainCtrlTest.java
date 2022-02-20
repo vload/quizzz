@@ -22,11 +22,17 @@ public class MainCtrlTest {
 
     private MainCtrl sut;
 
+    /**
+     * Adding checkstyle
+     */
     @BeforeEach
     public void setup() {
         sut = new MainCtrl();
     }
 
+    /**
+     * Adding checkstyle
+     */
     @Test
     public void writeSomeTests() {
         // TODO create replacement objects and write some tests

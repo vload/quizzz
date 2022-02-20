@@ -23,6 +23,9 @@ import org.junit.jupiter.api.Test;
 
 public class PersonTest {
 
+	/**
+	 * Adding checkstyle
+	 */
 	@Test
 	public void checkConstructor() {
 		var p = new Person("f", "l");
@@ -30,6 +33,9 @@ public class PersonTest {
 		assertEquals("l", p.lastName);
 	}
 
+	/**
+	 * Adding checkstyle
+	 */
 	@Test
 	public void equalsHashCode() {
 		var a = new Person("a", "b");
@@ -38,6 +44,9 @@ public class PersonTest {
 		assertEquals(a.hashCode(), b.hashCode());
 	}
 
+	/**
+	 * Adding checkstyle
+	 */
 	@Test
 	public void notEqualsHashCode() {
 		var a = new Person("a", "b");
@@ -46,6 +55,9 @@ public class PersonTest {
 		assertNotEquals(a.hashCode(), b.hashCode());
 	}
 
+	/**
+	 * Adding checkstyle
+	 */
 	@Test
 	public void hasToString() {
 		var actual = new Person("a", "b").toString();
