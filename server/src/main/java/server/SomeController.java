@@ -18,4 +18,14 @@ public class SomeController {
     public String index() {
         return "Hello world!";
     }
+
+    /**
+     * This returns a place-holder question when the user requests one.
+     * @return JSON String with the question and image filename
+     */
+    @GetMapping("/api/question")
+    @ResponseBody
+    public String question() {
+        return "{question: \"What is a question?\", image: \"image001.png\"}";
+    }
 }
