@@ -12,6 +12,6 @@ class SomeControllerTest {
     @Test
     void question() {
         SomeController a = new SomeController();
-        assertEquals("{question: \"What is a question?\", image: \"image001.png\"}", a.question());
+        assertEquals("{\"question\": \"What is a question?\", \"image\": \"image001.png\"}", a.question());
     }
 }

@@ -26,6 +26,6 @@ public class SomeController {
     @GetMapping("/api/question")
     @ResponseBody
     public String question() {
-        return "{question: \"What is a question?\", image: \"image001.png\"}";
+        return "{\"question\": \"What is a question?\", \"image\": \"image001.png\"}";
     }
 }
