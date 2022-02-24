@@ -15,21 +15,64 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "question_id", nullable = false)
     public long id; // change access-modifiers if necessary? Template project doesn't do this
 
-    @Column(name = "question")
+    @Column(name = "question", nullable = false)
     private String questionText;
 
-    @OneToMany(mappedBy="question",cascade = CascadeType.ALL)
-    private List<Activity> activities = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "has_activities",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "activity_id")
+    )
+    private Set<Activity> activities;
 
     /**
      *
-     * constructor for object mapper
+     * default constructor for object mapper
      */
     private Question() {
         // for object mapper
+    }
+
+    /**
+     *
+     * constructor for Question (V1): Question text only!
+     * @param questionText The textual representation of this question
+     */
+    public Question(String questionText) {
+        this.questionText = questionText;
+    }
+
+    /**
+     *
+     * constructor for Question (V2): For question and activities
+     * @param questionText The textual representation of the question
+     * @param activities The set of activities associated with said question
+     */
+    public Question(String questionText, Set<Activity> activities) {
+        this.questionText = questionText;
+        this.activities = activities;
+    }
+
+    /**
+     *
+     * returns the textual representation of the question
+     * @return A String containing the question
+     */
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    /**
+     *
+     * The set of activities
+     * @return A set containing all the activities
+     */
+    public Set<Activity> getActivities() {
+        return activities;
     }
 
     /**
@@ -63,12 +106,4 @@ public class Question {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
-
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 }
