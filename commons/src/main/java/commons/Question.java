@@ -33,7 +33,7 @@ public class Question {
      *
      * default constructor for object mapper
      */
-    private Question() {
+    public Question() {
         // for object mapper
     }
 
