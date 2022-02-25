@@ -3,6 +3,7 @@ package server.api;
 import java.util.List;
 import java.util.Random;
 
+import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ public class QuestionController {
 
     /**
      * Adding checkstyle
-     * @param random ?
+     * @param random random object
      * @param repo the question repo
      */
     public QuestionController(Random random, QuestionRepository repo) {
@@ -48,6 +49,7 @@ public class QuestionController {
         if (id < 0 || !repo.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getById(id));
+        var proxy = repo.getById(id);
+        return ResponseEntity.ok((Question) Hibernate.unproxy(proxy));
     }
 }

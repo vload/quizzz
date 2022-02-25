@@ -33,13 +33,4 @@ public class Config {
     public Random getRandom() {
         return new Random();
     }
-
-    /**
-     * I don't know what this does but getById requests don't work without it
-     * @return An ObjectMapper that disables serialization maybe?
-     */
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-    }
 }
