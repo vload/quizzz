@@ -163,14 +163,13 @@ public class TestActivityRepository implements ActivityRepository {
 
     /**
      * Saves all of the entities in the iterable, use the returned entities in the list
-     * for furthe roperations, as this might have changed the entities completely.
+     * for further operations, as this might have changed the entities completely.
      * @param entities must not be {@literal null}.
      * @return A list of saved entities, which will never be {@literal null}.
      * @throws IllegalArgumentException any of the given entities are {@literal null}.
      */
     @Override
     public <S extends Activity> List<S> saveAll(Iterable<S> entities) {
-        call("saveAll");
         entities.forEach(this::save);
         return (List<S>) entities;
     }
