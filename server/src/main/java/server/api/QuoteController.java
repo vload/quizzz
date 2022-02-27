@@ -65,7 +65,7 @@ public class QuoteController {
         if (id < 0 || !repo.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getById(id));
+        return ResponseEntity.ok(repo.findById(id).get());
     }
 
     /**
@@ -101,7 +101,9 @@ public class QuoteController {
      */
     @GetMapping("rnd")
     public ResponseEntity<Quote> getRandom() {
+        var quotes = repo.findAll();
         var idx = random.nextInt((int) repo.count());
-        return ResponseEntity.ok(repo.getById((long) idx));
+        return ResponseEntity.ok(quotes.get(idx));
+//        return ResponseEntity.ok(repo.getById((long) idx));
     }
 }
