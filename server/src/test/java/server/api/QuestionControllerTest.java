@@ -17,6 +17,9 @@ class QuestionControllerTest {
     private Question q1, q2, q3;
     private QuestionController controller;
 
+    /**
+     * Setup for the tests 
+     */
     @BeforeEach
     public void setup() {
         repo = new TestQuestionRepository();
@@ -39,7 +42,8 @@ class QuestionControllerTest {
     }
 
     /**
-     * Test for getAll */
+     * Test for getAll 
+     */
     @Test
     void getAll() {
         repo.save(q1);
@@ -52,7 +56,10 @@ class QuestionControllerTest {
         assertTrue(all.contains(q2));
         assertTrue(all.contains(q3));
     }
-
+    
+    /**
+     * Test for getById
+     */
     @Test
     void getById() {
         repo.save(q1);
