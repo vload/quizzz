@@ -118,6 +118,7 @@ public class TestQuestionRepository implements QuestionRepository {
     @Override
     public <S extends Question> S save(S entity) {
         call("save");
+        entity.id = questions.size();
         questions.add(entity);
         return entity;
     }
