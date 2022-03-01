@@ -104,6 +104,5 @@ public class QuoteController {
         var quotes = repo.findAll();
         var idx = random.nextInt((int) repo.count());
         return ResponseEntity.ok(quotes.get(idx));
-//        return ResponseEntity.ok(repo.getById((long) idx));
     }
 }
