@@ -89,8 +89,9 @@ class QuestionControllerTest {
         repo.save(q3);
 
         var question = controller.getRandom().getBody();
-        if(question == null)
+        if(question == null) {
             fail();
+        }
 
         switch (question.getQuestionText()){
             case "text-q1":
