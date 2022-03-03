@@ -104,7 +104,8 @@ class QuestionControllerTest {
                 assertEquals(1, question.getActivities().size());
                 break;
             default:
-                fail("A question that was not in the repo was returned with text: \"" + question.getQuestionText() + "\"");
+                fail("A question that was not in the repo was returned with text: \"" + question.getQuestionText() +
+                        "\"");
         }
     }
 }
