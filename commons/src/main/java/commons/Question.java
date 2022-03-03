@@ -21,6 +21,9 @@ public class Question {
     @Column(name = "question", nullable = false)
     private String questionText;
 
+    @Column(name = "type", nullable = false)
+    private QuestionType type;
+
     @ManyToMany
     @JoinTable(
             name = "has_activities",
@@ -58,6 +61,18 @@ public class Question {
     }
 
     /**
+     * constructor for Question (V3): For question, activities and type
+     * @param questionText The textual representation of the question
+     * @param activities The set of activities associated with said question
+     * @param type The type of question it is
+     */
+    public Question(String questionText, Set<Activity> activities, QuestionType type) {
+        this.questionText = questionText;
+        this.activities = activities;
+        this.type = type;
+    }
+
+    /**
      *
      * returns the textual representation of the question
      * @return A String containing the question
@@ -73,6 +88,14 @@ public class Question {
      */
     public Set<Activity> getActivities() {
         return activities;
+    }
+
+    /**
+     * The type of question
+     * @return an enum with the question type
+     */
+    public QuestionType getType() {
+        return type;
     }
 
     /**

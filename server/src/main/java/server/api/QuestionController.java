@@ -1,8 +1,9 @@
 package server.api;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
+import commons.Activity;
+import commons.QuestionType;
 import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,4 +53,30 @@ public class QuestionController {
         var proxy = repo.getById(id);
         return ResponseEntity.ok((Question) Hibernate.unproxy(proxy));
     }
+
+    /**
+     * A randomly generated question.
+     * @return the question
+     */
+    @GetMapping("/rnd")
+    public ResponseEntity<Question> getRandom() {
+        long idx = random.nextInt((int) repo.count());
+        Question q = repo.getById(idx);
+        Set<Activity> selectedActivities = new HashSet<>();
+
+        if(q.getActivities() != null) {
+            List<Activity> activities = new ArrayList<>(q.getActivities());
+
+            for (int i = 0; i < QuestionType.getAmountOfActivities(q.getType()); i++) {
+                int id = random.nextInt(activities.size());
+                selectedActivities.add(activities.get(id));
+                activities.remove(id);
+            }
+        }
+
+        Question responseQuestion = new Question(q.getQuestionText(), selectedActivities, q.getType());
+
+        return ResponseEntity.ok(responseQuestion);
+    }
+
 }
