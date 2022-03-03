@@ -3,6 +3,7 @@ package server.api;
 import java.util.List;
 import java.util.Random;
 
+import commons.Quote;
 import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +41,10 @@ public class QuestionController {
     }
 
     /**
-     * Gets a question with id id
-     * @param id the id
-     * @return the question
+     * Gets a question with specified id
+     *
+     * @param id the id of the question
+     * @return ResponseEntity with the question
      */
     @GetMapping("/{id}")
     public ResponseEntity<Question> getById(@PathVariable("id") long id) {
@@ -51,5 +53,17 @@ public class QuestionController {
         }
         var proxy = repo.getById(id);
         return ResponseEntity.ok((Question) Hibernate.unproxy(proxy));
+    }
+
+    /**
+     * Gets a random question from the database
+     *
+     * @return ResponseEntity with the question
+     */
+    @GetMapping("rnd")
+    public ResponseEntity<Question> getRandom() {
+        List<Question> questions = repo.findAll();
+        var idx = random.nextInt((int) repo.count());
+        return ResponseEntity.ok(questions.get(idx));
     }
 }
