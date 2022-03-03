@@ -42,17 +42,7 @@ public class TestActivityRepository implements ActivityRepository {
         return activities;
     }
 
-    @Override
-    public List<Activity> findAll(Sort sort) {
-        //AUTO-GENERATED STUB
-        return null;
-    }
 
-    @Override
-    public Page<Activity> findAll(Pageable pageable) {
-        //AUTO GENERATED STUB
-        return null;
-    }
 
     /**
      *
@@ -95,7 +85,6 @@ public class TestActivityRepository implements ActivityRepository {
     public void deleteById(Long id) {
         call("deleteById");
         activities.removeIf(x -> x.id == id);
-
     }
 
     /**
@@ -108,7 +97,6 @@ public class TestActivityRepository implements ActivityRepository {
     public void delete(Activity entity) {
         call("delete");
         activities.remove(entity);
-
     }
 
     /**
@@ -121,7 +109,6 @@ public class TestActivityRepository implements ActivityRepository {
     public void deleteAllById(Iterable<? extends Long> ids) {
         call("deleteAllById");
         ids.forEach(this::deleteById);
-
     }
 
     /**
@@ -198,6 +185,71 @@ public class TestActivityRepository implements ActivityRepository {
         return findById(id).isPresent();
     }
 
+    /**
+     * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
+     * implemented this is very likely to always return an instance and throw an
+     * {@link EntityNotFoundException} on first access. Some of them will reject invalid identifiers
+     * immediately.
+     *
+     * @param id must not be {@literal null}.
+     * @return a reference to the entity with the given identifier.
+     */
+    @Override
+    public Activity getById(Long id) {
+        call("getById");
+        Optional<Activity> activity = activities.stream().filter(x -> x.id == id).findFirst();
+        if (activity.isPresent()) {
+            return activity.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+
+    private Optional<Activity> find(Long id) {
+        return activities.stream().filter(x -> x.id == id).findFirst();
+    }
+
+    //*****************************************************************************************************************
+    //*****************************************************************************************************************
+    //NOT IMPLEMENTED
+    //*****************************************************************************************************************
+    //*****************************************************************************************************************
+
+    @Override
+    public <S extends Activity> Optional<S> findOne(Example<S> example) {
+        return Optional.empty();
+    }
+
+    @Override
+    public <S extends Activity> List<S> findAll(Example<S> example) {
+        return null;
+    }
+
+    @Override
+    public <S extends Activity> List<S> findAll(Example<S> example, Sort sort) {
+        return null;
+    }
+
+    @Override
+    public <S extends Activity> Page<S> findAll(Example<S> example, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public <S extends Activity> long count(Example<S> example) {
+        return 0;
+    }
+
+    @Override
+    public <S extends Activity> boolean exists(Example<S> example) {
+        return false;
+    }
+
+    @Override
+    public <S extends Activity, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
+        return null;
+    }
+
     @Override
     public void flush() {
     }
@@ -232,62 +284,15 @@ public class TestActivityRepository implements ActivityRepository {
         return null;
     }
 
-    /**
-     * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
-     * implemented this is very likely to always return an instance and throw an
-     * {@link EntityNotFoundException} on first access. Some of them will reject invalid identifiers
-     * immediately.
-     *
-     * @param id must not be {@literal null}.
-     * @return a reference to the entity with the given identifier.
-     */
     @Override
-    public Activity getById(Long id) {
-        call("getById");
-        Optional<Activity> activity = activities.stream().filter(x -> x.id == id).findFirst();
-        if (activity.isPresent()) {
-            return activity.get();
-        } else {
-            throw new EntityNotFoundException();
-        }
-    }
-
-    private Optional<Activity> find(Long id) {
-        return activities.stream().filter(x -> x.id == id).findFirst();
-    }
-
-    @Override
-    public <S extends Activity> Optional<S> findOne(Example<S> example) {
-        return Optional.empty();
-    }
-
-    @Override
-    public <S extends Activity> List<S> findAll(Example<S> example) {
+    public List<Activity> findAll(Sort sort) {
+        //AUTO-GENERATED STUB
         return null;
     }
 
     @Override
-    public <S extends Activity> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
-    }
-
-    @Override
-    public <S extends Activity> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public <S extends Activity> long count(Example<S> example) {
-        return 0;
-    }
-
-    @Override
-    public <S extends Activity> boolean exists(Example<S> example) {
-        return false;
-    }
-
-    @Override
-    public <S extends Activity, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
+    public Page<Activity> findAll(Pageable pageable) {
+        //AUTO GENERATED STUB
         return null;
     }
 }
