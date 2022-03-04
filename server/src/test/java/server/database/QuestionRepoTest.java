@@ -17,6 +17,7 @@ package server.database;
 
 import commons.Question;
 import commons.Activity;
+import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.api.TestQuestionRepository;
@@ -40,19 +41,19 @@ public class QuestionRepoTest {
     public void setup() {
         repo = new TestQuestionRepository();
         Activity a1 = new Activity("activity 1", 50, "facebook.com");
-        Activity a2 = new Activity("activity 2", 50, "facebook.com");
-        Activity a3 = new Activity("activity 3", 50, "facebook.com");
-        Activity a4 = new Activity("activity 4", 50, "facebook.com");
+        Activity a2 = new Activity("activity 2", 60, "twitter.com");
+        Activity a3 = new Activity("activity 3", 70, "google.com");
+        Activity a4 = new Activity("activity 4", 80, "youtube.com");
         Set<Activity> activitySet = new HashSet<>();
         activitySet.add(a1);
         activitySet.add(a2);
         activitySet.add(a3);
         Set<Activity> activitySet2 = new HashSet<>();
         activitySet2.add(a4);
-        q1 = new Question("To be or not to be?");
-        q2 = new Question("To be or not to be?2");
-        q3 = new Question("Multiple choice question?", activitySet);
-        q4 = new Question("Estimate question?", activitySet2);
+        q1 = new Question("To be or not to be?", activitySet, QuestionType.MC);
+        q2 = new Question("To be or not to be?2", activitySet2, QuestionType.ESTIMATE);
+        q3 = new Question("Multiple choice question?", activitySet, QuestionType.MC);
+        q4 = new Question("Estimate question?", activitySet2, QuestionType.ESTIMATE);
     }
 
     /**
