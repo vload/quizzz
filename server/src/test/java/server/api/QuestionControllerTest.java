@@ -41,7 +41,7 @@ class QuestionControllerTest {
         HashSet<Activity> set2 = new HashSet<>();
         set2.add(a2);
 
-        q1 = new Question("text-q1");
+        q1 = new Question("text-q1", set, QuestionType.MC);
         q2 = new Question("text-q2", set, QuestionType.MC);
         q3 = new Question("text-q3", set2, QuestionType.ESTIMATE);
 
@@ -95,8 +95,6 @@ class QuestionControllerTest {
 
         switch (question.getQuestionText()){
             case "text-q1":
-                assertEquals(0, question.getActivities().size());
-                break;
             case "text-q2":
                 assertEquals(3, question.getActivities().size());
                 break;
