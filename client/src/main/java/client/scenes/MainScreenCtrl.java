@@ -15,5 +15,27 @@
  */
 package client.scenes;
 
-public class MainScreenCtrl {
+import javax.inject.Inject;
+
+public class MainScreenCtrl  {
+
+
+    private final MyMainCtrl myMainCtrl;
+
+    /**
+     * Constructor for the name screen controller
+     * @param myMainCtrl
+     */
+    @Inject
+    public MainScreenCtrl(MyMainCtrl myMainCtrl){
+        this.myMainCtrl = myMainCtrl;
+
+    }
+
+    /**
+     * Shows main screen
+     */
+    public void goToName() {
+        myMainCtrl.showNameScreen();
+    }
 }
