@@ -16,7 +16,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "question_id", nullable = false)
-    public long id; // change access-modifiers if necessary? Template project doesn't do this
+    public long id;
 
     @Column(name = "question", nullable = false)
     private String questionText;
@@ -30,16 +30,16 @@ public class Question {
     private Set<Activity> activities;
 
     /**
-     *
      * default constructor for object mapper
+     *
      */
     public Question() {
         // for object mapper
     }
 
     /**
-     *
      * constructor for Question (V1): Question text only!
+     *
      * @param questionText The textual representation of this question
      */
     public Question(String questionText) {
@@ -47,8 +47,8 @@ public class Question {
     }
 
     /**
-     *
      * constructor for Question (V2): For question and activities
+     *
      * @param questionText The textual representation of the question
      * @param activities The set of activities associated with said question
      */
@@ -58,8 +58,8 @@ public class Question {
     }
 
     /**
-     *
      * returns the textual representation of the question
+     *
      * @return A String containing the question
      */
     public String getQuestionText() {
@@ -67,8 +67,8 @@ public class Question {
     }
 
     /**
-     *
      * The set of activities
+     *
      * @return A set containing all the activities
      */
     public Set<Activity> getActivities() {
@@ -76,8 +76,8 @@ public class Question {
     }
 
     /**
-     *
      * enhanced equals method
+     *
      * @param obj The object to be compared to
      * @return true if the two Objects have tested equals.
      */
@@ -87,8 +87,8 @@ public class Question {
     }
 
     /**
-     *
      * enhanced hashcode method
+     *
      * @return the hashcode
      */
     @Override
@@ -97,8 +97,8 @@ public class Question {
     }
 
     /**
-     *
      * enhanced toString
+     *
      * @return A string representation of this object
      */
     @Override
