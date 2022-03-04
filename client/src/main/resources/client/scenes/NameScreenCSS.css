@@ -1,0 +1,26 @@
+.anchorPane {
+    -fx-background-color: #03071e;
+}
+
+.text {
+    -fx-fill: white;
+    -fx-font-size: 40;
+}
+.title{
+    -fx-fill: white;
+}
+
+.textField{
+}
+
+.btn {
+    -fx-background-color: #6a040f;
+    -fx-background-radius: 50;
+    -fx-border-color: #9d0208;
+    -fx-border-width: 5;
+    -fx-border-radius: 50;
+}
+
+.btn:hover {
+    -fx-background-color: #d00000;
+}

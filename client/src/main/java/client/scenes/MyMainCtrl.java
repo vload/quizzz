@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.Objects;
+
 public class MyMainCtrl {
 
     private Stage primaryStage;
@@ -23,12 +25,19 @@ public class MyMainCtrl {
      * @param nameScreen
      */
     public void initialize(Stage primaryStage, Pair<MainScreenCtrl,
-            Parent> mainScreen, Pair<NameScreenCtrl, Parent> nameScreen) {
+                           Parent> mainScreen, Pair<NameScreenCtrl,
+                           Parent> nameScreen) {
         this.primaryStage = primaryStage;
+
         this.mainScreenCtrl = mainScreen.getKey();
         this.mainScreen = new Scene(mainScreen.getValue());
+        this.mainScreen.getStylesheets().add(Objects.requireNonNull(getClass()
+                       .getResource("MainScreenCSS.css")).toExternalForm());
+
         this.nameScreenCtrl = nameScreen.getKey();
         this.nameScreen = new Scene(nameScreen.getValue());
+        this.nameScreen.getStylesheets().add(Objects.requireNonNull(getClass()
+                       .getResource("NameScreenCSS.css")).toExternalForm());
 
         showMainScreen();
         primaryStage.show();

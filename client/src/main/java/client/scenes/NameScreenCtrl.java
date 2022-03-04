@@ -30,7 +30,7 @@ public class NameScreenCtrl {
     }
 
     /**
-     * Clears the name input field
+     * Clears the name input field, which is temporarily used for demonstrational purposes
      */
     public void tempClear(){
         nameField.clear();
