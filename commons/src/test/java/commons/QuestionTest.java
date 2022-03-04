@@ -22,10 +22,10 @@ class QuestionTest {
         a2 = new Activity("Bike",15,"www.example.com");
         a3 = new Activity("Train",14,"www.example.com");
         q1 = new Question("What is the highest out of the following 3 activities",
-                Stream.of(a1,a2,a3).collect(Collectors.toSet()));
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC);
         q2 = new Question("What is the highest out of the following 3 activities",
-                Stream.of(a1,a2,a3).collect(Collectors.toSet()));
-        q3 = new Question("Dummy question", Stream.of(a1,a2,a3).collect(Collectors.toSet()));
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC);
+        q3 = new Question("Dummy question", Stream.of(a1,a2).collect(Collectors.toSet()), QuestionType.ESTIMATE);
     }
 
     @Test
@@ -33,6 +33,7 @@ class QuestionTest {
         assertNotNull(q1);
         assertEquals("What is the highest out of the following 3 activities",q1.getQuestionText());
         assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivities());
+        assertEquals(QuestionType.MC, q1.getType());
     }
 
     @Test
@@ -43,6 +44,11 @@ class QuestionTest {
     @Test
     void getActivitiesTest() {
         assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivities());
+    }
+
+    @Test
+    void getTypeTest() {
+        assertEquals(QuestionType.MC, q1.getType());
     }
 
     @Test
