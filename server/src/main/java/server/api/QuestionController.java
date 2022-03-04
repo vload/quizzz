@@ -22,6 +22,7 @@ public class QuestionController {
 
     /**
      * Adding checkstyle
+     *
      * @param random random object
      * @param repo the question repo
      */
@@ -32,6 +33,7 @@ public class QuestionController {
 
     /**
      * Return all questions
+     *
      * @return returns all questions
      */
     @GetMapping(path = { "", "/" })
@@ -54,15 +56,5 @@ public class QuestionController {
         return ResponseEntity.ok((Question) Hibernate.unproxy(proxy));
     }
 
-    /**
-     * Gets a random question from the database
-     *
-     * @return ResponseEntity with the question
-     */
-    @GetMapping("rnd")
-    public ResponseEntity<Question> getRandom() {
-        List<Question> questions = repo.findAll();
-        var idx = random.nextInt((int) repo.count());
-        return ResponseEntity.ok(questions.get(idx));
-    }
+
 }
