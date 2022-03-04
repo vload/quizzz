@@ -34,7 +34,12 @@ public class MainStage extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var mainScreen = FXML.load(MainScreenCtrl.class, "client", "scenes", "MainScreen.fxml");
+        var nameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "NameScreen.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
-        mainCtrl.initialize(primaryStage, mainScreen);
+        mainCtrl.initialize(primaryStage, mainScreen, nameScreen);
     }
+
+
+
+
 }
