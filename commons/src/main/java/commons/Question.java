@@ -41,26 +41,6 @@ public class Question {
     }
 
     /**
-     *
-     * constructor for Question (V1): Question text only!
-     * @param questionText The textual representation of this question
-     */
-    public Question(String questionText) {
-        this.questionText = questionText;
-    }
-
-    /**
-     *
-     * constructor for Question (V2): For question and activities
-     * @param questionText The textual representation of the question
-     * @param activities The set of activities associated with said question
-     */
-    public Question(String questionText, Set<Activity> activities) {
-        this.questionText = questionText;
-        this.activities = activities;
-    }
-
-    /**
      * constructor for Question (V3): For question, activities and type
      * @param questionText The textual representation of the question
      * @param activities The set of activities associated with said question
