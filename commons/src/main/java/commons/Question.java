@@ -41,7 +41,7 @@ public class Question {
     }
 
     /**
-     * constructor for Question (V3): For question, activities and type
+     * constructor for Question: For question, activities and type
      * @param questionText The textual representation of the question
      * @param activities The set of activities associated with said question
      * @param type The type of question it is
