@@ -32,12 +32,12 @@ public class MyMainCtrl {
         this.mainScreenCtrl = mainScreen.getKey();
         this.mainScreen = new Scene(mainScreen.getValue());
         this.mainScreen.getStylesheets().add(Objects.requireNonNull(getClass()
-                       .getResource("MainScreenCSS.css")).toExternalForm());
+                       .getResource("ScreenCommonCSS.css")).toExternalForm());
 
         this.nameScreenCtrl = nameScreen.getKey();
         this.nameScreen = new Scene(nameScreen.getValue());
         this.nameScreen.getStylesheets().add(Objects.requireNonNull(getClass()
-                       .getResource("NameScreenCSS.css")).toExternalForm());
+                       .getResource("ScreenCommonCSS.css")).toExternalForm());
 
         showMainScreen();
         primaryStage.show();

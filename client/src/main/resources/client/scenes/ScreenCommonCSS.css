@@ -6,14 +6,11 @@
     -fx-fill: white;
     -fx-font-size: 40;
 }
-.title{
+.title {
     -fx-fill: white;
 }
 
-.textField{
-}
-
-.btn {
+.button {
     -fx-background-color: #6a040f;
     -fx-background-radius: 50;
     -fx-border-color: #9d0208;
@@ -21,6 +18,6 @@
     -fx-border-radius: 50;
 }
 
-.btn:hover {
+.button:hover {
     -fx-background-color: #d00000;
 }

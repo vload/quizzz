@@ -6,12 +6,12 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MainScreenCtrl">
-   <Button layoutX="660.0" layoutY="689.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" styleClass="btn" text="MultiPlayer">
+   <Button layoutX="660.0" layoutY="689.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" text="MultiPlayer">
       <font>
          <Font size="80.0" />
       </font>
    </Button>
-   <Button layoutX="660.0" layoutY="374.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" styleClass="btn" text="SinglePlayer">
+   <Button layoutX="660.0" layoutY="374.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" text="SinglePlayer">
       <font>
          <Font size="80.0" />
       </font>
