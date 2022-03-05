@@ -1,4 +1,4 @@
-package server.api;
+package server.database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,7 @@ import server.database.ActivityRepository;
 
 import javax.persistence.EntityNotFoundException;
 
-public class TestActivityRepository implements ActivityRepository {
-
+public class MockActivityRepository implements ActivityRepository {
     public final List<Activity> activities = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
@@ -30,7 +29,6 @@ public class TestActivityRepository implements ActivityRepository {
         calledMethods.add(name);
     }
 
-
     /**
      *
      * finds all activities
@@ -41,8 +39,6 @@ public class TestActivityRepository implements ActivityRepository {
         call("findAll");
         return activities;
     }
-
-
 
     /**
      *
@@ -143,13 +139,13 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public <S extends Activity> S save(S entity)  {
         call("save");
-        entity.id = (long) activities.size();
+        entity.id = activities.size();
         activities.add(entity);
         return entity;
     }
 
     /**
-     * Saves all of the entities in the iterable, use the returned entities in the list
+     * Saves all the entities in the iterable, use the returned entities in the list
      * for further operations, as this might have changed the entities completely.
      * @param entities must not be {@literal null}.
      * @return A list of saved entities, which will never be {@literal null}.

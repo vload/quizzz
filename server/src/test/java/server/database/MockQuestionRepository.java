@@ -1,4 +1,4 @@
-package server.api;
+package server.database;
 
 import commons.Question;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -15,21 +15,37 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class TestQuestionRepository implements QuestionRepository {
+public class MockQuestionRepository implements QuestionRepository {
     public final List<Question> questions = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
+    /**
+     *
+     * adds any called method to the list of calledMethods
+     * @param name the name of the method which should be added to the list
+     */
     private void call(String name) {
         calledMethods.add(name);
     }
 
+    /**
+     *
+     * finds all questions
+     * @return A list of all questions currently added
+     */
     @Override
     public List<Question> findAll() {
         call("findAll");
         return questions;
     }
 
-
+    /**
+     *
+     * Finds all questions associated to this id
+     * @param ids An iterable that contains the list of ids that need to be found
+     * @return A list of questions, associated with the ids, if an activity with that id
+     * is not found, it will not be present in the returnList
+     */
     @Override
     public List<Question> findAllById(Iterable<Long> ids) {
         List<Question> returnList = new ArrayList<>();
@@ -52,7 +68,7 @@ public class TestQuestionRepository implements QuestionRepository {
     }
 
     /**
-     * Deletes the entity with the given id.
+     * Deletes the question with the given id.
      *
      * @param id must not be {@literal null}.
      * @throws IllegalArgumentException in case the given {@literal id} is {@literal null}

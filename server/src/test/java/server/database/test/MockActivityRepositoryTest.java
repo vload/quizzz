@@ -1,18 +1,18 @@
-package server.database;
+package server.database.test;
 
 import commons.Activity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.TestActivityRepository;
+import server.database.MockActivityRepository;
 
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ActivityRepoTest{
+public class MockActivityRepositoryTest {
 
-    private TestActivityRepository repo;
+    private MockActivityRepository repo;
     private Activity a1, a2, a3, a4;
 
     /**
@@ -20,7 +20,7 @@ public class ActivityRepoTest{
      */
     @BeforeEach
     public void setup() {
-        repo = new TestActivityRepository();
+        repo = new MockActivityRepository();
         a1 = new Activity("activity 1", 50, "facebook.com");
         a2 = new Activity("activity 2", 60, "twitter.com");
         a3 = new Activity("activity 3", 70, "google.com");
