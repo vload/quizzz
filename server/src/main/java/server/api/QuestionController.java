@@ -23,6 +23,7 @@ public class QuestionController {
 
     /**
      * Adding checkstyle
+     *
      * @param random random object
      * @param repo the question repo
      */
@@ -33,6 +34,7 @@ public class QuestionController {
 
     /**
      * Return all questions
+     *
      * @return returns all questions
      */
     @GetMapping(path = { "", "/" })
@@ -41,9 +43,10 @@ public class QuestionController {
     }
 
     /**
-     * Gets a question with id id
-     * @param id the id
-     * @return the question
+     * Gets a question with specified id
+     *
+     * @param id the id of the question
+     * @return ResponseEntity with the question
      */
     @GetMapping("/{id}")
     public ResponseEntity<Question> getById(@PathVariable("id") long id) {
