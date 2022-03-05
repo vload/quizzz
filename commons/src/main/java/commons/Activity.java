@@ -17,7 +17,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "activity_id", nullable = false)
-    public long id; // change access-modifiers if necessary? Template project doesn't do this :shrug:
+    public long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -32,7 +32,6 @@ public class Activity {
     private Set<Question> questions;
 
     /**
-     *
      * constructor for object mapper
      */
     private Activity() {
@@ -40,8 +39,8 @@ public class Activity {
     }
 
     /**
-     *
      * constructor for Activity: (V1) without questions
+     *
      * @param title The title of this activity
      * @param energyConsumption The energy consumption (kwh) of this activity
      * @param source The URL where the question comes from.
@@ -53,8 +52,8 @@ public class Activity {
     }
 
     /**
-     *
      * constructor for Activity: (V2) with the set of questions!
+     *
      * @param title The title of this activity
      * @param energyConsumption The energy consumption (kwh) of this activity
      * @param source The URL where the question comes from.
@@ -68,8 +67,8 @@ public class Activity {
     }
 
     /**
-     *
      * getter for title
+     *
      * @return the title of the activity
      */
     public String getTitle() {
@@ -77,8 +76,8 @@ public class Activity {
     }
 
     /**
-     *
      * getter for energyconsumption
+     *
      * @return The amount of energy the activity uses
      */
     public double getEnergyConsumption() {
@@ -86,8 +85,8 @@ public class Activity {
     }
 
     /**
-     *
      * getter for the source
+     *
      * @return The source of the question
      */
     public String getSource() {
@@ -95,8 +94,8 @@ public class Activity {
     }
 
     /**
-     *
      * getter for the questions
+     *
      * @return The questions associated with this activity modelled in the many-to-many relationship
      */
     public Set<Question> getQuestions() {
@@ -104,8 +103,8 @@ public class Activity {
     }
 
     /**
-     *
      * enhanced equals method
+     *
      * @param obj The object to be compared to
      * @return true if the two Objects have tested equals.
      */
@@ -115,8 +114,8 @@ public class Activity {
     }
 
     /**
+     *enhanced hashcode method
      *
-     * enhanced hashcode method
      * @return the hashcode
      */
     @Override
@@ -125,8 +124,8 @@ public class Activity {
     }
 
     /**
-     *
      * enhanced toString
+     *
      * @return A string representation of this object
      */
     @Override

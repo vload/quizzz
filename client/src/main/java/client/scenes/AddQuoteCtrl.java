@@ -50,7 +50,6 @@ public class AddQuoteCtrl {
     public AddQuoteCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
-
     }
 
     /**
