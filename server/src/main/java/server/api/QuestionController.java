@@ -55,7 +55,7 @@ public class QuestionController {
     }
 
     /**
-     * A randomly generated question.
+     * This function returns a randomly generated question by choosing random activities out of its activity set.
      * @return the question
      */
     @GetMapping("/rnd")
