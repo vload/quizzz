@@ -4,6 +4,7 @@ import commons.Activity;
 import commons.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.database.MockQuestionRepository;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionControllerTest {
     private Random random;
-    private TestQuestionRepository repo;
+    private MockQuestionRepository repo;
     private Activity a1, a2, a3;
     private Question q1, q2, q3;
     private QuestionController controller;
@@ -22,7 +23,7 @@ class QuestionControllerTest {
      */
     @BeforeEach
     public void setup() {
-        repo = new TestQuestionRepository();
+        repo = new MockQuestionRepository();
         random = new Random();
 
         a1 = new Activity("activity 1", 50, "facebook.com");
