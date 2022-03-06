@@ -6,9 +6,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-public class SinglePlayerGame extends Game {
+public class SinglePlayerGame extends AbstractGame {
 
-    private String playerName;
+    private final String playerName;
     private long score;
 
 
@@ -24,7 +24,7 @@ public class SinglePlayerGame extends Game {
      */
     public SinglePlayerGame(long gameID, String playerName) {
         super(gameID,true);
-        this.score = 0;
+        this.score = 0L;
         this.playerName = playerName;
     }
 
@@ -37,10 +37,18 @@ public class SinglePlayerGame extends Game {
     }
 
     /**
+     * getPlayerName method
+     * @return the name of the player associated to this singleplayer instance
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
      * compares two objcts based on equality
      *
      * @param obj The object to be tested for equality
-     * @return true iff, o is an instanceof SinglePlayerGame false otherwise
+     * @return true iff, o is an instanceof SinglePlayerGame and has equivalent attributes.
      */
     @Override
     public boolean equals(Object obj) {
