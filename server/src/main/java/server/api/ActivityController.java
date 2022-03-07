@@ -12,17 +12,14 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api/activities")
 public class ActivityController {
-    private final Random random;
     private final ActivityRepository repo;
 
     /**
      * Adding checkstyle
      *
-     * @param random random object
      * @param repo the question repo
      */
-    public ActivityController(Random random, ActivityRepository repo) {
-        this.random = random;
+    public ActivityController(ActivityRepository repo) {
         this.repo = repo;
     }
 

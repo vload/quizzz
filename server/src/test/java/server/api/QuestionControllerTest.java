@@ -6,6 +6,7 @@ import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import server.database.MockQuestionRepository;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionControllerTest {
     private Random random;
-    private TestQuestionRepository repo;
+    private MockQuestionRepository repo;
     private Activity a1, a2, a3, a4;
     private Question q1, q2, q3;
     private QuestionController controller;

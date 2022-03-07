@@ -99,7 +99,7 @@ public class MockActivityRepositoryTest {
         activities.add(a3);
         activities.add(a4);
         repo.saveAll(activities);
-        assertTrue(repo.existsById((long) 3));
+        assertTrue(repo.existsById("3"));
     }
 
     /**
@@ -111,7 +111,7 @@ public class MockActivityRepositoryTest {
         activities.add(a1);
         activities.add(a2);
         repo.saveAll(activities);
-        assertFalse(repo.existsById((long) 3));
+        assertFalse(repo.existsById("3"));
     }
 
     /**
@@ -123,7 +123,7 @@ public class MockActivityRepositoryTest {
         activities.add(a1);
         activities.add(a2);
         repo.saveAll(activities);
-        repo.deleteById((long) 2);
+        repo.deleteById("2");
         assertEquals(a1, repo.activities.get(0));
     }
 
@@ -138,7 +138,7 @@ public class MockActivityRepositoryTest {
         activities.add(a3);
         activities.add(a4);
         repo.saveAll(activities);
-        assertEquals(a3, repo.getById((long) 2));
+        assertEquals(a3, repo.getById("2"));
     }
 
 
