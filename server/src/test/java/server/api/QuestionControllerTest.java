@@ -24,7 +24,7 @@ class QuestionControllerTest {
      */
     @BeforeEach
     public void setup() {
-        repo = new TestQuestionRepository();
+        repo = new MockQuestionRepository();
         random = new Random();
 
         a1 = new Activity("activity 1", 50, "facebook.com");
@@ -36,7 +36,6 @@ class QuestionControllerTest {
         set.add(a1);
         set.add(a2);
         set.add(a3);
-        set.add(a4);
 
         HashSet<Activity> set2 = new HashSet<>();
         set2.add(a2);

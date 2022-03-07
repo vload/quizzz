@@ -15,8 +15,7 @@
  */
 package server.api;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import java.util.Random;
@@ -26,12 +25,13 @@ import org.junit.jupiter.api.Test;
 
 import commons.Person;
 import commons.Quote;
+import server.database.MockQuoteRepository;
 
 public class QuoteControllerTest {
 
     public int nextInt;
     private MyRandom random;
-    private TestQuoteRepository repo;
+    private MockQuoteRepository repo;
 
     private QuoteController sut;
 
@@ -41,7 +41,7 @@ public class QuoteControllerTest {
     @BeforeEach
     public void setup() {
         random = new MyRandom();
-        repo = new TestQuoteRepository();
+        repo = new MockQuoteRepository();
         sut = new QuoteController(random, repo);
     }
 
@@ -74,14 +74,13 @@ public class QuoteControllerTest {
     @Test
     public void databaseIsUsed() {
         sut.add(getQuote("q1"));
-        repo.calledMethods.contains("save");
+        assertTrue(repo.calledMethods.contains("save"));
     }
 
     private static Quote getQuote(String q) {
         return new Quote(new Person(q, q), q);
     }
 
-    @SuppressWarnings("serial")
     public class MyRandom extends Random {
 
         public boolean wasCalled = false;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package server.database;
+package server.database.test;
 
 import commons.Question;
 import commons.Activity;
@@ -21,7 +21,7 @@ import commons.QuestionType;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.api.TestQuestionRepository;
+import server.database.MockQuestionRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,9 +30,9 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class QuestionRepoTest {
+public class MockQuestionRepositoryTest {
 
-    private TestQuestionRepository repo;
+    private MockQuestionRepository repo;
     private Question q1, q2, q3, q4;
 
     /**
@@ -40,7 +40,7 @@ public class QuestionRepoTest {
      */
     @BeforeEach
     public void setup() {
-        repo = new TestQuestionRepository();
+        repo = new MockQuestionRepository();
         Activity a1 = new Activity("activity 1", 50, "facebook.com");
         Activity a2 = new Activity("activity 2", 60, "twitter.com");
         Activity a3 = new Activity("activity 3", 70, "google.com");
