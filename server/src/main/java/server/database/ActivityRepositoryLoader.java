@@ -19,10 +19,10 @@ public class ActivityRepositoryLoader {
             try {
                 List<Activity> activities = (new ObjectMapper()).readValue(
                         new File("server\\src\\main\\resources\\activities.json"),
-                        new TypeReference<List<Activity>>() {});
+                        new TypeReference<>() {
+                        });
                 repository.saveAll(activities);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         };

@@ -39,18 +39,25 @@ public class Activity {
     private Set<Question> questions;
 
     /**
-     * gets the image path
-     * @return the image path
-     */
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    /**
      * constructor for object mapper
      */
     private Activity() {
         // for object mapper
+    }
+
+    /**
+     * constructor for Activity: (V2) with the set of questions!
+     *
+     * @param title The title of this activity
+     * @param energyConsumption The energy consumption (kwh) of this activity
+     * @param source The URL where the question comes from.
+     * @param questions The set of questions the activity is associated with
+     */
+    public Activity(String title, double energyConsumption, String source, Set<Question> questions) {
+        this.title = title;
+        this.energyConsumption = energyConsumption;
+        this.source = source;
+        this.questions = questions;
     }
 
     /**
@@ -67,18 +74,11 @@ public class Activity {
     }
 
     /**
-     * constructor for Activity: (V2) with the set of questions!
-     *
-     * @param title The title of this activity
-     * @param energyConsumption The energy consumption (kwh) of this activity
-     * @param source The URL where the question comes from.
-     * @param questions The set of questions the activity is associated with
+     * gets the image path
+     * @return the image path
      */
-    public Activity(String title, double energyConsumption, String source, Set<Question> questions) {
-        this.title = title;
-        this.energyConsumption = energyConsumption;
-        this.source = source;
-        this.questions = questions;
+    public String getImagePath() {
+        return imagePath;
     }
 
     /**
@@ -125,8 +125,9 @@ public class Activity {
      */
     @Override
     public boolean equals(Object obj) {
-        if(! (obj instanceof Activity))
+        if(! (obj instanceof Activity)) {
             return false;
+        }
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
@@ -149,12 +150,4 @@ public class Activity {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
-
-
-
-
-
-
-
-
 }
