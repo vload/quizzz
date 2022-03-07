@@ -82,9 +82,9 @@ public class TestActivityRepository implements ActivityRepository {
      *
      */
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         call("deleteById");
-        activities.removeIf(x -> x.id == id);
+        activities.removeIf(x -> id.equals(x.id));
     }
 
     /**
@@ -143,7 +143,7 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public <S extends Activity> S save(S entity)  {
         call("save");
-        entity.id = (long) activities.size();
+        entity.id = Long.toString(activities.size());
         activities.add(entity);
         return entity;
     }
@@ -171,8 +171,8 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public Optional<Activity> findById(Long id) {
         call("findById");
-        return activities.stream().filter(x -> x.id == id).findFirst();
-    }
+        return activities.stream().filter(x -> id.equals(x.id)).findFirst();
+}
 
     /**
      * @param id must not be {@literal null}.
@@ -197,7 +197,7 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public Activity getById(Long id) {
         call("getById");
-        Optional<Activity> activity = activities.stream().filter(x -> x.id == id).findFirst();
+        Optional<Activity> activity = activities.stream().filter(x -> id.equals(x.id)).findFirst();
         if (activity.isPresent()) {
             return activity.get();
         } else {
@@ -206,7 +206,7 @@ public class TestActivityRepository implements ActivityRepository {
     }
 
     private Optional<Activity> find(Long id) {
-        return activities.stream().filter(x -> x.id == id).findFirst();
+        return activities.stream().filter(x -> id.equals(x.id)).findFirst();
     }
 
     //*****************************************************************************************************************

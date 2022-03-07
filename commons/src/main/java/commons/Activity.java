@@ -5,31 +5,46 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
-
-@SuppressWarnings("unused")
 
 @Entity
 @Table(name = "activities")
 public class Activity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "activity_id", nullable = false)
-    public long id;
+    @JsonProperty("id")
+    public String id;
+
+    @Column(name="image_path")
+    @JsonProperty("image_path")
+    private String imagePath;
 
     @Column(name = "title", nullable = false)
+    @JsonProperty("title")
     private String title;
 
     @Column(name="energy_consumption")
+    @JsonProperty("consumption_in_wh")
     private double energyConsumption;
 
     @Column(name="source_url")
+    @JsonProperty("source")
     private String source;
 
     @ManyToMany(mappedBy = "activities")
     private Set<Question> questions;
+
+    /**
+     * gets the image path
+     * @return the image path
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
 
     /**
      * constructor for object mapper
@@ -76,7 +91,7 @@ public class Activity {
     }
 
     /**
-     * getter for energyconsumption
+     * getter for energyConsumption
      *
      * @return The amount of energy the activity uses
      */
@@ -110,6 +125,8 @@ public class Activity {
      */
     @Override
     public boolean equals(Object obj) {
+        if(! (obj instanceof Activity))
+            return false;
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
