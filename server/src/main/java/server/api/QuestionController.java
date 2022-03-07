@@ -63,6 +63,10 @@ public class QuestionController {
      */
     @GetMapping("/rnd")
     public ResponseEntity<Question> getRandom() {
+        if(repo.count() == 0){
+            return ResponseEntity.ok(null);
+        }
+
         int idx = random.nextInt((int) repo.count());
         Question q = repo.findAll().get(idx);
         Set<Activity> selectedActivities = new HashSet<>();
