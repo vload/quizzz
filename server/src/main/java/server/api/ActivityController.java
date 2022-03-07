@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import server.database.ActivityRepository;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/activities")
