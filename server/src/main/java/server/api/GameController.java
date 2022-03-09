@@ -62,39 +62,6 @@ public class GameController {
     }
 
     /**
-     *
-     * @param id of the game
-     * @return the score of the player
-     */
-    @GetMapping(path="singleplayer/scoreupdater/{id}")
-    public DeferredResult<ResponseEntity<Long>> scoreUpdater(@PathVariable String id) {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
-        DeferredResult<ResponseEntity<Long>> output = new DeferredResult<>(5000L,noContent);
-
-        Object key = null;
-        long gameID = Long.parseLong(id);
-        try {
-            SinglePlayerGame game = (SinglePlayerGame) games.get(gameID);
-            key = new Object();
-            singlePlayerListeners.put(key,g -> {
-                output.setResult(ResponseEntity.ok(game.getScore()));
-            });
-            Object finalKey = key;
-            output.onCompletion(() -> {
-                singlePlayerListeners.remove(finalKey);
-            });
-        } catch (Exception e) {
-            output.setErrorResult(ResponseEntity.ok(-1L));
-            if (key!=null) {
-                singlePlayerListeners.remove(key);
-            }
-        }
-        return output;
-    }
-
-
-    /**
      * API endpoint for deleting a game
      *
      * @param id The id of the game. Should not be {@literal null}
