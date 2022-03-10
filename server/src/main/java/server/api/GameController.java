@@ -1,11 +1,10 @@
 package server.api;
 
+import commons.Question;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -20,10 +19,7 @@ public class GameController {
 
     private long idCounter;
     private final Map<Long, AbstractGame> games;
-    private Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
-
-
-
+    private final Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
 
     /**
      * default constructor
@@ -35,41 +31,94 @@ public class GameController {
         this.games = games;
     }
 
+    /**
+     * creates an ID for a new game. Synchornization important here.
+     *
+     * @return A long containing a new ID.
+     */
     private synchronized long createID() {
         return idCounter++;
     }
 
 
-
     /**
      * API endpoint for starting a singleplayer game
      *
+     * All the user has to provide for a singleplayer game is their username.
+     * The API will respond with the ID of the newly created game (game session).
+     *
      * @param name The name of the user
-     * @return the id of the newly created game.
+     * @return the id of the newly created game. (now referred to as game session)
      */
-    @GetMapping(path = "singleplayer/{name}")
-    public ResponseEntity<Long> startSinglePlayer(@PathVariable("name") String name) {
+    @PostMapping(path="singleplayer/create/")
+    public ResponseEntity<Long> startSinglePlayer(@RequestBody String name) {
         if (name == null || name.length() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        SinglePlayerGame game = new SinglePlayerGame(createID(),name);
+        SinglePlayerGame game = new SinglePlayerGame(createID(),name, new ArrayList<>());
         games.put(game.gameID,game);
-
-
         return ResponseEntity.ok(game.gameID);
-        // I DON'T THINK I NEED AN API CALL TO THE SERVER? CONSIDERING THIS IS THE SERVER!
-        // THE PLAN HERE IS TO GET THE GAMECONTROLLER JUST TO START A NEW SINGLEPLAYERGAME
+    }
+
+    /**
+     * API endpoint to get the next question
+     *
+     * @param id The id of the game session
+     * @return A ResponseEntity containing the next question. A Bad Request if there is no next question
+     */
+    @GetMapping(path = "singleplayer/getquestion/{id}/")
+    public ResponseEntity<Question> getNextQuestion(@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (id.length() == 0
+                || games.get(gameID) == null
+                || !(games.get(gameID) instanceof SinglePlayerGame)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        AbstractGame game = games.get(gameID);
+        Question nextQuestion = game.getNextQuestion();
+        if (nextQuestion == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(nextQuestion);
     }
 
     /**
      *
-     * @param id of the game
+     * @param answerPair A pair containing the answer (Represented as a string,
+     *                   MCQ: The ID of the activity
+     *                   ESTIMATE: The energy usage itself).
+     *                   The double represents the time on the timer at the current moment.
+     * @return An empty response, the updated score should be retrieved from scoreUpdater method
+     */
+    @PostMapping(path="singleplayer/validate/{id}/")
+    public ResponseEntity<Void> validateAnswer(@RequestBody Pair<String,Double> answerPair, @PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (answerPair == null
+                || games.get(gameID) == null
+                || !(games.get(gameID) instanceof SinglePlayerGame)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        AbstractGame currentGame = games.get(gameID);
+        long score = currentGame.getCurrentQuestion().getScore(answerPair.getFirst(),answerPair.getSecond());
+
+        if (score != 0L) {
+            ((SinglePlayerGame) games.get(gameID)).increaseScore(score);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    /**
+     * LONG POLLING METHOD TO CONSTANTLY GET THE SCORE OF THE USER
+     *
+     * @param id of the game session
      * @return the score of the player
      */
     @GetMapping(path="singleplayer/scoreupdater/{id}")
     public DeferredResult<ResponseEntity<Long>> scoreUpdater(@PathVariable String id) {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
         DeferredResult<ResponseEntity<Long>> output = new DeferredResult<>(5000L,noContent);
 
         Object key = null;

@@ -1,8 +1,11 @@
 package server.server_classes;
 
+import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.*;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -21,9 +24,10 @@ public class SinglePlayerGame extends AbstractGame {
      *
      * @param gameID The id for the class
      * @param playerName The name of the player associated to the single-player instance
+     * @param questions The pregenerated 20 questions to be used in this game instance
      */
-    public SinglePlayerGame(long gameID, String playerName) {
-        super(gameID,true);
+    public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
+        super(gameID,true,questions);
         this.score = 0L;
         this.playerName = playerName;
     }
@@ -42,6 +46,17 @@ public class SinglePlayerGame extends AbstractGame {
      */
     public String getPlayerName() {
         return playerName;
+    }
+
+    /**
+     * method to increase the score of the player in the current game session
+     *
+     * @param inc A long representing how much you want to increase the score by.
+     * @return The (new) cumulative score
+     */
+    public long increaseScore(long inc) {
+        score += inc;
+        return score;
     }
 
     /**
