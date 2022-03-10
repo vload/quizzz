@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.utils.ServerUtils;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
@@ -35,8 +36,13 @@ public class MainStage extends Application {
     public void start(Stage primaryStage) throws IOException {
         var mainScreen = FXML.load(MainScreenCtrl.class, "client", "scenes", "MainScreen.fxml");
         var nameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "NameScreen.fxml");
+        var spEstimateQuestionScreen = FXML.load(SPEstimateQuestionCtrl.class,
+                "client", "scenes", "SPEstimateQuestion.fxml");
+        var spMCQuestionScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
+                "client", "scenes", "SPMultipleChoice.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
-        mainCtrl.initialize(primaryStage, mainScreen, nameScreen);
+        var server = INJECTOR.getInstance(ServerUtils.class);
+        mainCtrl.initialize(primaryStage, server, mainScreen, nameScreen, spEstimateQuestionScreen, spMCQuestionScreen);
     }
 
 
