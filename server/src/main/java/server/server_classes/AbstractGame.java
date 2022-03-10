@@ -1,21 +1,29 @@
 package server.server_classes;
 
 
+
+import commons.Question;
 import java.io.*;
+import java.util.*;
 
 public abstract class AbstractGame implements Serializable {
     public final long gameID;
     private final boolean singlePlayer;
+    private List<Question> questions;
+    private Question currentQuestion;
 
 
     /**
      * constructor for the game class
      * @param gameID The id for the class
      * @param isSinglePlayer true iff the game is singleplayer, false otherwise
+     * @param questions The list of questions to be used in the game
      */
-    public AbstractGame(long gameID, boolean isSinglePlayer) {
+    public AbstractGame(long gameID, boolean isSinglePlayer, List<Question> questions) {
         this.gameID = gameID;
         this.singlePlayer = isSinglePlayer;
+        this.questions = questions;
+        this.currentQuestion = null;
     }
 
     /**
@@ -27,6 +35,39 @@ public abstract class AbstractGame implements Serializable {
         return singlePlayer;
     }
 
+    /**
+     * gets all the questions that were assigned to this game.
+     *
+     * @return A list containing questions
+     */
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    /**
+     * the class variable represents the current question
+     *
+     * @return The question that is currently being asked
+     */
+    public Question getCurrentQuestion() {
+        return currentQuestion;
+    }
+
+
+
+    /**
+     * retrieves the next question
+     *
+     * @return the next question in the list
+     */
+    public Question getNextQuestion() {
+        if (questions.size() == 0 || questions == null) {
+            this.currentQuestion = null;
+            return null;
+        }
+        this.currentQuestion = questions.remove(0);
+        return currentQuestion;
+    }
     /**
      * abstract equals method
      *

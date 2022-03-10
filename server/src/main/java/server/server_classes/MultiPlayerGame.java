@@ -1,5 +1,6 @@
 package server.server_classes;
 
+import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,9 +21,10 @@ public class MultiPlayerGame extends AbstractGame {
      *
      * @param gameID The ID of the game
      * @param playerNames A list containing all the players in the game. Must not be {@literal null}
+     * @param questions The list of 20 pregenerated questions to be used in this game instance
      */
-    public MultiPlayerGame(long gameID,List<String> playerNames) {
-        super(gameID, false);
+    public MultiPlayerGame(long gameID, List<String> playerNames, List<Question> questions) {
+        super(gameID,false, questions);
         Map<String,Long> nameScorePairs = new HashMap<>();
         playerNames.forEach(x -> nameScorePairs.put(x,0L));
         this.playerNames = new ArrayList<>(playerNames);
