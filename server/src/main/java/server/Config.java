@@ -24,8 +24,8 @@ import org.springframework.context.annotation.Configuration;
 public class Config {
 
     /**
-     * Adding checkstyle
-     * @return Adding checkstyle
+     * Bean for creating a Random object
+     * @return the Random object
      */
     @Bean
     public Random getRandom() {

@@ -21,10 +21,10 @@ public class MockActivityRepositoryTest {
     @BeforeEach
     public void setup() {
         repo = new MockActivityRepository();
-        a1 = new Activity("activity 1", 50, "facebook.com");
-        a2 = new Activity("activity 2", 60, "twitter.com");
-        a3 = new Activity("activity 3", 70, "google.com");
-        a4 = new Activity("activity 4", 80, "bing.com");
+        a1 = new Activity("act_01", "/act1.bmp", "Activity 1", 3.3, "facebook.com");
+        a2 = new Activity("act_02", "/act2.bmp", "Activity 2", 50, "twitter.com");
+        a3 = new Activity("act_03", "/act3.bmp", "Activity 3", 60, "google.com");
+        a4 = new Activity("act_04", "/act4.bmp", "Activity 4", 80, "bing.com");
     }
 
     /**
@@ -99,7 +99,7 @@ public class MockActivityRepositoryTest {
         activities.add(a3);
         activities.add(a4);
         repo.saveAll(activities);
-        assertTrue(repo.existsById((long) 3));
+        assertTrue(repo.existsById("act_01"));
     }
 
     /**
@@ -111,7 +111,7 @@ public class MockActivityRepositoryTest {
         activities.add(a1);
         activities.add(a2);
         repo.saveAll(activities);
-        assertFalse(repo.existsById((long) 3));
+        assertFalse(repo.existsById("act_03"));
     }
 
     /**
@@ -123,7 +123,7 @@ public class MockActivityRepositoryTest {
         activities.add(a1);
         activities.add(a2);
         repo.saveAll(activities);
-        repo.deleteById((long) 2);
+        repo.deleteById("act_02");
         assertEquals(a1, repo.activities.get(0));
     }
 
@@ -138,8 +138,6 @@ public class MockActivityRepositoryTest {
         activities.add(a3);
         activities.add(a4);
         repo.saveAll(activities);
-        assertEquals(a3, repo.getById((long) 2));
+        assertEquals(a3, repo.getById("act_03"));
     }
-
-
 }
