@@ -1,7 +1,15 @@
 package server.server_classes;
 
+import commons.Activity;
+import commons.Question;
+import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,9 +22,21 @@ class SinglePlayerGameTest {
     SinglePlayerGame sub;
     @BeforeEach
     void init() {
-        s1 = new SinglePlayerGame(5L,"Marcus");
-        s2 = new SinglePlayerGame(5L,"Marcus");
-        s3 = new SinglePlayerGame(6L,"Marcu");
+        Activity a1 = new Activity("02-shower", "/shower.png",
+                "Shower", 10.2,"example.com");
+        Activity a2 = new Activity("02-shower", "/shower.png",
+                "Shower", 10.1,"example.com");
+        Activity a3 = new Activity("05-flamethrower",
+                "/flamethrower.png","Flamethrower", 99.3,"example.com");
+
+        Question question = new Question("Sample question",
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()),QuestionType.MC, a1.getId());
+
+
+
+        s1 = new SinglePlayerGame(5L,"Marcus", List.of(question));
+        s2 = new SinglePlayerGame(5L,"Marcus",List.of(question));
+        s3 = new SinglePlayerGame(6L,"Marcu",new ArrayList<>());
         sub = (SinglePlayerGame) s1;
     }
 
@@ -55,5 +75,11 @@ class SinglePlayerGameTest {
         assertTrue(actual.contains(SinglePlayerGame.class.getSimpleName()));
         assertTrue(actual.contains("\n"));
         assertTrue(actual.contains("playerName"));
+    }
+
+    @Test
+    void increaseScore() {
+        sub.increaseScore(30);
+        assertEquals(30,sub.getScore());
     }
 }

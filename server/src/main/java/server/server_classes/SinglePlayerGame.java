@@ -14,11 +14,6 @@ public class SinglePlayerGame extends AbstractGame {
     private final String playerName;
     private long score;
 
-
-    // how tf do I get it to serialise these private variables up here without
-    // changing their access modifier
-    // currently the REST API produces only the ID of the game
-
     /**
      * constructor for the SinglePlayerGame class
      *
@@ -89,8 +84,5 @@ public class SinglePlayerGame extends AbstractGame {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
-
-
-
 
 }

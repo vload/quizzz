@@ -22,7 +22,7 @@ public abstract class AbstractGame implements Serializable {
     public AbstractGame(long gameID, boolean isSinglePlayer, List<Question> questions) {
         this.gameID = gameID;
         this.singlePlayer = isSinglePlayer;
-        this.questions = questions;
+        this.questions = new ArrayList<>(questions);
         this.currentQuestion = null;
     }
 

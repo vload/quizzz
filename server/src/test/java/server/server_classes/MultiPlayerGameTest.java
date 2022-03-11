@@ -1,10 +1,15 @@
 package server.server_classes;
 
+import commons.Activity;
+import commons.Question;
+import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,9 +21,21 @@ class MultiPlayerGameTest {
     MultiPlayerGame sub;
     @BeforeEach
     void init() {
-        s1 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"));
-        s2 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"));
-        s3 = new MultiPlayerGame(4,List.of("Marcus","Kanye","Alce"));
+        Activity a1 = new Activity("02-shower", "/shower.png",
+                "Shower", 10.2,"example.com");
+        Activity a2 = new Activity("02-shower", "/shower.png",
+                "Shower", 10.1,"example.com");
+        Activity a3 = new Activity("05-flamethrower",
+                "/flamethrower.png","Flamethrower", 99.3,"example.com");
+
+        Question question = new Question("Sample question",
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
+
+
+
+        s1 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"),List.of(question,question));
+        s2 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"), List.of(question,question));
+        s3 = new MultiPlayerGame(4,List.of("Marcus","Kanye","Alce"),new ArrayList<>());
         sub = (MultiPlayerGame) s1;
     }
 

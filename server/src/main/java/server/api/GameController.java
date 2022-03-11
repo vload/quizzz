@@ -1,10 +1,12 @@
 package server.api;
 
 import commons.Question;
-import org.springframework.data.util.Pair;
+import commons.Submission;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -17,6 +19,7 @@ import server.server_classes.*;
 @RequestMapping("/api/game")
 public class GameController {
 
+    private QuestionGenerator questionGenerator;
     private long idCounter;
     private final Map<Long, AbstractGame> games;
     private final Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
@@ -25,10 +28,13 @@ public class GameController {
      * default constructor
      *
      * @param games map which maps the game ids to the game object
+     * @param questionGenerator container component which is responsible for generating questions
      */
-    public GameController(Map<Long, AbstractGame> games) {
+    @Autowired
+    public GameController(Map<Long, AbstractGame> games, QuestionGenerator questionGenerator) {
         idCounter = 0;
         this.games = games;
+        this.questionGenerator = questionGenerator;
     }
 
     /**
@@ -55,9 +61,26 @@ public class GameController {
         if (name == null || name.length() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        SinglePlayerGame game = new SinglePlayerGame(createID(),name, new ArrayList<>());
+        SinglePlayerGame game = new SinglePlayerGame(createID(),name,questionGenerator.generate20Questions());
         games.put(game.gameID,game);
         return ResponseEntity.ok(game.gameID);
+    }
+
+    /**
+     * returns a list of REMAINING questions in the game
+     *
+     * @param id The id associated with the game session.
+     * @return The list of remaining questions (won't include already removed ones)
+     */
+    @GetMapping(path="singleplayer/questions/{id}")
+    public List<Question> getQuestions(@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (id.length() == 0
+                || games.get(gameID) == null
+                || !(games.get(gameID) instanceof SinglePlayerGame)) {
+            return null;
+        }
+        return games.get(gameID).getQuestions();
     }
 
     /**
@@ -66,7 +89,7 @@ public class GameController {
      * @param id The id of the game session
      * @return A ResponseEntity containing the next question. A Bad Request if there is no next question
      */
-    @GetMapping(path = "singleplayer/getquestion/{id}/")
+    @GetMapping(path ="singleplayer/getquestion/{id}")
     public ResponseEntity<Question> getNextQuestion(@PathVariable("id") String id) {
         long gameID = Long.parseLong(id);
         if (id.length() == 0
@@ -85,14 +108,16 @@ public class GameController {
 
     /**
      *
-     * @param answerPair A pair containing the answer (Represented as a string,
-     *                   MCQ: The ID of the activity
-     *                   ESTIMATE: The energy usage itself).
-     *                   The double represents the time on the timer at the current moment.
+     * @param answerPair A submission object which contains both the answer of the user (which varies according
+     *                   to the question type) and the time left on the timer at the time of submission.
+     *                   These are the two question types:
+     *                   MCQ: Should contain the ID of the activity that the user chose
+     *                   Estimate: Should contain the energy usage that the user inputted
+     * @param id the ID of the game session
      * @return An empty response, the updated score should be retrieved from scoreUpdater method
      */
-    @PostMapping(path="singleplayer/validate/{id}/")
-    public ResponseEntity<Void> validateAnswer(@RequestBody Pair<String,Double> answerPair, @PathVariable("id") String id) {
+    @PostMapping(path="singleplayer/validate/{id}")
+    public ResponseEntity<Void> validateAnswer(@RequestBody Submission answerPair, @PathVariable("id") String id) {
         long gameID = Long.parseLong(id);
         if (answerPair == null
                 || games.get(gameID) == null
@@ -101,7 +126,7 @@ public class GameController {
         }
 
         AbstractGame currentGame = games.get(gameID);
-        long score = currentGame.getCurrentQuestion().getScore(answerPair.getFirst(),answerPair.getSecond());
+        long score = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
 
         if (score != 0L) {
             ((SinglePlayerGame) games.get(gameID)).increaseScore(score);
@@ -182,12 +207,7 @@ public class GameController {
         // I NEED TO CHECK WHETHER THE NAME ALREADY EXISTS IN THE WAITING ROOM
         return null; // temporary
     }
-//
-//    @GetMapping(path = "multiplayer/{name}/{ip}")
-//    public ResponseEntity<MultiPlayerGame> startMultiPlayerIP(@PathVariable("name") String name,
-//    @PathVariable("ip") String ip) {
-//        return null;
-//    }
+
 
 
 

@@ -1,9 +1,15 @@
 package server.server_classes;
 
+import commons.Activity;
+import commons.Question;
+import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,8 +19,19 @@ class GameTest {
     AbstractGame s2;
     @BeforeEach
     void init() {
-        s1 = new SinglePlayerGame(3,"Bob");
-        s2 = new MultiPlayerGame(4, List.of("Bob,Alice"));
+        Activity a1 = new Activity("02-shower", "/shower.png","Shower",
+                10.2,"example.com");
+        Activity a2 = new Activity("02-shower", "/shower.png","Shower",
+                10.1,"example.com");
+        Activity a3 = new Activity("05-flamethrower", "/flamethrower.png",
+                "Flamethrower", 99.3,"example.com");
+
+        Question question = new Question("Sample question",
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
+
+
+        s1 = new SinglePlayerGame(3,"Bob",List.of(question,question));
+        s2 = new MultiPlayerGame(4, List.of("Bob,Alice"),new ArrayList<>());
     }
 
     @Test
@@ -29,5 +46,25 @@ class GameTest {
     void isSinglePlayer() {
         assertTrue(s1.isSinglePlayer());
         assertFalse(s2.isSinglePlayer());
+    }
+
+    @Test
+    void getQuestions() {
+        assertEquals(new ArrayList<>(),s2.getQuestions());
+    }
+
+    @Test
+    void getCurrentQuestion() {
+        assertNull(s1.getCurrentQuestion());
+        Question question = s1.getNextQuestion();
+        assertEquals(question,s1.getCurrentQuestion());
+
+    }
+
+    @Test
+    void getNextQuestion() {
+        assertNull(s2.getCurrentQuestion());
+        Question question = s1.getNextQuestion();
+        assertEquals(question,s1.getNextQuestion());
     }
 }

@@ -119,9 +119,6 @@ public class MultiPlayerGame extends AbstractGame {
         return true;
     }
 
-
-
-
     /**
      * compares two objcts based on equality
      *
