@@ -90,8 +90,17 @@ public class Question {
      *
      * @return A set containing all the activities
      */
-    public Set<Activity> getActivities() {
+    public Set<Activity> getActivities()     {
         return activitySet;
+    }
+
+    /**
+     * correctAnswer getter
+     *
+     * @return A string indicating the correct answer
+     */
+    public String getCorrectAnswer(){
+        return correctAnswer;
     }
 
     /**

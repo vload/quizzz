@@ -20,6 +20,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     private Button jokerText;
 
+    private Question associatedQuestion;
     /**
      * Constructor for SPEstimateQuestionCtrl
      * @param server that can communicate with backend
@@ -35,7 +36,19 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void checkForEnter(KeyEvent event) {
+        if(event.getCode().toString().equals("ENTER")){
+            try{
+                answerText.setDisable(true);
+                String answer = answerText.getText();
+                Double timeLeft = timerBar.getProgress();
+                long pointsObtained = associatedQuestion.getScore(answer, timeLeft);
 
+                this.scoreText.setText(updateScoreString(scoreText.getText(),pointsObtained));
+
+            }   catch(NumberFormatException e){
+                    throw new NumberFormatException();
+                }
+        }
     }
 
     /**
@@ -53,8 +66,21 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     public void initialize(Question question) {
         initialize();
+        associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivities().iterator().next().getTitle());
+    }
+
+    /**
+     *
+     * @param oldString
+     * @param score
+     * @return updated String containing added points
+     */
+    public String updateScoreString(String oldString, long score){
+        String[] array = oldString.split(": ");
+        long newScore = score + Long.parseLong(array[1]);
+        return array[0] + ": " + newScore;
     }
 
 }
