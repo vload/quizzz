@@ -42,7 +42,7 @@ public class Question {
      * @return the score he gets for the answer
      */
     public long getScore(String answer, double time){
-        if(time <= 0) {
+        if(time <= 0 || time > 10) {
             return 0;
         }
         if(type.equals(QuestionType.MC)){
