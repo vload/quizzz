@@ -24,7 +24,7 @@ public class MultiPlayerGame extends AbstractGame {
      * @param questions The list of 20 pregenerated questions to be used in this game instance
      */
     public MultiPlayerGame(long gameID, List<String> playerNames, List<Question> questions) {
-        super(gameID,false, questions);
+        super(gameID, questions);
         Map<String,Long> nameScorePairs = new HashMap<>();
         playerNames.forEach(x -> nameScorePairs.put(x,0L));
         this.playerNames = new ArrayList<>(playerNames);
@@ -32,7 +32,7 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * gets the player names in this multiplayer instance
+     * Gets the player names in this multiplayer instance
      *
      * @return A list of player names
      */
@@ -41,7 +41,7 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * gets the players and their scores in this multiplayer instance
+     * Gets the players and their scores in this multiplayer instance
      *
      * @return A map which contains key value pairs pertaining to names and scores
      */
@@ -67,7 +67,7 @@ public class MultiPlayerGame extends AbstractGame {
 
 
     /**
-     * gives the player points by increasing the corresponding value in the
+     * Gives the player points by increasing the corresponding value in the
      * map.
      *
      * @param name The name of the player
@@ -120,7 +120,7 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * compares two objcts based on equality
+     * Compares two objcts based on equality
      *
      * @param obj The object to be tested for equality
      * @return true iff, o is an instanceof Multiplayergame and has equivalent attributes, false otherwise
@@ -131,7 +131,7 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a hashcode for the object
+     * Generates a hashcode for the object
      *
      * @return An integer containing the hashcode of this object
      */
@@ -141,7 +141,7 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a string representation of this object
+     * Generates a string representation of this object
      *
      * @return A string which represents this instance of a MultiplayerGame
      */

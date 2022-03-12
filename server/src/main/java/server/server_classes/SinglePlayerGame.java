@@ -15,14 +15,14 @@ public class SinglePlayerGame extends AbstractGame {
     private long score;
 
     /**
-     * constructor for the SinglePlayerGame class
+     * Constructor for the SinglePlayerGame class
      *
      * @param gameID The id for the class
      * @param playerName The name of the player associated to the single-player instance
      * @param questions The pregenerated 20 questions to be used in this game instance
      */
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
-        super(gameID,true,questions);
+        super(gameID,questions);
         this.score = 0L;
         this.playerName = playerName;
     }
@@ -44,7 +44,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * method to increase the score of the player in the current game session
+     * Method to increase the score of the player in the current game session
      *
      * @param inc A long representing how much you want to increase the score by.
      * @return The (new) cumulative score
@@ -55,7 +55,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * compares two objcts based on equality
+     * Compares two objcts based on equality
      *
      * @param obj The object to be tested for equality
      * @return true iff, o is an instanceof SinglePlayerGame and has equivalent attributes.
@@ -66,7 +66,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a hashcode for the object
+     * Generates a hashcode for the object
      *
      * @return An integer containing the hashcode of this object
      */
@@ -76,7 +76,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a string representation of this object
+     * Generates a string representation of this object
      *
      * @return A string which represents this instance of a SinglePlayerGame
      */

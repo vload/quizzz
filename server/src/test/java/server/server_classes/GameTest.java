@@ -43,12 +43,6 @@ class GameTest {
     }
 
     @Test
-    void isSinglePlayer() {
-        assertTrue(s1.isSinglePlayer());
-        assertFalse(s2.isSinglePlayer());
-    }
-
-    @Test
     void getQuestions() {
         assertEquals(new ArrayList<>(),s2.getQuestions());
     }

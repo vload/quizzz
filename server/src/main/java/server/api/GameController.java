@@ -25,7 +25,7 @@ public class GameController {
     private final Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
 
     /**
-     * default constructor
+     * Default constructor
      *
      * @param games map which maps the game ids to the game object
      * @param questionGenerator container component which is responsible for generating questions
@@ -38,7 +38,7 @@ public class GameController {
     }
 
     /**
-     * creates an ID for a new game. Synchornization important here.
+     * Creates an ID for a new game. Synchornization important here.
      *
      * @return A long containing a new ID.
      */
@@ -67,7 +67,7 @@ public class GameController {
     }
 
     /**
-     * returns a list of REMAINING questions in the game
+     * Returns a list of REMAINING questions in the game
      *
      * @param id The id associated with the game session.
      * @return The list of remaining questions (won't include already removed ones)
@@ -107,6 +107,7 @@ public class GameController {
     }
 
     /**
+     * Validates the answer the user provided, and adds points based on whether the user got it correct.
      *
      * @param answerPair A submission object which contains both the answer of the user (which varies according
      *                   to the question type) and the time left on the timer at the time of submission.
@@ -180,7 +181,7 @@ public class GameController {
             return ResponseEntity.badRequest().build();
         }
         long gameID = Long.parseLong(id);
-        AbstractGame game = games.get(gameID); // for extensibility
+        AbstractGame game = games.get(gameID);
         var bool = (game == null);
         if (game==null) {
             return ResponseEntity.badRequest().build();
@@ -192,7 +193,7 @@ public class GameController {
 
 
     /**
-     * temporary multiplayer controller (template will be fixced)
+     * Temporary multiplayer controller (template will be fixed)
      *
      * @param name checkstyle
      * @return checkstyle return
@@ -202,9 +203,6 @@ public class GameController {
         if (name == null || name.length() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        // I DON'T THINK I NEED AN API CALL TO THE SERVER? CONSIDERING THIS IS THE SERVER!
-        // THE PLAN HERE IS TO GET THE GAMECONTROLLER JUST TO START A NEW MULTIPLAYERGAME
-        // I NEED TO CHECK WHETHER THE NAME ALREADY EXISTS IN THE WAITING ROOM
         return null; // temporary
     }
 
