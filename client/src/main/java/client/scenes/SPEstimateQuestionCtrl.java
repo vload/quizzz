@@ -73,8 +73,8 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     /**
      *
-     * @param oldString
-     * @param score
+     * @param oldString old string to be updated
+     * @param score new score to be added
      * @return updated String containing added points
      */
     public String updateScoreString(String oldString, long score){
