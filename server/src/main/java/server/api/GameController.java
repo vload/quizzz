@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.web.context.request.async.DeferredResult;
 import server.server_classes.*;
@@ -22,7 +22,7 @@ public class GameController {
     private QuestionGenerator questionGenerator;
     private long idCounter;
     private final Map<Long, AbstractGame> games;
-    private final Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
+    private final Map<DeferredResult<ResponseEntity<Long>>,Long> singlePlayerScoreListeners = new ConcurrentHashMap<>();
 
     /**
      * Default constructor
@@ -127,45 +127,41 @@ public class GameController {
         }
 
         AbstractGame currentGame = games.get(gameID);
-        long score = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
+        long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
 
-        if (score != 0L) {
-            ((SinglePlayerGame) games.get(gameID)).increaseScore(score);
+        if (incScore != 0L) { // if the increased score is 0, no need to update.
+            SinglePlayerGame curGame = (SinglePlayerGame) games.get(gameID);
+            curGame.increaseScore(incScore);
+            long curScore = curGame.getScore();
+            singlePlayerScoreListeners.forEach((k,v) -> {
+                if (v == gameID) {
+                    try {
+                        k.setResult(ResponseEntity.ok(curScore));
+                    } catch (Exception e) {
+                        k.setErrorResult(ResponseEntity.ok(-1L));
+                    }
+                }
+            });
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     /**
-     * LONG POLLING METHOD TO CONSTANTLY GET THE SCORE OF THE USER
+     * Long polling scoreupdater, so that the client IMMEDIATELY (restricted by latency) gets the score of the current game session
+     * if it is updated at all. The DeferredResult holds the connection open until update or timeout.
      *
-     * @param id of the game session
-     * @return the score of the player
+     * @param id is the ID of the current singleplayer game session
+     * @return The updated score of the singleplayer session
      */
     @GetMapping(path="singleplayer/scoreupdater/{id}")
     public DeferredResult<ResponseEntity<Long>> scoreUpdater(@PathVariable String id) {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        DeferredResult<ResponseEntity<Long>> output = new DeferredResult<>(5000L,noContent);
-
-        Object key = null;
+        DeferredResult<ResponseEntity<Long>> res = new DeferredResult<>(5000L,noContent);
         long gameID = Long.parseLong(id);
-        try {
-            SinglePlayerGame game = (SinglePlayerGame) games.get(gameID);
-            key = new Object();
-            singlePlayerListeners.put(key,g -> {
-                output.setResult(ResponseEntity.ok(game.getScore()));
-            });
-            Object finalKey = key;
-            output.onCompletion(() -> {
-                singlePlayerListeners.remove(finalKey);
-            });
-        } catch (Exception e) {
-            output.setErrorResult(ResponseEntity.ok(-1L));
-            if (key!=null) {
-                singlePlayerListeners.remove(key);
-            }
-        }
-        return output;
+        singlePlayerScoreListeners.put(res,gameID);
+        res.onCompletion(() -> singlePlayerScoreListeners.remove(res));
+        return res;
     }
 
 
