@@ -3,6 +3,7 @@ package server.database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Example;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
 import commons.Activity;
-import server.database.ActivityRepository;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -139,7 +139,9 @@ public class MockActivityRepository implements ActivityRepository {
     @Override
     public <S extends Activity> S save(S entity)  {
         call("save");
-        entity.id = Long.toString(activities.size());
+        if(entity.id == null) {
+            entity.id = "ACTIVITY_ID_" + Long.toString(activities.size());
+        }
         activities.add(entity);
         return entity;
     }
@@ -286,5 +288,12 @@ public class MockActivityRepository implements ActivityRepository {
     public Page<Activity> findAll(Pageable pageable) {
         //AUTO GENERATED STUB
         return null;
+    }
+
+    @Override
+    public Activity getRandom(Random random) {
+        var all = findAll();
+
+        return all.get(random.nextInt(all.size()));
     }
 }
