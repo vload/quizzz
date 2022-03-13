@@ -128,15 +128,13 @@ public class GameController {
 
         AbstractGame currentGame = games.get(gameID);
         long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
-
         if (incScore != 0L) { // if the increased score is 0, no need to update.
             SinglePlayerGame curGame = (SinglePlayerGame) games.get(gameID);
             curGame.increaseScore(incScore);
-            long curScore = curGame.getScore();
             singlePlayerScoreListeners.forEach((k,v) -> {
                 if (v == gameID) {
                     try {
-                        k.setResult(ResponseEntity.ok(curScore));
+                        k.setResult(ResponseEntity.ok(curGame.getScore()));
                     } catch (Exception e) {
                         k.setErrorResult(ResponseEntity.ok(-1L));
                     }
@@ -148,7 +146,8 @@ public class GameController {
 
 
     /**
-     * Long polling scoreupdater, so that the client IMMEDIATELY (restricted by latency) gets the score of the current game session
+     * Long polling scoreupdater, so that the client IMMEDIATELY
+     * (restricted by latency) gets the score of the current game session
      * if it is updated at all. The DeferredResult holds the connection open until update or timeout.
      *
      * @param id is the ID of the current singleplayer game session
