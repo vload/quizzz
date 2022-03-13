@@ -4,53 +4,77 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
-import java.util.*;
+import java.util.Set;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-@SuppressWarnings("unused")
-@Entity
-@Table(name = "questions")
 public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "question_id", nullable = false)
-    public long id;
-
-    @Column(name = "question", nullable = false)
     private String questionText;
-
-    @Column(name = "type", nullable = false)
+    private Set<Activity> activitySet;
     private QuestionType type;
-
-    @ManyToMany
-    @JoinTable(
-            name = "has_activities",
-            joinColumns = @JoinColumn(name = "question_id"),
-            inverseJoinColumns = @JoinColumn(name = "activity_id")
-    )
-    private Set<Activity> activities;
+    private String correctAnswer;
 
     /**
      * default constructor for object mapper
-     *
      */
-    public Question() {
+    private Question() {
         // for object mapper
     }
 
     /**
-     * constructor for Question: For question, activities and type
-     * @param questionText The textual representation of the question
-     * @param activities The set of activities associated with said question
-     * @param type The type of question it is
+     * constructor for Question
+     * @param questionText the text of the question
+     * @param activitySet the activities for the question
+     * @param type the type of question
+     * @param correctAnswer the correct answer to the question
      */
-    public Question(String questionText, Set<Activity> activities, QuestionType type) {
+    public Question(String questionText, Set<Activity> activitySet, QuestionType type, String correctAnswer) {
         this.questionText = questionText;
-        this.activities = activities;
+        this.activitySet = activitySet;
         this.type = type;
+        this.correctAnswer = correctAnswer;
     }
+
+    /**
+     * returns the score a player gets for a question
+     * @param answer the answer given by a player
+     * @param time the time left to answer the question
+     * @return the score he gets for the answer
+     */
+    public long getScore(String answer, double time){
+        if(time <= 0) {
+            return 0;
+        }
+        if(type.equals(QuestionType.MC)){
+            if (answer.equals(correctAnswer)) {
+                return (long) (time * 1000);
+            }
+            return 0;
+        }
+        if(type.equals(QuestionType.ESTIMATE)){
+            double answerDouble = Double.parseDouble(answer);
+            double correctAnswerDouble = Double.parseDouble(correctAnswer);
+
+            double answerRatio = Math.abs(answerDouble / correctAnswerDouble - 1);
+            if(answerRatio > 1) {
+                return 0;
+            }
+            answerRatio = 1 - answerRatio;
+
+            return (long) (answerRatio * time * 1000);
+        }
+
+        return  0;
+    }
+
+    /**
+     * type getter
+     * @return the type of question this is
+     */
+    public QuestionType getType(){
+        return type;
+    }
+
 
     /**
      * returns the textual representation of the question
@@ -62,32 +86,23 @@ public class Question {
     }
 
     /**
-     * The set of activities
+     * activitySet getter
      *
      * @return A set containing all the activities
      */
     public Set<Activity> getActivities() {
-        return activities;
+        return activitySet;
     }
 
     /**
-     * The type of question
-     * @return an enum with the question type
-     */
-    public QuestionType getType() {
-        return type;
-    }
-
-    /**
-     *
      * enhanced equals method
      *
-     * @param obj The object to be compared to
+     * @param o The object to be compared to
      * @return true if the two Objects have tested equals.
      */
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 
     /**
@@ -109,5 +124,4 @@ public class Question {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
-
 }

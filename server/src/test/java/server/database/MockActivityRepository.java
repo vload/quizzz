@@ -80,7 +80,7 @@ public class MockActivityRepository implements ActivityRepository {
     @Override
     public void deleteById(String id) {
         call("deleteById");
-        activities.removeIf(x -> id.equals(x.id));
+        activities.removeIf(x -> x.getId().equals(id));
     }
 
     /**
@@ -167,8 +167,8 @@ public class MockActivityRepository implements ActivityRepository {
     @Override
     public Optional<Activity> findById(String id) {
         call("findById");
-        return activities.stream().filter(x -> id.equals(x.id)).findFirst();
-}
+        return activities.stream().filter(x -> x.getId().equals(id)).findFirst();
+    }
 
     /**
      * @param id must not be {@literal null}.
@@ -193,16 +193,12 @@ public class MockActivityRepository implements ActivityRepository {
     @Override
     public Activity getById(String id) {
         call("getById");
-        Optional<Activity> activity = activities.stream().filter(x -> id.equals(x.id)).findFirst();
+        Optional<Activity> activity = activities.stream().filter(x -> x.getId().equals(id)).findFirst();
         if (activity.isPresent()) {
             return activity.get();
         } else {
             throw new EntityNotFoundException();
         }
-    }
-
-    private Optional<Activity> find(String id) {
-        return activities.stream().filter(x -> id.equals(x.id)).findFirst();
     }
 
     //*****************************************************************************************************************

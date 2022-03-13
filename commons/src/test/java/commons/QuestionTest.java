@@ -9,23 +9,24 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionTest {
-
     Question q1;
     Question q2;
     Question q3;
     Activity a1;
     Activity a2;
     Activity a3;
+
     @BeforeEach
-    void init() {
-        a1 = new Activity("Shower",30.2,"www.example.com");
-        a2 = new Activity("Bike",15,"www.example.com");
-        a3 = new Activity("Train",14,"www.example.com");
+    void setUp() {
+        a1 = new Activity("02-shower", "/shower.png","Shower", 10.2,"example.com");
+        a2 = new Activity("02-shower", "/shower.png","Shower", 10.2,"example.com");
+        a3 = new Activity("05-flamethrower", "/flamethrower.png","Flamethrower", 99.3,"example.com");
         q1 = new Question("What is the highest out of the following 3 activities",
-                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC);
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
         q2 = new Question("What is the highest out of the following 3 activities",
-                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC);
-        q3 = new Question("Dummy question", Stream.of(a1,a2).collect(Collectors.toSet()), QuestionType.ESTIMATE);
+                Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
+        q3 = new Question("Dummy question", Stream.of(a2).collect(Collectors.toSet()),
+                QuestionType.ESTIMATE, Double.toString(a2.getEnergyConsumption()));
     }
 
     @Test
@@ -37,18 +38,21 @@ class QuestionTest {
     }
 
     @Test
-    void getQuestionTest() {
+    void getType() {
+        assertEquals(QuestionType.MC, q1.getType());
+        assertNotEquals(QuestionType.ESTIMATE, q1.getType());
+        assertNotEquals(QuestionType.MC, q3.getType());
+        assertEquals(QuestionType.ESTIMATE, q3.getType());
+    }
+
+    @Test
+    void getQuestionText() {
         assertEquals("What is the highest out of the following 3 activities",q1.getQuestionText());
     }
 
     @Test
-    void getActivitiesTest() {
+    void getActivities() {
         assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivities());
-    }
-
-    @Test
-    void getTypeTest() {
-        assertEquals(QuestionType.MC, q1.getType());
     }
 
     @Test
@@ -74,11 +78,18 @@ class QuestionTest {
     }
 
     @Test
-    void hasToString() {
+    void testToString() {
         String actual = q1.toString();
         assertTrue(actual.contains(Question.class.getSimpleName()));
         assertTrue(actual.contains("\n"));
         assertTrue(actual.contains("questionText"));
+        assertTrue(actual.contains(q1.getQuestionText()));
+    }
 
+    @Test
+    void getScore() {
+        assertEquals(10000, q1.getScore(a1.getId(), 10));
+        assertEquals(0, q1.getScore(a3.getId(), 10));
+        assertEquals(9000, q1.getScore(a1.getId(), 9));
     }
 }
