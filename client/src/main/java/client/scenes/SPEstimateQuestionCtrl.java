@@ -68,7 +68,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         initialize();
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivities().iterator().next().getTitle());
+        activityText.setText(question.getActivitySet().iterator().next().getTitle());
     }
 
     /**

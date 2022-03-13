@@ -30,7 +30,7 @@ public class QuestionGenerator {
      */
     public Question generateQuestion(){
         Activity a1 = new Activity("02-shower", "/shower.png","Shower", 10.2,"example.com");
-        Activity a2 = new Activity("02-shower", "/shower.png","Shower", 10.2,"example.com");
+        Activity a2 = new Activity("03-heater", "/heater.png","Heater", 30.2,"example.com");
         Activity a3 = new Activity("05-flamethrower", "/flamethrower.png","Flamethrower", 99.3,"example.com");
 
         return new Question("Placeholder", Stream.of(a1,a2,a3).collect(Collectors.toSet()),

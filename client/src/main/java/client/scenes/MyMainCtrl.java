@@ -32,7 +32,7 @@ public class MyMainCtrl {
     /**
      * Constructor for MyMainCtrl
      */
-    public MyMainCtrl(){};
+    public MyMainCtrl(){}
 
     /**
      * This method initializes the stage
@@ -91,7 +91,10 @@ public class MyMainCtrl {
      * This method starts the game by getting a question and displaying it
      */
     public void startGame() {
+        String id = server.createGame("Temp");
+        //server.getQuestions();
         Question q = server.getQuestion();
+
         showQuestionScene(q);
     }
 
@@ -100,7 +103,6 @@ public class MyMainCtrl {
      * @param q the question to be displayed
      */
     public void showQuestionScene(Question q) {
-
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene(spEstimateQuestionScreen, "EstimateScene");
             spEstimateQuestionCtrl.initialize(q);

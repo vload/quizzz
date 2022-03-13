@@ -28,7 +28,7 @@
                <VBox>
                   <children>
                      <Region VBox.vgrow="ALWAYS" />
-                     <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" promptText="Enter the value ...">
+                     <TextField fx:id="answerText" alignment="CENTER" onAction="#checkForEnter" onKeyPressed="#checkForEnter" promptText="Enter the value ...">
                         <font>
                            <Font size="31.0" />
                         </font>

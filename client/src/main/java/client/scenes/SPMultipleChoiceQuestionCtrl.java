@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
+import commons.Submission;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 
 
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
+
+    MyMainCtrl mainCtrl;
 
     @FXML
     private Button activityText1;
@@ -34,11 +37,14 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     /**
      * Constructor for SPMultipleChoiceQuestionCtrl
+     * @param mainCtrl which is used for switching scenes
      * @param server that can communicate with backend
      */
     @Inject
-    public SPMultipleChoiceQuestionCtrl(ServerUtils server) {
+    public SPMultipleChoiceQuestionCtrl(MainCtrl mainCtrl, ServerUtils server) {
         super(server);
+        this.mainCtrl = new MyMainCtrl();
+
     }
 
     /**
@@ -51,18 +57,31 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         int sourceLength = source.getId().length();
         String sourceId = String.valueOf(source.getId().charAt(sourceLength-1));
 
-        for (Button b: buttonList) {
-            String id = String.valueOf(b.getId().charAt(sourceLength-1));
-            b.setDisable(true);
-            if(id.equals(associatedQuestion.getCorrectAnswer())){
-                b.getStyleClass().removeAll("questionButton");
-                b.getStyleClass().add("questionButtonCorrect");
-            }else{
-                b.getStyleClass().removeAll("questionButton");
-                b.getStyleClass().add("questionButtonIncorrect");
-            }
-        }
+        Submission s = new Submission(source.getId(),timerBar.getProgress());
+        server.validateQuestion(s);
+
+        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+
     }
+
+    /**
+     *
+     * @param buttonList
+     * @param correctAnswer
+     */
+     public void updateColors(ArrayList<Button> buttonList, String correctAnswer) {
+         for (Button b : buttonList) {
+             String answer = b.getId();
+             b.setDisable(true);
+             if (answer.equals(correctAnswer)) {
+                 b.getStyleClass().removeAll("questionButton");
+                 b.getStyleClass().add("questionButtonCorrect");
+             } else {
+                 b.getStyleClass().removeAll("questionButton");
+                 b.getStyleClass().add("questionButtonIncorrect");
+             }
+         }
+     }
 
     /**
      * Event handler for pressing a joker button
@@ -80,10 +99,17 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     public void initialize(Question question) {
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
-        var activityIterator = question.getActivities().iterator();
+
+        var activityIterator = question.getActivitySet().iterator();
         activityText1.setText(activityIterator.next().getTitle());
         activityText2.setText(activityIterator.next().getTitle());
         activityText3.setText(activityIterator.next().getTitle());
+
+        activityIterator = question.getActivitySet().iterator();
+        activityText1.setId(activityIterator.next().getId());
+        activityText2.setId(activityIterator.next().getId());
+        activityText3.setId(activityIterator.next().getId());
+
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
         initialize();
     }
