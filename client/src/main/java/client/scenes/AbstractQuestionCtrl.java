@@ -86,7 +86,6 @@ public abstract class AbstractQuestionCtrl {
         }, 0, 1);
     }
 
-
     /**
      *
      */
@@ -118,12 +117,12 @@ public abstract class AbstractQuestionCtrl {
 
     /**
      *
-     * @return the current progress of the timer
+     * @return the current timer value
      */
     public Double cancelTimer() {
         Double result = timerBar.getProgress();
-        timerBar.setProgress(100);
         t.cancel();
+        timerBar.setProgress(100);
         return result;
     }
 
