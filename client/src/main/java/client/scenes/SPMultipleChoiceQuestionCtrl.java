@@ -53,7 +53,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void answerPress(ActionEvent event) throws InterruptedException {
-        cancelTimer();
+
         Button source = (Button) event.getSource();
         Submission s = new Submission(source.getId(),cancelTimer());
         Long score = server.validateQuestion(s);
