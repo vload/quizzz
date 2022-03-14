@@ -1,5 +1,7 @@
 package server.api;
 
+import commons.Question;
+import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -8,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import server.server_classes.*;
 
 import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -65,11 +69,6 @@ class GameControllerTest {
     }
 
     @Test
-    void scoreUpdater() {
-        //TODO
-    }
-
-    @Test
     void deleteGame() {
         sut.startSinglePlayer("Bob");
         assertEquals(1,games.size());
@@ -102,7 +101,24 @@ class GameControllerTest {
 
     @Test
     void validateAnswer() {
-        //TODO
+        sut.startSinglePlayer("Tyrone");
+        List<Question> questionsToBeAsked = sut.getQuestions("0");
+        Question firstQuestion = questionsToBeAsked.get(0);
+        assertEquals(ResponseEntity.badRequest().build(),
+                sut.validateAnswer(new Submission("Test",8.3),"0"));
+
+        Question q1 = sut.getNextQuestion("0").getBody();
+        assertEquals(firstQuestion,q1);
+        assertEquals(0L,sut.validateAnswer(
+                new Submission(
+                        firstQuestion.getCorrectAnswer() + 1,2.8),"0").getBody());
+
+        assertEquals(0L,sut.validateAnswer(
+                new Submission(
+                        firstQuestion.getCorrectAnswer() + 1,10.1),"0").getBody());
+
+        assertNotEquals(0L,sut.validateAnswer(
+                new Submission(firstQuestion.getCorrectAnswer(),7.7),"0").getBody());
     }
 
     @Test

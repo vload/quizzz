@@ -3,15 +3,12 @@ package server.api;
 import commons.Question;
 import commons.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.*;
-import java.util.function.Consumer;
 
-import org.springframework.web.context.request.async.DeferredResult;
 import server.server_classes.*;
 
 
@@ -22,7 +19,6 @@ public class GameController {
     private QuestionGenerator questionGenerator;
     private long idCounter;
     private final Map<Long, AbstractGame> games;
-    private final Map<Object, Consumer<Long>> singlePlayerListeners = new HashMap<>();
 
     /**
      * Default constructor
@@ -115,58 +111,24 @@ public class GameController {
      *                   MCQ: Should contain the ID of the activity that the user chose
      *                   Estimate: Should contain the energy usage that the user inputted
      * @param id the ID of the game session
-     * @return An empty response, the updated score should be retrieved from scoreUpdater method
+     * @return A ResponseEntity containing the current score of the game, will return the same score
+     * that the user previously had if the user submitted the wrong answer.
      */
     @PostMapping(path="singleplayer/validate/{id}")
-    public ResponseEntity<Void> validateAnswer(@RequestBody Submission answerPair, @PathVariable("id") String id) {
+    public ResponseEntity<Long> validateAnswer(@RequestBody Submission answerPair, @PathVariable("id") String id) {
         long gameID = Long.parseLong(id);
         if (answerPair == null
                 || games.get(gameID) == null
-                || !(games.get(gameID) instanceof SinglePlayerGame)) {
+                || !(games.get(gameID) instanceof SinglePlayerGame)
+                || games.get(gameID).getCurrentQuestion() == null) {
             return ResponseEntity.badRequest().build();
         }
         //System.out.println(answerPair.toString());
 
         AbstractGame currentGame = games.get(gameID);
-        long score = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
-
-        if (score != 0L) {
-            ((SinglePlayerGame) games.get(gameID)).increaseScore(score);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-
-    /**
-     * LONG POLLING METHOD TO CONSTANTLY GET THE SCORE OF THE USER
-     *
-     * @param id of the game session
-     * @return the score of the player
-     */
-    @GetMapping(path="singleplayer/scoreupdater/{id}")
-    public DeferredResult<ResponseEntity<Long>> scoreUpdater(@PathVariable String id) {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        DeferredResult<ResponseEntity<Long>> output = new DeferredResult<>(5000L,noContent);
-
-        Object key = null;
-        long gameID = Long.parseLong(id);
-        try {
-            SinglePlayerGame game = (SinglePlayerGame) games.get(gameID);
-            key = new Object();
-            singlePlayerListeners.put(key,g -> {
-                output.setResult(ResponseEntity.ok(game.getScore()));
-            });
-            Object finalKey = key;
-            output.onCompletion(() -> {
-                singlePlayerListeners.remove(finalKey);
-            });
-        } catch (Exception e) {
-            output.setErrorResult(ResponseEntity.ok(-1L));
-            if (key!=null) {
-                singlePlayerListeners.remove(key);
-            }
-        }
-        return output;
+        long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
+        SinglePlayerGame curGame = (SinglePlayerGame) games.get(gameID);
+        return ResponseEntity.ok(curGame.increaseScore(incScore));
     }
 
 
