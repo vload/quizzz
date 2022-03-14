@@ -103,10 +103,10 @@ public class MyMainCtrl {
 
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.initialize(q);
+            spEstimateQuestionCtrl.init(q);
         } else {
             setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.initialize(q);
+            spMultipleChoiceQuestionCtrl.init(q);
         }
     }
 

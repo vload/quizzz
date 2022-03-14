@@ -51,8 +51,8 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      * Gets called upon init
      * @param question
      */
-    public void initialize(Question question) {
-        initialize();
+    public void init(Question question) {
+        init();
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivities().iterator().next().getTitle());
     }

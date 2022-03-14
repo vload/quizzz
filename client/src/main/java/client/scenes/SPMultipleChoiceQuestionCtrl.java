@@ -55,13 +55,13 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * Gets called upon init
      * @param question
      */
-    public void initialize(Question question) {
+    public void init(Question question) {
         questionText.setText(question.getQuestionText());
         var activityIterator = question.getActivities().iterator();
         activityText1.setText(activityIterator.next().getTitle());
         activityText2.setText(activityIterator.next().getTitle());
         activityText3.setText(activityIterator.next().getTitle());
-        initialize();
+        init();
     }
 
 }
