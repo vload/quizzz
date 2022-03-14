@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Stage;
 import commons.Question;
 import commons.Submission;
 import javafx.event.ActionEvent;
@@ -14,10 +13,6 @@ import java.util.Arrays;
 
 
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
-
-    MyMainCtrl mainCtrl;
-
-    Stage primaryStage;
 
     @FXML
     private Button activityText1;
@@ -38,15 +33,17 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     private ArrayList<Button> buttonList;
 
+    private final MyMainCtrl myMainCtrl;
+
     /**
      * Constructor for SPMultipleChoiceQuestionCtrl
-     * @param mainCtrl which is used for switching scenes
      * @param server that can communicate with backend
+     * @param myMainCtrl
      */
     @Inject
-    public SPMultipleChoiceQuestionCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public SPMultipleChoiceQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server);
-        this.mainCtrl = new MyMainCtrl();
+        this.myMainCtrl = myMainCtrl;
     }
 
     /**
@@ -54,16 +51,16 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param event
      */
     @FXML
-    void answerPress(ActionEvent event) {
+    void answerPress(ActionEvent event){
         Button source = (Button) event.getSource();
-        int sourceLength = source.getId().length();
-        String sourceId = String.valueOf(source.getId().charAt(sourceLength-1));
 
         Submission s = new Submission(source.getId(),timerBar.getProgress());
-        server.validateQuestion(s);
-
+        Long score = server.validateQuestion(s);
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        //mainCtrl.showQuestionScene(server.getQuestion());
+        scoreText.setText(updateScoreString(scoreText.getText(),score));
+
+        Question newQuestion = server.getQuestion();
+        myMainCtrl.showNextQuestionScene(newQuestion,score);
 
     }
 
@@ -99,7 +96,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * Gets called upon init
      * @param question
      */
-    public void initialize(Question question) {
+    public void init(Question question) {
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
 
@@ -114,8 +111,33 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText3.setId(activityIterator.next().getId());
 
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-        initialize();
+        init();
     }
+
+    /**
+     * Gets called upon init
+     * @param question
+     * @param score
+     */
+    public void initNext(Question question,Long score) {
+        associatedQuestion = question;
+        questionText.setText(question.getQuestionText());
+
+        var activityIterator = question.getActivitySet().iterator();
+        activityText1.setText(activityIterator.next().getTitle());
+        activityText2.setText(activityIterator.next().getTitle());
+        activityText3.setText(activityIterator.next().getTitle());
+
+        activityIterator = question.getActivitySet().iterator();
+        activityText1.setId(activityIterator.next().getId());
+        activityText2.setId(activityIterator.next().getId());
+        activityText3.setId(activityIterator.next().getId());
+
+        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
+        initializeNext(score);
+    }
+
+
 
     /**
      *

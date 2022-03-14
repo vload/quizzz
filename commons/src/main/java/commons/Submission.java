@@ -29,7 +29,8 @@ public class Submission implements Serializable {
     /**\
      *
      */
-    public Submission(){}
+    private Submission(){}
+
 
     /**
      * gets the answerVar (what the user answered) and returns it

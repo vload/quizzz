@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
+import commons.Submission;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,13 +22,17 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private Button jokerText;
 
     private Question associatedQuestion;
+
+    private final MyMainCtrl myMainCtrl;
     /**
      * Constructor for SPEstimateQuestionCtrl
      * @param server that can communicate with backend
+     * @param myMainCtrl
      */
     @Inject
-    public SPEstimateQuestionCtrl(ServerUtils server) {
+    public SPEstimateQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server);
+        this.myMainCtrl = myMainCtrl;
     }
 
     /**
@@ -41,7 +46,8 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 answerText.setDisable(true);
                 String answer = answerText.getText();
                 Double timeLeft = timerBar.getProgress();
-                long pointsObtained = associatedQuestion.getScore(answer, timeLeft);
+                Submission s = new Submission(answer,timeLeft);
+                long pointsObtained = server.validateQuestion(s);
 
                 this.scoreText.setText(updateScoreString(scoreText.getText(),pointsObtained));
 
@@ -64,8 +70,20 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      * Gets called upon init
      * @param question
      */
-    public void initialize(Question question) {
-        initialize();
+    public void init(Question question) {
+        init();
+        associatedQuestion = question;
+        questionText.setText(question.getQuestionText());
+        activityText.setText(question.getActivitySet().iterator().next().getTitle());
+    }
+
+    /**
+     *
+     * @param question
+     * @param score
+     */
+    public void initNext(Question question,Long score) {
+        initializeNext(score);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());

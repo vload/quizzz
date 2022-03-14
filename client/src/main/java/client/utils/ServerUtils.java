@@ -121,14 +121,14 @@ public class ServerUtils {
     /**
      *
      * @param submission
-     *
+     * @return validates an answer and returns the updated score
      */
-    public void validateQuestion(Submission submission){
-         ClientBuilder.newClient(new ClientConfig())
+    public Long validateQuestion(Submission submission){
+         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/validate/0")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(submission, APPLICATION_JSON), Submission.class);
+                .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
     }
 
 

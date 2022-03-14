@@ -123,7 +123,6 @@ public class GameController {
                 || games.get(gameID).getCurrentQuestion() == null) {
             return ResponseEntity.badRequest().build();
         }
-        //System.out.println(answerPair.toString());
 
         AbstractGame currentGame = games.get(gameID);
         long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());

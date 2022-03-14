@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class MyMainCtrl {
 
-    private Stage primaryStage;
+    public static Stage primaryStage;
 
     private ServerUtils server;
 
@@ -77,14 +77,14 @@ public class MyMainCtrl {
      * This method shows the main screen
      */
     public void showMainScreen() {
-        setScene(primaryStage,mainScreen, "Quizzz!");
+        setScene(mainScreen, "Quizzz!");
     }
 
     /**
      * This method shows the name screen
      */
     public void showNameScreen(){
-        setScene(primaryStage,nameScreen, "Enter your name");
+        setScene(nameScreen, "Enter your name");
     }
 
     /**
@@ -92,9 +92,7 @@ public class MyMainCtrl {
      */
     public void startGame() {
         String id = server.createGame("Temp");
-        //server.getQuestions();
         Question q = server.getQuestion();
-
         showQuestionScene(q);
     }
 
@@ -104,25 +102,38 @@ public class MyMainCtrl {
      */
     public void showQuestionScene(Question q) {
         if (q.getType() == QuestionType.ESTIMATE) {
-            setScene(primaryStage,spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.initialize(q);
+            setScene(spEstimateQuestionScreen, "EstimateScene");
+            spEstimateQuestionCtrl.init(q);
         } else {
-            setScene(primaryStage,spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.initialize(q);
+            setScene(spMCQuestionScreen, "MCScene");
+            spMultipleChoiceQuestionCtrl.init(q);
+        }
+    }
+
+    /**
+     * @param score
+     * @param q
+     */
+    public void showNextQuestionScene(Question q,Long score) {
+        if (q.getType() == QuestionType.ESTIMATE) {
+            setScene(spEstimateQuestionScreen, "EstimateScene");
+            spEstimateQuestionCtrl.initNext(q,score);
+        } else {
+            setScene(spMCQuestionScreen, "MCScene");
+            spMultipleChoiceQuestionCtrl.initNext(q,score);
         }
     }
 
     /**
      * Sets the scene
-     * @param pStage
      * @param scene
      * @param title
      */
-    private void setScene(Stage pStage, Scene scene, String title) {
-        pStage.setTitle(title);
-        pStage.setScene(scene);
-        pStage.setFullScreen(true);
-        pStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    private void setScene(Scene scene, String title) {
+        primaryStage.setTitle(title);
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 
     /**
