@@ -50,7 +50,7 @@ public class QuestionGenerator {
         String correctAnswer = "";
         String questionText;
         if(random.nextInt(2) == 0) {
-            questionText = "Which one of the following consumes the least electricity?";
+            questionText = "Which one of the following consumes the least energy?";
             double minimumConsumption = Double.MAX_VALUE;
             for(var activity: activitySet){
                 if(activity.getEnergyConsumption() < minimumConsumption){
@@ -59,7 +59,7 @@ public class QuestionGenerator {
                 }
             }
         } else {
-            questionText = "Which one of the following consumes the most electricity?";
+            questionText = "Which one of the following consumes the most energy?";
             double maximumConsumption = Double.MIN_VALUE;
             for(var activity: activitySet){
                 if(activity.getEnergyConsumption() > maximumConsumption){
@@ -75,7 +75,7 @@ public class QuestionGenerator {
         Set<Activity> activitySet = generateActivitySet(QuestionType.ESTIMATE);
 
         var activity = activitySet.iterator().next();
-        String questionText = "How many watt-hours does " + activity.getTitle() + " consume?";
+        String questionText = "How many watt-hours of energy does " + activity.getTitle() + " consume?";
 
         return new Question(questionText, activitySet, QuestionType.ESTIMATE,
                 Double.toString(activity.getEnergyConsumption()));
