@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import com.google.inject.Stage;
 import commons.Question;
 import commons.Submission;
 import javafx.event.ActionEvent;
@@ -15,6 +16,8 @@ import java.util.Arrays;
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     MyMainCtrl mainCtrl;
+
+    Stage primaryStage;
 
     @FXML
     private Button activityText1;
@@ -44,7 +47,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     public SPMultipleChoiceQuestionCtrl(MainCtrl mainCtrl, ServerUtils server) {
         super(server);
         this.mainCtrl = new MyMainCtrl();
-
     }
 
     /**
@@ -61,6 +63,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         server.validateQuestion(s);
 
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+        //mainCtrl.showQuestionScene(server.getQuestion());
 
     }
 
@@ -112,6 +115,18 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
         initialize();
+    }
+
+    /**
+     *
+     * @param oldString old string to be updated
+     * @param score new score to be added
+     * @return updated String containing added points
+     */
+    public String updateScoreString(String oldString, long score){
+        String[] array = oldString.split(": ");
+        long newScore = score + Long.parseLong(array[1]);
+        return array[0] + ": " + newScore;
     }
 
 }

@@ -77,14 +77,14 @@ public class MyMainCtrl {
      * This method shows the main screen
      */
     public void showMainScreen() {
-        setScene(mainScreen, "Quizzz!");
+        setScene(primaryStage,mainScreen, "Quizzz!");
     }
 
     /**
      * This method shows the name screen
      */
     public void showNameScreen(){
-        setScene(nameScreen, "Enter your name");
+        setScene(primaryStage,nameScreen, "Enter your name");
     }
 
     /**
@@ -104,24 +104,25 @@ public class MyMainCtrl {
      */
     public void showQuestionScene(Question q) {
         if (q.getType() == QuestionType.ESTIMATE) {
-            setScene(spEstimateQuestionScreen, "EstimateScene");
+            setScene(primaryStage,spEstimateQuestionScreen, "EstimateScene");
             spEstimateQuestionCtrl.initialize(q);
         } else {
-            setScene(spMCQuestionScreen, "MCScene");
+            setScene(primaryStage,spMCQuestionScreen, "MCScene");
             spMultipleChoiceQuestionCtrl.initialize(q);
         }
     }
 
     /**
-     * This method displays the scene with the title
+     * Sets the scene
+     * @param pStage
      * @param scene
      * @param title
      */
-    private void setScene(Scene scene, String title) {
-        primaryStage.setTitle(title);
-        primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    private void setScene(Stage pStage, Scene scene, String title) {
+        pStage.setTitle(title);
+        pStage.setScene(scene);
+        pStage.setFullScreen(true);
+        pStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 
     /**
@@ -132,6 +133,14 @@ public class MyMainCtrl {
     public void setCSS(Scene scene, String fileName) {
         scene.getStylesheets().add(Objects.requireNonNull(getClass()
                 .getResource(fileName)).toExternalForm());
+    }
+
+    /**
+     *
+     * @return primary stage
+     */
+    public Stage getPrimaryStage(){
+        return primaryStage;
     }
 
 }
