@@ -33,7 +33,7 @@ class QuestionTest {
     void constructorTest() {
         assertNotNull(q1);
         assertEquals("What is the highest out of the following 3 activities",q1.getQuestionText());
-        assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivities());
+        assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivitySet());
         assertEquals(QuestionType.MC, q1.getType());
     }
 
@@ -52,7 +52,7 @@ class QuestionTest {
 
     @Test
     void getActivities() {
-        assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivities());
+        assertEquals(Stream.of(a1,a2,a3).collect(Collectors.toSet()), q1.getActivitySet());
     }
 
     @Test
