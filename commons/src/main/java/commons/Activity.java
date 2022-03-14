@@ -85,7 +85,7 @@ public class Activity {
 
     /**
      * Getter for energyConsumption
-     * @return the energyConsumption
+     * @return The amount of energy the activity uses
      */
     public double getEnergyConsumption() {
         return energyConsumption;

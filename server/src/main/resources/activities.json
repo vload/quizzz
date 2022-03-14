@@ -1,0 +1,86 @@
+[
+  {
+    "id": "08-tv",
+    "image_path": "08/tv.jpg",
+    "title": "Watching tv for an hour",
+    "consumption_in_wh": 50,
+    "source": "https://ecocostsavings.com/tv-wattage/"
+  },
+  {
+    "id": "08-car",
+    "image_path": "08/car.jpg",
+    "title": "Driving 100km in an electric car",
+    "consumption_in_wh": 15000,
+    "source": "https://www.energuide.be/en/questions-answers/how-much-power-does-an-electric-car-use/212/"
+  },
+  {
+    "id": "08-toaster",
+    "image_path": "08/toaster.png",
+    "title": "Make three slices of toast in a 2-slice toaster",
+    "consumption_in_wh": 120,
+    "source": "https://www.batteryequivalents.com/off-the-grid-how-many-watts-does-a-toaster-use.html"
+  },
+  {
+    "id": "08-oculus",
+    "image_path": "08/oculus.png",
+    "title": "Gaming on a Oculus Quest 2 VR headset for 3 hours",
+    "consumption_in_wh": 11,
+    "source": "https://www.thehomehacksdiy.com/how-much-power-watts-does-a-vr-headset-use/"
+  },
+  {
+    "id": "08-nintendo",
+    "image_path": "08/nintendo.jpg",
+    "title": "Playing Mario Kart on a Nintendo DS lite for 6 hours",
+    "consumption_in_wh": 5,
+    "source": "https://tim.cexx.org/?p=345"
+  },
+  {
+    "id": "08-bus",
+    "image_path": "08/bus.jpg",
+    "title": "Taking the bus for one kilometre",
+    "consumption_in_wh": 2000,
+    "source": "https://www.sustainable-bus.com/news/electric-bus-range-focus-on-electricity-consumption-a-sum-up"
+  },
+  {
+    "id": "08-phone",
+    "image_path": "08/phone.jpg",
+    "title": "How much energy does charging your phone for 3 hours consume?",
+    "consumption_in_wh": 15,
+    "source": "https://getinstacash.in/blog/electricity-to-charge-your-phone/"
+  },
+  {
+    "id": "44-hairdryer",
+    "image_path": "44/hairdryer.jpeg",
+    "title": "Using a hair dryer for 1 hour at max setting",
+    "consumption_in_wh": 1900,
+    "source": "https://ecocostsavings.com/hair-dryer-wattage/"
+  },
+  {
+    "id": "44-humidifier",
+    "image_path": "44/humidifier.jpeg",
+    "title": "Using a humidifier for 8 hours",
+    "consumption_in_wh": 1400,
+    "source": "http://www.wrecc.com/what-uses-watts-in-your-home/"
+  },
+  {
+    "id": "44-fridge",
+    "image_path": "44/fridge.jpeg",
+    "title": "Using a refrigerator for 8 hours",
+    "consumption_in_wh": 6400,
+    "source": "https://paylesspower.com/blog/how-many-watts-does-a-refrigerator-use/"
+  },
+  {
+    "id": "44-kettle",
+    "image_path": "44/kettle.jpeg",
+    "title": "Using an electric kettle for 30 mins",
+    "consumption_in_wh": 1000,
+    "source": "https://www.daftlogic.com/information-appliance-power-consumption.htm"
+  },
+  {
+    "id": "44-cooktop",
+    "image_path": "44/cooktop.jpeg",
+    "title": "Using an induction cooktop for 15 minutes",
+    "consumption_in_wh": 500,
+    "source": "https://letsavelectricity.com/induction-cooktop-power-consumption-calculator/#:~:text=Calculate%20Power%20Consumption%20of%20an%20Induction%20Cooktop%3A&text=On%20an%20average%20the%20rated,less%20is%20the%20cooking%20time."
+  }
+]

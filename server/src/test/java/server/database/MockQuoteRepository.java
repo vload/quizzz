@@ -135,7 +135,7 @@ public class MockQuoteRepository implements QuoteRepository {
     @Override
     public <S extends Quote> S save(S entity) {
         call("save");
-        entity.id = (long) quotes.size();
+        entity.id = quotes.size();
         quotes.add(entity);
         return entity;
     }
@@ -143,7 +143,7 @@ public class MockQuoteRepository implements QuoteRepository {
     @Override
     public Optional<Quote> findById(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class MockQuoteRepository implements QuoteRepository {
     @Override
     public <S extends Quote> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub
-        return null;
+        return Optional.empty();
     }
 
     @Override
