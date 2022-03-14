@@ -62,9 +62,9 @@
                      </font>
                   </Text>
                   <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <ProgressBar id="timer" fx:id="timerBar" prefHeight="76.0" prefWidth="914.0" progress="0.0" />
+                  <ProgressBar id="timer" fx:id="timerBar" prefHeight="76.0" prefWidth="914.0" progress="0.53" style="-fx-accent: red;" />
                   <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s">
+                  <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s" wrappingWidth="185.263916015625">
                      <font>
                         <Font size="31.0" />
                      </font>
