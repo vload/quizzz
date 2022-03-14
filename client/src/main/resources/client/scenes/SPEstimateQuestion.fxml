@@ -10,25 +10,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" stylesheets="@QuestionCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPEstimateQuestionCtrl">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <HBox maxHeight="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" />
+                  <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" />
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
                <Region HBox.hgrow="ALWAYS" />
-               <Button maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" />
+               <Button fx:id="activityText" maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" />
                <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
                <VBox>
                   <children>
                      <Region VBox.vgrow="ALWAYS" />
-                     <TextField alignment="CENTER" promptText="Enter the value ...">
+                     <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" promptText="Enter the value ...">
                         <font>
                            <Font size="31.0" />
                         </font>
@@ -42,7 +42,7 @@
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="300.0" styleClass="jokerButton" text="Button" />
+                  <Button fx:id="jokerText" mnemonicParsing="false" onAction="#jokerPressed" prefHeight="300.0" prefWidth="300.0" styleClass="jokerButton" text="Button" />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
@@ -56,15 +56,15 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text fill="#8a2222" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Score: xxx" wrappingWidth="215.80859375">
+                  <Text fx:id="scoreText" fill="#8a2222" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Score: xxx" wrappingWidth="215.80859375">
                      <font>
                         <Font size="31.0" />
                      </font>
                   </Text>
                   <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <ProgressBar id="timer" prefHeight="76.0" prefWidth="914.0" progress="0.0" />
+                  <ProgressBar id="timer" fx:id="timerBar" prefHeight="76.0" prefWidth="914.0" progress="0.0" />
                   <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Text fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s">
+                  <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s">
                      <font>
                         <Font size="31.0" />
                      </font>
