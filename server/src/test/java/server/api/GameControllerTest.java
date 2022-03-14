@@ -1,8 +1,6 @@
 package server.api;
 
-import commons.Activity;
 import commons.Question;
-import commons.QuestionType;
 import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import server.server_classes.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
