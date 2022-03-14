@@ -29,6 +29,8 @@ public class MyMainCtrl {
     private SPMultipleChoiceQuestionCtrl spMultipleChoiceQuestionCtrl;
     private Scene spMCQuestionScreen;
 
+    private String gameID;
+
     /**
      * Constructor for MyMainCtrl
      */
@@ -91,7 +93,7 @@ public class MyMainCtrl {
      * This method starts the game by getting a question and displaying it
      */
     public void startGame() {
-        String id = server.createGame("Temp");
+        String gameID = server.createGame("Temp");
         Question q = server.getQuestion();
         showQuestionScene(q);
     }

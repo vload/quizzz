@@ -25,6 +25,8 @@ public abstract class AbstractQuestionCtrl {
 
     protected final ServerUtils server;
 
+    protected Timer t;
+
     /**
      * Constructor for QuestionController
      * @param server that can communicate with backend
@@ -59,7 +61,7 @@ public abstract class AbstractQuestionCtrl {
      * Method that takes care of the UI timer functionality
      */
     public void timer() {
-        Timer t = new Timer();
+        t = new Timer();
         t.schedule(new TimerTask() {
             double progressTime = 9.999;
             int timer = 1000;

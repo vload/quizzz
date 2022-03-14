@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
+
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
@@ -51,7 +52,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param event
      */
     @FXML
-    void answerPress(ActionEvent event){
+    void answerPress(ActionEvent event) throws InterruptedException {
         Button source = (Button) event.getSource();
 
         Submission s = new Submission(source.getId(),timerBar.getProgress());
@@ -61,8 +62,43 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
         Question newQuestion = server.getQuestion();
         myMainCtrl.showNextQuestionScene(newQuestion,score);
+        t.cancel();
+
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        enableButtons(buttonList);
+                        enableColors(buttonList);
+                    }
+                },
+                1000
+        );
 
     }
+
+    /**
+     *
+     * @param buttonList
+     */
+    public void enableColors(ArrayList<Button> buttonList){
+        for (Button b : buttonList) {
+            b.getStyleClass().removeAll("questionButtonCorrect");
+            b.getStyleClass().removeAll("questionButtonIncorrect");
+            b.getStyleClass().add("questionButton");
+        }
+    }
+
+    /**
+     *
+     * @param buttonList
+     */
+    public void enableButtons(ArrayList<Button> buttonList){
+        for (Button b : buttonList) {
+            b.setDisable(false);
+        }
+    }
+
 
     /**
      *
