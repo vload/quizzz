@@ -95,6 +95,15 @@ public class Question {
     }
 
     /**
+     * correctAnswer getter
+     *
+     * @return The correct answer in string form
+     */
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    /**
      * enhanced equals method
      *
      * @param o The object to be compared to
