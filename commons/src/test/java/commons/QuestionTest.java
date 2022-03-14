@@ -92,4 +92,10 @@ class QuestionTest {
         assertEquals(0, q1.getScore(a3.getId(), 10));
         assertEquals(9000, q1.getScore(a1.getId(), 9));
     }
+
+    @Test
+    void getCorrectAnswer() {
+        assertEquals(a1.getId(),q1.getCorrectAnswer());
+        assertEquals("10.2",q3.getCorrectAnswer());
+    }
 }

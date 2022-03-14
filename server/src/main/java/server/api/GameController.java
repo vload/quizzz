@@ -22,7 +22,6 @@ public class GameController {
     private QuestionGenerator questionGenerator;
     private long idCounter;
     private final Map<Long, AbstractGame> games;
-    private final Map<DeferredResult<ResponseEntity<Long>>,Long> singlePlayerScoreListeners = new ConcurrentHashMap<>();
 
     /**
      * Default constructor
@@ -115,52 +114,23 @@ public class GameController {
      *                   MCQ: Should contain the ID of the activity that the user chose
      *                   Estimate: Should contain the energy usage that the user inputted
      * @param id the ID of the game session
-     * @return An empty response, the updated score should be retrieved from scoreUpdater method
+     * @return A ResponseEntity containing the current score of the game, will return the same score
+     * that the user previously had if the user submitted the wrong answer.
      */
     @PostMapping(path="singleplayer/validate/{id}")
-    public ResponseEntity<Void> validateAnswer(@RequestBody Submission answerPair, @PathVariable("id") String id) {
+    public ResponseEntity<Long> validateAnswer(@RequestBody Submission answerPair, @PathVariable("id") String id) {
         long gameID = Long.parseLong(id);
         if (answerPair == null
                 || games.get(gameID) == null
-                || !(games.get(gameID) instanceof SinglePlayerGame)) {
+                || !(games.get(gameID) instanceof SinglePlayerGame)
+                || games.get(gameID).getCurrentQuestion() == null) {
             return ResponseEntity.badRequest().build();
         }
 
         AbstractGame currentGame = games.get(gameID);
         long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
-        if (incScore != 0L) { // if the increased score is 0, no need to update.
-            SinglePlayerGame curGame = (SinglePlayerGame) games.get(gameID);
-            curGame.increaseScore(incScore);
-            singlePlayerScoreListeners.forEach((k,v) -> {
-                if (v == gameID) {
-                    try {
-                        k.setResult(ResponseEntity.ok(curGame.getScore()));
-                    } catch (Exception e) {
-                        k.setErrorResult(ResponseEntity.ok(-1L));
-                    }
-                }
-            });
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-
-    /**
-     * Long polling scoreupdater, so that the client IMMEDIATELY
-     * (restricted by latency) gets the score of the current game session
-     * if it is updated at all. The DeferredResult holds the connection open until update or timeout.
-     *
-     * @param id is the ID of the current singleplayer game session
-     * @return The updated score of the singleplayer session
-     */
-    @GetMapping(path="singleplayer/scoreupdater/{id}")
-    public DeferredResult<ResponseEntity<Long>> scoreUpdater(@PathVariable String id) {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        DeferredResult<ResponseEntity<Long>> res = new DeferredResult<>(5000L,noContent);
-        long gameID = Long.parseLong(id);
-        singlePlayerScoreListeners.put(res,gameID);
-        res.onCompletion(() -> singlePlayerScoreListeners.remove(res));
-        return res;
+        SinglePlayerGame curGame = (SinglePlayerGame) games.get(gameID);
+        return ResponseEntity.ok(curGame.increaseScore(incScore));
     }
 
 
