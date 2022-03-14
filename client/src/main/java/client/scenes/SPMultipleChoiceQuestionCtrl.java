@@ -53,6 +53,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void answerPress(ActionEvent event) throws InterruptedException {
+        cancelTimer();
         Button source = (Button) event.getSource();
 
         Submission s = new Submission(source.getId(),timerBar.getProgress());
@@ -62,7 +63,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
         Question newQuestion = server.getQuestion();
         myMainCtrl.showNextQuestionScene(newQuestion,score);
-        t.cancel();
 
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {

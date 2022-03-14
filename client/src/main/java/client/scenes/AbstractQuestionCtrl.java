@@ -53,7 +53,7 @@ public abstract class AbstractQuestionCtrl {
         scoreText.setText("Score: " + score);
         timerText.setText("10s");
         timerBar.setProgress(100);
-        timer();
+        timerNext();
     }
 
 
@@ -61,8 +61,8 @@ public abstract class AbstractQuestionCtrl {
      * Method that takes care of the UI timer functionality
      */
     public void timer() {
-        t = new Timer();
-        t.schedule(new TimerTask() {
+        this.t = new Timer();
+        this.t.schedule(new TimerTask() {
             double progressTime = 9.999;
             int timer = 1000;
             int textTime = 10;
@@ -84,6 +84,37 @@ public abstract class AbstractQuestionCtrl {
                 }
             }
         }, 0, 1);
+    }
+
+    public void timerNext() {
+        t = new Timer();
+        this.t.schedule(new TimerTask() {
+            double progressTime = 9.999;
+            int timer = 1000;
+            int textTime = 10;
+            @Override
+            public void run() {
+                timerBar.setProgress(progressTime/10);
+                progressTime = progressTime - 0.001;
+                if (timer == 1000) {
+                    timerText.setText(textTime + " s");
+                    changeColor(textTime);
+                    textTime--;
+                    timer = 0;
+                }
+                timer++;
+                if (progressTime < 0) {
+                    timerText.setText(0 + " s");
+                    t.cancel();
+                    submitQuestion(-1, 0);
+                }
+            }
+        }, 0, 1);
+    }
+
+    public void cancelTimer() {
+        t.cancel();
+        timerBar.setProgress(100);
     }
 
     /**
