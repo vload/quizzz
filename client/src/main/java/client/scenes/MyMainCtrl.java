@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Question;
 import commons.QuestionType;
+import commons.Submission;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
@@ -13,8 +14,8 @@ import java.util.Objects;
 
 public class MyMainCtrl {
 
-    public static Stage primaryStage;
-    public static String gameID;
+    public Stage primaryStage;
+    public String gameID;
 
     private ServerUtils server;
 
@@ -95,34 +96,41 @@ public class MyMainCtrl {
     public void startGame() {
         gameID = server.createGame("Temp");
         Question q = server.getQuestion(gameID);
-        showQuestionScene(q);
+        showQuestionScene(q, 0L);
+    }
+
+    /**
+     * Method that sends the submission to the server
+     * @param answer
+     * @param time
+     * @return score after updating
+     */
+    public long sendSubmission(String answer, double time) {
+        Submission s = new Submission(answer, time);
+        return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Gets the new question ans sent the scene accordingly
+     * @param score
+     */
+    public void setNextQuestion(long score) {
+        Question newQuestion = server.getQuestion(gameID);
+        showQuestionScene(newQuestion, score);
     }
 
     /**
      * Sets the correct scene along with its CSS to the primaryStage
+     * @param score
      * @param q the question to be displayed
      */
-    public void showQuestionScene(Question q) {
+    public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.init(q);
+            spEstimateQuestionCtrl.init(q, score);
         } else {
             setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.init(q);
-        }
-    }
-
-    /**
-     * @param score
-     * @param q
-     */
-    public void showNextQuestionScene(Question q,Long score) {
-        if (q.getType() == QuestionType.ESTIMATE) {
-            setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.initNext(q,score);
-        } else {
-            setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.initNext(q,score);
+            spMultipleChoiceQuestionCtrl.init(q, score);
         }
     }
 

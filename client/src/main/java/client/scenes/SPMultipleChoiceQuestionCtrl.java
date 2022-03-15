@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
-import commons.Submission;
 import jakarta.ws.rs.BadRequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,20 +56,20 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         try {
             Button source = (Button) event.getSource();
             updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-
-            Submission s = new Submission(source.getId(), cancelTimer());
-            Long score = server.validateQuestion(s, MyMainCtrl.gameID);
-            scoreText.setText(updateScoreString(scoreText.getText(), score));
-
-            showCorrectAnswerTimer(buttonList);
-            Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
-            myMainCtrl.showNextQuestionScene(newQuestion,score);
+            processAnswer(source.getId());
 
         }catch (BadRequestException e){
             myMainCtrl.showMainScreen();
             enableButtons(buttonList);
             enableColors(buttonList);
         }
+    }
+
+    protected void processAnswer(String answer) {
+        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
+        this.resetUI();
+        myMainCtrl.setNextQuestion(score);
+        showCorrectAnswerTimer(buttonList);
     }
 
     /**
@@ -144,31 +143,10 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     /**
      * Gets called upon init
      * @param question
-     */
-    public void init(Question question) {
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-
-        var activityIterator = question.getActivitySet().iterator();
-        activityText1.setText(activityIterator.next().getTitle());
-        activityText2.setText(activityIterator.next().getTitle());
-        activityText3.setText(activityIterator.next().getTitle());
-
-        activityIterator = question.getActivitySet().iterator();
-        activityText1.setId(activityIterator.next().getId());
-        activityText2.setId(activityIterator.next().getId());
-        activityText3.setId(activityIterator.next().getId());
-
-        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-        init();
-    }
-
-    /**
-     * Gets called upon init
-     * @param question
      * @param score
      */
-    public void initNext(Question question,Long score) {
+    public void init(Question question, Long score) {
+        init(score);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
 
@@ -183,7 +161,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText3.setId(activityIterator.next().getId());
 
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-        initializeNext(score);
     }
 
 

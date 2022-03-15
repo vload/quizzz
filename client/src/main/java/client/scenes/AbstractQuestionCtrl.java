@@ -38,58 +38,23 @@ public abstract class AbstractQuestionCtrl {
 
     /**
      * Gets called upon init
+     * @param score the score to be initialized with the question
      */
-    public void init() {
-        scoreText.setText("Score: 0");
+    public void init(Long score) {
+        resetUI();
+        scoreText.setText("Score: " + score);
         timerText.setText("10s");
-        timerBar.setProgress(100);
+        timerBar.setProgress(10);
         timer();
     }
 
-    /**
-     * @param score the score to be initialized with the question
-     */
-    public void initializeNext(Long score){
-        scoreText.setText("Score: " + score);
-        timerText.setText("10s");
-        timerBar.setProgress(100);
-        timerNext();
-    }
+    protected abstract void processAnswer(String answer);
 
 
     /**
      * Method that takes care of the UI timer functionality
      */
     public void timer() {
-        this.t = new Timer();
-        this.t.schedule(new TimerTask() {
-            double progressTime = 9.999;
-            int timer = 1000;
-            int textTime = 10;
-            @Override
-            public void run() {
-                timerBar.setProgress(progressTime/10);
-                progressTime = progressTime - 0.001;
-                if (timer == 1000) {
-                    timerText.setText(textTime + " s");
-                    changeColor(textTime);
-                    textTime--;
-                    timer = 0;
-                }
-                timer++;
-                if (progressTime < 0) {
-                    timerText.setText(0 + " s");
-                    t.cancel();
-                    submitQuestion(-1, 0);
-                }
-            }
-        }, 0, 1);
-    }
-
-    /**
-     *
-     */
-    public void timerNext() {
         t = new Timer();
         this.t.schedule(new TimerTask() {
             double progressTime = 9.999;
@@ -100,7 +65,7 @@ public abstract class AbstractQuestionCtrl {
                 timerBar.setProgress(progressTime/10);
                 progressTime = progressTime - 0.001;
                 if (timer == 1000) {
-                    timerText.setText(textTime + " s");
+                    //timerText.setText(textTime + " s");
                     changeColor(textTime);
                     textTime--;
                     timer = 0;
@@ -122,9 +87,16 @@ public abstract class AbstractQuestionCtrl {
     public Double cancelTimer() {
 
         Double result = timerBar.getProgress();
-        timerBar.setProgress(100);
+        timerBar.setProgress(10);
         t.cancel();
         return result;
+    }
+
+    protected void resetUI() {
+        scoreText.setText(null);
+        timerText.setText(null);
+        timerBar.setProgress(10);
+        questionText.setText(null);
     }
 
     /**

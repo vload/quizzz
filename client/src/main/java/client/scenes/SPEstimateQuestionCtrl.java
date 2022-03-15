@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
-import commons.Submission;
 import jakarta.ws.rs.BadRequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,25 +43,30 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void checkForEnter(KeyEvent event) {
         if(event.getCode().toString().equals("ENTER")){
             try{
-
                 answerText.setDisable(true);
-                String answer = answerText.getText();
-                Double timeLeft = timerBar.getProgress();
-                Submission s = new Submission(answer, cancelTimer());
-                long score = server.validateQuestion(s, MyMainCtrl.gameID);
+                processAnswer(answerText.getText());
 
-                this.scoreText.setText(updateScoreString(scoreText.getText(),score));
-                answerText.clear();
-                Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
-                myMainCtrl.showNextQuestionScene(newQuestion, score);
-
-                showCorrectAnswerTimer(answerText);
             }   catch( BadRequestException e){
                         answerText.setDisable(false);
                         myMainCtrl.showMainScreen();
                 }
         }
     }
+
+    protected void processAnswer(String answer) {
+        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
+        this.resetUI();
+        myMainCtrl.setNextQuestion(score);
+        this.scoreText.setText(score + "");
+        showCorrectAnswerTimer(answerText);
+    }
+
+    protected void resetUI() {
+        super.resetUI();
+        answerText.clear();
+    }
+
+
 
     /**
      *
@@ -92,21 +96,10 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     /**
      * Gets called upon init
      * @param question
-     */
-    public void init(Question question) {
-        init();
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
-    }
-
-    /**
-     *
-     * @param question
      * @param score
      */
-    public void initNext(Question question,Long score) {
-        initializeNext(score);
+    public void init(Question question, Long score) {
+        init(score);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
