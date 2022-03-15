@@ -113,8 +113,9 @@ public class MyMainCtrl {
     }
 
     /**
-     * @param score
-     * @param q
+     * Displays the next question scene, along with the correct score
+     * @param score score to be displayed
+     * @param q question to be displayed
      */
     public void showNextQuestionScene(Question q,Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {

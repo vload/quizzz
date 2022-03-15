@@ -116,7 +116,7 @@ public abstract class AbstractQuestionCtrl {
     }
 
     /**
-     *
+     * Cancels the current timer and returns the progress of the current question
      * @return the current timer value
      */
     public Double cancelTimer() {
