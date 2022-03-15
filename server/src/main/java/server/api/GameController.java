@@ -96,9 +96,6 @@ public class GameController {
 
         AbstractGame game = games.get(gameID);
         Question nextQuestion = game.getNextQuestion();
-        if (nextQuestion == null) {
-            return ResponseEntity.badRequest().build();
-        }
         return ResponseEntity.ok(nextQuestion);
     }
 

@@ -50,11 +50,11 @@ public abstract class AbstractGame implements Serializable {
      * @return the next question in the list
      */
     public Question getNextQuestion() {
-        if (questions.size() == 0) {
+        if (questions.isEmpty()) {
             this.currentQuestion = null;
-            return null;
+        } else {
+            this.currentQuestion = questions.remove(0);
         }
-        this.currentQuestion = questions.remove(0);
         return currentQuestion;
     }
     /**
