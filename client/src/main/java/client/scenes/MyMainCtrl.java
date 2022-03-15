@@ -13,7 +13,8 @@ import java.util.Objects;
 
 public class MyMainCtrl {
 
-    private Stage primaryStage;
+    public static Stage primaryStage;
+    public static String gameID;
 
     private ServerUtils server;
 
@@ -29,10 +30,11 @@ public class MyMainCtrl {
     private SPMultipleChoiceQuestionCtrl spMultipleChoiceQuestionCtrl;
     private Scene spMCQuestionScreen;
 
+
     /**
      * Constructor for MyMainCtrl
      */
-    public MyMainCtrl(){};
+    public MyMainCtrl(){}
 
     /**
      * This method initializes the stage
@@ -91,7 +93,8 @@ public class MyMainCtrl {
      * This method starts the game by getting a question and displaying it
      */
     public void startGame() {
-        Question q = server.getQuestion();
+        gameID = server.createGame("Temp");
+        Question q = server.getQuestion(gameID);
         showQuestionScene(q);
     }
 
@@ -100,7 +103,6 @@ public class MyMainCtrl {
      * @param q the question to be displayed
      */
     public void showQuestionScene(Question q) {
-
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene(spEstimateQuestionScreen, "EstimateScene");
             spEstimateQuestionCtrl.init(q);
@@ -111,7 +113,22 @@ public class MyMainCtrl {
     }
 
     /**
-     * This method displays the scene with the title
+     * Displays the next question scene, along with the correct score
+     * @param score score to be displayed
+     * @param q question to be displayed
+     */
+    public void showNextQuestionScene(Question q,Long score) {
+        if (q.getType() == QuestionType.ESTIMATE) {
+            setScene(spEstimateQuestionScreen, "EstimateScene");
+            spEstimateQuestionCtrl.initNext(q,score);
+        } else {
+            setScene(spMCQuestionScreen, "MCScene");
+            spMultipleChoiceQuestionCtrl.initNext(q,score);
+        }
+    }
+
+    /**
+     * Sets the scene
      * @param scene
      * @param title
      */
@@ -130,6 +147,14 @@ public class MyMainCtrl {
     public void setCSS(Scene scene, String fileName) {
         scene.getStylesheets().add(Objects.requireNonNull(getClass()
                 .getResource(fileName)).toExternalForm());
+    }
+
+    /**
+     *
+     * @return primary stage
+     */
+    public Stage getPrimaryStage(){
+        return primaryStage;
     }
 
 }

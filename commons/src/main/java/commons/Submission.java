@@ -4,11 +4,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-public class Submission {
+public class Submission implements Serializable {
     private String answerVar;
     private double timerValue;
 
@@ -24,6 +25,9 @@ public class Submission {
         this.answerVar = Objects.requireNonNull(answerVar, "must not be null");
         this.timerValue = Objects.requireNonNull(timerValue, "must not be null");
     }
+
+    private Submission(){}
+
 
     /**
      * gets the answerVar (what the user answered) and returns it

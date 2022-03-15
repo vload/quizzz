@@ -9,6 +9,7 @@ import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class Question {
+
     private String questionText;
     private Set<Activity> activitySet;
     private QuestionType type;
@@ -93,16 +94,16 @@ public class Question {
      *
      * @return A set containing all the activities
      */
-    public Set<Activity> getActivities() {
+    public Set<Activity> getActivitySet()     {
         return activitySet;
     }
 
     /**
      * correctAnswer getter
      *
-     * @return The correct answer in string form
+     * @return A string indicating the correct answer
      */
-    public String getCorrectAnswer() {
+    public String getCorrectAnswer(){
         return correctAnswer;
     }
 

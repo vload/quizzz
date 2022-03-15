@@ -34,7 +34,7 @@ public class GameController {
     }
 
     /**
-     * Creates an ID for a new game. Synchornization important here.
+     * Creates an ID for a new game. Synchronization important here.
      *
      * @return A long containing a new ID.
      */
@@ -44,9 +44,9 @@ public class GameController {
 
 
     /**
-     * API endpoint for starting a singleplayer game
+     * API endpoint for starting a single-player game
      *
-     * All the user has to provide for a singleplayer game is their username.
+     * All the user has to provide for a single-player game is their username.
      * The API will respond with the ID of the newly created game (game session).
      *
      * @param name The name of the user

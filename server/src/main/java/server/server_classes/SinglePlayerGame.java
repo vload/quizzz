@@ -19,7 +19,7 @@ public class SinglePlayerGame extends AbstractGame {
      *
      * @param gameID The id for the class
      * @param playerName The name of the player associated to the single-player instance
-     * @param questions The pregenerated 20 questions to be used in this game instance
+     * @param questions The pre-generated 20 questions to be used in this game instance
      */
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
         super(gameID,questions);
@@ -37,7 +37,7 @@ public class SinglePlayerGame extends AbstractGame {
 
     /**
      * getPlayerName method
-     * @return the name of the player associated to this singleplayer instance
+     * @return the name of the player associated to this single-player instance
      */
     public String getPlayerName() {
         return playerName;
@@ -55,7 +55,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * Compares two objcts based on equality
+     * Compares two objects based on equality
      *
      * @param obj The object to be tested for equality
      * @return true iff, o is an instanceof SinglePlayerGame and has equivalent attributes.
