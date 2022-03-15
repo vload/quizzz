@@ -68,7 +68,7 @@ public abstract class AbstractQuestionCtrl {
             @Override
             public void run() {
                 timerBar.setProgress(progressTime / 10);
-                progressTime =- 0.001;
+                progressTime = progressTime - 0.001;
                 if (timer == 1000) {
                     timerText.setText(textTime + " s");
                     changeColor(textTime--);
@@ -107,7 +107,7 @@ public abstract class AbstractQuestionCtrl {
             @Override
             public void run() {
                 timerBar.setProgress(progressTime / 10);
-                progressTime =- 0.001;
+                progressTime = progressTime - 0.001;
                 if (timer == 1000) {
                     timerText.setText(textTime + " s");
                     changeColor(textTime--);

@@ -148,6 +148,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param score
      */
     public void init(Question question, Long score) {
+        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
         init(score);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
@@ -161,8 +162,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText1.setId(activityIterator.next().getId());
         activityText2.setId(activityIterator.next().getId());
         activityText3.setId(activityIterator.next().getId());
-
-        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
     }
 
 }
