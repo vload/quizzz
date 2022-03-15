@@ -4,13 +4,13 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 
 
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
@@ -65,28 +65,29 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         }
     }
 
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.resetUI();
-        myMainCtrl.setNextQuestion(score);
-        showCorrectAnswerTimer(buttonList);
+    /**
+     * Method that submits the question to backend
+     */
+    @Override
+    public void timeOut() {
+        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+        long score = myMainCtrl.sendSubmission("late", cancelTimer());
+        this.scoreText.setText("Score: " + score);
+        showCorrectAnswerTimer(score);
     }
 
-    /**
-     *
-     * @param buttonList
-     */
-    private void showCorrectAnswerTimer(ArrayList<Button> buttonList){
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        enableButtons(buttonList);
-                        enableColors(buttonList);
-                    }
-                },
-                1000
-        );
+    protected void processAnswer(String answer) {
+        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
+        this.scoreText.setText("Score: " + score);
+        showCorrectAnswerTimer(score);
+    }
+
+    protected void goToNextScene(long score) {
+        enableButtons(buttonList);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        answerTimer.cancel();
     }
 
     /**
@@ -106,6 +107,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param buttonList
      */
     public void enableButtons(ArrayList<Button> buttonList){
+
         for (Button b : buttonList) {
             b.setDisable(false);
         }
@@ -161,20 +163,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText3.setId(activityIterator.next().getId());
 
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-    }
-
-
-
-    /**
-     *
-     * @param oldString old string to be updated
-     * @param score new score to be added
-     * @return updated String containing added points
-     */
-    public String updateScoreString(String oldString, long score){
-        String[] array = oldString.split(": ");
-        long newScore = score + Long.parseLong(array[1]);
-        return array[0] + ": " + newScore;
     }
 
 }

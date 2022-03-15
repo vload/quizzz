@@ -25,10 +25,13 @@ public abstract class AbstractQuestionCtrl {
 
     protected final ServerUtils server;
 
-    protected Timer t;
+    protected Timer mainTimer;
+
+    protected Timer answerTimer;
 
     /**
      * Constructor for QuestionController
+     *
      * @param server that can communicate with backend
      */
     @Inject
@@ -38,6 +41,7 @@ public abstract class AbstractQuestionCtrl {
 
     /**
      * Gets called upon init
+     *
      * @param score the score to be initialized with the question
      */
     public void init(Long score) {
@@ -55,26 +59,26 @@ public abstract class AbstractQuestionCtrl {
      * Method that takes care of the UI timer functionality
      */
     public void timer() {
-        t = new Timer();
-        this.t.schedule(new TimerTask() {
+        mainTimer = new Timer();
+        this.mainTimer.schedule(new TimerTask() {
             double progressTime = 9.999;
             int timer = 1000;
             int textTime = 10;
+
             @Override
             public void run() {
-                timerBar.setProgress(progressTime/10);
-                progressTime = progressTime - 0.001;
+                timerBar.setProgress(progressTime / 10);
+                progressTime =- 0.001;
                 if (timer == 1000) {
-                    //timerText.setText(textTime + " s");
-                    changeColor(textTime);
-                    textTime--;
+                    timerText.setText(textTime + " s");
+                    changeColor(textTime--);
                     timer = 0;
                 }
                 timer++;
                 if (progressTime < 0) {
                     timerText.setText(0 + " s");
-                    t.cancel();
-                    submitQuestion(-1, 0);
+                    mainTimer.cancel();
+                    timeOut();
                 }
             }
         }, 0, 1);
@@ -82,15 +86,43 @@ public abstract class AbstractQuestionCtrl {
 
     /**
      * Cancels the current timer and returns the progress of the current question
+     *
      * @return the current timer value
      */
     public Double cancelTimer() {
 
         Double result = timerBar.getProgress();
         timerBar.setProgress(10);
-        t.cancel();
+        mainTimer.cancel();
         return result;
     }
+
+    protected void showCorrectAnswerTimer(long score) {
+        answerTimer = new Timer();
+        this.answerTimer.schedule(new TimerTask() {
+            double progressTime = 2.999;
+            int timer = 1000;
+            int textTime = 3;
+
+            @Override
+            public void run() {
+                timerBar.setProgress(progressTime / 10);
+                progressTime =- 0.001;
+                if (timer == 1000) {
+                    timerText.setText(textTime + " s");
+                    changeColor(textTime--);
+                    timer = 0;
+                }
+                timer++;
+                if (progressTime < 0) {
+                    goToNextScene(score);
+                }
+            }
+        }, 0, 1);
+    }
+
+    protected abstract void goToNextScene(long score);
+
 
     protected void resetUI() {
         scoreText.setText(null);
@@ -101,15 +133,12 @@ public abstract class AbstractQuestionCtrl {
 
     /**
      * Method that submits the question to backend
-     * @param answer
-     * @param time
      */
-    public void submitQuestion(int answer, int time) {
-        questionText.setText("Too late");
-    }
+    public abstract void timeOut();
 
     /**
      * Changes the color of the times according to textTime
+     *
      * @param textTime
      */
     public void changeColor(int textTime) {
