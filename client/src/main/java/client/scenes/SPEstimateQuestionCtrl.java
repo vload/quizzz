@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
 import commons.Submission;
+import jakarta.ws.rs.BadRequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,8 +57,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 myMainCtrl.showNextQuestionScene(newQuestion, score);
 
                 showCorrectAnswerTimer(answerText);
-            }   catch(NumberFormatException e){
-                    throw new NumberFormatException();
+            }   catch( BadRequestException e){
+                        answerText.setDisable(false);
+                        myMainCtrl.showMainScreen();
                 }
         }
     }
@@ -74,7 +76,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                         textField.setDisable(false);
                     }
                 },
-                1000
+                500
         );
     }
 
