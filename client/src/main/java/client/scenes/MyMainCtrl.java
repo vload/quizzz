@@ -111,7 +111,7 @@ public class MyMainCtrl {
     }
 
     /**
-     * Gets the new question ans sent the scene accordingly
+     * Gets the new question and sets the scene accordingly
      * @param score
      */
     public void setNextQuestion(long score) {
