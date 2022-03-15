@@ -14,6 +14,7 @@ import java.util.Objects;
 public class MyMainCtrl {
 
     public static Stage primaryStage;
+    public static String gameID;
 
     private ServerUtils server;
 
@@ -29,7 +30,6 @@ public class MyMainCtrl {
     private SPMultipleChoiceQuestionCtrl spMultipleChoiceQuestionCtrl;
     private Scene spMCQuestionScreen;
 
-    private String gameID;
 
     /**
      * Constructor for MyMainCtrl
@@ -93,8 +93,8 @@ public class MyMainCtrl {
      * This method starts the game by getting a question and displaying it
      */
     public void startGame() {
-        String gameID = server.createGame("Temp");
-        Question q = server.getQuestion();
+        gameID = server.createGame("Temp");
+        Question q = server.getQuestion(gameID);
         showQuestionScene(q);
     }
 

@@ -47,7 +47,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 String answer = answerText.getText();
                 Double timeLeft = timerBar.getProgress();
                 Submission s = new Submission(answer,timeLeft);
-                long pointsObtained = server.validateQuestion(s);
+                long pointsObtained = server.validateQuestion(s, MyMainCtrl.gameID);
 
                 this.scoreText.setText(updateScoreString(scoreText.getText(),pointsObtained));
 

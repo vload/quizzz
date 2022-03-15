@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 
+import client.scenes.MyMainCtrl;
 import commons.Question;
 
 import commons.Submission;
@@ -83,7 +84,7 @@ public class ServerUtils {
      */
     public Question getQuestions() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/game/singleplayer/questions/0")
+                .target(SERVER).path("api/game/singleplayer/questions/")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
@@ -91,10 +92,11 @@ public class ServerUtils {
     /**
      * Gets the next question in the question set
      * @return Adding checkstyle
+     * @param gameID
      */
-    public Question getQuestion() {
+    public Question getQuestion(String gameID) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/game/singleplayer/getquestion/0")
+                .target(SERVER).path("api/game/singleplayer/getquestion/"+ MyMainCtrl.gameID)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
@@ -119,13 +121,13 @@ public class ServerUtils {
 
 
     /**
-     *
+     * @param gameID
      * @param submission
      * @return validates an answer and returns the updated score
      */
-    public Long validateQuestion(Submission submission){
+    public Long validateQuestion(Submission submission,String gameID){
          return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/game/singleplayer/validate/0")
+                .target(SERVER).path("api/game/singleplayer/validate/" + MyMainCtrl.gameID)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(submission, APPLICATION_JSON), Long.class);

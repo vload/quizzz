@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
 import commons.Submission;
+import jakarta.ws.rs.BadRequestException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -52,17 +53,31 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param event
      */
     @FXML
-    void answerPress(ActionEvent event) throws InterruptedException {
+    void answerPress(ActionEvent event) {
+        try {
+            Button source = (Button) event.getSource();
+            Submission s = new Submission(source.getId(), cancelTimer());
+            Long score = server.validateQuestion(s, MyMainCtrl.gameID);
 
-        Button source = (Button) event.getSource();
-        Submission s = new Submission(source.getId(),cancelTimer());
-        Long score = server.validateQuestion(s);
-        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        scoreText.setText(updateScoreString(scoreText.getText(),score));
+            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+            scoreText.setText(updateScoreString(scoreText.getText(), score));
 
-        Question newQuestion = server.getQuestion();
-        myMainCtrl.showNextQuestionScene(newQuestion,score);
+            Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
+            myMainCtrl.showNextQuestionScene(newQuestion, score);
 
+            showCorrectAnswerTimer(buttonList);
+        }catch (BadRequestException e){
+            myMainCtrl.showMainScreen();
+            enableButtons(buttonList);
+            enableColors(buttonList);
+        }
+    }
+
+    /**
+     *
+     * @param buttonList
+     */
+    private void showCorrectAnswerTimer(ArrayList<Button> buttonList){
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override

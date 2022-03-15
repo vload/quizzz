@@ -120,9 +120,10 @@ public abstract class AbstractQuestionCtrl {
      * @return the current timer value
      */
     public Double cancelTimer() {
+
         Double result = timerBar.getProgress();
-        t.cancel();
         timerBar.setProgress(100);
+        t.cancel();
         return result;
     }
 
