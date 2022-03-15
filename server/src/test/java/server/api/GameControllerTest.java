@@ -2,6 +2,7 @@ package server.api;
 
 import commons.Activity;
 import commons.Question;
+import commons.QuestionType;
 import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ class GameControllerTest {
 
     private Map<Long, AbstractGame> games;
     private GameController sut;
+    private Set<Activity> testActivitySet;
     @BeforeEach
     void init() {
         Activity a1 = new Activity(
@@ -42,6 +44,7 @@ class GameControllerTest {
                 "Activity3",24.5,
                 "www.need.com");
         List<Activity> activityTestList = List.of(a1,a2,a3);
+        testActivitySet = Set.of(a3,a2,a1);
         MockActivityRepository mockRepo = new MockActivityRepository();
         mockRepo.saveAll(activityTestList);
 
@@ -140,13 +143,54 @@ class GameControllerTest {
     }
 
     @Test
-    void startMultiPlayer() {
-
+    void testGetQuestions() {
+        GameController fakeSut = new GameController(
+                new HashMap<>(),
+                new QuestionGenerator(new MockActivityRepository(),new Random())
+        );
+        var r1 = fakeSut.startSinglePlayer("Cartoon");
+        assertEquals(0L,r1.getBody());
+        assertEquals(new ArrayList<Question>(), fakeSut.getQuestions("0"));
+        assertNull(fakeSut.getNextQuestion("0").getBody());
+        var r2 = sut.startSinglePlayer("Tyrone");
+        assertEquals(0L,r2.getBody());
+        assertEquals(20,sut.getQuestions("0").size());
+        System.out.println(sut.getQuestions("0"));
+        Question sample = new Question(
+                "Which one of the following consumes the least energy?",
+                testActivitySet, QuestionType.MC,"1"
+        );
+        assertEquals(sample,sut.getNextQuestion("0").getBody());
     }
 
     @Test
-    void startMultiPlayerIP() {
+    void testGetNextQuestion() {
+        GameController fakeSut = new GameController(
+                new HashMap<>(),
+                new QuestionGenerator(new MockActivityRepository(),new Random())
+        );
+        var r1 = fakeSut.startSinglePlayer("Cartoon");
+        assertNull(fakeSut.getNextQuestion("0"));
+        Question sample = new Question(
+                "Which one of the following consumes the least energy?",
+                testActivitySet, QuestionType.MC,"1"
+        );
+        sut.startSinglePlayer("Tyrone");
+        sut.startSinglePlayer("Bob");
+        Question q1 = sut.getNextQuestion("0").getBody();
+        assertEquals(q1, sut.getNextQuestion("1").getBody());
+        assertEquals(sample,q1);
     }
+
+////Will be implemented in the multiplayer branch, just keep here for now.
+//    @Test
+//    void startMultiPlayer() {
+//
+//    }
+//
+//    @Test
+//    void startMultiPlayerIP() {
+//    }
 
 
 }
