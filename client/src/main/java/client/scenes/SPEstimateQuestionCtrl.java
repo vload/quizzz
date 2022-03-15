@@ -43,18 +43,39 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void checkForEnter(KeyEvent event) {
         if(event.getCode().toString().equals("ENTER")){
             try{
+
                 answerText.setDisable(true);
                 String answer = answerText.getText();
                 Double timeLeft = timerBar.getProgress();
-                Submission s = new Submission(answer,timeLeft);
-                long pointsObtained = server.validateQuestion(s, MyMainCtrl.gameID);
+                Submission s = new Submission(answer, cancelTimer());
+                long score = server.validateQuestion(s, MyMainCtrl.gameID);
 
-                this.scoreText.setText(updateScoreString(scoreText.getText(),pointsObtained));
+                this.scoreText.setText(updateScoreString(scoreText.getText(),score));
+                answerText.clear();
+                Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
+                myMainCtrl.showNextQuestionScene(newQuestion, score);
 
+                showCorrectAnswerTimer(answerText);
             }   catch(NumberFormatException e){
                     throw new NumberFormatException();
                 }
         }
+    }
+
+    /**
+     *
+     * @param textField
+     */
+    private void showCorrectAnswerTimer(TextField textField){
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        textField.setDisable(false);
+                    }
+                },
+                1000
+        );
     }
 
     /**

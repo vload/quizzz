@@ -56,16 +56,16 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     void answerPress(ActionEvent event) {
         try {
             Button source = (Button) event.getSource();
+            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+
             Submission s = new Submission(source.getId(), cancelTimer());
             Long score = server.validateQuestion(s, MyMainCtrl.gameID);
-
-            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
             scoreText.setText(updateScoreString(scoreText.getText(), score));
 
-            Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
-            myMainCtrl.showNextQuestionScene(newQuestion, score);
-
             showCorrectAnswerTimer(buttonList);
+            Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
+            myMainCtrl.showNextQuestionScene(newQuestion,score);
+
         }catch (BadRequestException e){
             myMainCtrl.showMainScreen();
             enableButtons(buttonList);
