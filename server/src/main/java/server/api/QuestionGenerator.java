@@ -1,7 +1,6 @@
 package server.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import commons.Activity;
 import commons.Question;
@@ -9,19 +8,19 @@ import commons.QuestionType;
 import org.springframework.stereotype.Component;
 import server.database.ActivityRepository;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 @Component
 public class QuestionGenerator {
     private final ActivityRepository activityRepository;
+    private final Random random;
 
     /**
      * constructor for QuestionGenerator
      * @param activityRepository the repository of activities
+     * @param random a random object
      */
-    public QuestionGenerator(ActivityRepository activityRepository){
+    public QuestionGenerator(ActivityRepository activityRepository, Random random){
         this.activityRepository = activityRepository;
+        this.random = random;
     }
 
     /**
@@ -29,13 +28,60 @@ public class QuestionGenerator {
      * @return the generated question
      */
     public Question generateQuestion(){
-        Activity a1 = new Activity("02-shower", "/shower.png","Shower", 10.2,"example.com");
-        Activity a2 = new Activity("03-heater", "/heater.png","Heater", 30.2,"example.com");
-        Activity a3 = new Activity("05-flamethrower", "/flamethrower.png","Flamethrower", 99.3,"example.com");
-
-        return new Question("Placeholder", Stream.of(a1,a2,a3).collect(Collectors.toSet()),
-                QuestionType.MC, a1.getId());
+        if(random.nextInt(2) == 0) {
+            return generateEstimateQuestion();
+        } else {
+            return generateMCQuestion();
+        }
     }
+
+    private Set<Activity> generateActivitySet(QuestionType type){
+        Set<Activity> result = new HashSet<>();
+
+        while(result.size() < QuestionType.getAmountOfActivities(type)){
+            result.add(activityRepository.getRandom(random));
+        }
+
+        return result;
+    }
+
+    private Question generateMCQuestion(){
+        Set<Activity> activitySet = generateActivitySet(QuestionType.MC);
+        String correctAnswer = "";
+        String questionText;
+        if(random.nextInt(2) == 0) {
+            questionText = "Which one of the following consumes the least energy?";
+            double minimumConsumption = Double.MAX_VALUE;
+            for(var activity: activitySet){
+                if(activity.getEnergyConsumption() < minimumConsumption){
+                    correctAnswer = activity.getId();
+                    minimumConsumption = activity.getEnergyConsumption();
+                }
+            }
+        } else {
+            questionText = "Which one of the following consumes the most energy?";
+            double maximumConsumption = Double.MIN_VALUE;
+            for(var activity: activitySet){
+                if(activity.getEnergyConsumption() > maximumConsumption){
+                    correctAnswer = activity.getId();
+                    maximumConsumption = activity.getEnergyConsumption();
+                }
+            }
+        }
+        return new Question(questionText,activitySet,QuestionType.MC, correctAnswer);
+    }
+
+    private Question generateEstimateQuestion(){
+        Set<Activity> activitySet = generateActivitySet(QuestionType.ESTIMATE);
+
+        var activity = activitySet.iterator().next();
+        String questionText = "How many watt-hours of energy does " + activity.getTitle() + " consume?";
+
+        return new Question(questionText, activitySet, QuestionType.ESTIMATE,
+                Double.toString(activity.getEnergyConsumption()));
+
+    }
+
 
     /**
      * generates 20 questions

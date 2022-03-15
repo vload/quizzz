@@ -5,7 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-**/*.mv.db
+**/*.db
 
 **/*.swp
 
@@ -29,7 +29,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.run/
+.run
 
 ### NetBeans ###
 /nbproject/private/

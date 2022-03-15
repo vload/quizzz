@@ -24,6 +24,7 @@ public class Question {
 
     /**
      * constructor for Question
+     *
      * @param questionText the text of the question
      * @param activitySet the activities for the question
      * @param type the type of question
@@ -38,6 +39,7 @@ public class Question {
 
     /**
      * returns the score a player gets for a question
+     *
      * @param answer the answer given by a player
      * @param time the time left to answer the question
      * @return the score he gets for the answer
@@ -70,6 +72,7 @@ public class Question {
 
     /**
      * type getter
+     *
      * @return the type of question this is
      */
     public QuestionType getType(){

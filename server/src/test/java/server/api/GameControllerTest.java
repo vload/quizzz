@@ -1,17 +1,18 @@
 package server.api;
 
+import commons.Activity;
 import commons.Question;
 import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import server.database.MockActivityRepository;
 import server.server_classes.*;
 
 import java.util.*;
@@ -22,15 +23,32 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class GameControllerTest {
 
-    @Autowired
-    private QuestionGenerator questionGenerator;
-
     private Map<Long, AbstractGame> games;
     private GameController sut;
     @BeforeEach
     void init() {
+        Activity a1 = new Activity(
+                "1","examplePath",
+                "Activviy1",23.4,
+                "www.exam.com");
+
+        Activity a2 = new Activity(
+                "2","examplePath",
+                "Activity2",92.5,
+                "www.higher.com");
+
+        Activity a3 = new Activity(
+                "3","examplePath",
+                "Activity3",24.5,
+                "www.need.com");
+        List<Activity> activityTestList = List.of(a1,a2,a3);
+        MockActivityRepository mockRepo = new MockActivityRepository();
+        mockRepo.saveAll(activityTestList);
+
+        QuestionGenerator mockQuestionGen = new QuestionGenerator(mockRepo,new Random(42));
+
         games = new HashMap<>();
-        sut = new GameController(games,questionGenerator);
+        sut = new GameController(games,mockQuestionGen);
     }
 
     @Test
