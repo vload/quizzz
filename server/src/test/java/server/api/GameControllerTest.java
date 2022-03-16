@@ -155,7 +155,6 @@ class GameControllerTest {
         var r2 = sut.startSinglePlayer("Tyrone");
         assertEquals(0L,r2.getBody());
         assertEquals(20,sut.getQuestions("0").size());
-        System.out.println(sut.getQuestions("0"));
         Question sample = new Question(
                 "Which one of the following consumes the least energy?",
                 testActivitySet, QuestionType.MC,"1"
@@ -178,7 +177,7 @@ class GameControllerTest {
         sut.startSinglePlayer("Tyrone");
         sut.startSinglePlayer("Bob");
         Question q1 = sut.getNextQuestion("0").getBody();
-        assertEquals(q1, sut.getNextQuestion("1").getBody());
+        assertNotEquals(q1, sut.getNextQuestion("1").getBody());
         assertEquals(sample,q1);
     }
 
