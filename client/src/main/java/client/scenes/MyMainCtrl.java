@@ -122,8 +122,6 @@ public class MyMainCtrl {
         } catch (BadRequestException e) {
             showMainScreen();
         }
-
-
     }
 
     /**

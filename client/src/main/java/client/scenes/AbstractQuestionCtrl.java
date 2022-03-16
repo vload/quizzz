@@ -25,9 +25,7 @@ public abstract class AbstractQuestionCtrl {
     protected Text timerText;
 
     protected final ServerUtils server;
-
     protected Timer mainTimer;
-
     protected Timer answerTimer;
 
     /**
@@ -52,9 +50,6 @@ public abstract class AbstractQuestionCtrl {
         timerBar.setProgress(10);
         timer();
     }
-
-    protected abstract void processAnswer(String answer);
-
 
     /**
      * Method that takes care of the UI timer functionality
@@ -98,6 +93,10 @@ public abstract class AbstractQuestionCtrl {
         return result;
     }
 
+    /**
+     * Method that shows the 3s timer while the correct answer is being displayed
+     * @param score
+     */
     protected void showCorrectAnswerTimer(long score) {
         answerTimer = new Timer();
         this.answerTimer.schedule(new TimerTask() {
@@ -122,18 +121,20 @@ public abstract class AbstractQuestionCtrl {
         }, 0, 10);
     }
 
-    protected abstract void goToNextScene(long score);
-
-
-    protected void resetUI() {
-        scoreText.setText(null);
-        timerText.setText(null);
-        timerBar.setProgress(10);
-        questionText.setText(null);
-    }
+    /**
+     * Method that sends the answer that the player presses to the server and acts accordingly
+     * @param answer
+     */
+    protected abstract void processAnswer(String answer);
 
     /**
-     * Method that submits the question to backend
+     * Method that transitions from the current question to the next one
+     * @param score
+     */
+    protected abstract void goToNextScene(long score);
+
+    /**
+     * Method that submits an empty answer with time 0 to the server
      */
     public abstract void timeOut();
 
@@ -163,6 +164,16 @@ public abstract class AbstractQuestionCtrl {
                 timerBar.setStyle("-fx-accent: #F00505");
                 break;
         }
+    }
+
+    /**
+     * Method that resets all the UI elements to their base state
+     */
+    protected void resetUI() {
+        scoreText.setText(null);
+        timerText.setText(null);
+        timerBar.setProgress(10);
+        questionText.setText(null);
     }
 }
 
