@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
+import jakarta.ws.rs.BadRequestException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
@@ -115,8 +116,14 @@ public class MyMainCtrl {
      * @param score
      */
     public void setNextQuestion(long score) {
-        Question newQuestion = server.getQuestion(gameID);
-        showQuestionScene(newQuestion, score);
+        try {
+            Question newQuestion = server.getQuestion(gameID);
+            showQuestionScene(newQuestion, score);
+        } catch (BadRequestException e) {
+            showMainScreen();
+        }
+
+
     }
 
     /**

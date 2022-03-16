@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
@@ -61,27 +62,27 @@ public abstract class AbstractQuestionCtrl {
     public void timer() {
         mainTimer = new Timer();
         this.mainTimer.schedule(new TimerTask() {
-            double progressTime = 9.999;
-            int timer = 1000;
-            int textTime = 10;
+            double progressTime = 9.99;
+            int timer = 100;
+            int textTime = 11;
 
             @Override
             public void run() {
-                timerBar.setProgress(progressTime / 10);
-                progressTime = progressTime - 0.001;
-                if (timer == 1000) {
-                    timerText.setText(textTime + " s");
+                Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
+                progressTime = progressTime - 0.01;
+                if (timer == 100) {
+                    Platform.runLater(() -> timerText.setText(textTime + " s"));
                     changeColor(textTime--);
                     timer = 0;
                 }
                 timer++;
                 if (progressTime < 0) {
-                    timerText.setText(0 + " s");
+                    Platform.runLater(() -> timerText.setText(0 + " s"));
                     mainTimer.cancel();
-                    timeOut();
+                    Platform.runLater(() -> timeOut());
                 }
             }
-        }, 0, 1);
+        }, 0, 10);
     }
 
     /**
@@ -100,25 +101,25 @@ public abstract class AbstractQuestionCtrl {
     protected void showCorrectAnswerTimer(long score) {
         answerTimer = new Timer();
         this.answerTimer.schedule(new TimerTask() {
-            double progressTime = 2.999;
-            int timer = 1000;
-            int textTime = 3;
+            double progressTime = 2.99;
+            int timer = 100;
+            int textTime = 4;
 
             @Override
             public void run() {
-                timerBar.setProgress(progressTime / 10);
-                progressTime = progressTime - 0.001;
-                if (timer == 1000) {
-                    timerText.setText(textTime + " s");
+                Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
+                progressTime = progressTime - 0.01;
+                if (timer == 100) {
+                    Platform.runLater(() -> timerText.setText(textTime + " s"));
                     changeColor(textTime--);
                     timer = 0;
                 }
                 timer++;
                 if (progressTime < 0) {
-                    goToNextScene(score);
+                    Platform.runLater(() -> goToNextScene(score));
                 }
             }
-        }, 0, 1);
+        }, 0, 10);
     }
 
     protected abstract void goToNextScene(long score);
