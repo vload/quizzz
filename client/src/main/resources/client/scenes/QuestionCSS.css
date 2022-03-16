@@ -11,8 +11,9 @@
     -fx-background-color: #6a040f;
     -fx-background-radius: 50;
     -fx-border-color: #9d0208;
-    -fx-border-width: 5;
-    -fx-border-radius: 50;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
 }
 
 .questionButton:hover {
@@ -23,16 +24,18 @@
     -fx-background-color: #90EE90;
     -fx-background-radius: 50;
     -fx-border-color: #00FF00;
-    -fx-border-width: 5;
-    -fx-border-radius: 50;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.01;
 }
 
 .questionButtonIncorrect {
     -fx-background-color: #ADD8E6;
     -fx-background-radius: 50;
     -fx-border-color: #0000FF;
-    -fx-border-width: 5;
-    -fx-border-radius: 50;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
 }
 
 * :disabled {
@@ -43,8 +46,9 @@
     -fx-background-color: #d00000;
     -fx-background-radius: 50;
     -fx-border-color: #e85d04;
-    -fx-border-width: 5;
-    -fx-border-radius: 50;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
 }
 
 .jokerButton:hover {
@@ -71,6 +75,7 @@
     -fx-background-color: #6a040f;
     -fx-background-radius: 50;
     -fx-border-color: #9d0208;
-    -fx-border-width: 5;
-    -fx-border-radius: 50;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
 }

@@ -17,13 +17,13 @@
             <HBox maxHeight="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" />
+                  <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" textAlignment="CENTER" wrappingWidth="1000.0" />
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
                <Region HBox.hgrow="ALWAYS" />
-               <Button fx:id="activityText" maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" />
+               <Button fx:id="activityText" maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" textAlignment="CENTER" wrapText="true" />
                <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
                <VBox>
                   <children>
@@ -38,11 +38,11 @@
                </VBox>
                <Region HBox.hgrow="ALWAYS" />
             </HBox>
-            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerText" mnemonicParsing="false" onAction="#jokerPressed" prefHeight="300.0" prefWidth="300.0" styleClass="jokerButton" text="Button" />
+                  <Button fx:id="jokerText" mnemonicParsing="false" onAction="#jokerPressed" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text="Button" />
+                  <Region maxHeight="30.0" />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
