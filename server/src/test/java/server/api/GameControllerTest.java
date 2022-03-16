@@ -31,7 +31,7 @@ class GameControllerTest {
     void init() {
         Activity a1 = new Activity(
                 "1","examplePath",
-                "Activviy1",23.4,
+                "Activity1",23.4,
                 "www.exam.com");
 
         Activity a2 = new Activity(
@@ -170,7 +170,7 @@ class GameControllerTest {
                 new QuestionGenerator(new MockActivityRepository(),new Random())
         );
         var r1 = fakeSut.startSinglePlayer("Cartoon");
-        assertNull(fakeSut.getNextQuestion("0"));
+        assertNull(fakeSut.getNextQuestion("0").getBody());
         Question sample = new Question(
                 "Which one of the following consumes the least energy?",
                 testActivitySet, QuestionType.MC,"1"
