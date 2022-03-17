@@ -168,7 +168,8 @@ public class MockLeaderboardRepository implements LeaderboardRepository {
     }
 
     @Override
-    public <S extends LeaderboardEntry, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends LeaderboardEntry, R> R findBy(Example<S> example,
+                                                    Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 }

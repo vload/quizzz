@@ -13,6 +13,11 @@ public class LeaderboardController {
 
     private final LeaderboardRepository repo;
 
+    /**
+     * LeaderboardController constructor
+     *
+     * @param repo The repository containing the entries of the leaderboard
+     */
     public LeaderboardController(LeaderboardRepository repo) {
         this.repo = repo;
     }
