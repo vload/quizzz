@@ -38,6 +38,7 @@
                </VBox>
                <Region HBox.hgrow="ALWAYS" />
             </HBox>
+            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
