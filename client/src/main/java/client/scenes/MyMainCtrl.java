@@ -3,6 +3,8 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Question;
 import commons.QuestionType;
+import commons.Submission;
+import jakarta.ws.rs.BadRequestException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
@@ -13,8 +15,8 @@ import java.util.Objects;
 
 public class MyMainCtrl {
 
-    public static Stage primaryStage;
-    public static String gameID;
+    public Stage primaryStage;
+    public String gameID;
 
     private ServerUtils server;
 
@@ -95,35 +97,49 @@ public class MyMainCtrl {
     public void startGame() {
         gameID = server.createGame("Temp");
         Question q = server.getQuestion(gameID);
-        showQuestionScene(q);
+        showQuestionScene(q, 0L);
     }
 
     /**
-     * Sets the correct scene along with its CSS to the primaryStage
-     * @param q the question to be displayed
+     * Method that sends the submission to the server
+     * @param answer
+     * @param time
+     * @return score after updating
      */
-    public void showQuestionScene(Question q) {
-        if (q.getType() == QuestionType.ESTIMATE) {
-            setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.init(q);
-        } else {
-            setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.init(q);
+    public long sendSubmission(String answer, double time) {
+        Submission s = new Submission(answer, time);
+        return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Gets the new question and sets the scene accordingly
+     * @param score
+     */
+    public void setNextQuestion(long score) {
+        try {
+            Question newQuestion = server.getQuestion(gameID);
+            if (newQuestion == null) {
+                showMainScreen();
+                return;
+            }
+            showQuestionScene(newQuestion, score);
+        } catch (BadRequestException e) {
+            System.out.println(e);
         }
     }
 
     /**
-     * Displays the next question scene, along with the correct score
-     * @param score score to be displayed
-     * @param q question to be displayed
+     * Sets the correct scene along with its CSS to the primaryStage
+     * @param score
+     * @param q the question to be displayed
      */
-    public void showNextQuestionScene(Question q,Long score) {
+    public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.initNext(q,score);
+            spEstimateQuestionCtrl.init(q, score);
         } else {
             setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.initNext(q,score);
+            spMultipleChoiceQuestionCtrl.init(q, score);
         }
     }
 

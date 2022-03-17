@@ -23,8 +23,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-
-import client.scenes.MyMainCtrl;
 import commons.Question;
 
 import commons.Submission;
@@ -96,7 +94,7 @@ public class ServerUtils {
      */
     public Question getQuestion(String gameID) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/game/singleplayer/getquestion/"+ MyMainCtrl.gameID)
+                .target(SERVER).path("api/game/singleplayer/getquestion/"+ gameID)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
@@ -127,7 +125,7 @@ public class ServerUtils {
      */
     public Long validateQuestion(Submission submission,String gameID){
          return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/game/singleplayer/validate/" + MyMainCtrl.gameID)
+                .target(SERVER).path("api/game/singleplayer/validate/" + gameID)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(submission, APPLICATION_JSON), Long.class);

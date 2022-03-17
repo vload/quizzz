@@ -12,6 +12,7 @@ import java.util.*;
 import server.server_classes.*;
 
 
+
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
@@ -57,7 +58,13 @@ public class GameController {
         if (name == null || name.length() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        SinglePlayerGame game = new SinglePlayerGame(createID(),name,questionGenerator.generate20Questions());
+        List<Question> pregenQuestions = questionGenerator.generate20Questions();
+        SinglePlayerGame game;
+        if (pregenQuestions.get(0) == null) {
+            game = new SinglePlayerGame(createID(),name,new ArrayList<>());
+        } else {
+            game = new SinglePlayerGame(createID(),name,pregenQuestions);
+        }
         games.put(game.gameID,game);
         return ResponseEntity.ok(game.gameID);
     }
@@ -96,9 +103,6 @@ public class GameController {
 
         AbstractGame game = games.get(gameID);
         Question nextQuestion = game.getNextQuestion();
-        if (nextQuestion == null) {
-            return ResponseEntity.badRequest().build();
-        }
         return ResponseEntity.ok(nextQuestion);
     }
 
