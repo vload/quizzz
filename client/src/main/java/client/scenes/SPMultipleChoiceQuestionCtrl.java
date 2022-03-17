@@ -114,7 +114,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", cancelTimer());
+        long score = myMainCtrl.sendSubmission("late", -1L);
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
