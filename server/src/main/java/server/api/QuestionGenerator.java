@@ -39,7 +39,11 @@ public class QuestionGenerator {
         Set<Activity> result = new HashSet<>();
 
         while(result.size() < QuestionType.getAmountOfActivities(type)){
-            result.add(activityRepository.getRandom(random));
+            var randomActivity = activityRepository.getRandom(random);
+            if (randomActivity == null) {
+                return null;
+            }
+            result.add(randomActivity);
         }
 
         return result;
@@ -47,6 +51,9 @@ public class QuestionGenerator {
 
     private Question generateMCQuestion(){
         Set<Activity> activitySet = generateActivitySet(QuestionType.MC);
+        if (activitySet == null) {
+            return null;
+        }
         String correctAnswer = "";
         String questionText;
         if(random.nextInt(2) == 0) {
@@ -73,6 +80,9 @@ public class QuestionGenerator {
 
     private Question generateEstimateQuestion(){
         Set<Activity> activitySet = generateActivitySet(QuestionType.ESTIMATE);
+        if (activitySet == null) {
+            return null;
+        }
 
         var activity = activitySet.iterator().next();
         String questionText = "How many watt-hours of energy does " + activity.getTitle() + " consume?";

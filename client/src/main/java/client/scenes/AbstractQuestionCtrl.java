@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
@@ -24,9 +25,7 @@ public abstract class AbstractQuestionCtrl {
     protected Text timerText;
 
     protected final ServerUtils server;
-
     protected Timer mainTimer;
-
     protected Timer answerTimer;
 
     /**
@@ -52,36 +51,33 @@ public abstract class AbstractQuestionCtrl {
         timer();
     }
 
-    protected abstract void processAnswer(String answer);
-
-
     /**
      * Method that takes care of the UI timer functionality
      */
     public void timer() {
         mainTimer = new Timer();
         this.mainTimer.schedule(new TimerTask() {
-            double progressTime = 9.999;
-            int timer = 1000;
-            int textTime = 10;
+            double progressTime = 9.99;
+            int timer = 100;
+            int textTime = 11;
 
             @Override
             public void run() {
-                timerBar.setProgress(progressTime / 10);
-                progressTime = progressTime - 0.001;
-                if (timer == 1000) {
-                    timerText.setText(textTime + " s");
+                Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
+                progressTime = progressTime - 0.01;
+                if (timer == 100) {
+                    Platform.runLater(() -> timerText.setText(textTime + " s"));
                     changeColor(textTime--);
                     timer = 0;
                 }
                 timer++;
                 if (progressTime < 0) {
-                    timerText.setText(0 + " s");
+                    Platform.runLater(() -> timerText.setText(0 + " s"));
                     mainTimer.cancel();
-                    timeOut();
+                    Platform.runLater(() -> timeOut());
                 }
             }
-        }, 0, 1);
+        }, 0, 10);
     }
 
     /**
@@ -90,49 +86,54 @@ public abstract class AbstractQuestionCtrl {
      * @return the current timer value
      */
     public Double cancelTimer() {
-
         Double result = timerBar.getProgress();
         timerBar.setProgress(10);
         mainTimer.cancel();
         return result;
     }
 
+    /**
+     * Method that shows the 3s timer while the correct answer is being displayed
+     * @param score
+     */
     protected void showCorrectAnswerTimer(long score) {
         answerTimer = new Timer();
         this.answerTimer.schedule(new TimerTask() {
-            double progressTime = 2.999;
-            int timer = 1000;
-            int textTime = 3;
+            double progressTime = 2.99;
+            int timer = 100;
+            int textTime = 4;
 
             @Override
             public void run() {
-                timerBar.setProgress(progressTime / 10);
-                progressTime = progressTime - 0.001;
-                if (timer == 1000) {
-                    timerText.setText(textTime + " s");
+                Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
+                progressTime = progressTime - 0.01;
+                if (timer == 100) {
+                    Platform.runLater(() -> timerText.setText(textTime + " s"));
                     changeColor(textTime--);
                     timer = 0;
                 }
                 timer++;
                 if (progressTime < 0) {
-                    goToNextScene(score);
+                    Platform.runLater(() -> goToNextScene(score));
                 }
             }
-        }, 0, 1);
-    }
-
-    protected abstract void goToNextScene(long score);
-
-
-    protected void resetUI() {
-        scoreText.setText(null);
-        timerText.setText(null);
-        timerBar.setProgress(10);
-        questionText.setText(null);
+        }, 0, 10);
     }
 
     /**
-     * Method that submits the question to backend
+     * Method that sends the answer that the player presses to the server and acts accordingly
+     * @param answer
+     */
+    protected abstract void processAnswer(String answer);
+
+    /**
+     * Method that transitions from the current question to the next one
+     * @param score
+     */
+    protected abstract void goToNextScene(long score);
+
+    /**
+     * Method that submits an empty answer with time 0 to the server
      */
     public abstract void timeOut();
 
@@ -162,6 +163,16 @@ public abstract class AbstractQuestionCtrl {
                 timerBar.setStyle("-fx-accent: #F00505");
                 break;
         }
+    }
+
+    /**
+     * Method that resets all the UI elements to their base state
+     */
+    protected void resetUI() {
+        scoreText.setText(null);
+        timerText.setText(null);
+        timerBar.setProgress(10);
+        questionText.setText(null);
     }
 }
 

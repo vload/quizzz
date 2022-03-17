@@ -23,7 +23,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private Button jokerText;
 
     private Question associatedQuestion;
-
     private final MyMainCtrl myMainCtrl;
 
     /**
@@ -36,6 +35,19 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     public SPEstimateQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server);
         this.myMainCtrl = myMainCtrl;
+    }
+
+    /**
+     * Gets called upon init
+     *
+     * @param question
+     * @param score
+     */
+    public void init(Question question, Long score) {
+        init(score);
+        associatedQuestion = question;
+        questionText.setText(question.getQuestionText());
+        activityText.setText(question.getActivitySet().iterator().next().getTitle());
     }
 
     /**
@@ -57,11 +69,29 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         }
     }
 
+    /**
+     * Method that sends the answer that the player presses to the server and acts accordingly
+     * @param answer
+     */
+    @Override
     protected void processAnswer(String answer) {
         long score = myMainCtrl.sendSubmission(answer, cancelTimer());
         this.scoreText.setText("Score: " + score);
         answerText.setText(associatedQuestion.getCorrectAnswer());
         showCorrectAnswerTimer(score);
+    }
+
+    /**
+     * Method that transitions from the current question to the next one
+     * @param score
+     */
+    @Override
+    protected void goToNextScene(long score) {
+        timerText.setText(0 + " s");
+        answerText.setDisable(false);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        answerTimer.cancel();
     }
 
     /**
@@ -76,18 +106,13 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         showCorrectAnswerTimer(score);
     }
 
+    /**
+     * Method that resets all the UI elements to their base state
+     */
+    @Override
     protected void resetUI() {
         super.resetUI();
         answerText.clear();
-    }
-
-
-    protected void goToNextScene(long score) {
-        timerText.setText(0 + " s");
-        answerText.setDisable(false);
-        resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
-        answerTimer.cancel();
     }
 
     /**
@@ -100,17 +125,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     }
 
-    /**
-     * Gets called upon init
-     *
-     * @param question
-     * @param score
-     */
-    public void init(Question question, Long score) {
-        init(score);
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
-    }
+
 
 }

@@ -31,9 +31,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     private Button jokerText2;
 
     private Question associatedQuestion;
-
     private ArrayList<Button> buttonList;
-
     private final MyMainCtrl myMainCtrl;
 
     /**
@@ -45,6 +43,28 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     public SPMultipleChoiceQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server);
         this.myMainCtrl = myMainCtrl;
+    }
+
+    /**
+     * Gets called upon init
+     * @param question
+     * @param score
+     */
+    public void init(Question question, Long score) {
+        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
+        init(score);
+        associatedQuestion = question;
+        questionText.setText(question.getQuestionText());
+
+        var activityIterator = question.getActivitySet().iterator();
+        activityText1.setText(activityIterator.next().getTitle());
+        activityText2.setText(activityIterator.next().getTitle());
+        activityText3.setText(activityIterator.next().getTitle());
+
+        activityIterator = question.getActivitySet().iterator();
+        activityText1.setId(activityIterator.next().getId());
+        activityText2.setId(activityIterator.next().getId());
+        activityText3.setId(activityIterator.next().getId());
     }
 
     /**
@@ -66,22 +86,20 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     }
 
     /**
-     * Method that submits the question to backend
+     * Method that sends the answer that the player presses to the server and acts accordingly
+     * @param answer
      */
-    @Override
-    public void timeOut() {
-        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
-    }
-
     protected void processAnswer(String answer) {
         long score = myMainCtrl.sendSubmission(answer, cancelTimer());
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
 
+    /**
+     * Method that transitions from the current question to the next one
+     * @param score
+     */
+    @Override
     protected void goToNextScene(long score) {
         enableButtons(buttonList);
         enableColors(buttonList);
@@ -91,7 +109,18 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     }
 
     /**
-     *
+     * Method that submits an empty answer with time 0 to the server
+     */
+    @Override
+    public void timeOut() {
+        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+        long score = myMainCtrl.sendSubmission("late", -1L);
+        this.scoreText.setText("Score: " + score);
+        showCorrectAnswerTimer(score);
+    }
+
+    /**
+     * Method that returns the button colors back to normal
      * @param buttonList
      */
     public void enableColors(ArrayList<Button> buttonList){
@@ -103,7 +132,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     }
 
     /**
-     *
+     * Method that enables the answer buttons
      * @param buttonList
      */
     public void enableButtons(ArrayList<Button> buttonList){
@@ -113,9 +142,8 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         }
     }
 
-
     /**
-     *
+     *  Method that shows the incorrect and correct answers
      * @param buttonList
      * @param correctAnswer
      */
@@ -141,27 +169,4 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     void jokerPress(ActionEvent event) {
 
     }
-
-    /**
-     * Gets called upon init
-     * @param question
-     * @param score
-     */
-    public void init(Question question, Long score) {
-        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-        init(score);
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-
-        var activityIterator = question.getActivitySet().iterator();
-        activityText1.setText(activityIterator.next().getTitle());
-        activityText2.setText(activityIterator.next().getTitle());
-        activityText3.setText(activityIterator.next().getTitle());
-
-        activityIterator = question.getActivitySet().iterator();
-        activityText1.setId(activityIterator.next().getId());
-        activityText2.setId(activityIterator.next().getId());
-        activityText3.setId(activityIterator.next().getId());
-    }
-
 }

@@ -292,8 +292,12 @@ public class MockActivityRepository implements ActivityRepository {
 
     @Override
     public Activity getRandom(Random random) {
-        var all = findAll();
+        int count = (int) count();
 
-        return all.get(random.nextInt(all.size()));
+        if(count <= 0) {
+            return null;
+        }
+
+        return findAll().get(random.nextInt(count));
     }
 }

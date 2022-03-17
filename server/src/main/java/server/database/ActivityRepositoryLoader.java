@@ -22,6 +22,8 @@ public class ActivityRepositoryLoader {
                         new TypeReference<>() {
                         });
                 repository.saveAll(activities);
+
+                System.out.println("[INFO] Activity repository loaded with " + repository.count() + " entries.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
