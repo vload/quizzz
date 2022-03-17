@@ -21,8 +21,8 @@ public class MockActivityRepository implements ActivityRepository {
     public final List<String> calledMethods = new ArrayList<>();
 
     /**
+     * Adds any called method to the list of calledMethods
      *
-     * adds any called method to the list of calledMethods
      * @param name the name of the method which should be added to the list
      */
     private void call(String name) {
@@ -30,8 +30,8 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     /**
+     * Finds all activities
      *
-     * finds all activities
      * @return A list of all activities currently added
      */
     @Override
@@ -41,8 +41,8 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     /**
-     *
      * Finds all activities associated to this id
+     *
      * @param ids An iterable that contains the list of ids that need to be found
      * @return A list of activities, associated with the ids, if an activity with that id
      * is not found, it will not be present in the returnList
@@ -59,7 +59,7 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     /**
-     * returns the number of activities currently present
+     * Returns the number of activities currently present
      *
      * @return the number of activities
      */
@@ -70,7 +70,6 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     /**
-     *
      * Deletes the activity with the given id.
      *
      * @param id The {@literal id} that needs to be deleted, must not be {@literal null}.
@@ -149,6 +148,7 @@ public class MockActivityRepository implements ActivityRepository {
     /**
      * Saves all the entities in the iterable, use the returned entities in the list
      * for further operations, as this might have changed the entities completely.
+     *
      * @param entities must not be {@literal null}.
      * @return A list of saved entities, which will never be {@literal null}.
      * @throws IllegalArgumentException any of the given entities are {@literal null}.
@@ -173,6 +173,8 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     /**
+     * Checks if an entity exists with the specified id
+     *
      * @param id must not be {@literal null}.
      * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.

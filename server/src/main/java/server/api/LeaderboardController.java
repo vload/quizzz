@@ -30,8 +30,9 @@ public class LeaderboardController {
      * according to their score.
      */
     @GetMapping(path = {"","/"})
-    public List<LeaderboardEntry> getAllInOrder() {
-        return repo.findAllByOrderByScoreDesc();
+    public ResponseEntity<List<LeaderboardEntry>> getAllInOrder() {
+        List<LeaderboardEntry> sortedList = repo.findAllByOrderByScoreDesc();
+        return ResponseEntity.ok(sortedList);
     }
 
     /**
