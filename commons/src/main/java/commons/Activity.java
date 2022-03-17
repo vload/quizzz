@@ -31,6 +31,7 @@ public class Activity {
     @JsonProperty("consumption_in_wh")
     private double energyConsumption;
 
+    @Lob
     @Column(name="source_url")
     @JsonProperty("source")
     private String source;
