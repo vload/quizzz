@@ -3,8 +3,8 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Question;
-import commons.Submission;
 import jakarta.ws.rs.BadRequestException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,11 +23,12 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private Button jokerText;
 
     private Question associatedQuestion;
-
     private final MyMainCtrl myMainCtrl;
+
     /**
      * Constructor for SPEstimateQuestionCtrl
-     * @param server that can communicate with backend
+     *
+     * @param server     that can communicate with backend
      * @param myMainCtrl
      */
     @Inject
@@ -37,51 +38,86 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     }
 
     /**
+     * Gets called upon init
+     *
+     * @param question
+     * @param score
+     */
+    public void init(Question question, Long score) {
+        init(score);
+        associatedQuestion = question;
+        questionText.setText(question.getQuestionText());
+        activityText.setText(question.getActivitySet().iterator().next().getTitle());
+    }
+
+    /**
      * Event handler for typing in the textField
+     *
      * @param event
      */
     @FXML
     void checkForEnter(KeyEvent event) {
-        if(event.getCode().toString().equals("ENTER")){
-            try{
-
+        if (event.getCode().toString().equals("ENTER")) {
+            try {
                 answerText.setDisable(true);
-                String answer = answerText.getText();
-                Double timeLeft = timerBar.getProgress();
-                Submission s = new Submission(answer, cancelTimer());
-                long score = server.validateQuestion(s, MyMainCtrl.gameID);
+                processAnswer(answerText.getText());
 
-                this.scoreText.setText(updateScoreString(scoreText.getText(),score));
-                answerText.clear();
-                Question newQuestion = server.getQuestion(MyMainCtrl.gameID);
-                myMainCtrl.showNextQuestionScene(newQuestion, score);
-
-                showCorrectAnswerTimer(answerText);
-            }   catch( BadRequestException e){
-                        answerText.setDisable(false);
-                        myMainCtrl.showMainScreen();
-                }
+            } catch (BadRequestException e) {
+                answerText.setDisable(false);
+                myMainCtrl.showMainScreen();
+            }
         }
     }
 
     /**
-     *
-     * @param textField
+     * Method that sends the answer that the player presses to the server and acts accordingly
+     * @param answer
      */
-    private void showCorrectAnswerTimer(TextField textField){
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        textField.setDisable(false);
-                    }
-                },
-                500
-        );
+    @Override
+    protected void processAnswer(String answer) {
+        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
+        this.scoreText.setText("Score: " + score);
+        answerText.setText(associatedQuestion.getCorrectAnswer());
+        showCorrectAnswerTimer(score);
+    }
+
+    /**
+     * Method that transitions from the current question to the next one
+     * @param score
+     */
+    @Override
+    protected void goToNextScene(long score) {
+        timerText.setText(0 + " s");
+        answerText.setDisable(false);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        answerTimer.cancel();
+    }
+
+    /**
+     * Method that submits the question to backend
+     */
+    @Override
+    public void timeOut() {
+        answerText.setDisable(true);
+        answerText.setText(associatedQuestion.getCorrectAnswer());
+        long score = myMainCtrl.sendSubmission("late", -1L);
+        this.scoreText.setText("Score: " + score);
+        showCorrectAnswerTimer(score);
+    }
+
+    /**
+     * Method that resets all the UI elements to their base state
+     */
+    @Override
+    protected void resetUI() {
+        super.resetUI();
+        answerText.clear();
     }
 
     /**
      * Event handler for pressing a joker button
+     *
      * @param event
      */
     @FXML
@@ -89,39 +125,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     }
 
-    /**
-     * Gets called upon init
-     * @param question
-     */
-    public void init(Question question) {
-        init();
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
-    }
 
-    /**
-     *
-     * @param question
-     * @param score
-     */
-    public void initNext(Question question,Long score) {
-        initializeNext(score);
-        associatedQuestion = question;
-        questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
-    }
-
-    /**
-     *
-     * @param oldString old string to be updated
-     * @param score new score to be added
-     * @return updated String containing added points
-     */
-    public String updateScoreString(String oldString, long score){
-        String[] array = oldString.split(": ");
-        long newScore = score + Long.parseLong(array[1]);
-        return array[0] + ": " + newScore;
-    }
 
 }
