@@ -118,9 +118,13 @@ public class MyMainCtrl {
     public void setNextQuestion(long score) {
         try {
             Question newQuestion = server.getQuestion(gameID);
+            if (newQuestion == null) {
+                showMainScreen();
+                return;
+            }
             showQuestionScene(newQuestion, score);
         } catch (BadRequestException e) {
-            showMainScreen();
+            System.out.println(e);
         }
     }
 
