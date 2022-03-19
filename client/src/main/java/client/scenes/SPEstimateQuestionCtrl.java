@@ -22,6 +22,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     private Button jokerText;
 
+    @FXML
+    private Button submitButton;
+
     private Question associatedQuestion;
     private final MyMainCtrl myMainCtrl;
 
@@ -59,14 +62,42 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void checkForEnter(KeyEvent event) {
         if (event.getCode().toString().equals("ENTER")) {
             try {
+                Long input = Long.valueOf(answerText.getText());
                 answerText.setDisable(true);
                 processAnswer(answerText.getText());
 
             } catch (BadRequestException e) {
                 answerText.setDisable(false);
                 myMainCtrl.showMainScreen();
+            }catch(NumberFormatException n){
+                answerText.setDisable(false);
+                answerText.clear();
             }
         }
+    }
+
+    /**
+     * Event handler for clicking submit button
+     *
+     * @param event
+     */
+    @FXML
+    void clickSubmit(ActionEvent event) {
+            try {
+                Long input = Long.valueOf(answerText.getText());
+                answerText.setDisable(true);
+                submitButton.setDisable(true);
+                processAnswer(answerText.getText());
+
+            } catch (BadRequestException e) {
+                answerText.setDisable(false);
+                submitButton.setDisable(false);
+                myMainCtrl.showMainScreen();
+            }catch(NumberFormatException n){
+                answerText.setDisable(false);
+                submitButton.setDisable(false);
+                answerText.clear();
+            }
     }
 
     /**
@@ -89,6 +120,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void goToNextScene(long score) {
         timerText.setText(0 + " s");
         answerText.setDisable(false);
+        submitButton.setDisable(false);
         resetUI();
         Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
         answerTimer.cancel();

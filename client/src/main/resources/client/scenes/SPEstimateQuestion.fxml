@@ -33,10 +33,23 @@
                            <Font size="31.0" />
                         </font>
                      </TextField>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please only input numbers!" textAlignment="CENTER" wrappingWidth="384.13671875">
+                        <font>
+                           <Font size="22.0" />
+                        </font>
+                     </Text>
                      <Region VBox.vgrow="ALWAYS" />
                   </children>
                </VBox>
-               <Region HBox.hgrow="ALWAYS" />
+               <Region prefHeight="350.0" prefWidth="108.0" />
+               <VBox prefHeight="350.0" prefWidth="274.0">
+                  <children>
+                     <Region prefHeight="200.0" prefWidth="200.0" />
+                     <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickSubmit" prefHeight="170.0" prefWidth="240.0" text="Submit" textAlignment="CENTER" />
+                     <Region prefHeight="200.0" prefWidth="200.0" />
+                  </children>
+               </VBox>
+               <Region prefHeight="350.0" prefWidth="354.0" />
             </HBox>
             <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
