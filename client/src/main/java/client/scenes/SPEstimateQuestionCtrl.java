@@ -61,6 +61,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
     }
 
+
     /**
      * Event handler for typing in the textField
      *
@@ -68,48 +69,66 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void checkForEnter(KeyEvent event) {
-        answerText.textProperty().addListener((observable, oldValue, newValue) -> {
-            answerText.setText(newValue);
-            if (event.getCode().toString().equals("ENTER")) {
-                try {
-                    alertText.setVisible(false);
-                    Long input = Long.valueOf(answerText.getText());
-                    answerText.setDisable(true);
-                    submitButton.setDisable(true);
-                    processAnswer(answerText.getText());
-                }catch(NumberFormatException n){
-                    answerText.setDisable(false);
-                    submitButton.setDisable(false);
-                    alertText.setVisible(true);
-                }catch (BadRequestException e) {
-                    answerText.setDisable(false);
-                    submitButton.setDisable(false);
-                    myMainCtrl.showMainScreen();
-                }
-            }else{
-                validateText(answerText.getText());
-            }
-        });
-
-
+        alertText.setVisible(false);
+        if (event.getCode().toString().equals("ENTER")) {
+            validateEnter(answerText.getText());
+        } else if (event.getCode().toString().equals("BACK_SPACE")){
+            validateBackspace(answerText.getText());
+        } else {
+            validateEvent(event.getText());
+        }
     }
 
     /**
-     * Validates text once a user enters a new character
+     * Validates input after enter is pressed
      * @param answer
      */
-    protected void validateText(String answer){
-        alertText.setVisible(false);
-        try{
-            if(answer == ""){
-                alertText.setVisible(false);
-                return;
-            }
+    protected void validateEnter(String answer){
+        try {
+            answerText.setDisable(true);
+            submitButton.setDisable(true);
+            alertText.setVisible(false);
             Long input = Long.valueOf(answer);
-        }catch (NumberFormatException e){
-            alertText.setVisible(true);
+            processAnswer(answer);
+        } catch (BadRequestException e) {
             answerText.setDisable(false);
             submitButton.setDisable(false);
+            myMainCtrl.showMainScreen();
+        }catch (NumberFormatException e){
+            answerText.setDisable(false);
+            submitButton.setDisable(false);
+            alertText.setVisible(true);
+        }
+    }
+
+
+    /**
+     * Validates input after a backspace
+     * @param answer
+     */
+    protected void validateBackspace(String answer){
+        try {
+            if (answer.length() > 0) {
+                int d = Integer.parseInt(answer);
+            }
+        } catch (NumberFormatException e) {
+            alertText.setVisible(true);
+        }
+    }
+
+    /**
+     * Validates input
+     * @param eventText
+     */
+    protected void validateEvent(String eventText){
+        try {
+            int i = Integer.parseInt(eventText);
+            String answer = answerText.getText();
+            if (answer.length() > 0) {
+                int d = Integer.parseInt(answer);
+            }
+        } catch (NumberFormatException e) {
+            alertText.setVisible(true);
         }
     }
 
@@ -125,14 +144,14 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 answerText.setDisable(true);
                 submitButton.setDisable(true);
                 processAnswer(answerText.getText());
-
-            } catch (BadRequestException e) {
-                answerText.setDisable(false);
-                submitButton.setDisable(false);
-                myMainCtrl.showMainScreen();
             }catch(NumberFormatException n){
                 answerText.setDisable(false);
                 submitButton.setDisable(false);
+                alertText.setVisible(true);
+            }catch (BadRequestException e) {
+                answerText.setDisable(false);
+                submitButton.setDisable(false);
+                myMainCtrl.showMainScreen();
             }
     }
 
