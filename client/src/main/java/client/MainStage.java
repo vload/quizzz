@@ -42,7 +42,7 @@ public class MainStage extends Application {
                 "client", "scenes", "SPMultipleChoice.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
         var server = INJECTOR.getInstance(ServerUtils.class);
-        mainCtrl.initialize(primaryStage, server, mainScreen, nameScreen, spEstimateQuestionScreen, spMCQuestionScreen);
+        mainCtrl.init(primaryStage, server, mainScreen, nameScreen, spEstimateQuestionScreen, spMCQuestionScreen);
     }
 
 
