@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
@@ -69,23 +68,48 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void checkForEnter(KeyEvent event) {
-        if (event.getCode().toString().equals("ENTER")) {
-            try {
-                Long input = Long.valueOf(answerText.getText());
-                answerText.setDisable(true);
-                submitButton.setDisable(true);
-                processAnswer(answerText.getText());
-
-            } catch (BadRequestException e) {
-                answerText.setDisable(false);
-                submitButton.setDisable(false);
-                myMainCtrl.showMainScreen();
-            }catch(NumberFormatException n){
-                Platform.runLater(() -> showAlertMessage());
-                answerText.setDisable(false);
-                submitButton.setDisable(false);
-                answerText.clear();
+        answerText.textProperty().addListener((observable, oldValue, newValue) -> {
+            answerText.setText(newValue);
+            if (event.getCode().toString().equals("ENTER")) {
+                try {
+                    alertText.setVisible(false);
+                    Long input = Long.valueOf(answerText.getText());
+                    answerText.setDisable(true);
+                    submitButton.setDisable(true);
+                    processAnswer(answerText.getText());
+                }catch(NumberFormatException n){
+                    answerText.setDisable(false);
+                    submitButton.setDisable(false);
+                    alertText.setVisible(true);
+                }catch (BadRequestException e) {
+                    answerText.setDisable(false);
+                    submitButton.setDisable(false);
+                    myMainCtrl.showMainScreen();
+                }
+            }else{
+                validateText(answerText.getText());
             }
+        });
+
+
+    }
+
+    /**
+     * Validates text once a user enters a new character
+     * @param answer
+     */
+    protected void validateText(String answer){
+        alertText.setVisible(false);
+        try{
+            if(answer == ""){
+                alertText.setVisible(false);
+                return;
+            }
+            Long input = Long.valueOf(answer);
+        }catch (NumberFormatException e){
+            alertText.setVisible(true);
+            answerText.setDisable(false);
+            submitButton.setDisable(false);
         }
     }
 
@@ -107,10 +131,8 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 submitButton.setDisable(false);
                 myMainCtrl.showMainScreen();
             }catch(NumberFormatException n){
-                showAlertMessage();
                 answerText.setDisable(false);
                 submitButton.setDisable(false);
-                answerText.clear();
             }
     }
 
@@ -182,26 +204,26 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     }
 
 
-    /**
-     * Method that displays the warning message for 2 seconds after inputting incorrect answer type
-     */
-    protected void showAlertMessage() {
-        alertText.setVisible(false);
-        alertTimer = new Timer();
-        alertTimer.schedule(new TimerTask() {
-            double progressTime = 1.99;
-
-            @Override
-            public void run() {
-                alertText.setVisible(true);
-                progressTime = progressTime - 0.01;
-                if (progressTime < 0) {
-                    Platform.runLater(() -> hideAlert());
-                    alertTimer.cancel();
-                }
-            }
-        }, 0, 10);
-    }
+//    /**
+//     * Method that displays the warning message for 2 seconds after inputting incorrect answer type
+//     */
+//    protected void showAlertMessage() {
+//        alertText.setVisible(false);
+//        alertTimer = new Timer();
+//        alertTimer.schedule(new TimerTask() {
+//            double progressTime = 1.99;
+//
+//            @Override
+//            public void run() {
+//                alertText.setVisible(true);
+//                progressTime = progressTime - 0.01;
+//                if (progressTime < 0) {
+//                    Platform.runLater(() -> hideAlert());
+//                    alertTimer.cancel();
+//                }
+//            }
+//        }, 0, 10);
+//    }
 
 
 
