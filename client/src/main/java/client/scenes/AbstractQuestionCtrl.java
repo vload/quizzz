@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public abstract class AbstractQuestionCtrl {
+public abstract class AbstractQuestionCtrl extends AbstractCtrl {
 
     @FXML
     protected Text questionText;
@@ -67,7 +67,7 @@ public abstract class AbstractQuestionCtrl {
                 progressTime = progressTime - 0.01;
                 if (timer == 100) {
                     Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    changeColor(textTime--);
+                    changeColor(--textTime);
                     timer = 0;
                 }
                 timer++;
@@ -109,7 +109,7 @@ public abstract class AbstractQuestionCtrl {
                 progressTime = progressTime - 0.01;
                 if (timer == 100) {
                     Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    changeColor(textTime--);
+                    changeColor(--textTime);
                     timer = 0;
                 }
                 timer++;

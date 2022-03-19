@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class NameScreenCtrl {
+public class NameScreenCtrl extends AbstractCtrl{
 
 
     private final MyMainCtrl myMainCtrl;

@@ -17,7 +17,7 @@ package client.scenes;
 
 import javax.inject.Inject;
 
-public class MainScreenCtrl  {
+public class MainScreenCtrl extends AbstractCtrl{
 
 
     private final MyMainCtrl myMainCtrl;
