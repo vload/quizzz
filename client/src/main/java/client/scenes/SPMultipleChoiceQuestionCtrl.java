@@ -30,6 +30,8 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     private Button jokerText2;
 
+
+
     private Question associatedQuestion;
     private ArrayList<Button> buttonList;
     private final MyMainCtrl myMainCtrl;

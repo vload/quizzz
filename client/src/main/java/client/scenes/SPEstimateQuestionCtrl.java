@@ -10,8 +10,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
+
+    private Timer alertTimer;
 
     @FXML
     private Button activityText;
@@ -24,6 +29,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
     private Button submitButton;
+
+    @FXML
+    private Text alertText;
 
     private Question associatedQuestion;
     private final MyMainCtrl myMainCtrl;
@@ -48,6 +56,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     public void init(Question question, Long score) {
         init(score);
+        alertText.setVisible(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
@@ -64,13 +73,17 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
             try {
                 Long input = Long.valueOf(answerText.getText());
                 answerText.setDisable(true);
+                submitButton.setDisable(true);
                 processAnswer(answerText.getText());
 
             } catch (BadRequestException e) {
                 answerText.setDisable(false);
+                submitButton.setDisable(false);
                 myMainCtrl.showMainScreen();
             }catch(NumberFormatException n){
+                Platform.runLater(() -> showAlertMessage());
                 answerText.setDisable(false);
+                submitButton.setDisable(false);
                 answerText.clear();
             }
         }
@@ -94,6 +107,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
                 submitButton.setDisable(false);
                 myMainCtrl.showMainScreen();
             }catch(NumberFormatException n){
+                showAlertMessage();
                 answerText.setDisable(false);
                 submitButton.setDisable(false);
                 answerText.clear();
@@ -126,12 +140,14 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         answerTimer.cancel();
     }
 
+
     /**
      * Method that submits the question to backend
      */
     @Override
     public void timeOut() {
         answerText.setDisable(true);
+        submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
         long score = myMainCtrl.sendSubmission("late", -1L);
         this.scoreText.setText("Score: " + score);
@@ -155,6 +171,36 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     void jokerPressed(ActionEvent event) {
 
+    }
+
+
+    /**
+     * A method that hides the alert message text
+     */
+    protected void hideAlert(){
+        alertText.setVisible(false);
+    }
+
+
+    /**
+     * Method that displays the warning message for 2 seconds after inputting incorrect answer type
+     */
+    protected void showAlertMessage() {
+        alertText.setVisible(false);
+        alertTimer = new Timer();
+        alertTimer.schedule(new TimerTask() {
+            double progressTime = 1.99;
+
+            @Override
+            public void run() {
+                alertText.setVisible(true);
+                progressTime = progressTime - 0.01;
+                if (progressTime < 0) {
+                    Platform.runLater(() -> hideAlert());
+                    alertTimer.cancel();
+                }
+            }
+        }, 0, 10);
     }
 
 
