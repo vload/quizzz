@@ -11,11 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import java.util.Timer;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
-    private Timer alertTimer;
 
     @FXML
     private Button activityText;
@@ -88,7 +86,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
             answerText.setDisable(true);
             submitButton.setDisable(true);
             alertText.setVisible(false);
-            Long input = Long.valueOf(answer);
+            Long.valueOf(answer);
             processAnswer(answer);
         } catch (BadRequestException e) {
             answerText.setDisable(false);
@@ -109,7 +107,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void validateBackspace(String answer){
         try {
             if (answer.length() > 0) {
-                int d = Integer.parseInt(answer);
+                Integer.parseInt(answer);
             }
         } catch (NumberFormatException e) {
             alertText.setVisible(true);
@@ -122,10 +120,10 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     protected void validateEvent(String eventText){
         try {
-            int i = Integer.parseInt(eventText);
+            Integer.parseInt(eventText);
             String answer = answerText.getText();
             if (answer.length() > 0) {
-                int d = Integer.parseInt(answer);
+                Integer.parseInt(answer);
             }
         } catch (NumberFormatException e) {
             alertText.setVisible(true);
@@ -213,37 +211,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void jokerPressed(ActionEvent event) {
 
     }
-
-
-    /**
-     * A method that hides the alert message text
-     */
-    protected void hideAlert(){
-        alertText.setVisible(false);
-    }
-
-
-//    /**
-//     * Method that displays the warning message for 2 seconds after inputting incorrect answer type
-//     */
-//    protected void showAlertMessage() {
-//        alertText.setVisible(false);
-//        alertTimer = new Timer();
-//        alertTimer.schedule(new TimerTask() {
-//            double progressTime = 1.99;
-//
-//            @Override
-//            public void run() {
-//                alertText.setVisible(true);
-//                progressTime = progressTime - 0.01;
-//                if (progressTime < 0) {
-//                    Platform.runLater(() -> hideAlert());
-//                    alertTimer.cancel();
-//                }
-//            }
-//        }, 0, 10);
-//    }
-
 
 
 }
