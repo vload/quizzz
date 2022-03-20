@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
-
     @FXML
     private Button activityText;
 
@@ -59,7 +58,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
     }
 
-
     /**
      * Event handler for typing in the textField
      *
@@ -98,7 +96,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
             alertText.setVisible(true);
         }
     }
-
 
     /**
      * Validates input after a backspace
@@ -179,7 +176,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         answerTimer.cancel();
     }
 
-
     /**
      * Method that submits the question to backend
      */
@@ -211,6 +207,5 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void jokerPressed(ActionEvent event) {
 
     }
-
 
 }
