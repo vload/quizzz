@@ -11,26 +11,17 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.HashMap;
 import java.util.Objects;
 
-public class MyMainCtrl {
+public class MyMainCtrl extends AbstractCtrl {
 
     public Stage primaryStage;
     public String gameID;
 
     private ServerUtils server;
 
-    private MainScreenCtrl mainScreenCtrl;
-    private Scene mainScreen;
-
-    private NameScreenCtrl nameScreenCtrl;
-    private Scene nameScreen;
-
-    private SPEstimateQuestionCtrl spEstimateQuestionCtrl;
-    private Scene spEstimateQuestionScreen;
-
-    private SPMultipleChoiceQuestionCtrl spMultipleChoiceQuestionCtrl;
-    private Scene spMCQuestionScreen;
+    private HashMap<String, SceneCtrlPair> screenMap;
 
 
     /**
@@ -39,40 +30,37 @@ public class MyMainCtrl {
     public MyMainCtrl(){}
 
     /**
-     * This method initializes the stage
+     * This method stores all the scenes and opens the main screen
      * @param primaryStage
      * @param server
      * @param mainScreen
      * @param nameScreen
-     * @param spEstimateQuestionScreen
-     * @param spMCQuestionScreen
+     * @param spEQScreen
+     * @param spMCQScreen
      */
-    public void initialize(Stage primaryStage,
+    public void init(Stage primaryStage,
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
                            Pair<NameScreenCtrl, Parent> nameScreen,
-                           Pair<SPEstimateQuestionCtrl, Parent> spEstimateQuestionScreen,
-                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQuestionScreen) {
+                           Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
+                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
 
-        this.mainScreenCtrl = mainScreen.getKey();
-        this.mainScreen = new Scene(mainScreen.getValue());
-        setCSS(this.mainScreen, "ScreenCommonCSS.css");
+        screenMap = new HashMap<>();
+        screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
+        screenMap.put("nameScreen", new SceneCtrlPair(nameScreen.getValue(), nameScreen.getKey()));
+        screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
+        screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
 
-        this.nameScreenCtrl = nameScreen.getKey();
-        this.nameScreen = new Scene(nameScreen.getValue());
-        setCSS(this.nameScreen, "ScreenCommonCSS.css");
+        showUI();
+    }
 
-        this.spEstimateQuestionCtrl = spEstimateQuestionScreen.getKey();
-        this.spEstimateQuestionScreen = new Scene(spEstimateQuestionScreen.getValue());
-        setCSS(this.spEstimateQuestionScreen, "QuestionCSS.css");
-
-        this.spMultipleChoiceQuestionCtrl = spMCQuestionScreen.getKey();
-        this.spMCQuestionScreen = new Scene(spMCQuestionScreen.getValue());
-        setCSS(this.spMCQuestionScreen, "QuestionCSS.css");
-
+    private void showUI() {
+        primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setFullScreen(true);
         showMainScreen();
         primaryStage.show();
     }
@@ -81,14 +69,14 @@ public class MyMainCtrl {
      * This method shows the main screen
      */
     public void showMainScreen() {
-        setScene(mainScreen, "Quizzz!");
+        setScene("mainScreen", "Quizzz!", "ScreenCommonCSS.css");
     }
 
     /**
      * This method shows the name screen
      */
     public void showNameScreen(){
-        setScene(nameScreen, "Enter your name");
+        setScene("nameScreen", "Enter your name", "ScreenCommonCSS.css");
     }
 
     /**
@@ -135,33 +123,35 @@ public class MyMainCtrl {
      */
     public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
-            setScene(spEstimateQuestionScreen, "EstimateScene");
-            spEstimateQuestionCtrl.init(q, score);
+            setScene("spEQScreen", "EstimateScene", "QuestionCSS.css");
+            var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
+            ctrl.init(q, score);
         } else {
-            setScene(spMCQuestionScreen, "MCScene");
-            spMultipleChoiceQuestionCtrl.init(q, score);
+            setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
+            var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
+            ctrl.init(q, score);
         }
     }
 
     /**
      * Sets the scene
-     * @param scene
+     * @param screen
      * @param title
+     * @param cssFile
      */
-    private void setScene(Scene scene, String title) {
+    private void setScene(String screen, String title, String cssFile) {
+        var scene = screenMap.get(screen).getScene();
         primaryStage.setTitle(title);
-        primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.getScene().setRoot(scene);
+        setCSS(cssFile);
     }
 
     /**
      * This method sets the CSS of a scene
-     * @param scene
      * @param fileName with the .css
      */
-    public void setCSS(Scene scene, String fileName) {
-        scene.getStylesheets().add(Objects.requireNonNull(getClass()
+    public void setCSS(String fileName) {
+        primaryStage.getScene().getStylesheets().add(Objects.requireNonNull(getClass()
                 .getResource(fileName)).toExternalForm());
     }
 
