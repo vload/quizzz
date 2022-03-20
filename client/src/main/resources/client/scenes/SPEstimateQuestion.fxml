@@ -43,18 +43,16 @@
                   </children>
                </VBox>
                <Region prefHeight="350.0" prefWidth="60.0" />
-               <VBox prefHeight="350.0" prefWidth="274.0">
+               <VBox prefHeight="350.0" prefWidth="276.0">
                   <children>
-                     <Region HBox.hgrow="ALWAYS" />
-                     <Region prefHeight="200.0" prefWidth="200.0" />
+                     <Region VBox.vgrow="ALWAYS" />
                      <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickSubmit" prefHeight="170.0" prefWidth="240.0" text="Submit" textAlignment="CENTER" />
-                     <Region HBox.hgrow="ALWAYS" />
-                     <Region prefHeight="200.0" prefWidth="200.0" />
+                     <Region VBox.vgrow="ALWAYS" />
                   </children>
                </VBox>
-               <Region prefHeight="350.0" prefWidth="354.0" />
+               <Region HBox.hgrow="ALWAYS" />
             </HBox>
-            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
+            <Region VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
