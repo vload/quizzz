@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import server.api.QuestionGenerator;
 import server.database.MockActivityRepository;
 import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 import server.server_classes.SinglePlayerGame;
 
 import java.util.*;
@@ -25,7 +26,7 @@ class GameServiceTest {
         gameMap = new HashMap<>();
         List<Question> exampleList = List.of(new Question("Example",new HashSet<>(), QuestionType.MC,"nothing"));
         g1 = new SinglePlayerGame(0L,"Tyrone",exampleList);
-        s1 = new SinglePlayerGameService(gameMap,questionGenerator);
+        s1 = new SinglePlayerGameService(new IdGenerator(),gameMap,questionGenerator);
     }
 
     @Test

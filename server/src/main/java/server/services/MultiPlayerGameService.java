@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.QuestionGenerator;
 import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 import server.server_classes.MultiPlayerGame;
 
 import java.util.*;
@@ -13,12 +14,16 @@ public class MultiPlayerGameService extends AbstractGameService {
 
     /**
      *MultiplayerGameService Constructor
-     * @param games The gamemap that will be used
+     *
+     * @param idGenerator The idGenerator used to generate ids
+     * @param gameMap The gamemap that will be used
      * @param questionGenerator The auto-injected spring component corresponding to the repo
      */
     @Autowired
-    public MultiPlayerGameService(Map<Long, AbstractGame> games, QuestionGenerator questionGenerator) {
-        super(games, questionGenerator);
+    public MultiPlayerGameService(IdGenerator idGenerator,
+                                  Map<Long, AbstractGame> gameMap,
+                                  QuestionGenerator questionGenerator) {
+        super(idGenerator,gameMap,questionGenerator);
     }
 
     /**
@@ -29,8 +34,8 @@ public class MultiPlayerGameService extends AbstractGameService {
      */
     @Override
     public boolean isValidGame(long gameID) {
-        return games.get(gameID) != null &&
-                games.get(gameID) instanceof MultiPlayerGame;
+        return gameMap.get(gameID) != null &&
+                gameMap.get(gameID) instanceof MultiPlayerGame;
     }
 
 
