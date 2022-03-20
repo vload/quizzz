@@ -19,7 +19,6 @@ public class NameScreenCtrl extends AbstractCtrl{
     @Inject
     public NameScreenCtrl(MyMainCtrl myMainCtrl){
         this.myMainCtrl = myMainCtrl;
-
     }
 
     /**
@@ -33,6 +32,7 @@ public class NameScreenCtrl extends AbstractCtrl{
      * Clears the name input field, which is temporarily used for demonstrational purposes
      */
     public void startGame(){
-        myMainCtrl.startGame();
+
+        myMainCtrl.startGame(nameField.getText());
     }
 }
