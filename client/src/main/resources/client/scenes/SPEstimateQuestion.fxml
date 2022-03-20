@@ -46,7 +46,7 @@
                <VBox prefHeight="350.0" prefWidth="276.0">
                   <children>
                      <Region VBox.vgrow="ALWAYS" />
-                     <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickSubmit" prefHeight="170.0" prefWidth="240.0" text="Submit" textAlignment="CENTER" />
+                     <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickSubmit" prefHeight="100.0" prefWidth="200.0" text="Submit" textAlignment="CENTER" />
                      <Region VBox.vgrow="ALWAYS" />
                   </children>
                </VBox>
