@@ -82,11 +82,8 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method starts the game by getting a question and displaying it
      */
-    public void startGame(String name) {
-        if (name == null || name.length() == 0) {
-            return;
-        }
-        gameID = server.createGame(name);
+    public void startGame() {
+        gameID = server.createGame("Temp");
         Question q = server.getQuestion(gameID);
         showQuestionScene(q, 0L);
     }
