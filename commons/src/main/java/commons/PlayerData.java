@@ -1,7 +1,5 @@
-package server.server_classes;
+package commons;
 
-import commons.Activity;
-import commons.jokers.Joker;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,13 +10,16 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class PlayerData {
     private long score;
-    private Map<Joker, Boolean> jokers;
+    private Map<JokerType, Boolean> jokers;
 
     /**
      * Constructor for PlayerData.
      */
     public PlayerData() {
-        Set<Joker> jokerSet = Set.of(new Joker(1), new Joker(2), new Joker(3));
+        Set<JokerType> jokerSet = Set.of(
+                JokerType.DOUBLE_POINTS,
+                JokerType.HALF_TIME,
+                JokerType.REMOVE_WRONG_ANSWER);
         this.score = 0;
 
         this.jokers = new HashMap<>();
@@ -28,6 +29,8 @@ public class PlayerData {
 
     /**
      * Adds to the player's score.
+     *
+     * @param amount the amount to increase the score by
      */
     public void addScore(long amount){
         score += amount;
@@ -48,7 +51,7 @@ public class PlayerData {
      * @param joker the joker to be checked
      * @return true iff joker has been used
      */
-    public boolean jokerHasBeenUsed(Joker joker){
+    public boolean jokerHasBeenUsed(JokerType joker){
         return jokers.get(joker);
     }
 
@@ -57,12 +60,15 @@ public class PlayerData {
      *  //TODO: actually use the joker to change the game state.
      *
      * @param joker the joker to be used.
+     * @return true iff the use was successful
      */
-    public void useJoker(Joker joker){
+    public boolean useJoker(JokerType joker){
         if(!jokerHasBeenUsed(joker)){
             jokers.put(joker, false);
-//            joker.use(game, etc..);
+            return true;
         }
+
+        return false;
     }
 
     /**

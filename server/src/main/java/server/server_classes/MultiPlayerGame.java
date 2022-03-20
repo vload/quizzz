@@ -1,5 +1,7 @@
 package server.server_classes;
 
+import commons.JokerType;
+import commons.PlayerData;
 import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -152,5 +154,28 @@ public class MultiPlayerGame extends AbstractGame {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
+    /**
+     * Uses the joker.
+     *
+     * @param playerName the name of the player
+     * @param jokerType the type of joker he uses
+     * @return true iff the joker was successfully used
+     */
+    public boolean useJoker(String playerName, JokerType jokerType) {
+        if(!playerData.get(playerName).useJoker(jokerType)){
+            return false;
+        }
 
+        // send data to all players.
+
+        return true;
+    }
+
+    /**
+     * getter for playerData
+     * @return the playerData
+     */
+    public Map<String, PlayerData> getPlayerData() {
+        return playerData;
+    }
 }

@@ -1,5 +1,7 @@
 package server.server_classes;
 
+import commons.JokerType;
+import commons.PlayerData;
 import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,7 +14,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 public class SinglePlayerGame extends AbstractGame {
 
     private final String playerName;
-    private long score;
+    private PlayerData playerData;
 
     /**
      * Constructor for the SinglePlayerGame class
@@ -23,7 +25,7 @@ public class SinglePlayerGame extends AbstractGame {
      */
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
         super(gameID,questions);
-        this.score = 0L;
+        playerData = new PlayerData();
         this.playerName = playerName;
     }
 
@@ -32,7 +34,7 @@ public class SinglePlayerGame extends AbstractGame {
      * @return the score of the player
      */
     public long getScore() {
-        return score;
+        return playerData.getScore();
     }
 
     /**
@@ -50,8 +52,8 @@ public class SinglePlayerGame extends AbstractGame {
      * @return The (new) cumulative score
      */
     public long increaseScore(long inc) {
-        score += inc;
-        return score;
+        playerData.addScore(inc);
+        return playerData.getScore();
     }
 
     /**
@@ -85,4 +87,29 @@ public class SinglePlayerGame extends AbstractGame {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
+    /**
+     * Getter for playerData
+     *
+     * @return the playerData
+     */
+    public PlayerData getPlayerData() {
+        return playerData;
+    }
+
+    /**
+     * Use the joker.
+     *
+     * @param gameId The id of the game session
+     * @param jokerType The type of joker it is
+     * @return true iff the use was successful
+     */
+    public boolean useJoker(long gameId, JokerType jokerType) {
+        if(!playerData.useJoker(jokerType)){
+            return false;
+        }
+
+        // send data to player
+
+        return true;
+    }
 }

@@ -12,7 +12,6 @@ import java.util.*;
 import server.server_classes.*;
 
 
-
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
@@ -170,5 +169,14 @@ public class GameController {
             return ResponseEntity.badRequest().build();
         }
         return null; // temporary
+    }
+
+    /**
+     * Getter for games.
+     *
+     * @return the map of games
+     */
+    public Map<Long, AbstractGame> getGames() {
+        return games;
     }
 }

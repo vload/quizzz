@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SubmissionTest {
-
     Submission s1;
     Submission s2;
     Submission s3;
+
     @BeforeEach
     void init() {
         s1 = new Submission("1",7.93);
@@ -17,6 +17,7 @@ class SubmissionTest {
         s3 = new Submission("5493",1.63);
     }
 
+    @Test
     void constructorTest() {
         assertNotNull(s1);
     }
