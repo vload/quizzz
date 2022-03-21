@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import server.api.QuestionGenerator;
 import server.database.MockActivityRepository;
 import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 import server.server_classes.MultiPlayerGame;
 import server.server_classes.SinglePlayerGame;
 
@@ -20,7 +21,7 @@ class MultiPlayerGameServiceTest {
     void init() {
         gameMap = new HashMap<>();
         MockActivityRepository mockRepo = new MockActivityRepository();
-        s1 = new MultiPlayerGameService(gameMap,
+        s1 = new MultiPlayerGameService(new IdGenerator(),gameMap,
                 new QuestionGenerator(mockRepo,new Random(42)));
     }
 

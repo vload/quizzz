@@ -3,24 +3,28 @@ package server.services;
 import commons.Question;
 import server.api.QuestionGenerator;
 import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 
 import java.util.*;
 
 public abstract class AbstractGameService {
 
     protected QuestionGenerator questionGenerator;
-    protected long idCounter;
-    protected final Map<Long, AbstractGame> games;
+    protected IdGenerator idGenerator;
+    protected final Map<Long, AbstractGame> gameMap;
 
     /**
      * Constructor for GameService
      *
-     * @param games map which maps the game ids to the game object
+     * @param idGenerator The idGenerator instance used to generate ids
+     * @param gameMap map which maps the game ids to the game object
      * @param questionGenerator container component which is responsible for generating questions
      */
-    public AbstractGameService(Map<Long, AbstractGame> games, QuestionGenerator questionGenerator) {
-        this.idCounter = 0L;
-        this.games = games;
+    public AbstractGameService(IdGenerator idGenerator,
+                               Map<Long, AbstractGame> gameMap,
+                               QuestionGenerator questionGenerator) {
+        this.idGenerator = idGenerator;
+        this.gameMap = gameMap;
         this.questionGenerator = questionGenerator;
     }
 
@@ -30,7 +34,7 @@ public abstract class AbstractGameService {
      * @return A long containing a new ID.
      */
     protected synchronized long createID() {
-        return idCounter++;
+        return idGenerator.createID();
     }
 
     /**
@@ -40,10 +44,10 @@ public abstract class AbstractGameService {
      * @return true, iff it the game was inserted successfully, false otherwise
      */
     public boolean insertGame(AbstractGame game) {
-        if (games.get(game.gameID) != null) {
+        if (gameMap.get(game.gameID) != null) {
             return false;
         }
-        games.put(game.gameID,game);
+        gameMap.put(game.gameID,game);
         return true;
     }
 
@@ -55,7 +59,7 @@ public abstract class AbstractGameService {
      * @return The list of remaining questions (won't include any removed ones)
      */
     public List<Question> getQuestions(long gameID) {
-        return games.get(gameID).getQuestions();
+        return gameMap.get(gameID).getQuestions();
     }
 
     /**
@@ -65,7 +69,7 @@ public abstract class AbstractGameService {
      * @return The next question
      */
     public Question getNextQuestion(long gameID) {
-        AbstractGame game = games.get(gameID);
+        AbstractGame game = gameMap.get(gameID);
         return game.getNextQuestion();
     }
 
@@ -76,10 +80,10 @@ public abstract class AbstractGameService {
      * @return the ID of the game to be delted, -1 if the game was not found.
      */
     public long deleteGame(long gameID) {
-        if (games.get(gameID) == null) {
+        if (gameMap.get(gameID) == null) {
             return -1L;
         }
-        games.remove(gameID);
+        gameMap.remove(gameID);
         return gameID;
     }
 
