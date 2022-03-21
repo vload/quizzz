@@ -54,7 +54,7 @@ class SinglePlayerGameControllerTest {
 
         QuestionGenerator mockQuestionGen = new QuestionGenerator(mockRepo,new Random(42));
         this.games = new HashMap<>();
-        SinglePlayerGameService service = new SinglePlayerGameService(games,mockQuestionGen);
+        SinglePlayerGameService service = new SinglePlayerGameService(new IdGenerator(),games,mockQuestionGen);
         sut = new SinglePlayerGameController(service);
     }
 
@@ -150,6 +150,7 @@ class SinglePlayerGameControllerTest {
     void testGetQuestions() {
         SinglePlayerGameController fakeSut = new SinglePlayerGameController(
                 new SinglePlayerGameService(
+                        new IdGenerator(),
                         new HashMap<>(),
                         new QuestionGenerator(new MockActivityRepository(),new Random())
                 )
@@ -172,6 +173,7 @@ class SinglePlayerGameControllerTest {
     void testGetNextQuestion() {
         SinglePlayerGameController fakeSut = new SinglePlayerGameController(
                 new SinglePlayerGameService(
+                        new IdGenerator(),
                         new HashMap<>(),
                         new QuestionGenerator(new MockActivityRepository(),new Random())
                 )

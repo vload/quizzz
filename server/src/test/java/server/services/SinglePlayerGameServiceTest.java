@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import server.api.QuestionGenerator;
 import server.database.MockActivityRepository;
 import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 import server.server_classes.SinglePlayerGame;
 
 import java.util.*;
@@ -26,7 +27,7 @@ class SinglePlayerGameServiceTest {
         gameMap = new HashMap<>();
         List<Question> exampleList = List.of(new Question("Example",new HashSet<>(), QuestionType.MC,"3"));
         g1 = new SinglePlayerGame(0L,"Tyrone",exampleList);
-        s1 = new SinglePlayerGameService(gameMap,questionGenerator);
+        s1 = new SinglePlayerGameService(new IdGenerator(),gameMap,questionGenerator);
     }
 
     @Test
@@ -47,7 +48,6 @@ class SinglePlayerGameServiceTest {
     void validateAnswer() {
         s1.insertGame(g1);
         Question question = s1.getNextQuestion(0L);
-        System.out.println(question);
         assertEquals(0,s1.validateAnswer(new Submission("2",7.1),0L));
         assertNotEquals(0,s1.validateAnswer(new Submission("3",7.1),0L));
     }
