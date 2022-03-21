@@ -27,7 +27,7 @@ public class MultiPlayerGame extends AbstractGame {
         super(gameID, questions);
         this.playerNames = new ArrayList<>(playerNames);
         playerData = new HashMap<>();
-        playerNames.forEach(name -> playerData.put(name, new PlayerData()));
+        playerNames.forEach(name -> playerData.put(name, new PlayerData(name)));
     }
 
     /**
@@ -101,7 +101,7 @@ public class MultiPlayerGame extends AbstractGame {
         }
 
         playerNames.add(name);
-        playerData.put(name, new PlayerData());
+        playerData.put(name, new PlayerData(name));
         playerData.get(name).addScore(startingPoints);
         return true;
     }

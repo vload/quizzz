@@ -125,7 +125,7 @@ class SinglePlayerGameControllerTest {
 
     @Test
     void validateAnswer() {
-        sut.startSinglePlayer("Tyrome");
+        sut.startSinglePlayer("Tyrone");
         List<Question> questionsToBeAsked = sut.getQuestions("0");
         Question firstQuestion = questionsToBeAsked.get(0);
         assertEquals(ResponseEntity.badRequest().build(),
@@ -157,7 +157,7 @@ class SinglePlayerGameControllerTest {
         assertEquals(0L,r1.getBody());
         assertEquals(new ArrayList<Question>(), fakeSut.getQuestions("0"));
         assertNull(fakeSut.getNextQuestion("0").getBody());
-        var r2 = sut.startSinglePlayer("Tyrome");
+        var r2 = sut.startSinglePlayer("Tyrone");
         assertEquals(0L,r2.getBody());
         assertEquals(20,sut.getQuestions("0").size());
         Question sample = new Question(
@@ -181,7 +181,7 @@ class SinglePlayerGameControllerTest {
                 "Which one of the following consumes the least energy?",
                 testActivitySet, QuestionType.MC,"1"
         );
-        sut.startSinglePlayer("Tyrome");
+        sut.startSinglePlayer("Tyrone");
         sut.startSinglePlayer("Bob");
         Question q1 = sut.getNextQuestion("0").getBody();
         assertNotEquals(q1, sut.getNextQuestion("1").getBody());

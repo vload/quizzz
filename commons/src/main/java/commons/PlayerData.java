@@ -11,11 +11,13 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 public class PlayerData {
     private long score;
     private Map<JokerType, Boolean> jokers;
+    private String playerName;
 
     /**
      * Constructor for PlayerData.
+     * @param playerName the name of the player
      */
-    public PlayerData() {
+    public PlayerData(String playerName) {
         Set<JokerType> jokerSet = Set.of(
                 JokerType.DOUBLE_POINTS,
                 JokerType.HALF_TIME,
@@ -25,6 +27,16 @@ public class PlayerData {
         this.jokers = new HashMap<>();
 
         jokerSet.forEach(joker -> this.jokers.put(joker, true));
+
+        this.playerName = playerName;
+    }
+
+    /**
+     * Getter for playerName
+     * @return the playerName
+     */
+    public String getPlayerName() {
+        return playerName;
     }
 
     /**

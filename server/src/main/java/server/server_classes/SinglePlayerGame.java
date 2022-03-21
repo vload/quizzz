@@ -25,7 +25,7 @@ public class SinglePlayerGame extends AbstractGame {
      */
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
         super(gameID,questions);
-        playerData = new PlayerData();
+        playerData = new PlayerData(playerName);
         this.playerName = playerName;
     }
 
