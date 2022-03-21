@@ -38,6 +38,11 @@
     -fx-background-insets: 0.02;
 }
 
+.alertText{
+    -fx-fill: orange;
+}
+
+
 * :disabled {
     -fx-opacity: 1;
 }
