@@ -24,21 +24,35 @@
             <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
                <Region HBox.hgrow="ALWAYS" />
                <Button fx:id="activityText" maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" textAlignment="CENTER" wrapText="true" />
-               <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
+               <Region maxWidth="60.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
                <VBox>
                   <children>
-                     <Region VBox.vgrow="ALWAYS" />
-                     <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" promptText="Enter the value ...">
+                     <Region prefHeight="41.0" prefWidth="385.0" VBox.vgrow="ALWAYS" />
+                     <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" prefHeight="64.0" prefWidth="370.0" promptText="Enter the value ...">
                         <font>
                            <Font size="31.0" />
                         </font>
                      </TextField>
+                     <Region prefHeight="0.0" prefWidth="385.0" />
+                     <Text fx:id="alertText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alertText" text="Please only input numbers!" textAlignment="CENTER" wrappingWidth="384.13671875">
+                        <font>
+                           <Font size="30.0" />
+                        </font>
+                     </Text>
+                     <Region prefHeight="0.0" prefWidth="385.0" VBox.vgrow="ALWAYS" />
+                  </children>
+               </VBox>
+               <Region prefHeight="350.0" prefWidth="60.0" />
+               <VBox prefHeight="350.0" prefWidth="276.0">
+                  <children>
+                     <Region VBox.vgrow="ALWAYS" />
+                     <Button fx:id="submitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickSubmit" prefHeight="100.0" prefWidth="200.0" text="Submit" textAlignment="CENTER" />
                      <Region VBox.vgrow="ALWAYS" />
                   </children>
                </VBox>
                <Region HBox.hgrow="ALWAYS" />
             </HBox>
-            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
+            <Region VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
