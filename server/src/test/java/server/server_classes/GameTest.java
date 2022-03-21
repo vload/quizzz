@@ -1,6 +1,7 @@
 package server.server_classes;
 
 import commons.Activity;
+import commons.PlayerData;
 import commons.Question;
 import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,9 @@ class GameTest {
 
 
         s1 = new SinglePlayerGame(3,"Bob",List.of(question,question));
-        s2 = new MultiPlayerGame(4, List.of("Bob,Alice"),new ArrayList<>());
+        PlayerData p1 = new PlayerData("Bob");
+        PlayerData p2 = new PlayerData("Alice");
+        s2 = new MultiPlayerGame(4, List.of(p1,p2),new ArrayList<>());
     }
 
     @Test
@@ -52,7 +55,6 @@ class GameTest {
         assertNull(s1.getCurrentQuestion());
         Question question = s1.getNextQuestion();
         assertEquals(question,s1.getCurrentQuestion());
-
     }
 
     @Test
