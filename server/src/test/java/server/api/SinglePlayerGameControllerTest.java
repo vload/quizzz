@@ -7,7 +7,6 @@ import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class SinglePlayerGameControllerTest {
 
-    @Autowired
+//    @Autowired
     SinglePlayerGameService service;
     SinglePlayerGameController sut;
     Map<Long, AbstractGame> games;

@@ -100,7 +100,6 @@ public class SinglePlayerGameController {
         return ResponseEntity.badRequest().build();
     }
 
-
     /**
      * API endpoint for deleting a game
      *
@@ -119,14 +118,4 @@ public class SinglePlayerGameController {
         }
         return ResponseEntity.badRequest().build();
     }
-
-
-
-
-
-
-
-
-
-
 }

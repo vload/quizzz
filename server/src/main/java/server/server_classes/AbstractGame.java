@@ -1,7 +1,5 @@
 package server.server_classes;
 
-
-
 import commons.Question;
 import java.io.*;
 import java.util.*;
@@ -80,19 +78,4 @@ public abstract class AbstractGame implements Serializable {
      * @return A string containing information about this
      */
     public abstract String toString();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
