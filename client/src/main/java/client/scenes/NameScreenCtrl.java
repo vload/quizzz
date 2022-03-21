@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 
 public class NameScreenCtrl extends AbstractCtrl{
 
+
     private final MyMainCtrl myMainCtrl;
 
     @FXML

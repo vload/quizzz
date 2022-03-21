@@ -23,6 +23,7 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private HashMap<String, SceneCtrlPair> screenMap;
 
+
     /**
      * Constructor for MyMainCtrl
      */
