@@ -1,0 +1,56 @@
+@import "ScreenCommonCSS.css";
+
+.border_plane {
+    -fx-background-color: -background-color;
+}
+
+.questionButtonCorrect {
+    -fx-background-color: -correct-color;
+    -fx-background-radius: 50;
+    -fx-border-color: -correct-border-color;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.01;
+}
+
+.questionButtonIncorrect {
+    -fx-background-color: -incorrect-color;
+    -fx-background-radius: 50;
+    -fx-border-color: -incorrect-border-color;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
+}
+
+* :disabled {
+    -fx-opacity: 1;
+}
+
+.jokerButton {
+    -fx-background-color: -joker-color;
+    -fx-border-color: -joker-border-color;
+}
+
+.jokerButton:hover {
+    -fx-background-color: -joker-hover-color;
+}
+
+.reactionButton .text {
+    -fx-font-size: 12;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+}
+
+.list-cell .text {
+    -fx-font-size: 25;
+}
+
+.estimateQuestion:hover {
+    -fx-background-color: -button-color;
+}

@@ -156,7 +156,7 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void setCSS(String fileName) {
         primaryStage.getScene().getStylesheets().add(Objects.requireNonNull(getClass()
-                .getResource(fileName)).toExternalForm());
+                .getResource("css/" + fileName)).toExternalForm());
     }
 
     /**

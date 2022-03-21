@@ -1,5 +1,7 @@
+@import "colors.css";
+
 .anchorPane {
-    -fx-background-color: #03071e;
+    -fx-background-color: -background-color;
 }
 
 .text {
@@ -11,14 +13,14 @@
 }
 
 .button {
-    -fx-background-color: #6a040f;
+    -fx-background-color: -button-color;
     -fx-background-radius: 50;
-    -fx-border-color: #9d0208;
+    -fx-border-color: -button-border-color;
     -fx-border-width: 6;
     -fx-border-radius: 36;
     -fx-background-insets: 0.02;
 }
 
 .button:hover {
-    -fx-background-color: #d00000;
+    -fx-background-color: -button-hover-color;
 }
