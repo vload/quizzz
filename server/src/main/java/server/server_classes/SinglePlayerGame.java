@@ -33,6 +33,7 @@ public class SinglePlayerGame extends AbstractGame {
      * getScore method
      * @return the score of the player
      */
+    @Deprecated
     public long getScore() {
         return playerData.getScore();
     }

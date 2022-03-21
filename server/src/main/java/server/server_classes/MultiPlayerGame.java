@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
     private List<String> playerNames;
-    private Map<String, PlayerData> playerData;
+    private Map<String, PlayerData> playerDataMap;
 
     /**
      * Constructor for a MultiPlayerGame
@@ -26,8 +26,8 @@ public class MultiPlayerGame extends AbstractGame {
     public MultiPlayerGame(long gameID, List<String> playerNames, List<Question> questions) {
         super(gameID, questions);
         this.playerNames = new ArrayList<>(playerNames);
-        playerData = new HashMap<>();
-        playerNames.forEach(name -> playerData.put(name, new PlayerData(name)));
+        playerDataMap = new HashMap<>();
+        playerNames.forEach(name -> playerDataMap.put(name, new PlayerData(name)));
     }
 
     /**
@@ -47,7 +47,7 @@ public class MultiPlayerGame extends AbstractGame {
     public Map<String, Long> getNameScorePairs() {
         Map<String, Long> nameScorePairs = new HashMap<>();
 
-        playerData.forEach((name, data) -> nameScorePairs.put(name, data.getScore()));
+        playerDataMap.forEach((name, data) -> nameScorePairs.put(name, data.getScore()));
 
         return nameScorePairs;
     }
@@ -61,10 +61,10 @@ public class MultiPlayerGame extends AbstractGame {
      * naming conventions
      */
     public long getPlayerScore(String name) {
-        if (name==null || name.length() == 0 || playerData.get(name) == null) {
+        if (name==null || name.length() == 0 || playerDataMap.get(name) == null) {
             throw new InvalidParameterException();
         } else {
-            return playerData.get(name).getScore();
+            return playerDataMap.get(name).getScore();
         }
     }
 
@@ -79,12 +79,12 @@ public class MultiPlayerGame extends AbstractGame {
      * @throws InvalidParameterException if the name violates some existence properties
      */
     public long givePoints(String name, long points) {
-        if (name==null || name.length() == 0 || playerData.get(name)==null) {
+        if (name==null || name.length() == 0 || playerDataMap.get(name)==null) {
             throw new InvalidParameterException();
         }
 
-        playerData.get(name).addScore(points);
-        return playerData.get(name).getScore();
+        playerDataMap.get(name).addScore(points);
+        return playerDataMap.get(name).getScore();
     }
 
     /**
@@ -96,13 +96,13 @@ public class MultiPlayerGame extends AbstractGame {
      * @return true iff the player was added successfully (not already existing in game) false otherwise
      */
     public boolean addPlayer(String name, long startingPoints) {
-        if (Objects.equals(null,name) || name.length() == 0 || playerData.containsKey(name)) {
+        if (Objects.equals(null,name) || name.length() == 0 || playerDataMap.containsKey(name)) {
             return false;
         }
 
         playerNames.add(name);
-        playerData.put(name, new PlayerData(name));
-        playerData.get(name).addScore(startingPoints);
+        playerDataMap.put(name, new PlayerData(name));
+        playerDataMap.get(name).addScore(startingPoints);
         return true;
     }
 
@@ -114,12 +114,12 @@ public class MultiPlayerGame extends AbstractGame {
      * @return true if the player was successfully deleted, false otherwise
      */
     public boolean deletePlayer(String name) {
-        if (Objects.equals(null,name) || name.length() == 0 || !playerData.containsKey(name)) {
+        if (Objects.equals(null,name) || name.length() == 0 || !playerDataMap.containsKey(name)) {
             return false;
         }
 
         playerNames.remove(name);
-        playerData.remove(name);
+        playerDataMap.remove(name);
         return true;
     }
 
@@ -162,7 +162,7 @@ public class MultiPlayerGame extends AbstractGame {
      * @return true iff the joker was successfully used
      */
     public boolean useJoker(String playerName, JokerType jokerType) {
-        if(!playerData.get(playerName).useJoker(jokerType)){
+        if(!playerDataMap.get(playerName).useJoker(jokerType)){
             return false;
         }
 
@@ -175,7 +175,7 @@ public class MultiPlayerGame extends AbstractGame {
      * getter for playerData
      * @return the playerData
      */
-    public Map<String, PlayerData> getPlayerData() {
-        return playerData;
+    public Map<String, PlayerData> getPlayerDataMap() {
+        return playerDataMap;
     }
 }
