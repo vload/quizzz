@@ -1,5 +1,6 @@
 package server.services;
 
+import commons.PlayerData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.api.QuestionGenerator;
@@ -17,12 +18,15 @@ class MultiPlayerGameServiceTest {
 
     Map<Long, AbstractGame> gameMap;
     MultiPlayerGameService s1;
+    SinglePlayerGameService s2; // Testing ID generation between 2 services
     @BeforeEach
     void init() {
+        IdGenerator generator = new IdGenerator();
         gameMap = new HashMap<>();
         MockActivityRepository mockRepo = new MockActivityRepository();
-        s1 = new MultiPlayerGameService(new IdGenerator(),gameMap,
+        s1 = new MultiPlayerGameService(generator,gameMap,
                 new QuestionGenerator(mockRepo,new Random(42)));
+        s2 = new SinglePlayerGameService(generator,gameMap,new QuestionGenerator(mockRepo,new Random(42)));
     }
 
     @Test
@@ -30,7 +34,25 @@ class MultiPlayerGameServiceTest {
         assertFalse(s1.isValidGame(0L));
         s1.insertGame(new SinglePlayerGame(0L,"Hello",new ArrayList<>()));
         assertFalse(s1.isValidGame(0L));
-        s1.insertGame(new MultiPlayerGame(3L,List.of("Hello","jay"),new ArrayList<>()));
+        s1.insertGame(new MultiPlayerGame(3L,List.of(
+                new PlayerData("Hello"),
+                new PlayerData("jay")),new ArrayList<>()));
         assertTrue(s1.isValidGame(3L));
+    }
+
+    @Test
+    void createMultiplayerGame() {
+        PlayerData d1 = new PlayerData("Taco");
+        PlayerData d2 = new PlayerData("Michael");
+        PlayerData d3 = new PlayerData("Barack");
+        List<PlayerData> playerDataList = List.of(d1,d2,d3);
+        var r1 = s1.createMultiplayerGame(playerDataList);
+        assertEquals(0L,r1);
+        assertEquals(1,gameMap.size());
+        var r2 = s2.createSinglePlayerGame("Test");
+        assertEquals(2,gameMap.size());
+        assertEquals(1L,r2);
+        var r3 = s1.createMultiplayerGame(List.of(d1,d2));
+        assertEquals(3,gameMap.size());
     }
 }

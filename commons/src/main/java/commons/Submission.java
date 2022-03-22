@@ -26,6 +26,9 @@ public class Submission implements Serializable {
         this.timerValue = Objects.requireNonNull(timerValue, "must not be null");
     }
 
+    /**
+     * Object mapper
+     */
     private Submission(){}
 
 

@@ -13,30 +13,31 @@ import java.util.*;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
-    private List<String> playerNames;
-    private Map<String, PlayerData> playerDataMap;
+    private final Map<String, PlayerData> playerDataMap;
 
     /**
      * Constructor for a MultiPlayerGame
      *
      * @param gameID The ID of the game
-     * @param playerNames A list containing all the players in the game. Must not be {@literal null}
-     * @param questions The list of 20 pre-generated questions to be used in this game instance
+     * @param playerDataList A list containing all of the player data objects of this game
+     * @param questions The list of 20 pre-generated questions to be used in this game instance.
      */
-    public MultiPlayerGame(long gameID, List<String> playerNames, List<Question> questions) {
+    public MultiPlayerGame(long gameID, List<PlayerData> playerDataList, List<Question> questions) {
         super(gameID, questions);
-        this.playerNames = new ArrayList<>(playerNames);
-        playerDataMap = new HashMap<>();
-        playerNames.forEach(name -> playerDataMap.put(name, new PlayerData(name)));
+        this.playerDataMap = new LinkedHashMap<>();
+        playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
+
     }
 
     /**
-     * Gets the player names in this multiplayer instance
+     * Returns the names of the players associated to this MultiPlayerGame instance
      *
-     * @return A list of player names
+     * @return The names of players in this game
      */
     public List<String> getPlayerNames() {
-        return playerNames;
+        List<String> names = new ArrayList<>();
+        playerDataMap.forEach((k,l) -> names.add(k));
+        return names;
     }
 
     /**
@@ -100,7 +101,6 @@ public class MultiPlayerGame extends AbstractGame {
             return false;
         }
 
-        playerNames.add(name);
         playerDataMap.put(name, new PlayerData(name));
         playerDataMap.get(name).addScore(startingPoints);
         return true;
@@ -118,7 +118,6 @@ public class MultiPlayerGame extends AbstractGame {
             return false;
         }
 
-        playerNames.remove(name);
         playerDataMap.remove(name);
         return true;
     }

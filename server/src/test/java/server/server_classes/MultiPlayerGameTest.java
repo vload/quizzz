@@ -1,6 +1,7 @@
 package server.server_classes;
 
 import commons.Activity;
+import commons.PlayerData;
 import commons.Question;
 import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,11 +32,12 @@ class MultiPlayerGameTest {
         Question question = new Question("Sample question",
                 Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
 
-
-
-        s1 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"),List.of(question,question));
-        s2 = new MultiPlayerGame(5,List.of("Marcus","Kanye","Alice"), List.of(question,question));
-        s3 = new MultiPlayerGame(4,List.of("Marcus","Kanye","Alce"),new ArrayList<>());
+        PlayerData p1 = new PlayerData("Marcus");
+        PlayerData p2 = new PlayerData("Kanye");
+        PlayerData p3 = new PlayerData("Alice");
+        s1 = new MultiPlayerGame(5,List.of(p1,p2,p3),List.of(question,question));
+        s2 = new MultiPlayerGame(5,List.of(p1,p2,p3), List.of(question,question));
+        s3 = new MultiPlayerGame(4,List.of(p1,p2,new PlayerData("Alce")),new ArrayList<>());
         sub = (MultiPlayerGame) s1;
     }
 
@@ -121,6 +123,6 @@ class MultiPlayerGameTest {
         var actual = s1.toString();
         assertTrue(actual.contains(MultiPlayerGame.class.getSimpleName()));
         assertTrue(actual.contains("\n"));
-        assertTrue(actual.contains("playerNames"));
+        assertTrue(actual.contains("playerDataMap"));
     }
 }
