@@ -28,12 +28,17 @@ public class NameScreenCtrl extends AbstractCtrl{
     }
 
     /**
-     * Clears the name input field, which is temporarily used for demonstrational purposes
+     * Attempts to start a singleplayer game
      */
-    public void startGame(){
+    public void startSPGame(){
+        myMainCtrl.startSPGame(nameField.getText());
+    }
 
-
-        myMainCtrl.startGame(nameField.getText());
+    /**
+     * Attempts to start a multiplayer game
+     */
+    public void startMPGame() {
+        myMainCtrl.startMPGame(nameField.getText());
     }
 
 

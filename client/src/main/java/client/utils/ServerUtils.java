@@ -156,7 +156,7 @@ public class ServerUtils {
      *
      * @return game ID assigned to the set of players
      */
-    public Long start(){
+    public Long startLobby(){
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/lobby/start")
                 .request(APPLICATION_JSON)
@@ -168,7 +168,7 @@ public class ServerUtils {
      *
      * @return an updated LobbyData object
      */
-    public LobbyData update(){
+    public LobbyData updateLobby(){
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/lobby/update")
                 .request(APPLICATION_JSON)

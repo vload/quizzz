@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.PlayerData;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
@@ -92,13 +93,40 @@ public class MyMainCtrl extends AbstractCtrl {
      * This method starts the game by getting a question and displaying it
      * @param name
      */
-    public void startGame(String name) {
+    public void startSPGame(String name) {
         if (name == null || name.length() == 0) {
             return;
         }
         gameID = server.createGame(name);
         Question q = server.getQuestion(gameID);
         showQuestionScene(q, 0L);
+    }
+
+    /**
+     * This method attempts to enter a player into a lobby
+     * @param name
+     */
+    public void startMPGame(String name){
+        if(canStart(new PlayerData(name))) {
+            showLobbyScreen();
+        } else{
+            System.out.println("You fucked up");
+            return;
+        }
+    }
+
+    /**
+     *
+     * @param data
+     * @return true if the game can start with the specified name, false otherwise
+     */
+    public boolean canStart(PlayerData data){
+        try {
+            server.connect(data);
+            return true;
+        }catch (BadRequestException e){
+            return false;
+        }
     }
 
     /**

@@ -32,6 +32,11 @@ public class PlayerData {
     }
 
     /**
+     * Private constructor for jackson deserialization
+     */
+    private PlayerData(){}
+
+    /**
      * Getter for playerName
      * @return the playerName
      */

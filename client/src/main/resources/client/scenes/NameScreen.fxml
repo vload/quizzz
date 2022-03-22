@@ -18,7 +18,7 @@
          <Font size="45.0" />
       </font>
    </Button>
-   <Button layoutX="1060.0" layoutY="675.0" mnemonicParsing="false" onAction="#startGame" prefHeight="250.0" prefWidth="400.0" text="Start">
+   <Button layoutX="1060.0" layoutY="675.0" mnemonicParsing="false" onAction="#startMPGame" prefHeight="250.0" prefWidth="400.0" text="Start">
       <font>
          <Font size="45.0" />
       </font>
