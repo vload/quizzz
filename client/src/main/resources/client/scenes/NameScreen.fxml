@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.NameScreenCtrl">
+   <Text layoutX="739.0" layoutY="253.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Enter your name:" wrappingWidth="527.859375">
+      <font>
+         <Font size="68.0" />
+      </font>
+   </Text>
+   <TextField fx:id="nameField" alignment="TOP_CENTER" layoutX="875.0" layoutY="423.0" prefHeight="26.0" prefWidth="185.0" scaleX="4.0" scaleY="4.0" scaleZ="4.0" styleClass="textField" />
+   <Button layoutX="480.0" layoutY="675.0" mnemonicParsing="false" onAction="#back" prefHeight="250.0" prefWidth="400.0" text="Back">
+      <font>
+         <Font size="45.0" />
+      </font>
+   </Button>
+   <Button layoutX="1060.0" layoutY="675.0" mnemonicParsing="false" onAction="#startGame" prefHeight="250.0" prefWidth="400.0" text="Start">
+      <font>
+         <Font size="45.0" />
+      </font>
+   </Button>
+</AnchorPane>

@@ -1,8 +1,9 @@
-package server.api;
+package server.database;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Example;
@@ -12,12 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
 import commons.Activity;
-import server.database.ActivityRepository;
 
 import javax.persistence.EntityNotFoundException;
 
-public class TestActivityRepository implements ActivityRepository {
-
+public class MockActivityRepository implements ActivityRepository {
     public final List<Activity> activities = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
@@ -30,7 +29,6 @@ public class TestActivityRepository implements ActivityRepository {
         calledMethods.add(name);
     }
 
-
     /**
      *
      * finds all activities
@@ -42,18 +40,6 @@ public class TestActivityRepository implements ActivityRepository {
         return activities;
     }
 
-    @Override
-    public List<Activity> findAll(Sort sort) {
-        //AUTO-GENERATED STUB
-        return null;
-    }
-
-    @Override
-    public Page<Activity> findAll(Pageable pageable) {
-        //AUTO GENERATED STUB
-        return null;
-    }
-
     /**
      *
      * Finds all activities associated to this id
@@ -62,7 +48,7 @@ public class TestActivityRepository implements ActivityRepository {
      * is not found, it will not be present in the returnList
      */
     @Override
-    public List<Activity> findAllById(Iterable<Long> ids) {
+    public List<Activity> findAllById(Iterable<String> ids) {
         call("findAllById");
         List<Activity> returnList = new ArrayList<>();
         ids.forEach(id -> {
@@ -92,10 +78,9 @@ public class TestActivityRepository implements ActivityRepository {
      *
      */
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         call("deleteById");
-        activities.removeIf(x -> x.id == id);
-
+        activities.removeIf(x -> x.getId().equals(id));
     }
 
     /**
@@ -108,7 +93,6 @@ public class TestActivityRepository implements ActivityRepository {
     public void delete(Activity entity) {
         call("delete");
         activities.remove(entity);
-
     }
 
     /**
@@ -118,10 +102,9 @@ public class TestActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException in case the given {@literal ids} or one of its elements is {@literal null}.
      */
     @Override
-    public void deleteAllById(Iterable<? extends Long> ids) {
+    public void deleteAllById(Iterable<? extends String> ids) {
         call("deleteAllById");
         ids.forEach(this::deleteById);
-
     }
 
     /**
@@ -156,13 +139,15 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public <S extends Activity> S save(S entity)  {
         call("save");
-        entity.id = (long) activities.size();
+        if(entity.id == null) {
+            entity.id = "ACTIVITY_ID_" + Long.toString(activities.size());
+        }
         activities.add(entity);
         return entity;
     }
 
     /**
-     * Saves all of the entities in the iterable, use the returned entities in the list
+     * Saves all the entities in the iterable, use the returned entities in the list
      * for further operations, as this might have changed the entities completely.
      * @param entities must not be {@literal null}.
      * @return A list of saved entities, which will never be {@literal null}.
@@ -182,9 +167,9 @@ public class TestActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.
      */
     @Override
-    public Optional<Activity> findById(Long id) {
+    public Optional<Activity> findById(String id) {
         call("findById");
-        return activities.stream().filter(x -> x.id == id).findFirst();
+        return activities.stream().filter(x -> x.getId().equals(id)).findFirst();
     }
 
     /**
@@ -193,43 +178,9 @@ public class TestActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.
      */
     @Override
-    public boolean existsById(Long id) {
+    public boolean existsById(String id) {
         call("existsById");
         return findById(id).isPresent();
-    }
-
-    @Override
-    public void flush() {
-    }
-
-    @Override
-    public <S extends Activity> S saveAndFlush(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends Activity> List<S> saveAllAndFlush(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public void deleteAllInBatch(Iterable<Activity> entities) {
-
-    }
-
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> ids) {
-
-    }
-
-    @Override
-    public void deleteAllInBatch() {
-
-    }
-
-    @Override
-    public Activity getOne(Long id) {
-        return null;
     }
 
     /**
@@ -242,9 +193,9 @@ public class TestActivityRepository implements ActivityRepository {
      * @return a reference to the entity with the given identifier.
      */
     @Override
-    public Activity getById(Long id) {
+    public Activity getById(String id) {
         call("getById");
-        Optional<Activity> activity = activities.stream().filter(x -> x.id == id).findFirst();
+        Optional<Activity> activity = activities.stream().filter(x -> x.getId().equals(id)).findFirst();
         if (activity.isPresent()) {
             return activity.get();
         } else {
@@ -252,9 +203,11 @@ public class TestActivityRepository implements ActivityRepository {
         }
     }
 
-    private Optional<Activity> find(Long id) {
-        return activities.stream().filter(x -> x.id == id).findFirst();
-    }
+    //*****************************************************************************************************************
+    //*****************************************************************************************************************
+    //NOT IMPLEMENTED
+    //*****************************************************************************************************************
+    //*****************************************************************************************************************
 
     @Override
     public <S extends Activity> Optional<S> findOne(Example<S> example) {
@@ -289,5 +242,62 @@ public class TestActivityRepository implements ActivityRepository {
     @Override
     public <S extends Activity, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
         return null;
+    }
+
+    @Override
+    public void flush() {
+    }
+
+    @Override
+    public <S extends Activity> S saveAndFlush(S entity) {
+        return null;
+    }
+
+    @Override
+    public <S extends Activity> List<S> saveAllAndFlush(Iterable<S> entities) {
+        return null;
+    }
+
+    @Override
+    public void deleteAllInBatch(Iterable<Activity> entities) {
+
+    }
+
+    @Override
+    public void deleteAllByIdInBatch(Iterable<String> ids) {
+
+    }
+
+    @Override
+    public void deleteAllInBatch() {
+
+    }
+
+    @Override
+    public Activity getOne(String id) {
+        return null;
+    }
+
+    @Override
+    public List<Activity> findAll(Sort sort) {
+        //AUTO-GENERATED STUB
+        return null;
+    }
+
+    @Override
+    public Page<Activity> findAll(Pageable pageable) {
+        //AUTO GENERATED STUB
+        return null;
+    }
+
+    @Override
+    public Activity getRandom(Random random) {
+        int count = (int) count();
+
+        if(count <= 0) {
+            return null;
+        }
+
+        return findAll().get(random.nextInt(count));
     }
 }

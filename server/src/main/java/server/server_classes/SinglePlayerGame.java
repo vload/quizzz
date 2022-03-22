@@ -1,30 +1,31 @@
 package server.server_classes;
 
+import commons.JokerType;
+import commons.PlayerData;
+import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.*;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class SinglePlayerGame extends AbstractGame {
 
     private final String playerName;
-    private long score;
-
-
-    // how tf do I get it to serialise these private variables up here without
-    // changing their access modifier
-    // currently the REST API produces only the ID of the game
+    private PlayerData playerData;
 
     /**
-     * constructor for the SinglePlayerGame class
+     * Constructor for the SinglePlayerGame class
      *
      * @param gameID The id for the class
      * @param playerName The name of the player associated to the single-player instance
+     * @param questions The pre-generated 20 questions to be used in this game instance
      */
-    public SinglePlayerGame(long gameID, String playerName) {
-        super(gameID,true);
-        this.score = 0L;
+    public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
+        super(gameID,questions);
+        playerData = new PlayerData(playerName);
         this.playerName = playerName;
     }
 
@@ -32,20 +33,32 @@ public class SinglePlayerGame extends AbstractGame {
      * getScore method
      * @return the score of the player
      */
+    @Deprecated
     public long getScore() {
-        return score;
+        return playerData.getScore();
     }
 
     /**
      * getPlayerName method
-     * @return the name of the player associated to this singleplayer instance
+     * @return the name of the player associated to this single-player instance
      */
     public String getPlayerName() {
         return playerName;
     }
 
     /**
-     * compares two objcts based on equality
+     * Method to increase the score of the player in the current game session
+     *
+     * @param inc A long representing how much you want to increase the score by.
+     * @return The (new) cumulative score
+     */
+    public long increaseScore(long inc) {
+        playerData.addScore(inc);
+        return playerData.getScore();
+    }
+
+    /**
+     * Compares two objects based on equality
      *
      * @param obj The object to be tested for equality
      * @return true iff, o is an instanceof SinglePlayerGame and has equivalent attributes.
@@ -56,7 +69,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a hashcode for the object
+     * Generates a hashcode for the object
      *
      * @return An integer containing the hashcode of this object
      */
@@ -66,7 +79,7 @@ public class SinglePlayerGame extends AbstractGame {
     }
 
     /**
-     * generates a string representation of this object
+     * Generates a string representation of this object
      *
      * @return A string which represents this instance of a SinglePlayerGame
      */
@@ -75,7 +88,29 @@ public class SinglePlayerGame extends AbstractGame {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
+    /**
+     * Getter for playerData
+     *
+     * @return the playerData
+     */
+    public PlayerData getPlayerData() {
+        return playerData;
+    }
 
+    /**
+     * Use the joker.
+     *
+     * @param gameId The id of the game session
+     * @param jokerType The type of joker it is
+     * @return true iff the use was successful
+     */
+    public boolean useJoker(long gameId, JokerType jokerType) {
+        if(!playerData.useJoker(jokerType)){
+            return false;
+        }
 
+        // send data to player
 
+        return true;
+    }
 }

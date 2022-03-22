@@ -1,0 +1,27 @@
+@import "colors.css";
+
+.anchorPane {
+    -fx-background-color: -background-color;
+}
+
+.text {
+    -fx-fill: white;
+    -fx-font-size: 40;
+}
+
+.title {
+    -fx-fill: white;
+}
+
+.button {
+    -fx-background-color: -button-color;
+    -fx-background-radius: 50;
+    -fx-border-color: -button-border-color;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
+}
+
+.button:hover {
+    -fx-background-color: -button-hover-color;
+}

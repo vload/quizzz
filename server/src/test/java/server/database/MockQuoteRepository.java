@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package server.api;
+package server.database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import commons.Quote;
 import server.database.QuoteRepository;
 
-public class TestQuoteRepository implements QuoteRepository {
+public class MockQuoteRepository implements QuoteRepository {
 
     public final List<Quote> quotes = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
@@ -135,7 +135,7 @@ public class TestQuoteRepository implements QuoteRepository {
     @Override
     public <S extends Quote> S save(S entity) {
         call("save");
-        entity.id = (long) quotes.size();
+        entity.id = quotes.size();
         quotes.add(entity);
         return entity;
     }
@@ -143,7 +143,7 @@ public class TestQuoteRepository implements QuoteRepository {
     @Override
     public Optional<Quote> findById(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class TestQuoteRepository implements QuoteRepository {
     @Override
     public <S extends Quote> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub
-        return null;
+        return Optional.empty();
     }
 
     @Override

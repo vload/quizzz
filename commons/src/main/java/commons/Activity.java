@@ -1,38 +1,42 @@
 package commons;
 
+import javax.persistence.*;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.*;
-
-import java.util.*;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-@SuppressWarnings("unused")
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "activities")
 public class Activity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "activity_id", nullable = false)
-    public long id; // change access-modifiers if necessary? Template project doesn't do this :shrug:
+    @JsonProperty("id")
+    public String id;
+
+    @Column(name="image_path")
+    @JsonProperty("image_path")
+    private String imagePath;
 
     @Column(name = "title", nullable = false)
+    @JsonProperty("title")
     private String title;
 
-    @Column(name="energy_consumption")
+    @Column(name="energy_consumption", nullable = false)
+    @JsonProperty("consumption_in_wh")
     private double energyConsumption;
 
+    @Lob
     @Column(name="source_url")
+    @JsonProperty("source")
     private String source;
 
-    @ManyToMany(mappedBy = "activities")
-    private Set<Question> questions;
-
     /**
-     *
      * constructor for object mapper
      */
     private Activity() {
@@ -40,45 +44,48 @@ public class Activity {
     }
 
     /**
+     * Constructor for Activity
      *
-     * constructor for Activity: (V1) without questions
-     * @param title The title of this activity
-     * @param energyConsumption The energy consumption (kwh) of this activity
-     * @param source The URL where the question comes from.
+     * @param id the id of the activity
+     * @param imagePath the path of the image
+     * @param title the text of the activity
+     * @param energyConsumption the energy consumption of the activity
+     * @param source source of the information
      */
-    public Activity(String title, double energyConsumption, String source) {
+    public Activity(String id, String imagePath, String title, double energyConsumption, String source) {
+        this.id = id;
+        this.imagePath = imagePath;
         this.title = title;
         this.energyConsumption = energyConsumption;
         this.source = source;
     }
 
     /**
-     *
-     * constructor for Activity: (V2) with the set of questions!
-     * @param title The title of this activity
-     * @param energyConsumption The energy consumption (kwh) of this activity
-     * @param source The URL where the question comes from.
-     * @param questions The set of questions the activity is associated with
+     * Getter for id
+     * @return the id
      */
-    public Activity(String title, double energyConsumption, String source, Set<Question> questions) {
-        this.title = title;
-        this.energyConsumption = energyConsumption;
-        this.source = source;
-        this.questions = questions;
+    public String getId() {
+        return id;
     }
 
     /**
-     *
-     * getter for title
-     * @return the title of the activity
+     * Getter for imagePath
+     * @return the imagePath
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
+     * Getter for title
+     * @return the title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     *
-     * getter for energyconsumption
+     * Getter for energyConsumption
      * @return The amount of energy the activity uses
      */
     public double getEnergyConsumption() {
@@ -86,26 +93,16 @@ public class Activity {
     }
 
     /**
-     *
-     * getter for the source
-     * @return The source of the question
+     * Getter for source
+     * @return the source
      */
     public String getSource() {
         return source;
     }
 
     /**
-     *
-     * getter for the questions
-     * @return The questions associated with this activity modelled in the many-to-many relationship
-     */
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
-    /**
-     *
      * enhanced equals method
+     *
      * @param obj The object to be compared to
      * @return true if the two Objects have tested equals.
      */
@@ -115,8 +112,8 @@ public class Activity {
     }
 
     /**
+     *enhanced hashcode method
      *
-     * enhanced hashcode method
      * @return the hashcode
      */
     @Override
@@ -125,20 +122,12 @@ public class Activity {
     }
 
     /**
-     *
      * enhanced toString
+     *
      * @return A string representation of this object
      */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
-
-
-
-
-
-
-
-
 }

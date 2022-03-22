@@ -13,9 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package server.database;
+package client.scenes;
 
-import commons.Question;
-import org.springframework.data.jpa.repository.JpaRepository;
+import javax.inject.Inject;
 
-public interface QuestionRepository extends JpaRepository<Question, Long> {}
+public class MainScreenCtrl extends AbstractCtrl{
+
+    private final MyMainCtrl myMainCtrl;
+
+    /**
+     * Constructor for the name screen controller
+     * @param myMainCtrl
+     */
+    @Inject
+    public MainScreenCtrl(MyMainCtrl myMainCtrl){
+        this.myMainCtrl = myMainCtrl;
+
+    }
+
+    /**
+     * Shows main screen
+     */
+    public void goToName() {
+        myMainCtrl.showNameScreen();
+    }
+}

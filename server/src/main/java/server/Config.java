@@ -15,20 +15,46 @@
  */
 package server;
 
-import java.util.Random;
+import java.util.*;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import server.server_classes.AbstractGame;
+import server.server_classes.IdGenerator;
 
 @Configuration
 public class Config {
 
     /**
-     * Adding checkstyle
-     * @return Adding checkstyle
+     * Bean for creating a Random object
+     * @return the Random object
      */
     @Bean
     public Random getRandom() {
         return new Random();
     }
+
+    /**
+     * Bean for creating a game map. (SHARES THE SAME INSTANCE ACROSS THE APPLICATION)
+     *
+     * @return The Map containing the ids and the game
+     */
+    @Bean
+    @Scope("singleton")
+    public Map<Long, AbstractGame> gameMap() {
+        return new HashMap<>();
+    }
+
+    /**
+     * Bean for IdGenerator. (SHARES THE SAME INSTANCE ACROSS THE APPLICATION)
+     *
+     * @return An instance of idGenerator
+     */
+    @Bean
+    @Scope("singleton")
+    public IdGenerator idGenerator() {
+        return new IdGenerator();
+    }
+
 }

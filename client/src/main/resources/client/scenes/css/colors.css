@@ -1,0 +1,18 @@
+* {
+    -background-color: #03071e;
+
+    -button-color: #6a040f;
+    -button-hover-color: #d00000;
+    -button-border-color: #9d0208;
+
+    -correct-color: #90EE90;
+    -correct-border-color: #00FF00;
+
+    -incorrect-color: #ADD8E6;
+    -incorrect-border-color: #0000FF;
+
+    -joker-color: #d00000;
+    -joker-border-color: #e85d04;
+    -joker-hover-color: #faa307;
+
+}
