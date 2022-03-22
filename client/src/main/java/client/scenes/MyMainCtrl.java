@@ -34,6 +34,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param server
      * @param mainScreen
      * @param nameScreen
+     * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
      */

@@ -37,13 +37,13 @@ public class MainStage extends Application {
         var mainScreen = FXML.load(MainScreenCtrl.class, "client", "scenes", "MainScreen.fxml");
         var nameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "NameScreen.fxml");
         var lobbyScreen = FXML.load(LobbyScreenCtrl.class, "client", "scenes", "LobbyScreen.fxml");
-        var spEstimateQuestionScreen = FXML.load(SPEstimateQuestionCtrl.class,
+        var spEQScreen = FXML.load(SPEstimateQuestionCtrl.class,
                 "client", "scenes", "SPEstimateQuestion.fxml");
-        var spMCQuestionScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
+        var spMCQScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
                 "client", "scenes", "SPMultipleChoice.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
         var server = INJECTOR.getInstance(ServerUtils.class);
-        mainCtrl.init(primaryStage, server, mainScreen, nameScreen, lobbyScreen, spEstimateQuestionScreen, spMCQuestionScreen);
+        mainCtrl.init(primaryStage, server, mainScreen, nameScreen, lobbyScreen, spEQScreen, spMCQScreen);
     }
 
 
