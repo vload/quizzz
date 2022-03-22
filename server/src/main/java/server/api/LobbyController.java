@@ -10,6 +10,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 import server.services.MultiPlayerGameService;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 @RestController
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
 public class LobbyController {
 
     private final MultiPlayerGameService service;
-    private Map<Object, Consumer<LobbyData>> playerListeners = new HashMap<>();
+    private Map<Object, Consumer<LobbyData>> playerListeners = new ConcurrentHashMap<>();
     private List<PlayerData> connectedPlayers = new ArrayList<>();
 
     /**

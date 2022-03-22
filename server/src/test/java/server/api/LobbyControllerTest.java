@@ -6,6 +6,7 @@ import commons.PlayerData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import server.database.MockActivityRepository;
 import server.server_classes.AbstractGame;
 import server.server_classes.IdGenerator;
@@ -117,7 +118,30 @@ class LobbyControllerTest {
     }
 
     @Test
-    void playersUpdater() {
-
+    void playersUpdater() throws InterruptedException {
+        var r1 = sut.playersUpdater();
+        assertFalse(r1.hasResult());
+        sut.connect(new PlayerData("H"));
+        assertTrue(r1.hasResult());
+        ResponseEntity<LobbyData> test = (ResponseEntity<LobbyData>) r1.getResult();
+        assertNotNull(test);
+        assertEquals(1, Objects.requireNonNull(test.getBody()).getPlayerDataList().size());
+        var r2 = sut.playersUpdater();
+        assertFalse(r2.hasResult());
+        sut.connect(new PlayerData("P"));
+        var r3 = sut.playersUpdater();
+        assertEquals(test,r1.getResult());
+        assertTrue(r2.hasResult());
+        ResponseEntity<LobbyData> testTwo = (ResponseEntity<LobbyData>) r2.getResult();
+        assertFalse(r3.hasResult());
+        assertNotNull(testTwo);
+        assertEquals(2,Objects.requireNonNull(testTwo.getBody()).getPlayerDataList().size());
+        assertEquals(new PlayerData("H"),
+                sut.disconnect(new PlayerData("H")).getBody());
+        assertTrue(r3.hasResult());
+        ResponseEntity<LobbyData> testThree = (ResponseEntity<LobbyData>) r3.getResult();
+        assertNotNull(testThree);
+        assertEquals(List.of(new PlayerData("P")),
+                Objects.requireNonNull(testThree.getBody()).getPlayerDataList());
     }
 }
