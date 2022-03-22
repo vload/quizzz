@@ -29,7 +29,7 @@
             <Region minHeight="30.0" prefHeight="29.0" prefWidth="1920.0" />
             <HBox maxHeight="616.0" prefHeight="616.0" prefWidth="1920.0">
                <children>
-                  <Region stylesheets="@css/LobbyCSS.css" HBox.hgrow="ALWAYS" />
+                  <Region HBox.hgrow="ALWAYS" />
                   <ListView fx:id="playerList" prefHeight="300.0" prefWidth="712.0">
                      <padding>
                         <Insets bottom="15.0" top="15.0" />
