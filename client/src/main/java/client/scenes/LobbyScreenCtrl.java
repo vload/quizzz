@@ -15,4 +15,6 @@ public class LobbyScreenCtrl extends AbstractCtrl{
     @FXML
     private Button startButton1;
 
+
+
 }

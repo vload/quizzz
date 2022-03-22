@@ -32,6 +32,9 @@ public class NameScreenCtrl extends AbstractCtrl{
      */
     public void startGame(){
 
+
         myMainCtrl.startGame(nameField.getText());
     }
+
+
 }

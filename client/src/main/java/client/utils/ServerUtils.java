@@ -23,12 +23,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-import commons.Question;
+import commons.*;
 
-import commons.Submission;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -98,23 +96,6 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
-       /* int random = ThreadLocalRandom.current().nextInt(0, 2);
-        if (random == 1) {
-            var activitySet = new HashSet<Activity>();
-            activitySet.add(new Activity("1", "facebook.com/image1"
-                    , "A1", 20, "facebook.com/source1"));
-            activitySet.add(new Activity("2", "facebook.com/image2",
-                    "A2", 30, "facebook.com/source2"));
-            activitySet.add(new Activity("3", "facebook.com/image3",
-                    "A3", 40, "facebook.com/source3"));
-            return new Question("To be or not to be?", activitySet, QuestionType.MC, "2");
-        } else {
-            var activitySet = new HashSet<Activity>();
-            activitySet.add(new Activity("1", "facebook.com/image1",
-                                        "A1", 20, "facebook.com/source1"));
-            return new Question("To be or not to be? (estimate)",
-                                        activitySet, QuestionType.ESTIMATE, "20");
-        }*/
     }
 
 
@@ -144,5 +125,57 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(name, APPLICATION_JSON), String.class);
     }
+
+    /**
+     *
+     * @param data
+     * @return new LobbyData object representing the current state of the lobby
+     */
+    public LobbyData connect(PlayerData data){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/connect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(data, APPLICATION_JSON), LobbyData.class);
+    }
+
+    /**
+     *
+     * @param data
+     * @return PlayerData object that was removed
+     */
+    public PlayerData disconnect(PlayerData data){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/disconnect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(data, APPLICATION_JSON), PlayerData.class);
+    }
+
+    /**
+     *
+     * @return game ID assigned to the set of players
+     */
+    public Long start(){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/start")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Long.class);
+    }
+
+    /**
+     *
+     * @return an updated LobbyData object
+     */
+    public LobbyData update(){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/update")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(LobbyData.class);
+    }
+
+
 
 }
