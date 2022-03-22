@@ -19,6 +19,7 @@ public class MyMainCtrl extends AbstractCtrl {
 
     public Stage primaryStage;
     public String gameID;
+    public PlayerData playerData;
 
     private ServerUtils server;
 
@@ -34,7 +35,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param primaryStage
      * @param server
      * @param mainScreen
-     * @param nameScreen
+     * @param MPnameScreen
+     * @param SPnameScreen
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
@@ -42,7 +44,8 @@ public class MyMainCtrl extends AbstractCtrl {
     public void init(Stage primaryStage,
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
-                           Pair<NameScreenCtrl, Parent> nameScreen,
+                           Pair<NameScreenCtrl, Parent> MPnameScreen,
+                           Pair<NameScreenCtrl, Parent> SPnameScreen,
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
@@ -52,7 +55,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
-        screenMap.put("nameScreen", new SceneCtrlPair(nameScreen.getValue(), nameScreen.getKey()));
+        screenMap.put("MPnameScreen", new SceneCtrlPair(MPnameScreen.getValue(), MPnameScreen.getKey()));
+        screenMap.put("SPnameScreen", new SceneCtrlPair(SPnameScreen.getValue(), SPnameScreen.getKey()));
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
@@ -78,8 +82,15 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method shows the name screen
      */
-    public void showNameScreen(){
-        setScene("nameScreen", "Enter your name", "ScreenCommonCSS.css");
+    public void showSPNameScreen(){
+        setScene("SPnameScreen", "Enter your name", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showMPNameScreen(){
+        setScene("MPnameScreen", "Enter your name", "ScreenCommonCSS.css");
     }
 
     /**
@@ -106,11 +117,11 @@ public class MyMainCtrl extends AbstractCtrl {
      * This method attempts to enter a player into a lobby
      * @param name
      */
-    public void startMPGame(String name){
-        if(canStart(new PlayerData(name))) {
+    public void startMPGame(String name) {
+         playerData = new PlayerData(name);
+        if(canStart(playerData)) {
             showLobbyScreen();
         } else{
-            System.out.println("You fucked up");
             return;
         }
     }

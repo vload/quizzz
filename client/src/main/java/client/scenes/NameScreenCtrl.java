@@ -9,7 +9,10 @@ public class NameScreenCtrl extends AbstractCtrl{
     private final MyMainCtrl myMainCtrl;
 
     @FXML
-    private TextField nameField;
+    private TextField SPnameField;
+
+    @FXML
+    private TextField MPnameField;
 
     /**
      * Constructor for the name screen controller
@@ -31,14 +34,14 @@ public class NameScreenCtrl extends AbstractCtrl{
      * Attempts to start a singleplayer game
      */
     public void startSPGame(){
-        myMainCtrl.startSPGame(nameField.getText());
+        myMainCtrl.startSPGame(SPnameField.getText());
     }
 
     /**
      * Attempts to start a multiplayer game
      */
     public void startMPGame() {
-        myMainCtrl.startMPGame(nameField.getText());
+        myMainCtrl.startMPGame(MPnameField.getText());
     }
 
 
