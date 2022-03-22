@@ -1,6 +1,6 @@
 @import "colors.css";
 
-.anchorPane {
+.border_plane {
     -fx-background-color: -background-color;
 }
 
