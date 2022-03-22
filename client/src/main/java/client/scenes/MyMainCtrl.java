@@ -41,6 +41,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
                            Pair<NameScreenCtrl, Parent> nameScreen,
+                           Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
 
@@ -50,6 +51,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
         screenMap.put("nameScreen", new SceneCtrlPair(nameScreen.getValue(), nameScreen.getKey()));
+        screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
 
@@ -76,6 +78,13 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void showNameScreen(){
         setScene("nameScreen", "Enter your name", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showLobbyScreen(){
+        setScene("lobbyScreen", "Multiplayer Lobby", "lobbyCSS.css");
     }
 
     /**
