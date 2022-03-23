@@ -173,7 +173,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         submitButton.setDisable(false);
         resetUI();
         Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
-        answerTimer.cancel();
+        answerTimerTask.cancel();
     }
 
     /**
@@ -184,7 +184,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         answerText.setDisable(true);
         submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1L);
+        long score = myMainCtrl.sendSubmission("late", -1);
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
