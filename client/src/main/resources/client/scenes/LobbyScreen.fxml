@@ -44,7 +44,7 @@
                   <VBox>
                      <children>
                         <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
-                        <Button fx:id="backButton" mnemonicParsing="false" prefHeight="90.0" prefWidth="395.0" styleClass="jokerButton" text="Back" />
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBackToMainScreen" prefHeight="90.0" prefWidth="395.0" styleClass="jokerButton" text="Back" />
                         <Region VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>

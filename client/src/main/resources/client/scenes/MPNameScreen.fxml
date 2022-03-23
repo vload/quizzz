@@ -28,7 +28,7 @@
             <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <TextField fx:id="nameField" alignment="TOP_CENTER" prefHeight="105.0" prefWidth="637.0">
+                  <TextField fx:id="MPnameField" alignment="TOP_CENTER" prefHeight="105.0" prefWidth="637.0">
                      <font>
                         <Font size="45.0" />
                      </font>
@@ -47,7 +47,7 @@
                      </font>
                   </Button>
                   <Region minWidth="100.0" />
-                  <Button mnemonicParsing="false" onAction="#startGame" prefHeight="192.0" prefWidth="412.0" text="Start">
+                  <Button mnemonicParsing="false" onAction="#startMPGame" prefHeight="192.0" prefWidth="412.0" text="Start">
                      <font>
                         <Font size="80.0" />
                      </font>

@@ -28,7 +28,7 @@
             <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#goToName" prefHeight="235.0" prefWidth="570.0" text="SinglePlayer">
+                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="235.0" prefWidth="570.0" text="SinglePlayer">
                      <font>
                         <Font size="80.0" />
                      </font>
@@ -40,7 +40,7 @@
             <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#goToName" prefHeight="216.0" prefWidth="570.0" text="MultiPlayer">
+                  <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="216.0" prefWidth="570.0" text="MultiPlayer">
                      <font>
                         <Font size="80.0" />
                      </font>

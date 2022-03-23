@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.PlayerData;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
@@ -18,6 +19,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
     public Stage primaryStage;
     public String gameID;
+    public PlayerData playerData;
+    public boolean connected;
 
     private ServerUtils server;
 
@@ -33,7 +36,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param primaryStage
      * @param server
      * @param mainScreen
-     * @param nameScreen
+     * @param mpNameScreen
+     * @param spNameScreen
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
@@ -41,7 +45,8 @@ public class MyMainCtrl extends AbstractCtrl {
     public void init(Stage primaryStage,
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
-                           Pair<NameScreenCtrl, Parent> nameScreen,
+                           Pair<NameScreenCtrl, Parent> mpNameScreen,
+                           Pair<NameScreenCtrl, Parent> spNameScreen,
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
@@ -51,10 +56,18 @@ public class MyMainCtrl extends AbstractCtrl {
 
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
-        screenMap.put("nameScreen", new SceneCtrlPair(nameScreen.getValue(), nameScreen.getKey()));
+        screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
+        screenMap.put("spNameScreen", new SceneCtrlPair(spNameScreen.getValue(), spNameScreen.getKey()));
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
+
+        primaryStage.setOnCloseRequest(e -> {
+            lobbyScreen.getKey().stop();
+            if(connected){
+                server.disconnect(playerData);
+            }
+        });
 
         showUI();
     }
@@ -77,8 +90,15 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method shows the name screen
      */
-    public void showNameScreen(){
-        setScene("nameScreen", "Enter your name", "ScreenCommonCSS.css");
+    public void showSPNameScreen(){
+        setScene("spNameScreen", "Enter your name", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showMPNameScreen(){
+        setScene("mpNameScreen", "Enter your name", "ScreenCommonCSS.css");
     }
 
     /**
@@ -92,13 +112,41 @@ public class MyMainCtrl extends AbstractCtrl {
      * This method starts the game by getting a question and displaying it
      * @param name
      */
-    public void startGame(String name) {
+    public void startSPGame(String name) {
         if (name == null || name.length() == 0) {
             return;
         }
         gameID = server.createGame(name);
         Question q = server.getQuestion(gameID);
         showQuestionScene(q, 0L);
+    }
+
+    /**
+     * This method attempts to enter a player into a lobby
+     * @param name
+     */
+    public void startMPGame(String name) {
+         playerData = new PlayerData(name);
+        if(canStart(playerData)) {
+            showLobbyScreen();
+            connected = true;
+        } else{
+            return;
+        }
+    }
+
+    /**
+     *
+     * @param data
+     * @return true if the game can start with the specified name, false otherwise
+     */
+    public boolean canStart(PlayerData data){
+        try {
+            server.connect(data);
+            return true;
+        }catch (BadRequestException e){
+            return false;
+        }
     }
 
     /**
