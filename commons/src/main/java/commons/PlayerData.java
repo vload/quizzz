@@ -84,6 +84,26 @@ public class PlayerData {
     }
 
     /**
+     * This is a bit like the equals method, but it only tests for the same name
+     * The reason why this was implemented, is that the server and client might modify the jokers
+     * or the player score. This means that they won't be equal anymore.
+     *
+     * @param obj The object to be tested for the same name
+     * @return true iff obj is an instanceof PlayerData and has the same name, false otherwise
+     */
+    public boolean hasSameName(Object obj) {
+        if (this==obj) {
+            return true;
+        }
+
+        if (obj instanceof PlayerData) {
+            PlayerData that = (PlayerData) obj;
+            return Objects.equals(this.playerName,that.playerName);
+        }
+        return false;
+    }
+
+    /**
      * Compares two objects based on equality
      *
      * @param obj The object to be tested for equality

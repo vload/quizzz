@@ -11,4 +11,13 @@ public interface MultiPlayerPollObject {
      * @return The body of this object
      */
     Object getBody();
+
+    @Override
+    int hashCode();
+
+    @Override
+    boolean equals(Object o);
+
+    @Override
+    String toString();
 }

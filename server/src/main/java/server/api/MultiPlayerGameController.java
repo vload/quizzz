@@ -69,7 +69,6 @@ public class MultiPlayerGameController {
             gameListener.forEach((k,l) -> l.accept(
                     new UIBoxPollObject(service.getInformationBox(gameID))));
         }
-
         return ResponseEntity.ok(message);
     }
 
