@@ -20,6 +20,7 @@ public class MyMainCtrl extends AbstractCtrl {
     public Stage primaryStage;
     public String gameID;
     public PlayerData playerData;
+    public boolean connected;
 
     private ServerUtils server;
 
@@ -63,7 +64,9 @@ public class MyMainCtrl extends AbstractCtrl {
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
-            server.disconnect(playerData);
+            if(connected){
+                server.disconnect(playerData);
+            }
         });
 
         showUI();
@@ -126,6 +129,7 @@ public class MyMainCtrl extends AbstractCtrl {
          playerData = new PlayerData(name);
         if(canStart(playerData)) {
             showLobbyScreen();
+            connected = true;
         } else{
             return;
         }
