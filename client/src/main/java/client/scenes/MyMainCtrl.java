@@ -36,8 +36,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param primaryStage
      * @param server
      * @param mainScreen
-     * @param MPnameScreen
-     * @param SPnameScreen
+     * @param mpNameScreen
+     * @param spNameScreen
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
@@ -45,8 +45,8 @@ public class MyMainCtrl extends AbstractCtrl {
     public void init(Stage primaryStage,
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
-                           Pair<NameScreenCtrl, Parent> MPnameScreen,
-                           Pair<NameScreenCtrl, Parent> SPnameScreen,
+                           Pair<NameScreenCtrl, Parent> mpNameScreen,
+                           Pair<NameScreenCtrl, Parent> spNameScreen,
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
@@ -56,8 +56,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
-        screenMap.put("MPnameScreen", new SceneCtrlPair(MPnameScreen.getValue(), MPnameScreen.getKey()));
-        screenMap.put("SPnameScreen", new SceneCtrlPair(SPnameScreen.getValue(), SPnameScreen.getKey()));
+        screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
+        screenMap.put("spNameScreen", new SceneCtrlPair(spNameScreen.getValue(), spNameScreen.getKey()));
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
@@ -91,14 +91,14 @@ public class MyMainCtrl extends AbstractCtrl {
      * This method shows the name screen
      */
     public void showSPNameScreen(){
-        setScene("SPnameScreen", "Enter your name", "ScreenCommonCSS.css");
+        setScene("spNameScreen", "Enter your name", "ScreenCommonCSS.css");
     }
 
     /**
      * This method shows the name screen
      */
     public void showMPNameScreen(){
-        setScene("MPnameScreen", "Enter your name", "ScreenCommonCSS.css");
+        setScene("mpNameScreen", "Enter your name", "ScreenCommonCSS.css");
     }
 
     /**

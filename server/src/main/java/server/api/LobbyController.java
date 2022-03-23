@@ -19,7 +19,6 @@ public class LobbyController {
 
     private final MultiPlayerGameService service;
     private Map<Object, Consumer<LobbyData>> playerListeners = new ConcurrentHashMap<>();
-    private Map<Object, Consumer<PlayerData>> listeners = new HashMap<>();
     private List<PlayerData> connectedPlayers = new ArrayList<>();
 
     /**
@@ -100,7 +99,7 @@ public class LobbyController {
             res.setResult(ResponseEntity.ok(lobbyData));
         });
         res.onCompletion(() -> {
-            listeners.remove(key);
+            playerListeners.remove(key);
         });
         return res;
     }

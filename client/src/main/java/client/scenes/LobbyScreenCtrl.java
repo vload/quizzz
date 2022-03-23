@@ -37,6 +37,11 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
         this.server = server;
     }
 
+    /**
+     * Called to initialize a controller after its root element has been completely processed.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         server.registerForUpdates(l -> {
