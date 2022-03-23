@@ -61,6 +61,11 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
 
+        primaryStage.setOnCloseRequest(e -> {
+            lobbyScreen.getKey().stop();
+            server.disconnect(playerData);
+        });
+
         showUI();
     }
 
