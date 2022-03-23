@@ -26,7 +26,9 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
 
     protected final ServerUtils server;
     protected Timer mainTimer;
+    protected TimerTask mainTimerTask;
     protected Timer answerTimer;
+    protected TimerTask answerTimerTask;
 
     /**
      * Constructor for QuestionController
@@ -56,7 +58,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      */
     public void timer() {
         mainTimer = new Timer();
-        this.mainTimer.schedule(new TimerTask() {
+        mainTimerTask = new TimerTask() {
             double progressTime = 9.99;
             int timer = 100;
             int textTime = 11;
@@ -73,11 +75,12 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 timer++;
                 if (progressTime < 0) {
                     Platform.runLater(() -> timerText.setText(0 + " s"));
-                    mainTimer.cancel();
+                    this.cancel();
                     Platform.runLater(() -> timeOut());
                 }
             }
-        }, 0, 10);
+        };
+        this.mainTimer.schedule(mainTimerTask, 0, 10);
     }
 
     /**
@@ -88,7 +91,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     public Double cancelTimer() {
         Double result = timerBar.getProgress();
         timerBar.setProgress(10);
-        mainTimer.cancel();
+        mainTimerTask.cancel();
         return result;
     }
 
@@ -98,7 +101,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      */
     protected void showCorrectAnswerTimer(long score) {
         answerTimer = new Timer();
-        this.answerTimer.schedule(new TimerTask() {
+        answerTimerTask = new TimerTask() {
             double progressTime = 2.99;
             int timer = 100;
             int textTime = 4;
@@ -114,10 +117,12 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 }
                 timer++;
                 if (progressTime < 0) {
+                    this.cancel();
                     Platform.runLater(() -> goToNextScene(score));
                 }
             }
-        }, 0, 10);
+        };
+        this.answerTimer.schedule(answerTimerTask, 0, 10);
     }
 
     /**
