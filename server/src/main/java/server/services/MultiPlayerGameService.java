@@ -29,18 +29,6 @@ public class MultiPlayerGameService extends AbstractGameService {
     }
 
     /**
-     * Checks that the multiplayergame exists.
-     *
-     * @param gameID The gameID to be checked for existence
-     * @return true iff the game exists, and is of instance MultiPlayerGame
-     */
-    @Override
-    public boolean isValidGame(long gameID) {
-        return gameMap.get(gameID) != null &&
-                gameMap.get(gameID) instanceof MultiPlayerGame;
-    }
-
-    /**
      * Method to create a new MultiPlayerGame
      *
      * @param playerDataList A list containing all of the players associated with this game instance
@@ -56,6 +44,49 @@ public class MultiPlayerGameService extends AbstractGameService {
         }
         gameMap.put(game.gameID,game);
         return game.gameID;
+    }
+
+    /**
+     * Adds a String to the message box of a MultiPlayerGame instance
+     *
+     * @param gameID The ID of the game
+     * @param message The message to be added
+     * @return null if there was an error finding the game, the message if it was successful
+     */
+    public String addMessageToInformationBox(long gameID, String message) {
+        if (!isValidGame(gameID)) {
+            return null;
+        }
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        game.addMesageToInformationBox(message);
+        return message;
+    }
+
+    /**
+     * Getter for the Information Box
+     *
+     * @param gameID The ID of the game
+     * @return The information box of the respective game, as a list
+     * null if there was an error finding the game
+     */
+    public List<String> getInformationBox(long gameID) {
+        if (!isValidGame(gameID)) {
+            return null;
+        }
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        return game.getInformationBox();
+    }
+
+    /**
+     * Checks that the multiplayergame exists.
+     *
+     * @param gameID The gameID to be checked for existence
+     * @return true iff the game exists, and is of instance MultiPlayerGame
+     */
+    @Override
+    public boolean isValidGame(long gameID) {
+        return gameMap.get(gameID) != null &&
+                gameMap.get(gameID) instanceof MultiPlayerGame;
     }
 
 

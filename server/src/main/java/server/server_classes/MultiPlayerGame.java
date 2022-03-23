@@ -14,6 +14,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
     private final Map<String, PlayerData> playerDataMap;
+    private final List<String> informationBox = new ArrayList<>();
 
     /**
      * Constructor for a MultiPlayerGame
@@ -171,7 +172,28 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
-     * getter for playerData
+     * Adds a message to the information box
+     *
+     * @param message The message to be added
+     * @return The message itself.
+     */
+    public String addMesageToInformationBox(String message) {
+        informationBox.add(message);
+        return message;
+    }
+
+    /**
+     * Getter for the messages in the Information Box
+     *
+     * @return The list of strings corresponding to messages in the information box
+     */
+    public List<String> getInformationBox() {
+        return informationBox;
+    }
+
+    /**
+     * Getter for playerData
+     *
      * @return the playerData
      */
     public Map<String, PlayerData> getPlayerDataMap() {

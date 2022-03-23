@@ -2,13 +2,11 @@ package server.api;
 
 import commons.Question;
 import commons.poll_wrapper.MultiPlayerPollObject;
+import commons.poll_wrapper.UIBoxPollObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 import server.services.MultiPlayerGameService;
 
@@ -47,6 +45,32 @@ public class MultiPlayerGameController {
             return null;
         }
         return service.getQuestions(gameID);
+    }
+
+    /**
+     * API endpoint to be used when client wants to send something into the information box.
+     * 2 Scenarios:
+     *      - The client has used a joker, and this needs to be announced in the box.
+     *      - The client has used a reaction and this needs to be announced.
+     *
+     * @param id The ID of the MultiPlayer game instance
+     * @param message The message that should be added to the UI Box
+     * @return A ResponseEntity containing the message that was just added.
+     */
+    @PostMapping(path="/informationbox/{id}")
+    public ResponseEntity<String> informationbox(@RequestBody String message,@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (id.length() == 0 || !service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+        service.addMessageToInformationBox(gameID,message);
+        Map<Object,Consumer<MultiPlayerPollObject>> gameListener = listeners.get(gameID);
+        if (gameListener != null) {
+            gameListener.forEach((k,l) -> l.accept(
+                    new UIBoxPollObject(service.getInformationBox(gameID))));
+        }
+
+        return ResponseEntity.ok(message);
     }
 
     /**

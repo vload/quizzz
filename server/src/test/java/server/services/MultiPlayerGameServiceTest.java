@@ -55,4 +55,26 @@ class MultiPlayerGameServiceTest {
         var r3 = s1.createMultiplayerGame(List.of(d1,d2));
         assertEquals(3,gameMap.size());
     }
+
+    @Test
+    void addMessageToInformationBox() {
+        assertNull(s1.addMessageToInformationBox(0L,"Hello"));
+        s1.createMultiplayerGame(
+                List.of(new PlayerData("Taco"),
+                        new PlayerData("Pad")));
+        assertEquals("Test",s1.addMessageToInformationBox(0L,"Test"));
+        assertNull(s1.addMessageToInformationBox(1L,"Test"));
+        assertEquals(List.of("Test"),s1.getInformationBox(0L));
+    }
+
+    @Test
+    void getInformationBox() {
+        assertNull(s1.getInformationBox(0L));
+        s1.createMultiplayerGame(
+                List.of(new PlayerData("Taco"),
+                        new PlayerData("Pad")));
+        assertEquals(new ArrayList<>(),s1.getInformationBox(0L));
+        assertEquals("Test",s1.addMessageToInformationBox(0L,"Test"));
+        assertEquals(List.of("Test"),s1.getInformationBox(0L));
+    }
 }

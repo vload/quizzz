@@ -7,7 +7,7 @@ public class UIBoxPollObject implements MultiPlayerPollObject {
     private List<String> uiMessages;
 
     /**
-     * Private Constructor for UIBoxPollObject
+     * Private Constructor for Object Mapper
      */
     private UIBoxPollObject() {}
 
