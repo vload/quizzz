@@ -56,13 +56,6 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
     /**
      *
      */
-    public void updateListView(){
-
-    }
-
-    /**
-     *
-     */
     public void goBackToMainScreen(){
         server.disconnect(myMainCtrl.playerData);
         myMainCtrl.connected = false;
