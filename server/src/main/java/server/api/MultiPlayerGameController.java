@@ -6,7 +6,6 @@ import commons.Submission;
 import commons.poll_wrapper.MultiPlayerPollObject;
 import commons.poll_wrapper.TimeReductionPollObject;
 import commons.poll_wrapper.UIBoxPollObject;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +76,7 @@ public class MultiPlayerGameController {
      *                   MCQ: Should contain the ID of the activity that the user chose
      *                   Estimate: Should contain the energy usage that the user inputted
      * @param id the ID of the game session
-     * @param The name of the player within the multiplayer game session
+     * @param name name of the player within the multiplayer game session
      * @return A ResponseEntity containing the current score of the game, will return the same score
      * that the user previously had if the user submitted the wrong answer.
      */
@@ -85,7 +84,33 @@ public class MultiPlayerGameController {
     public ResponseEntity<Long> validateAnswer(@RequestBody Submission answerPair,
                                                @PathVariable("id") String id,
                                                @PathVariable("name") String name) {
+        long gameID = Long.parseLong(id);
+        if (answerPair == null || !service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+        long r1 = service.validateAnswer(answerPair,gameID,name);
+        if (r1 != -1L) {
+            return ResponseEntity.ok(r1);
+        }
         return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * API endpoint to see who is correct with regards to the current question.
+     * WARNING: There is no guarantee to the order of key-value pairs, when iterating over them.
+     *
+     * @param id The id of the current game
+     * @return A map containg key-value pairs of who is correct and who is wrong
+     */
+    @GetMapping(path="whoiscorrect/{id}")
+    public ResponseEntity<Map<String,Boolean>> whoIsCorrect(@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (!service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var map = service.getQuestionCorrectnessMap(gameID);
+        return ResponseEntity.ok(map);
     }
 
 

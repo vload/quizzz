@@ -2,6 +2,7 @@ package server.services;
 
 import commons.PlayerData;
 import commons.Question;
+import commons.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.QuestionGenerator;
@@ -46,12 +47,55 @@ public class MultiPlayerGameService extends AbstractGameService {
         return game.gameID;
     }
 
+    /**
+     * The method responsible for getting the question in a multiplayergame in the service layer.
+     *
+     * @param gameID The ID of the game
+     * @param name The name of the player that needs its question retrieved.
+     * @return The question retrieved
+     */
     public Question getNextQuestion(long gameID, String name) {
         if (!isValidGame(gameID)) {
             return null;
         }
         MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
         return game.getNextQuestion(name);
+    }
+
+    /**
+     * The service-layer method responsible for getting the map
+     * that determines whether the players got the current question right or wrong.
+     *
+     * @param gameID The game ID of the game this should be retrieved from
+     * @return The questionCorrectnessMap
+     */
+    public Map<String,Boolean> getQuestionCorrectnessMap(long gameID) {
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        return game.getQuestionCorrectnessMap();
+    }
+
+    /**
+     * Method responsible for checking whether the player got the answer correct or not.
+     *
+     * @param answerPair Submission object which contains the answer and the time left
+     *                   on the timer
+     * @param gameID The ID of the game instance
+     * @param name The name of the player, which is being checked
+     * @return The updated score of the player, will be the same
+     * as before if the player got the question wrong
+     */
+    public long validateAnswer(Submission answerPair, long gameID, String name) {
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        if (game.getCurrentQuestion(name)==null) {
+            return -1L;
+        }
+        long incScore = game.getCurrentQuestion(name)
+                .getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
+        if (incScore > 0L) {
+            game.markAsCorrect(name);
+        }
+
+        return game.addScoreFromQuestion(incScore,name);
     }
 
     /**
