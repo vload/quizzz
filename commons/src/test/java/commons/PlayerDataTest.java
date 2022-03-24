@@ -26,6 +26,14 @@ class PlayerDataTest {
 
     @Test
     void addScore() {
+        assertEquals(0L,p1.getScore());
+        p1.addScore(32);
+        assertEquals(32L,p1.getScore());
+        assertEquals(0L,p2.getScore());
+        p1.addScore(32L);
+        assertEquals(64L,p1.getScore());
+        p2.addScore(16L);
+        assertEquals(16L,p2.getScore());
     }
 
     @Test
