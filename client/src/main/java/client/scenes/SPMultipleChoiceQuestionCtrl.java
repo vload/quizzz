@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.JokerType;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
@@ -125,7 +126,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         for (Button b : buttonList) {
             b.getStyleClass().removeAll("questionButtonCorrect");
             b.getStyleClass().removeAll("questionButtonIncorrect");
-            b.getStyleClass().add("questionButton");
         }
     }
 
@@ -150,10 +150,8 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
              String answer = b.getId();
              b.setDisable(true);
              if (answer.equals(correctAnswer)) {
-                 b.getStyleClass().removeAll("questionButton");
                  b.getStyleClass().add("questionButtonCorrect");
              } else {
-                 b.getStyleClass().removeAll("questionButton");
                  b.getStyleClass().add("questionButtonIncorrect");
              }
          }
@@ -172,5 +170,22 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
                 i++;
             }
         }
+    }
+
+    @Override
+    protected JokerType jokerPress(ActionEvent event) {
+         JokerType type = super.jokerPress(event);
+
+         if (type == JokerType.REMOVE_WRONG_ANSWER) {
+             for (Button b : buttonList) {
+                 String answer = b.getId();
+                 if (!answer.equals(associatedQuestion.getCorrectAnswer())) {
+                     b.getStyleClass().add("questionButtonIncorrect");
+                     b.setDisable(true);
+                     return type;
+                 }
+             }
+         }
+         return type;
     }
 }

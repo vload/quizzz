@@ -241,6 +241,9 @@ public class MyMainCtrl extends AbstractCtrl {
      * @return boolean allowed/forbidden
      */
     public boolean useJokerSingleplayer(JokerType joker) {
+        if (joker == JokerType.REMOVE_WRONG_ANSWER) {
+            return true;
+        }
         return server.useJokerSingleplayer(Long.parseLong(gameID), joker);
     }
 

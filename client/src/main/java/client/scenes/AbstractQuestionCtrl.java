@@ -200,19 +200,21 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     /**
      * Event handler for pressing a joker button
      * @param event
+     * @return jokerType pressed
      */
     @FXML
-    void jokerPress(ActionEvent event) {
+    protected JokerType jokerPress(ActionEvent event) {
         Button button = (Button) event.getSource();
         String buttonId = button.getId();
         JokerData jokerData = jokerMap.get(buttonId);
         if (jokerData.isUsed()) {
-            return;
+            return null;
         }
         button.setDisable(true);
 
         myMainCtrl.useJokerSingleplayer(jokerData.getType());
         removeJokerFromList(jokerData.getType());
+        return jokerData.getType();
     }
 
     void removeJokerFromList(JokerType type) {
