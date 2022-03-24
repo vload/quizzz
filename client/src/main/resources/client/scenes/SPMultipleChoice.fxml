@@ -43,9 +43,9 @@
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton1" layoutY="10.0" mnemonicParsing="false" onAction="#executeDoublePointsJoker" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text="x2" />
+                  <Button fx:id="jokerButton0" layoutY="10.0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
                   <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton2" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text="Button" />
+                  <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
