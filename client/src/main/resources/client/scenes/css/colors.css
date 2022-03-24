@@ -11,8 +11,9 @@
     -incorrect-color: #d00000;
     -incorrect-border-color: #9d0208;
 
+    -joker-disabled-color: #626060;
+    -joker-disabled-border: #939191;
     -joker-color: #915850;
     -joker-border-color: #5b352f;
     -joker-hover-color: #cc9085;
-
 }
