@@ -24,29 +24,28 @@ public class LeaderboardEntry {
 
 
     /**
-     *
-     * constructor for object mapper
+     * Constructor for object mapper
      */
     private LeaderboardEntry() {
         // for object mapper
     }
 
     /**
+     * Constructor for LeaderboardEntry
      *
-     * constructor for Leaderboard
      * @param id ID of the entry
      * @param name The name of the player
      * @param score The score of the player
      */
-    public LeaderboardEntry(long id, String name, int score) {
+    public LeaderboardEntry(long id, String name,long score) {
         this.id = id;
         this.name = name;
         this.score = score;
     }
 
     /**
+     * Getter for name
      *
-     * getter for name
      * @return The name of the player
      */
     public String getName() {
@@ -54,8 +53,8 @@ public class LeaderboardEntry {
     }
 
     /**
+     * Getter for score
      *
-     * getter for score
      * @return The score of the player
      */
     public long getScore() {
@@ -63,8 +62,8 @@ public class LeaderboardEntry {
     }
 
     /**
+     * Enhanced equals method
      *
-     * enhanced equals method
      * @param obj The object to be compared to
      * @return true if the two Objects have tested equals.
      */
@@ -74,8 +73,8 @@ public class LeaderboardEntry {
     }
 
     /**
+     * Enhanced hashcode method
      *
-     * enhanced hashcode method
      * @return the hashcode
      */
     @Override
@@ -84,8 +83,8 @@ public class LeaderboardEntry {
     }
 
     /**
+     * Enhanced toString
      *
-     * enhanced toString
      * @return A string representation of this object
      */
     @Override

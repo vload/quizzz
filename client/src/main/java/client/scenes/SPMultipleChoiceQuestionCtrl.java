@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
@@ -24,14 +25,13 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     private Button activityText3;
 
     @FXML
-    private Button jokerText1;
+    private Button jokerButton0;
 
     @FXML
-    private Button jokerText2;
+    private Button jokerButton1;
 
     private Question associatedQuestion;
     private ArrayList<Button> buttonList;
-    private final MyMainCtrl myMainCtrl;
 
     /**
      * Constructor for SPMultipleChoiceQuestionCtrl
@@ -40,8 +40,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      */
     @Inject
     public SPMultipleChoiceQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
-        super(server);
-        this.myMainCtrl = myMainCtrl;
+        super(server, myMainCtrl);
     }
 
     /**
@@ -51,6 +50,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      */
     public void init(Question question, Long score) {
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
+        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
         init(score);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
@@ -126,7 +126,6 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         for (Button b : buttonList) {
             b.getStyleClass().removeAll("questionButtonCorrect");
             b.getStyleClass().removeAll("questionButtonIncorrect");
-            b.getStyleClass().add("questionButton");
         }
     }
 
@@ -151,33 +150,42 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
              String answer = b.getId();
              b.setDisable(true);
              if (answer.equals(correctAnswer)) {
-                 b.getStyleClass().removeAll("questionButton");
                  b.getStyleClass().add("questionButtonCorrect");
              } else {
-                 b.getStyleClass().removeAll("questionButton");
                  b.getStyleClass().add("questionButtonIncorrect");
              }
          }
      }
 
-    /**
-     * Event handler for pressing a joker button
-     * @param event
-     */
-    @FXML
-    void jokerPress(ActionEvent event) {
+    @Override
+    protected void setUpJokers() {
+        int i = 0;
+        jokerMap = new HashMap<>();
+        for (JokerData joker : myMainCtrl.getJokerList()) {
+            if (joker != null && joker.isSp() && joker.isMc()) {
+                jokerMap.put("jokerButton" + i, joker);
+                jokerList.get(i).setDisable(joker.isUsed());
+                jokerList.get(i).setText(joker.getText());
 
+                i++;
+            }
+        }
     }
 
-    /**
-     * Executes the double-point joker
-     * @param event the action event
-     */
-    @FXML
-    void executeDoublePointsJoker(ActionEvent event){
-        Button button = (Button) event.getSource();
-        button.setDisable(true);
+    @Override
+    protected JokerType jokerPress(ActionEvent event) {
+         JokerType type = super.jokerPress(event);
 
-        myMainCtrl.useJokerSingleplayer(JokerType.DOUBLE_POINTS);
+         if (type == JokerType.REMOVE_WRONG_ANSWER) {
+             for (Button b : buttonList) {
+                 String answer = b.getId();
+                 if (!answer.equals(associatedQuestion.getCorrectAnswer())) {
+                     b.getStyleClass().add("questionButtonIncorrect");
+                     b.setDisable(true);
+                     return type;
+                 }
+             }
+         }
+         return type;
     }
 }

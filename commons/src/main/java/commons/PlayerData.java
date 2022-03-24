@@ -56,9 +56,11 @@ public class PlayerData {
      * Adds to the player's score.
      *
      * @param amount the amount to increase the score by
+     * @return The UPDATED cumulative score. Will be the same score if the amount is 0
      */
-    public void addScore(long amount){
+    public long addScore(long amount){
         score += amount;
+        return score;
     }
 
     /**
@@ -102,6 +104,25 @@ public class PlayerData {
             return true;
         }
 
+        return false;
+    }
+
+    /**
+     * This is a bit like the equals method, but it only tests for the same name
+     * The reason why this was implemented, is that the server and client might modify the jokers
+     * or the player score. This means that they won't be equal anymore.
+     *
+     * @param data The PlayerData to be tested for the same name
+     * @return true iff the other PlayerData has the same name, false otherwise
+     */
+    public boolean hasSameName(PlayerData data) {
+        if (this == data) {
+            return true;
+        }
+
+        if (data != null) {
+            return Objects.equals(this.playerName, data.playerName);
+        }
         return false;
     }
 

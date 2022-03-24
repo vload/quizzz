@@ -35,6 +35,11 @@
     -fx-background-color: -joker-hover-color;
 }
 
+.jokerButton:disabled {
+    -fx-background-color: -joker-disabled-color;
+    -fx-border-color: -joker-disabled-border;
+}
+
 .reactionButton .text {
     -fx-font-size: 12;
 }
