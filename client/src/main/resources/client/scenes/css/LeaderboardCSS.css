@@ -1,0 +1,35 @@
+.anchorPane {
+    -fx-background-color: #03071e;
+}
+
+.text {
+    -fx-fill: white;
+    -fx-font-size: 40;
+}
+
+
+.button {
+    -fx-background-color: #6a040f;
+    -fx-background-radius: 50;
+    -fx-border-color: #9d0208;
+    -fx-border-width: 5;
+    -fx-border-radius: 50;
+}
+.button:hover {
+    -fx-background-color: #d00000;
+}
+
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.list-cell .text {
+    -fx-font-size: 25;
+    -fx-text-alignment: center;
+}

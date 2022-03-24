@@ -42,6 +42,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param leaderboardScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -50,7 +51,8 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<NameScreenCtrl, Parent> spNameScreen,
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
-                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
+                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
@@ -62,6 +64,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
+        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -181,7 +184,7 @@ public class MyMainCtrl extends AbstractCtrl {
         try {
             Question newQuestion = server.getQuestion(gameID);
             if (newQuestion == null) {
-                showMainScreen();
+                showLeaderboardScreen();
                 return;
             }
             showQuestionScene(newQuestion, score);
@@ -235,6 +238,15 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public Stage getPrimaryStage(){
         return primaryStage;
+    }
+
+    /**
+     * shows leaderboard screen
+     */
+    public void showLeaderboardScreen(){
+        setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
+        var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
+        ctrl.init();
     }
 
 }
