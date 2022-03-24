@@ -2,11 +2,16 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.JokerType;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,17 +30,26 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     protected Text timerText;
 
     protected final ServerUtils server;
+    protected final MyMainCtrl myMainCtrl;
+
     protected Timer mainTimer;
+    protected TimerTask mainTimerTask;
     protected Timer answerTimer;
+    protected TimerTask answerTimerTask;
+
+    protected HashMap<String, JokerData> jokerMap;
+    protected ArrayList<Button> jokerList;
 
     /**
      * Constructor for QuestionController
      *
      * @param server that can communicate with backend
+     * @param mainCtrl
      */
     @Inject
-    public AbstractQuestionCtrl(ServerUtils server) {
+    public AbstractQuestionCtrl(ServerUtils server, MyMainCtrl mainCtrl) {
         this.server = server;
+        this.myMainCtrl = mainCtrl;
     }
 
     /**
@@ -45,6 +59,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      */
     public void init(Long score) {
         resetUI();
+        setUpJokers();
         scoreText.setText("Score: " + score);
         timerText.setText("10s");
         timerBar.setProgress(10);
@@ -56,7 +71,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      */
     public void timer() {
         mainTimer = new Timer();
-        this.mainTimer.schedule(new TimerTask() {
+        mainTimerTask = new TimerTask() {
             double progressTime = 9.99;
             int timer = 100;
             int textTime = 11;
@@ -73,11 +88,12 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 timer++;
                 if (progressTime < 0) {
                     Platform.runLater(() -> timerText.setText(0 + " s"));
-                    mainTimer.cancel();
+                    this.cancel();
                     Platform.runLater(() -> timeOut());
                 }
             }
-        }, 0, 10);
+        };
+        this.mainTimer.schedule(mainTimerTask, 0, 10);
     }
 
     /**
@@ -88,7 +104,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     public Double cancelTimer() {
         Double result = timerBar.getProgress();
         timerBar.setProgress(10);
-        mainTimer.cancel();
+        mainTimerTask.cancel();
         return result;
     }
 
@@ -97,8 +113,9 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      * @param score
      */
     protected void showCorrectAnswerTimer(long score) {
+        enableJokers(false);
         answerTimer = new Timer();
-        this.answerTimer.schedule(new TimerTask() {
+        answerTimerTask = new TimerTask() {
             double progressTime = 2.99;
             int timer = 100;
             int textTime = 4;
@@ -114,10 +131,12 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 }
                 timer++;
                 if (progressTime < 0) {
+                    this.cancel();
                     Platform.runLater(() -> goToNextScene(score));
                 }
             }
-        }, 0, 10);
+        };
+        this.answerTimer.schedule(answerTimerTask, 0, 10);
     }
 
     /**
@@ -173,6 +192,41 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         timerText.setText(null);
         timerBar.setProgress(10);
         questionText.setText(null);
+        enableJokers(true);
+    }
+
+    protected abstract void setUpJokers();
+
+    /**
+     * Event handler for pressing a joker button
+     * @param event
+     * @return jokerType pressed
+     */
+    @FXML
+    protected JokerType jokerPress(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        String buttonId = button.getId();
+        JokerData jokerData = jokerMap.get(buttonId);
+        if (jokerData.isUsed()) {
+            return null;
+        }
+        button.setDisable(true);
+
+        myMainCtrl.useJokerSingleplayer(jokerData.getType());
+        removeJokerFromList(jokerData.getType());
+        return jokerData.getType();
+    }
+
+    void removeJokerFromList(JokerType type) {
+        myMainCtrl.getJokerList().forEach((joker) -> {
+            if (type.equals(joker.getType())) {
+                joker.setUsed(true);
+            }
+        });
+    }
+
+    void enableJokers(boolean b) {
+        jokerList.forEach((j) -> j.setDisable(!b));
     }
 }
 

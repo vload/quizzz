@@ -52,7 +52,25 @@ public class SinglePlayerGame extends AbstractGame {
      * @param inc A long representing how much you want to increase the score by.
      * @return The (new) cumulative score
      */
+    @Deprecated
     public long increaseScore(long inc) {
+        playerData.addScore(inc);
+        return playerData.getScore();
+    }
+
+    /**
+     * Method to increase the score of the player in the current game session
+     * Joker calculations are also made.
+     *
+     * @param inc A long representing how much you want to increase the score by.
+     * @return The (new) cumulative score
+     */
+    public long addScoreFromQuestion(long inc){
+        if(playerData.needsToBeExecuted(JokerType.DOUBLE_POINTS)){
+            inc *= 2;
+            playerData.markJokerAsUsed(JokerType.DOUBLE_POINTS);
+        }
+
         playerData.addScore(inc);
         return playerData.getScore();
     }
@@ -100,16 +118,13 @@ public class SinglePlayerGame extends AbstractGame {
     /**
      * Use the joker.
      *
-     * @param gameId The id of the game session
      * @param jokerType The type of joker it is
      * @return true iff the use was successful
      */
-    public boolean useJoker(long gameId, JokerType jokerType) {
+    public boolean useJoker(JokerType jokerType) {
         if(!playerData.useJoker(jokerType)){
             return false;
         }
-
-        // send data to player
 
         return true;
     }

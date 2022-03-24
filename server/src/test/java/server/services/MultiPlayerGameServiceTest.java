@@ -73,8 +73,24 @@ class MultiPlayerGameServiceTest {
         s1.createMultiplayerGame(
                 List.of(new PlayerData("Taco"),
                         new PlayerData("Pad")));
-        assertEquals(new ArrayList<>(),s1.getInformationBox(0L));
-        assertEquals("Test",s1.addMessageToInformationBox(0L,"Test"));
-        assertEquals(List.of("Test"),s1.getInformationBox(0L));
+        assertEquals(new ArrayList<>(), s1.getInformationBox(0L));
+        assertEquals("Test", s1.addMessageToInformationBox(0L, "Test"));
+        assertEquals(List.of("Test"), s1.getInformationBox(0L));
+    }
+
+    @Test
+    void getPlayerScores() {
+        PlayerData d1 = new PlayerData("Taco");
+        PlayerData d2 = new PlayerData("Michael");
+        PlayerData d3 = new PlayerData("Barack");
+        s1.createMultiplayerGame(List.of(d1,d2,d3));
+        d1.addScore(30L);
+        d2.addScore(60L);
+        d3.addScore(90L);
+        Map<String,Long> sample = new HashMap<>();
+        sample.put("Taco",30L);
+        sample.put("Michael",60L);
+        sample.put("Barack",90L);
+        assertEquals(sample,s1.getPlayerScores(0L));
     }
 }

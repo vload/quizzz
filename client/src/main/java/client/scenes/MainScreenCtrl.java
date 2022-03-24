@@ -34,7 +34,14 @@ public class MainScreenCtrl extends AbstractCtrl{
     /**
      * Shows main screen
      */
-    public void goToName() {
-        myMainCtrl.showNameScreen();
+    public void goToMPName() {
+        myMainCtrl.showMPNameScreen();
+    }
+
+    /**
+     * Shows main screen
+     */
+    public void goToSPName() {
+        myMainCtrl.showSPNameScreen();
     }
 }

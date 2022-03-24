@@ -30,10 +30,10 @@ public class MultiPlayerGame extends AbstractGame {
         super(gameID, questions);
         this.playerDataMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
-        this.questionQueueMap = new ConcurrentHashMap<>();
+        this.questionQueueMap = new HashMap<>();
         playerDataList.forEach(data -> questionQueueMap.put(data.getPlayerName(),
                 new LinkedList<>(questions)));
-        this.currentQuestionMap = new ConcurrentHashMap<>();
+        this.currentQuestionMap = new HashMap<>();
         playerDataList.forEach(data -> currentQuestionMap.put(data.getPlayerName()
                 ,null));
     }

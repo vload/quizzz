@@ -9,9 +9,17 @@ import java.util.*;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class PlayerData {
+
+
+    public enum JokerUsageType{
+        NOT_USED,
+        TO_BE_EXECUTED,
+        USED
+    }
+
     private long score;
-    private Map<JokerType, Boolean> jokers;
     private String playerName;
+    private Map<JokerType, JokerUsageType> jokers;
 
     /**
      * Constructor for PlayerData.
@@ -26,10 +34,15 @@ public class PlayerData {
 
         this.jokers = new HashMap<>();
 
-        jokerSet.forEach(joker -> this.jokers.put(joker, true));
+        jokerSet.forEach(joker -> this.jokers.put(joker, JokerUsageType.NOT_USED));
 
         this.playerName = playerName;
     }
+
+    /**
+     * Private constructor for jackson deserialization
+     */
+    private PlayerData(){}
 
     /**
      * Getter for playerName
@@ -43,9 +56,11 @@ public class PlayerData {
      * Adds to the player's score.
      *
      * @param amount the amount to increase the score by
+     * @return The UPDATED cumulative score. Will be the same score if the amount is 0
      */
-    public void addScore(long amount){
+    public long addScore(long amount){
         score += amount;
+        return score;
     }
 
     /**
@@ -64,19 +79,28 @@ public class PlayerData {
      * @return true iff joker has been used
      */
     public boolean jokerHasBeenUsed(JokerType joker){
-        return jokers.get(joker);
+        return jokers.get(joker) == JokerUsageType.USED;
+    }
+
+
+    /**
+     * this marks a joker as used (completely)
+     * @param jokerType the type of joker to be marked
+     */
+    public void markJokerAsUsed(JokerType jokerType) {
+        jokers.put(jokerType, JokerUsageType.USED);
     }
 
     /**
      * Marks the joker as used
-     *  //TODO: actually use the joker to change the game state.
+     *  //TODO: actually use the joker to change the game state. WIP
      *
      * @param joker the joker to be used.
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType joker){
         if(!jokerHasBeenUsed(joker)){
-            jokers.put(joker, false);
+            jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
             return true;
         }
 
@@ -88,19 +112,28 @@ public class PlayerData {
      * The reason why this was implemented, is that the server and client might modify the jokers
      * or the player score. This means that they won't be equal anymore.
      *
-     * @param obj The object to be tested for the same name
+     * @param data The object to be tested for the same name
      * @return true iff obj is an instanceof PlayerData and has the same name, false otherwise
      */
-    public boolean hasSameName(Object obj) {
-        if (this==obj) {
+    public boolean hasSameName(PlayerData data) {
+        if (this == data) {
             return true;
         }
 
-        if (obj instanceof PlayerData) {
-            PlayerData that = (PlayerData) obj;
-            return Objects.equals(this.playerName,that.playerName);
+        if (data != null) {
+            return Objects.equals(this.playerName, data.playerName);
         }
         return false;
+    }
+
+    /**
+     * Check if a joker is marked as TO_BE_EXECUTED
+     *
+     * @param joker the joker to be checked
+     * @return true iff the joker is to be executed
+     */
+    public boolean needsToBeExecuted(JokerType joker){
+        return jokers.get(joker) == JokerUsageType.TO_BE_EXECUTED;
     }
 
     /**

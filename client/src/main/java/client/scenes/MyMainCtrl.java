@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.PlayerData;
+import commons.JokerType;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
@@ -11,6 +13,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -18,10 +21,13 @@ public class MyMainCtrl extends AbstractCtrl {
 
     public Stage primaryStage;
     public String gameID;
+    public PlayerData playerData;
+    public boolean connected;
 
     private ServerUtils server;
 
     private HashMap<String, SceneCtrlPair> screenMap;
+    private ArrayList<JokerData> jokerList;
 
     /**
      * Constructor for MyMainCtrl
@@ -33,25 +39,41 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param primaryStage
      * @param server
      * @param mainScreen
-     * @param nameScreen
+     * @param mpNameScreen
+     * @param spNameScreen
+     * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param leaderboardScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
                            Pair<MainScreenCtrl, Parent> mainScreen,
-                           Pair<NameScreenCtrl, Parent> nameScreen,
+                           Pair<NameScreenCtrl, Parent> mpNameScreen,
+                           Pair<NameScreenCtrl, Parent> spNameScreen,
+                           Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
-                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
+                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
 
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
-        screenMap.put("nameScreen", new SceneCtrlPair(nameScreen.getValue(), nameScreen.getKey()));
+        screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
+        screenMap.put("spNameScreen", new SceneCtrlPair(spNameScreen.getValue(), spNameScreen.getKey()));
+        screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
+        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+
+        primaryStage.setOnCloseRequest(e -> {
+            lobbyScreen.getKey().stop();
+            if(connected){
+                server.disconnect(playerData);
+            }
+        });
 
         showUI();
     }
@@ -74,21 +96,68 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method shows the name screen
      */
-    public void showNameScreen(){
-        setScene("nameScreen", "Enter your name", "ScreenCommonCSS.css");
+    public void showSPNameScreen(){
+        setScene("spNameScreen", "Enter your name", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showMPNameScreen(){
+        setScene("mpNameScreen", "Enter your name", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showLobbyScreen(){
+        setScene("lobbyScreen", "Multiplayer Lobby", "lobbyCSS.css");
     }
 
     /**
      * This method starts the game by getting a question and displaying it
      * @param name
      */
-    public void startGame(String name) {
+    public void startSPGame(String name) {
         if (name == null || name.length() == 0) {
             return;
         }
         gameID = server.createGame(name);
+        setUpJokers(gameID);
         Question q = server.getQuestion(gameID);
         showQuestionScene(q, 0L);
+    }
+
+    /**
+     * This method attempts to enter a player into a lobby
+     * @param name
+     * @return true if player can join with that name, false otherwise
+     */
+    public boolean startMPGame(String name) {
+         playerData = new PlayerData(name);
+        if(canStart(playerData)) {
+            showLobbyScreen();
+            connected = true;
+            return true;
+
+        } else{
+
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param data
+     * @return true if the game can start with the specified name, false otherwise
+     */
+    public boolean canStart(PlayerData data){
+        try {
+            server.connect(data);
+            return true;
+        }catch (BadRequestException e){
+            return false;
+        }
     }
 
     /**
@@ -110,7 +179,7 @@ public class MyMainCtrl extends AbstractCtrl {
         try {
             Question newQuestion = server.getQuestion(gameID);
             if (newQuestion == null) {
-                showMainScreen();
+                showLeaderboardScreen();
                 return;
             }
             showQuestionScene(newQuestion, score);
@@ -159,11 +228,66 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Getter for jokerList
+     * @return jokerList
+     */
+    public ArrayList<JokerData> getJokerList() {
+        return jokerList;
+    }
+
+    /**
+     * Method that sends the joker to the server
+     * @param joker the joker type to be sent
+     * @return boolean allowed/forbidden
+     */
+    public boolean useJokerSingleplayer(JokerType joker) {
+        if (joker == JokerType.REMOVE_WRONG_ANSWER) {
+            return true;
+        }
+        return server.useJokerSingleplayer(Long.parseLong(gameID), joker);
+    }
+
+    /**
+     * Sets up the game's jokers
+     * @param gameID
+     */
+    public void setUpJokers(String gameID) {
+        var jokers = server.getJokers(gameID);
+        jokerList = new ArrayList<>();
+        for (JokerType j : jokers) {
+            String text;
+            switch (j) {
+                case DOUBLE_POINTS:
+                    text = "x2";
+                    jokerList.add(new JokerData(text, JokerType.DOUBLE_POINTS, false, true, true, true, true));
+                    break;
+                case REMOVE_WRONG_ANSWER:
+                    text = "Remove";
+                    jokerList.add(new JokerData(text, JokerType.REMOVE_WRONG_ANSWER, false, true, false, true, true));
+                    break;
+                case HALF_TIME:
+                    text = "time/2";
+                    jokerList.add(new JokerData(text, JokerType.HALF_TIME, false, true, true, false, true));
+                    break;
+            }
+        }
+    }
+
+    /**
      *
      * @return primary stage
      */
     public Stage getPrimaryStage(){
         return primaryStage;
+    }
+
+    /**
+     * shows leaderboard screen
+     */
+    public void showLeaderboardScreen(){
+        setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
+        var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
+        ctrl.init();
     }
 
 }

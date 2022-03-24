@@ -4,10 +4,6 @@
     -fx-background-color: -background-color;
 }
 
-.alertText{
-    -fx-fill: orange;
-}
-
 .questionButtonCorrect {
     -fx-background-color: -correct-color;
     -fx-background-radius: 50;
@@ -37,6 +33,11 @@
 
 .jokerButton:hover {
     -fx-background-color: -joker-hover-color;
+}
+
+.jokerButton:disabled {
+    -fx-background-color: -joker-disabled-color;
+    -fx-border-color: -joker-disabled-border;
 }
 
 .reactionButton .text {

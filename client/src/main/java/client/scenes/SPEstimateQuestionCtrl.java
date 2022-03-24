@@ -12,6 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
@@ -21,7 +25,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private TextField answerText;
 
     @FXML
-    private Button jokerText;
+    private Button jokerButton0;
 
     @FXML
     private Button submitButton;
@@ -30,7 +34,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private Text alertText;
 
     private Question associatedQuestion;
-    private final MyMainCtrl myMainCtrl;
 
     /**
      * Constructor for SPEstimateQuestionCtrl
@@ -40,8 +43,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     @Inject
     public SPEstimateQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
-        super(server);
-        this.myMainCtrl = myMainCtrl;
+        super(server, myMainCtrl);
     }
 
     /**
@@ -51,6 +53,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      * @param score
      */
     public void init(Question question, Long score) {
+        jokerList = new ArrayList<>(Arrays.asList(jokerButton0));
         init(score);
         alertText.setVisible(false);
         associatedQuestion = question;
@@ -173,7 +176,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         submitButton.setDisable(false);
         resetUI();
         Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
-        answerTimer.cancel();
+        answerTimerTask.cancel();
     }
 
     /**
@@ -184,7 +187,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         answerText.setDisable(true);
         submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1L);
+        long score = myMainCtrl.sendSubmission("late", -1);
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
@@ -198,14 +201,24 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         answerText.clear();
     }
 
-    /**
-     * Event handler for pressing a joker button
-     *
-     * @param event
-     */
-    @FXML
-    void jokerPressed(ActionEvent event) {
+    @Override
+    protected void setUpJokers() {
+        int i = 0;
+        jokerMap = new HashMap<>();
+        for (JokerData joker : myMainCtrl.getJokerList()) {
 
+            if (joker != null && joker.isSp() && joker.isEstimate()) {
+
+                jokerMap.put("jokerButton" + i, joker);
+                jokerList.get(i).setText(joker.getText());
+
+                if (joker.isUsed()) {
+                    jokerList.get(i).setDisable(true);
+                }
+                i++;
+            }
+
+        }
     }
 
 }

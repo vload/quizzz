@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 public class LobbyData {
 
     private List<PlayerData> playerDataList;
-    private boolean isInStartState;
+    private boolean inStartState;
     private long assignedGameID;
 
     /**
@@ -39,7 +39,7 @@ public class LobbyData {
      */
     public LobbyData(List<PlayerData> playerDataList, boolean isInStartState,long assignedGameID) {
         this.playerDataList = playerDataList;
-        this.isInStartState = isInStartState;
+        this.inStartState = isInStartState;
         this.assignedGameID = assignedGameID;
     }
 
@@ -57,7 +57,7 @@ public class LobbyData {
      * @return The
      */
     public boolean isInStartState() {
-        return isInStartState;
+        return inStartState;
     }
 
     /**
@@ -67,7 +67,7 @@ public class LobbyData {
      * @return The game ID associated to this instance
      */
     public long getAssignedGameID() {
-        if (!isInStartState) {
+        if (!inStartState) {
             return -1L;
         }
         return assignedGameID;

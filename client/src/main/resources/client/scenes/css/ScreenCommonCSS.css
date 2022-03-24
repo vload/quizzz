@@ -1,6 +1,6 @@
 @import "colors.css";
 
-.anchorPane {
+.border_plane {
     -fx-background-color: -background-color;
 }
 
@@ -24,4 +24,8 @@
 
 .button:hover {
     -fx-background-color: -button-hover-color;
+}
+
+.alertText{
+    -fx-fill: orange;
 }
