@@ -1,5 +1,7 @@
 package server.server_classes;
 
+import commons.JokerType;
+import commons.PlayerData;
 import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,33 +13,31 @@ import java.util.*;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
-
-    private List<String> playerNames;
-    private Map<String,Long> nameScorePairs;
-
+    private final Map<String, PlayerData> playerDataMap;
 
     /**
      * Constructor for a MultiPlayerGame
      *
      * @param gameID The ID of the game
-     * @param playerNames A list containing all the players in the game. Must not be {@literal null}
-     * @param questions The list of 20 pregenerated questions to be used in this game instance
+     * @param playerDataList A list containing all of the player data objects of this game
+     * @param questions The list of 20 pre-generated questions to be used in this game instance.
      */
-    public MultiPlayerGame(long gameID, List<String> playerNames, List<Question> questions) {
+    public MultiPlayerGame(long gameID, List<PlayerData> playerDataList, List<Question> questions) {
         super(gameID, questions);
-        Map<String,Long> nameScorePairs = new HashMap<>();
-        playerNames.forEach(x -> nameScorePairs.put(x,0L));
-        this.playerNames = new ArrayList<>(playerNames);
-        this.nameScorePairs = nameScorePairs;
+        this.playerDataMap = new LinkedHashMap<>();
+        playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
+
     }
 
     /**
-     * Gets the player names in this multiplayer instance
+     * Returns the names of the players associated to this MultiPlayerGame instance
      *
-     * @return A list of player names
+     * @return The names of players in this game
      */
     public List<String> getPlayerNames() {
-        return playerNames;
+        List<String> names = new ArrayList<>();
+        playerDataMap.forEach((k,l) -> names.add(k));
+        return names;
     }
 
     /**
@@ -46,6 +46,10 @@ public class MultiPlayerGame extends AbstractGame {
      * @return A map which contains key value pairs pertaining to names and scores
      */
     public Map<String, Long> getNameScorePairs() {
+        Map<String, Long> nameScorePairs = new HashMap<>();
+
+        playerDataMap.forEach((name, data) -> nameScorePairs.put(name, data.getScore()));
+
         return nameScorePairs;
     }
 
@@ -58,10 +62,10 @@ public class MultiPlayerGame extends AbstractGame {
      * naming conventions
      */
     public long getPlayerScore(String name) {
-        if (name==null || name.length() == 0 || nameScorePairs.get(name) == null) {
+        if (name==null || name.length() == 0 || playerDataMap.get(name) == null) {
             throw new InvalidParameterException();
         } else {
-            return nameScorePairs.get(name);
+            return playerDataMap.get(name).getScore();
         }
     }
 
@@ -76,29 +80,29 @@ public class MultiPlayerGame extends AbstractGame {
      * @throws InvalidParameterException if the name violates some existence properties
      */
     public long givePoints(String name, long points) {
-        if (name==null || name.length() == 0 || nameScorePairs.get(name)==null) {
+        if (name==null || name.length() == 0 || playerDataMap.get(name)==null) {
             throw new InvalidParameterException();
         }
 
-        nameScorePairs.put(name,nameScorePairs.get(name) + points);
-        return nameScorePairs.get(name);
+        playerDataMap.get(name).addScore(points);
+        return playerDataMap.get(name).getScore();
     }
 
     /**
      * Adds a player to the game.
-     * This method is just for extensibility procedures, probably wont't be used
+     * This method is just for extensibility procedures, probably won't be used
      *
      * @param name The name of the player to be added
      * @param startingPoints The number of points the player has to start, will usually be 0
      * @return true iff the player was added successfully (not already existing in game) false otherwise
      */
     public boolean addPlayer(String name, long startingPoints) {
-        if (Objects.equals(null,name) || name.length() == 0 || nameScorePairs.containsKey(name)) {
+        if (Objects.equals(null,name) || name.length() == 0 || playerDataMap.containsKey(name)) {
             return false;
         }
 
-        playerNames.add(name);
-        nameScorePairs.put(name,startingPoints);
+        playerDataMap.put(name, new PlayerData(name));
+        playerDataMap.get(name).addScore(startingPoints);
         return true;
     }
 
@@ -110,20 +114,19 @@ public class MultiPlayerGame extends AbstractGame {
      * @return true if the player was successfully deleted, false otherwise
      */
     public boolean deletePlayer(String name) {
-        if (Objects.equals(null,name) || name.length() == 0 || !nameScorePairs.containsKey(name)) {
+        if (Objects.equals(null,name) || name.length() == 0 || !playerDataMap.containsKey(name)) {
             return false;
         }
 
-        playerNames.remove(name);
-        nameScorePairs.remove(name);
+        playerDataMap.remove(name);
         return true;
     }
 
     /**
-     * Compares two objcts based on equality
+     * Compares two objects based on equality
      *
      * @param obj The object to be tested for equality
-     * @return true iff, o is an instanceof Multiplayergame and has equivalent attributes, false otherwise
+     * @return true iff, o is an instanceof MultiplayerGame and has equivalent attributes, false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -150,10 +153,28 @@ public class MultiPlayerGame extends AbstractGame {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
+    /**
+     * Uses the joker.
+     *
+     * @param playerName the name of the player
+     * @param jokerType the type of joker he uses
+     * @return true iff the joker was successfully used
+     */
+    public boolean useJoker(String playerName, JokerType jokerType) {
+        if(!playerDataMap.get(playerName).useJoker(jokerType)){
+            return false;
+        }
 
+        // send data to all players.
 
+        return true;
+    }
 
-
-
-
+    /**
+     * getter for playerData
+     * @return the playerData
+     */
+    public Map<String, PlayerData> getPlayerDataMap() {
+        return playerDataMap;
+    }
 }

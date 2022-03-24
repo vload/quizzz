@@ -9,18 +9,17 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "leaderbord")
-
 public class LeaderboardEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "leaderboard_id", nullable = false)
+    @Column(name = "leaderboardEntry_id", nullable = false)
     public long id; // change access-modifiers if necessary? Template project doesn't do this :shrug:
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="score",nullable = false)
+    @Column(name="score")
     private long score;
 
 
@@ -32,13 +31,13 @@ public class LeaderboardEntry {
     }
 
     /**
-     * Constructor for Leaderboard
+     * Constructor for LeaderboardEntry
      *
-     * @param id The id of the game
+     * @param id ID of the entry
      * @param name The name of the player
      * @param score The score of the player
      */
-    public LeaderboardEntry(long id, String name, long score) {
+    public LeaderboardEntry(long id, String name,long score) {
         this.id = id;
         this.name = name;
         this.score = score;

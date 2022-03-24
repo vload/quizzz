@@ -7,6 +7,7 @@ import commons.Submission;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import server.database.MockActivityRepository;
 import server.server_classes.*;
+import server.services.SinglePlayerGameService;
 
 import java.util.*;
 
@@ -22,11 +24,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class GameControllerTest {
+class SinglePlayerGameControllerTest {
 
-    private Map<Long, AbstractGame> games;
-    private GameController sut;
-    private Set<Activity> testActivitySet;
+    @Autowired
+    SinglePlayerGameService service;
+
+    SinglePlayerGameController sut;
+    Map<Long, AbstractGame> games;
+    Set<Activity> testActivitySet;
+
     @BeforeEach
     void init() {
         Activity a1 = new Activity(
@@ -43,22 +49,21 @@ class GameControllerTest {
                 "3","examplePath",
                 "Activity3",24.5,
                 "www.need.com");
-        List<Activity> activityTestList = List.of(a1,a2,a3);
-        testActivitySet = Set.of(a3,a2,a1);
         MockActivityRepository mockRepo = new MockActivityRepository();
-        mockRepo.saveAll(activityTestList);
+        mockRepo.saveAll(List.of(a1,a2,a3));
+        testActivitySet = Set.of(a3,a2,a1);
 
         QuestionGenerator mockQuestionGen = new QuestionGenerator(mockRepo,new Random(42));
-
-        games = new HashMap<>();
-        sut = new GameController(games,mockQuestionGen);
+        this.games = new HashMap<>();
+        SinglePlayerGameService service = new SinglePlayerGameService(new IdGenerator(),games,mockQuestionGen);
+        sut = new SinglePlayerGameController(service);
     }
 
     @Test
     void nullNameTest() {
         var r1 = sut.startSinglePlayer("");
         assertEquals(BAD_REQUEST,r1.getStatusCode());
-        var r2 = sut.startMultiPlayer(null);
+        var r2 = sut.startSinglePlayer(null);
         assertEquals(BAD_REQUEST,r2.getStatusCode());
     }
 
@@ -144,9 +149,12 @@ class GameControllerTest {
 
     @Test
     void testGetQuestions() {
-        GameController fakeSut = new GameController(
-                new HashMap<>(),
-                new QuestionGenerator(new MockActivityRepository(),new Random())
+        SinglePlayerGameController fakeSut = new SinglePlayerGameController(
+                new SinglePlayerGameService(
+                        new IdGenerator(),
+                        new HashMap<>(),
+                        new QuestionGenerator(new MockActivityRepository(),new Random())
+                )
         );
         var r1 = fakeSut.startSinglePlayer("Cartoon");
         assertEquals(0L,r1.getBody());
@@ -164,9 +172,12 @@ class GameControllerTest {
 
     @Test
     void testGetNextQuestion() {
-        GameController fakeSut = new GameController(
-                new HashMap<>(),
-                new QuestionGenerator(new MockActivityRepository(),new Random())
+        SinglePlayerGameController fakeSut = new SinglePlayerGameController(
+                new SinglePlayerGameService(
+                        new IdGenerator(),
+                        new HashMap<>(),
+                        new QuestionGenerator(new MockActivityRepository(),new Random())
+                )
         );
         var r1 = fakeSut.startSinglePlayer("Cartoon");
         assertNull(fakeSut.getNextQuestion("0").getBody());
@@ -180,16 +191,6 @@ class GameControllerTest {
         assertNotEquals(q1, sut.getNextQuestion("1").getBody());
         assertEquals(sample,q1);
     }
-
-////Will be implemented in the multiplayer branch, just keep here for now.
-//    @Test
-//    void startMultiPlayer() {
-//
-//    }
-//
-//    @Test
-//    void startMultiPlayerIP() {
-//    }
 
 
 }

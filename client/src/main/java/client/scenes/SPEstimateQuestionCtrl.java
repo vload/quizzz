@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
@@ -21,6 +22,12 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
     private Button jokerText;
+
+    @FXML
+    private Button submitButton;
+
+    @FXML
+    private Text alertText;
 
     private Question associatedQuestion;
     private final MyMainCtrl myMainCtrl;
@@ -45,6 +52,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     public void init(Question question, Long score) {
         init(score);
+        alertText.setVisible(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
@@ -57,16 +65,89 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
      */
     @FXML
     void checkForEnter(KeyEvent event) {
+        alertText.setVisible(false);
         if (event.getCode().toString().equals("ENTER")) {
-            try {
-                answerText.setDisable(true);
-                processAnswer(answerText.getText());
+            validateEnter(answerText.getText());
+        } else if (event.getCode().toString().equals("BACK_SPACE")){
+            validateBackspace(answerText.getText());
+        } else {
+            validateEvent(event.getText());
+        }
+    }
 
-            } catch (BadRequestException e) {
+    /**
+     * Validates input after enter is pressed
+     * @param answer
+     */
+    protected void validateEnter(String answer){
+        try {
+            answerText.setDisable(true);
+            submitButton.setDisable(true);
+            alertText.setVisible(false);
+            Long.valueOf(answer);
+            processAnswer(answer);
+        } catch (BadRequestException e) {
+            answerText.setDisable(false);
+            submitButton.setDisable(false);
+            myMainCtrl.showMainScreen();
+        }catch (NumberFormatException e){
+            answerText.setDisable(false);
+            submitButton.setDisable(false);
+            alertText.setVisible(true);
+        }
+    }
+
+    /**
+     * Validates input after a backspace
+     * @param answer
+     */
+    protected void validateBackspace(String answer){
+        try {
+            if (answer.length() > 0) {
+                Integer.parseInt(answer);
+            }
+        } catch (NumberFormatException e) {
+            alertText.setVisible(true);
+        }
+    }
+
+    /**
+     * Validates input
+     * @param eventText
+     */
+    protected void validateEvent(String eventText){
+        try {
+            Integer.parseInt(eventText);
+            String answer = answerText.getText();
+            if (answer.length() > 0) {
+                Integer.parseInt(answer);
+            }
+        } catch (NumberFormatException e) {
+            alertText.setVisible(true);
+        }
+    }
+
+    /**
+     * Event handler for clicking submit button
+     *
+     * @param event
+     */
+    @FXML
+    void clickSubmit(ActionEvent event) {
+            try {
+                Long input = Long.valueOf(answerText.getText());
+                answerText.setDisable(true);
+                submitButton.setDisable(true);
+                processAnswer(answerText.getText());
+            }catch(NumberFormatException n){
                 answerText.setDisable(false);
+                submitButton.setDisable(false);
+                alertText.setVisible(true);
+            }catch (BadRequestException e) {
+                answerText.setDisable(false);
+                submitButton.setDisable(false);
                 myMainCtrl.showMainScreen();
             }
-        }
     }
 
     /**
@@ -89,9 +170,10 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void goToNextScene(long score) {
         timerText.setText(0 + " s");
         answerText.setDisable(false);
+        submitButton.setDisable(false);
         resetUI();
         Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
-        answerTimer.cancel();
+        answerTimerTask.cancel();
     }
 
     /**
@@ -100,8 +182,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     public void timeOut() {
         answerText.setDisable(true);
+        submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1L);
+        long score = myMainCtrl.sendSubmission("late", -1);
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
@@ -124,7 +207,5 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     void jokerPressed(ActionEvent event) {
 
     }
-
-
 
 }

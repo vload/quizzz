@@ -1,5 +1,7 @@
 package server.server_classes;
 
+import commons.JokerType;
+import commons.PlayerData;
 import commons.Question;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,7 +14,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 public class SinglePlayerGame extends AbstractGame {
 
     private final String playerName;
-    private long score;
+    private PlayerData playerData;
 
     /**
      * Constructor for the SinglePlayerGame class
@@ -23,7 +25,7 @@ public class SinglePlayerGame extends AbstractGame {
      */
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
         super(gameID,questions);
-        this.score = 0L;
+        playerData = new PlayerData(playerName);
         this.playerName = playerName;
     }
 
@@ -31,8 +33,9 @@ public class SinglePlayerGame extends AbstractGame {
      * getScore method
      * @return the score of the player
      */
+    @Deprecated
     public long getScore() {
-        return score;
+        return playerData.getScore();
     }
 
     /**
@@ -49,9 +52,27 @@ public class SinglePlayerGame extends AbstractGame {
      * @param inc A long representing how much you want to increase the score by.
      * @return The (new) cumulative score
      */
+    @Deprecated
     public long increaseScore(long inc) {
-        score += inc;
-        return score;
+        playerData.addScore(inc);
+        return playerData.getScore();
+    }
+
+    /**
+     * Method to increase the score of the player in the current game session
+     * Joker calculations are also made.
+     *
+     * @param inc A long representing how much you want to increase the score by.
+     * @return The (new) cumulative score
+     */
+    public long addScoreFromQuestion(long inc){
+        if(playerData.needsToBeExecuted(JokerType.DOUBLE_POINTS)){
+            inc *= 2;
+            playerData.markJokerAsUsed(JokerType.DOUBLE_POINTS);
+        }
+
+        playerData.addScore(inc);
+        return playerData.getScore();
     }
 
     /**
@@ -85,4 +106,26 @@ public class SinglePlayerGame extends AbstractGame {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
+    /**
+     * Getter for playerData
+     *
+     * @return the playerData
+     */
+    public PlayerData getPlayerData() {
+        return playerData;
+    }
+
+    /**
+     * Use the joker.
+     *
+     * @param jokerType The type of joker it is
+     * @return true iff the use was successful
+     */
+    public boolean useJoker(JokerType jokerType) {
+        if(!playerData.useJoker(jokerType)){
+            return false;
+        }
+
+        return true;
+    }
 }

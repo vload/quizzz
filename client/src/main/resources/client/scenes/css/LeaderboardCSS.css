@@ -6,9 +6,7 @@
     -fx-fill: white;
     -fx-font-size: 40;
 }
-.title {
-    -fx-fill: white;
-}
+
 
 .button {
     -fx-background-color: #6a040f;
@@ -17,7 +15,21 @@
     -fx-border-width: 5;
     -fx-border-radius: 50;
 }
-
 .button:hover {
     -fx-background-color: #d00000;
+}
+
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.list-cell .text {
+    -fx-font-size: 25;
+    -fx-text-alignment: center;
 }

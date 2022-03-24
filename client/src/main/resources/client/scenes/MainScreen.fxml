@@ -1,24 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MainScreenCtrl">
-   <Button layoutX="660.0" layoutY="689.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" text="MultiPlayer">
-      <font>
-         <Font size="80.0" />
-      </font>
-   </Button>
-   <Button layoutX="660.0" layoutY="374.0" mnemonicParsing="false" onAction="#goToName" prefHeight="250.0" prefWidth="600.0" text="SinglePlayer">
-      <font>
-         <Font size="80.0" />
-      </font>
-   </Button>
-   <Text layoutX="754.0" layoutY="238.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Quizzzz!" wrappingWidth="398.13671875">
-      <font>
-         <Font name="Bookman Old Style" size="96.0" />
-      </font>
-   </Text>
-</AnchorPane>
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MainScreenCtrl">
+    <center>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <Region VBox.vgrow="ALWAYS" />
+                <HBox maxHeight="616.0" prefHeight="188.0" prefWidth="1920.0">
+                    <children>
+                        <Region HBox.hgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Quizzzz!">
+                     <font>
+                        <Font name="Bookman Old Style" size="150.0" />
+                     </font>
+                  </Text>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+                <Region minHeight="60.0" />
+            <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="235.0" prefWidth="570.0" text="SinglePlayer">
+                     <font>
+                        <Font size="80.0" />
+                     </font>
+                  </Button>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region minHeight="60.0" />
+            <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="216.0" prefWidth="570.0" text="MultiPlayer">
+                     <font>
+                        <Font size="80.0" />
+                     </font>
+                  </Button>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

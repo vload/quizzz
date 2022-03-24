@@ -17,8 +17,7 @@ package client.scenes;
 
 import javax.inject.Inject;
 
-public class MainScreenCtrl  {
-
+public class MainScreenCtrl extends AbstractCtrl{
 
     private final MyMainCtrl myMainCtrl;
 
@@ -35,7 +34,14 @@ public class MainScreenCtrl  {
     /**
      * Shows main screen
      */
-    public void goToName() {
-        myMainCtrl.showNameScreen();
+    public void goToMPName() {
+        myMainCtrl.showMPNameScreen();
+    }
+
+    /**
+     * Shows main screen
+     */
+    public void goToSPName() {
+        myMainCtrl.showSPNameScreen();
     }
 }

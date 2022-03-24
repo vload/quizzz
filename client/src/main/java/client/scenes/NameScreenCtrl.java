@@ -2,15 +2,25 @@ package client.scenes;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.scene.input.KeyEvent;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class NameScreenCtrl {
-
+public class NameScreenCtrl extends AbstractCtrl implements Initializable {
 
     private final MyMainCtrl myMainCtrl;
 
     @FXML
-    private TextField nameField;
+    private TextField SPnameField;
+
+    @FXML
+    private TextField MPnameField;
+
+    @FXML
+    private Text mpWarningMessage;
 
     /**
      * Constructor for the name screen controller
@@ -19,7 +29,6 @@ public class NameScreenCtrl {
     @Inject
     public NameScreenCtrl(MyMainCtrl myMainCtrl){
         this.myMainCtrl = myMainCtrl;
-
     }
 
     /**
@@ -30,9 +39,41 @@ public class NameScreenCtrl {
     }
 
     /**
-     * Clears the name input field, which is temporarily used for demonstrational purposes
+     * Attempts to start a singleplayer game
      */
-    public void startGame(){
-        myMainCtrl.startGame();
+    public void startSPGame(){
+        myMainCtrl.startSPGame(SPnameField.getText());
     }
+
+    /**
+     * Attempts to start a multiplayer game
+     */
+    public void startMPGame() {
+        boolean canStart = myMainCtrl.startMPGame(MPnameField.getText());
+        if(canStart){
+            mpWarningMessage.setVisible(false);
+            System.out.println("Hidden");
+        }else{
+            mpWarningMessage.setVisible(true);
+            System.out.println("Showed");
+        }
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        mpWarningMessage.setVisible(false);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void checkForBackspace(KeyEvent event){
+        if(event.getCode().toString().equals("BACK_SPACE")){
+            mpWarningMessage.setVisible(false);
+        }
+    }
+
 }

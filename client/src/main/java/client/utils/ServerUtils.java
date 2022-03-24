@@ -22,13 +22,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
-import commons.Question;
+import commons.*;
 
-import commons.Submission;
 import org.glassfish.jersey.client.ClientConfig;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.ForbiddenException;
 
-import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -36,6 +40,7 @@ import jakarta.ws.rs.core.GenericType;
 public class ServerUtils {
 
     private static final String SERVER = "http://localhost:8080/";
+    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
 
     /**
      * Adding checkstyle
@@ -98,23 +103,6 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
-       /* int random = ThreadLocalRandom.current().nextInt(0, 2);
-        if (random == 1) {
-            var activitySet = new HashSet<Activity>();
-            activitySet.add(new Activity("1", "facebook.com/image1"
-                    , "A1", 20, "facebook.com/source1"));
-            activitySet.add(new Activity("2", "facebook.com/image2",
-                    "A2", 30, "facebook.com/source2"));
-            activitySet.add(new Activity("3", "facebook.com/image3",
-                    "A3", 40, "facebook.com/source3"));
-            return new Question("To be or not to be?", activitySet, QuestionType.MC, "2");
-        } else {
-            var activitySet = new HashSet<Activity>();
-            activitySet.add(new Activity("1", "facebook.com/image1",
-                                        "A1", 20, "facebook.com/source1"));
-            return new Question("To be or not to be? (estimate)",
-                                        activitySet, QuestionType.ESTIMATE, "20");
-        }*/
     }
 
 
@@ -145,4 +133,91 @@ public class ServerUtils {
                 .post(Entity.entity(name, APPLICATION_JSON), String.class);
     }
 
+    /**
+     *
+     * @param data
+     * @return new LobbyData object representing the current state of the lobby
+     */
+    public LobbyData connect(PlayerData data){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/connect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(data, APPLICATION_JSON), LobbyData.class);
+    }
+
+    /**
+     *
+     * @param data
+     * @return PlayerData object that was removed
+     */
+    public PlayerData disconnect(PlayerData data){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/disconnect")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(data, APPLICATION_JSON), PlayerData.class);
+    }
+
+    /**
+     *
+     * @return game ID assigned to the set of players
+     */
+    public Long startLobby(){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/lobby/start")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Long.class);
+    }
+
+    /**
+     *
+     * @param consumer
+     */
+    public void registerForUpdates(Consumer<LobbyData> consumer){
+        EXEC.submit(() -> {
+            while(!Thread.interrupted()) {
+               var res =  ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path("api/lobby/update")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+               if(res.getStatus() == 204){
+                   continue;
+               }
+               var l = res.readEntity(LobbyData.class);
+               consumer.accept(l);
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    public void stop(){
+        EXEC.shutdownNow();
+    }
+
+
+
+    /** Sends a message to the server to use a joker in singleplayer
+     * @param gameId The id of the game session
+     * @param jokerType The type of joker it is
+     * @return true iff joker has been use successfully
+     */
+    public boolean useJokerSingleplayer(long gameId, JokerType jokerType) {
+        JokerUse use = new JokerUse(gameId, jokerType);
+
+        try {
+            ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/joker/singleplayer/use/")
+                    .request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
+                    .post(Entity.entity(use, APPLICATION_JSON), JokerUse.class);
+        } catch (ForbiddenException | BadRequestException e) {
+            return false;
+        }
+        return true;
+    }
 }

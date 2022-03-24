@@ -35,14 +35,18 @@ public class MainStage extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         var mainScreen = FXML.load(MainScreenCtrl.class, "client", "scenes", "MainScreen.fxml");
-        var nameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "NameScreen.fxml");
-        var spEstimateQuestionScreen = FXML.load(SPEstimateQuestionCtrl.class,
+        var MPnameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "MPNameScreen.fxml");
+        var SPnameScreen = FXML.load(NameScreenCtrl.class, "client", "scenes", "SPNameScreen.fxml");
+        var lobbyScreen = FXML.load(LobbyScreenCtrl.class, "client", "scenes", "LobbyScreen.fxml");
+        var spEQScreen = FXML.load(SPEstimateQuestionCtrl.class,
                 "client", "scenes", "SPEstimateQuestion.fxml");
-        var spMCQuestionScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
+        var spMCQScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
                 "client", "scenes", "SPMultipleChoice.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
+        var leaderboard = FXML.load(LeaderboardCtrl.class, "client", "scenes", "endLeaderboard.fxml");
         var server = INJECTOR.getInstance(ServerUtils.class);
-        mainCtrl.initialize(primaryStage, server, mainScreen, nameScreen, spEstimateQuestionScreen, spMCQuestionScreen);
+        mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen,
+                      lobbyScreen, spEQScreen, spMCQScreen, leaderboard);
     }
 
 
