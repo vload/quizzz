@@ -28,8 +28,10 @@ import java.util.function.Consumer;
 
 import commons.*;
 
-import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.ForbiddenException;
 
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -199,4 +201,23 @@ public class ServerUtils {
 
 
 
+    /** Sends a message to the server to use a joker in singleplayer
+     * @param gameId The id of the game session
+     * @param jokerType The type of joker it is
+     * @return true iff joker has been use successfully
+     */
+    public boolean useJokerSingleplayer(long gameId, JokerType jokerType) {
+        JokerUse use = new JokerUse(gameId, jokerType);
+
+        try {
+            ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/joker/singleplayer/use/")
+                    .request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
+                    .post(Entity.entity(use, APPLICATION_JSON), JokerUse.class);
+        } catch (ForbiddenException | BadRequestException e) {
+            return false;
+        }
+        return true;
+    }
 }

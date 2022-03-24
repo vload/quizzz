@@ -96,6 +96,19 @@ public abstract class AbstractGameService {
     public abstract boolean isValidGame(long gameID);
 
 
+    /**
+     * Getter for specific game.
+     *
+     * this may cause ConcurrentException
+     *
+     * @param gameId the id of that game
+     * @return that specific game
+     */
+    public AbstractGame getGame(long gameId) throws IllegalArgumentException{
+        if(!isValidGame(gameId)){
+            throw new IllegalArgumentException();
+        }
 
-
+        return gameMap.get(gameId);
+    }
 }

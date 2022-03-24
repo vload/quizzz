@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.PlayerData;
+import commons.JokerType;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
@@ -158,6 +159,14 @@ public class MyMainCtrl extends AbstractCtrl {
     public long sendSubmission(String answer, double time) {
         Submission s = new Submission(answer, time);
         return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Method that sends the joker to the server
+     * @param joker the joker type to be sent
+     */
+    public void useJokerSingleplayer(JokerType joker) {
+        server.useJokerSingleplayer(Long.parseLong(gameID), joker);
     }
 
     /**
