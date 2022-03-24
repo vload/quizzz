@@ -9,7 +9,7 @@ public interface LeaderboardRepository extends JpaRepository<LeaderboardEntry, L
 
     /**
      * returns all entries in the order of decreasing high-scores
-     * 
+     *
      * @return A list of LeaderboardEntry ordered by their high-scores
      */
     List<LeaderboardEntry> findAllByOrderByScoreDesc();

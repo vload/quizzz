@@ -3,23 +3,30 @@ package server.api;
 import java.util.*;
 
 import commons.LeaderboardEntry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.LeaderboardRepository;
+import server.services.MultiPlayerGameService;
 
 @RestController
 @RequestMapping("/api/leaderboard")
 public class LeaderboardController {
 
     private final LeaderboardRepository repo;
+    private final MultiPlayerGameService multiPlayerGameService;
 
     /**
      * LeaderboardController constructor
      *
      * @param repo The repository containing the entries of the leaderboard
+     * @param multiPlayerGameService The service handling game logic for multiplayer games
      */
-    public LeaderboardController(LeaderboardRepository repo) {
+    @Autowired
+    public LeaderboardController(LeaderboardRepository repo,
+                                 MultiPlayerGameService multiPlayerGameService) {
         this.repo = repo;
+        this.multiPlayerGameService = multiPlayerGameService;
     }
 
     /**
@@ -52,6 +59,19 @@ public class LeaderboardController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * API endpoint to request a map of names and scores associated to a multiplayer game
+     *
+     * @param gameID The ID of the multiplayer game instance
+     * @return A Map containing names and scores of a certain game
+     */
+    @GetMapping(path="/multiplayer/{id}")
+    public ResponseEntity<Map<String,Long>> getMultiPlayerScores(@PathVariable("id") long gameID) {
+        if (!multiPlayerGameService.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(multiPlayerGameService.getPlayerScores(gameID));
+    }
 
     /**
      * Checks if a string is null or empty

@@ -58,5 +58,16 @@ public class MultiPlayerGameService extends AbstractGameService {
         return game.gameID;
     }
 
+    /**
+     * Gets the names and scores of people in a certain game
+     *
+     * @param gameID The ID of the multiplayer game instance
+     * @return The map containing the name of people and their respective score.
+     */
+    public Map<String,Long> getPlayerScores(long gameID) {
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        return game.getNameScorePairs();
+    }
+
 
 }
