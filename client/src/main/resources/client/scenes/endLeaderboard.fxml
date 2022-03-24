@@ -9,8 +9,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #03071e;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LeaderboardCtrl">
    <children>
-      <Button fx:id="quitButton" layoutX="1280.0" layoutY="800.0" mnemonicParsing="false" onAction="#showMainScreen" prefHeight="66.0" prefWidth="158.0" text="QUIT" />
-      <Button fx:id="lobbyButton" layoutX="507.0" layoutY="800.0" mnemonicParsing="false" onAction="#showLobbyScreen" prefHeight="66.0" prefWidth="158.0" text="LOBBY" />
+      <Button fx:id="quitButton" layoutX="1280.0" layoutY="800.0" mnemonicParsing="false" onAction="#showMainScreen" prefHeight="100.0" prefWidth="200.0" text="QUIT" />
+      <Button fx:id="lobbyButton" layoutX="507.0" layoutY="800.0" mnemonicParsing="false" onAction="#showLobbyScreen" prefHeight="100.0" prefWidth="200.0" text="LOBBY" />
       <ListView fx:id="leaderBoardList" layoutX="733.0" layoutY="243.0" prefHeight="500.0" prefWidth="500.0" />
       <Label fx:id="topText" layoutX="877.0" layoutY="103.0" text="End game">
          <font>
