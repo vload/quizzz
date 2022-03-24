@@ -28,6 +28,7 @@ class SinglePlayerGameControllerTest {
 
     @Autowired
     SinglePlayerGameService service;
+
     SinglePlayerGameController sut;
     Map<Long, AbstractGame> games;
     Set<Activity> testActivitySet;
