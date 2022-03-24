@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class MyMainCtrl extends AbstractCtrl {
     private ServerUtils server;
 
     private HashMap<String, SceneCtrlPair> screenMap;
+    private ArrayList<JokerData> jokerList;
 
     /**
      * Constructor for MyMainCtrl
@@ -121,6 +123,7 @@ public class MyMainCtrl extends AbstractCtrl {
             return;
         }
         gameID = server.createGame(name);
+        setUpJokers(gameID);
         Question q = server.getQuestion(gameID);
         showQuestionScene(q, 0L);
     }
@@ -166,14 +169,6 @@ public class MyMainCtrl extends AbstractCtrl {
     public long sendSubmission(String answer, double time) {
         Submission s = new Submission(answer, time);
         return server.validateQuestion(s, gameID);
-    }
-
-    /**
-     * Method that sends the joker to the server
-     * @param joker the joker type to be sent
-     */
-    public void useJokerSingleplayer(JokerType joker) {
-        server.useJokerSingleplayer(Long.parseLong(gameID), joker);
     }
 
     /**
@@ -230,6 +225,49 @@ public class MyMainCtrl extends AbstractCtrl {
     public void setCSS(String fileName) {
         primaryStage.getScene().getStylesheets().setAll(Objects.requireNonNull(getClass()
                 .getResource("css/" + fileName)).toExternalForm());
+    }
+
+    /**
+     * Getter for jokerList
+     * @return jokerList
+     */
+    public ArrayList<JokerData> getJokerList() {
+        return jokerList;
+    }
+
+    /**
+     * Method that sends the joker to the server
+     * @param joker the joker type to be sent
+     * @return boolean allowed/forbidden
+     */
+    public boolean useJokerSingleplayer(JokerType joker) {
+        return server.useJokerSingleplayer(Long.parseLong(gameID), joker);
+    }
+
+    /**
+     * Sets up the game's jokers
+     * @param gameID
+     */
+    public void setUpJokers(String gameID) {
+        var jokers = server.getJokers(gameID);
+        jokerList = new ArrayList<>();
+        for (JokerType j : jokers) {
+            String text;
+            switch (j) {
+                case DOUBLE_POINTS:
+                    text = "x2";
+                    jokerList.add(new JokerData(text, JokerType.DOUBLE_POINTS, false, true, true, true, true));
+                    break;
+                case REMOVE_WRONG_ANSWER:
+                    text = "Remove";
+                    jokerList.add(new JokerData(text, JokerType.REMOVE_WRONG_ANSWER, false, true, false, true, true));
+                    break;
+                case HALF_TIME:
+                    text = "time/2";
+                    jokerList.add(new JokerData(text, JokerType.HALF_TIME, false, true, true, false, true));
+                    break;
+            }
+        }
     }
 
     /**

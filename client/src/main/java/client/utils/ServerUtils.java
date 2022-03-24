@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -219,5 +220,19 @@ public class ServerUtils {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Gets all the jokers for a game (Will change if there are more jokers in the future)
+     * @param gameId
+     * @return jokers for the game
+     */
+    public List<JokerType> getJokers(String gameId) {
+        //TODO: figure out the endpoint in case of more jokers
+        List<JokerType> list = new ArrayList<JokerType>();
+        list.add(JokerType.DOUBLE_POINTS);
+        list.add(JokerType.HALF_TIME);
+        list.add(JokerType.REMOVE_WRONG_ANSWER);
+        return list;
     }
 }
