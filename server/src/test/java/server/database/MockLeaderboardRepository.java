@@ -1,85 +1,98 @@
 package server.database;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Function;
-
+import commons.LeaderboardEntry;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
-
-import commons.Activity;
+import org.springframework.data.repository.query.FluentQuery;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.*;
+import java.util.function.Function;
 
-public class MockActivityRepository implements ActivityRepository {
-    public final List<Activity> activities = new ArrayList<>();
+public class MockLeaderboardRepository implements LeaderboardRepository {
+
+    public final List<LeaderboardEntry> entries = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
     /**
-     * Adds any called method to the list of calledMethods
      *
+     * adds any called method to the list of calledMethods
      * @param name the name of the method which should be added to the list
      */
     private void call(String name) {
         calledMethods.add(name);
     }
 
+
     /**
-     * Finds all activities
-     *
-     * @return A list of all activities currently added
+     * Returns a list of entries ordered in descending order 
+     * with respect to their scores.
+     * 
+     * @return A list of LeaderboardEntry objects which are sorted with
+     * respect to their scores
      */
     @Override
-    public List<Activity> findAll() {
-        call("findAll");
-        return activities;
+    public List<LeaderboardEntry> findAllByOrderByScoreDesc() {
+        call("findAllByOrderByScoreDesc");
+        List<LeaderboardEntry> duplicate = new ArrayList<>(entries);
+        duplicate.sort((o1, o2) -> Long.compare(o2.getScore(),o1.getScore()));
+        return duplicate;
     }
 
     /**
-     * Finds all activities associated to this id
      *
+     * finds all entries
+     * @return A list of all entries currently added
+     */
+    @Override
+    public List<LeaderboardEntry> findAll() {
+        call("findAll");
+        return entries;
+    }
+
+    /**
+     * Finds all Leaderboard Entries associated to this id
+     * 
      * @param ids An iterable that contains the list of ids that need to be found
-     * @return A list of activities, associated with the ids, if an activity with that id
+     * @return A list of Leaderboard Entries, associated with the ids, if an entry with that id
      * is not found, it will not be present in the returnList
      */
     @Override
-    public List<Activity> findAllById(Iterable<String> ids) {
+    public List<LeaderboardEntry> findAllById(Iterable<Long> ids) {
         call("findAllById");
-        List<Activity> returnList = new ArrayList<>();
+        List<LeaderboardEntry> returnList = new ArrayList<>();
         ids.forEach(id -> {
-            Optional<Activity> activity = this.findById(id);
-            activity.ifPresent(returnList::add);
+            Optional<LeaderboardEntry> entry = this.findById(id);
+            entry.ifPresent(returnList::add);
         });
         return returnList;
     }
 
     /**
-     * Returns the number of activities currently present
+     * Returns the number of entries currently present
      *
-     * @return the number of activities
+     * @return the number of entries
      */
     @Override
     public long count() {
         call("count");
-        return activities.size();
+        return entries.size();
     }
 
     /**
-     * Deletes the activity with the given id.
+     * Deletes the entry with the given id.
      *
      * @param id The {@literal id} that needs to be deleted, must not be {@literal null}.
      * @throws IllegalArgumentException in case the given {@literal id} is {@literal null}
      *
      */
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         call("deleteById");
-        activities.removeIf(x -> x.getId().equals(id));
+        entries.removeIf(x -> x.id == id);
+
     }
 
     /**
@@ -89,19 +102,19 @@ public class MockActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException in case the given {@literal entity} is {@literal null}
      */
     @Override
-    public void delete(Activity entity) {
+    public void delete(LeaderboardEntry entity) {
         call("delete");
-        activities.remove(entity);
+        entries.remove(entity);
     }
 
     /**
-     * Deletes all activities with the given IDS.
+     * Deletes all entries with the given IDS.
      *
      * @param ids must not be {@literal null}. Must not contain {@literal null} elements.
      * @throws IllegalArgumentException in case the given {@literal ids} or one of its elements is {@literal null}.
      */
     @Override
-    public void deleteAllById(Iterable<? extends String> ids) {
+    public void deleteAllById(Iterable<? extends Long> ids) {
         call("deleteAllById");
         ids.forEach(this::deleteById);
     }
@@ -113,18 +126,18 @@ public class MockActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException in case the given {@literal entities} or one of its entities is {@literal null}.
      */
     @Override
-    public void deleteAll(Iterable<? extends Activity> entities) {
+    public void deleteAll(Iterable<? extends LeaderboardEntry> entities) {
         call("deleteAll");
         entities.forEach(this::delete);
     }
 
     /**
-     * Deletes all activities managed in the ActivityRepo
+     * Deletes all entries managed in the LeaderboardRepo
      */
     @Override
     public void deleteAll() {
         call("deleteAll");
-        activities.clear();
+        entries.clear();
     }
 
     /**
@@ -136,12 +149,9 @@ public class MockActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException in case the given {@literal entity} is {@literal null}.
      */
     @Override
-    public <S extends Activity> S save(S entity)  {
+    public <S extends LeaderboardEntry> S save(S entity) {
         call("save");
-        if(entity.id == null) {
-            entity.id = "ACTIVITY_ID_" + Long.toString(activities.size());
-        }
-        activities.add(entity);
+        entries.add(entity);
         return entity;
     }
 
@@ -154,8 +164,11 @@ public class MockActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException any of the given entities are {@literal null}.
      */
     @Override
-    public <S extends Activity> List<S> saveAll(Iterable<S> entities) {
-        entities.forEach(this::save);
+    public <S extends LeaderboardEntry> List<S> saveAll(Iterable<S> entities) {
+        call("saveAll");
+        for (LeaderboardEntry entry : entities) {
+            entries.add(entry);
+        }
         return (List<S>) entities;
     }
 
@@ -167,20 +180,20 @@ public class MockActivityRepository implements ActivityRepository {
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.
      */
     @Override
-    public Optional<Activity> findById(String id) {
+    public Optional<LeaderboardEntry> findById(Long id) {
         call("findById");
-        return activities.stream().filter(x -> x.getId().equals(id)).findFirst();
+        return entries.stream().filter(x -> x.id == id).findFirst();
     }
 
     /**
-     * Checks if an entity exists with the specified id
+     * Check if an entity exists with an id
      *
      * @param id must not be {@literal null}.
      * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
      * @throws IllegalArgumentException if {@literal id} is {@literal null}.
      */
     @Override
-    public boolean existsById(String id) {
+    public boolean existsById(Long id) {
         call("existsById");
         return findById(id).isPresent();
     }
@@ -195,79 +208,59 @@ public class MockActivityRepository implements ActivityRepository {
      * @return a reference to the entity with the given identifier.
      */
     @Override
-    public Activity getById(String id) {
+    public LeaderboardEntry getById(Long id) {
         call("getById");
-        Optional<Activity> activity = activities.stream().filter(x -> x.getId().equals(id)).findFirst();
-        if (activity.isPresent()) {
-            return activity.get();
+        Optional<LeaderboardEntry> entry = entries
+                .stream()
+                .filter(x -> x.id==id)
+                .findFirst();
+        if (entry.isPresent()) {
+            return entry.get();
         } else {
             throw new EntityNotFoundException();
         }
     }
 
-    //*****************************************************************************************************************
-    //*****************************************************************************************************************
-    //NOT IMPLEMENTED
-    //*****************************************************************************************************************
-    //*****************************************************************************************************************
+    /*
+    //
+    NOT IMPLEMENTED
+    //
+     */
 
     @Override
-    public <S extends Activity> Optional<S> findOne(Example<S> example) {
+    public <S extends LeaderboardEntry> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
     }
 
     @Override
-    public <S extends Activity> List<S> findAll(Example<S> example) {
+    public <S extends LeaderboardEntry> List<S> findAll(Example<S> example) {
         return null;
     }
 
     @Override
-    public <S extends Activity> List<S> findAll(Example<S> example, Sort sort) {
+    public <S extends LeaderboardEntry> List<S> findAll(Example<S> example, Sort sort) {
         return null;
     }
 
     @Override
-    public <S extends Activity> Page<S> findAll(Example<S> example, Pageable pageable) {
+    public <S extends LeaderboardEntry> Page<S> findAll(Example<S> example, Pageable pageable) {
         return null;
     }
 
     @Override
-    public <S extends Activity> long count(Example<S> example) {
+    public <S extends LeaderboardEntry> long count(Example<S> example) {
         return 0;
     }
 
     @Override
-    public <S extends Activity> boolean exists(Example<S> example) {
+    public <S extends LeaderboardEntry> boolean exists(Example<S> example) {
         return false;
     }
 
     @Override
-    public <S extends Activity, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends LeaderboardEntry, R> R findBy(Example<S> example,
+                                                    Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
-    }
-
-    @Override
-    public void flush() {
-    }
-
-    @Override
-    public <S extends Activity> S saveAndFlush(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends Activity> List<S> saveAllAndFlush(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public void deleteAllInBatch(Iterable<Activity> entities) {
-
-    }
-
-    @Override
-    public void deleteAllByIdInBatch(Iterable<String> ids) {
-
     }
 
     @Override
@@ -276,30 +269,43 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     @Override
-    public Activity getOne(String id) {
+    public LeaderboardEntry getOne(Long id) {
         return null;
     }
 
     @Override
-    public List<Activity> findAll(Sort sort) {
-        //AUTO-GENERATED STUB
+    public List<LeaderboardEntry> findAll(Sort sort) {
         return null;
     }
 
     @Override
-    public Page<Activity> findAll(Pageable pageable) {
-        //AUTO GENERATED STUB
+    public Page<LeaderboardEntry> findAll(Pageable pageable) {
         return null;
     }
 
     @Override
-    public Activity getRandom(Random random) {
-        int count = (int) count();
+    public <S extends LeaderboardEntry> List<S> saveAllAndFlush(Iterable<S> entities) {
+        return null;
+    }
 
-        if(count <= 0) {
-            return null;
-        }
+    @Override
+    public void deleteAllInBatch(Iterable<LeaderboardEntry> entities) {
 
-        return findAll().get(random.nextInt(count));
+    }
+
+    @Override
+    public void deleteAllByIdInBatch(Iterable<Long> ids) {
+
+    }
+
+    @Override
+    public void flush() {
+
+
+    }
+
+    @Override
+    public <S extends LeaderboardEntry> S saveAndFlush(S entity) {
+        return null;
     }
 }
