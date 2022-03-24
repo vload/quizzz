@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.JokerType;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
@@ -166,5 +167,17 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     void jokerPress(ActionEvent event) {
 
+    }
+
+    /**
+     * Executes the double-point joker
+     * @param event the action event
+     */
+    @FXML
+    void executeDoublePointsJoker(ActionEvent event){
+        Button button = (Button) event.getSource();
+        button.setDisable(true);
+
+        myMainCtrl.useJokerSingleplayer(JokerType.DOUBLE_POINTS);
     }
 }

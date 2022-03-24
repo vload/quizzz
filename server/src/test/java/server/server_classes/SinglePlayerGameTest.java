@@ -79,7 +79,7 @@ class SinglePlayerGameTest {
 
     @Test
     void increaseScore() {
-        sub.increaseScore(30);
+        sub.addScoreFromQuestion(30);
         assertEquals(30,sub.getScore());
     }
 }

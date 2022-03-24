@@ -9,9 +9,17 @@ import java.util.*;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class PlayerData {
+
+
+    public enum JokerUsageType{
+        NOT_USED,
+        TO_BE_EXECUTED,
+        USED
+    }
+
     private long score;
-    private Map<JokerType, Boolean> jokers;
     private String playerName;
+    private Map<JokerType, JokerUsageType> jokers;
 
     /**
      * Constructor for PlayerData.
@@ -26,7 +34,7 @@ public class PlayerData {
 
         this.jokers = new HashMap<>();
 
-        jokerSet.forEach(joker -> this.jokers.put(joker, true));
+        jokerSet.forEach(joker -> this.jokers.put(joker, JokerUsageType.NOT_USED));
 
         this.playerName = playerName;
     }
@@ -69,23 +77,41 @@ public class PlayerData {
      * @return true iff joker has been used
      */
     public boolean jokerHasBeenUsed(JokerType joker){
-        return jokers.get(joker);
+        return jokers.get(joker) == JokerUsageType.USED;
+    }
+
+
+    /**
+     * this marks a joker as used (completely)
+     * @param jokerType the type of joker to be marked
+     */
+    public void markJokerAsUsed(JokerType jokerType) {
+        jokers.put(jokerType, JokerUsageType.USED);
     }
 
     /**
      * Marks the joker as used
-     *  //TODO: actually use the joker to change the game state.
+     *  //TODO: actually use the joker to change the game state. WIP
      *
      * @param joker the joker to be used.
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType joker){
         if(!jokerHasBeenUsed(joker)){
-            jokers.put(joker, false);
+            jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * check if a joker is marked as TO_BE_EXECUTED
+     * @param joker the joker to be checked
+     * @return true iff the joker is to be executed
+     */
+    public boolean needsToBeExecuted(JokerType joker){
+        return jokers.get(joker) == JokerUsageType.TO_BE_EXECUTED;
     }
 
     /**
