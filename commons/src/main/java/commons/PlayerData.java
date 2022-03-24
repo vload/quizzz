@@ -112,20 +112,18 @@ public class PlayerData {
      * The reason why this was implemented, is that the server and client might modify the jokers
      * or the player score. This means that they won't be equal anymore.
      *
-     * @param obj The object to be tested for the same name
-     * @return true iff obj is an instanceof PlayerData and has the same name, false otherwise
+     * @param data The PlayerData to be tested for the same name
+     * @return true iff the other PlayerData has the same name, false otherwise
      */
-    public boolean hasSameName(Object obj) {
-        if (this == obj) {
+    public boolean hasSameName(PlayerData data) {
+        if (this == data) {
             return true;
         }
 
-        if (obj instanceof PlayerData) {
-            PlayerData that = (PlayerData) obj;
-            return Objects.equals(this.playerName, that.playerName);
+        if (data != null) {
+            return Objects.equals(this.playerName, data.playerName);
         }
         return false;
-
     }
 
     /**
