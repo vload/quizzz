@@ -48,9 +48,11 @@ public class PlayerData {
      * Adds to the player's score.
      *
      * @param amount the amount to increase the score by
+     * @return The UPDATED cumulative score. Will be the same score if the amount is 0
      */
-    public void addScore(long amount){
+    public long addScore(long amount){
         score += amount;
+        return score;
     }
 
     /**
