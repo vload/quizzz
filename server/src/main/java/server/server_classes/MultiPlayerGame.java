@@ -9,11 +9,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.security.InvalidParameterException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
     private final Map<String, PlayerData> playerDataMap;
+    private final Map<String,Queue<Question>> questionQueueMap;
+    private final Map<String,Question> currentQuestionMap;
     private final List<String> informationBox = new ArrayList<>();
 
     /**
@@ -27,7 +30,37 @@ public class MultiPlayerGame extends AbstractGame {
         super(gameID, questions);
         this.playerDataMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
+        this.questionQueueMap = new ConcurrentHashMap<>();
+        playerDataList.forEach(data -> questionQueueMap.put(data.getPlayerName(),
+                new LinkedList<>(questions)));
+        this.currentQuestionMap = new ConcurrentHashMap<>();
+        playerDataList.forEach(data -> currentQuestionMap.put(data.getPlayerName()
+                ,null));
+    }
 
+    /**
+     * Gets the currentQuestion for the PlayerData specified here.
+     *
+     * @return The question that is currently being asked
+     */
+    public Question getCurrentQuestion(PlayerData player) {
+        String name = player.getPlayerName();
+        return currentQuestionMap.get(name);
+    }
+
+    /**
+     * Gets the next question FOR THE PLAYER with respect to the current game.
+     *
+     * @param name The name of the player
+     * @return The next question
+     */
+    public Question getNextQuestion(String name) {
+        if (questionQueueMap.get(name).isEmpty()) {
+            currentQuestionMap.put(name,null);
+        } else {
+            currentQuestionMap.put(name,questionQueueMap.get(name).poll());
+        }
+        return currentQuestionMap.get(name);
     }
 
     /**

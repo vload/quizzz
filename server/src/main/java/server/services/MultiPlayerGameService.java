@@ -46,6 +46,14 @@ public class MultiPlayerGameService extends AbstractGameService {
         return game.gameID;
     }
 
+    public Question getNextQuestion(long gameID, String name) {
+        if (!isValidGame(gameID)) {
+            return null;
+        }
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(gameID);
+        return game.getNextQuestion(name);
+    }
+
     /**
      * Adds a String to the message box of a MultiPlayerGame instance
      *

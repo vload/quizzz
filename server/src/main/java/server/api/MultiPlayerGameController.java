@@ -1,8 +1,12 @@
 package server.api;
 
+import commons.PlayerData;
 import commons.Question;
+import commons.Submission;
 import commons.poll_wrapper.MultiPlayerPollObject;
+import commons.poll_wrapper.TimeReductionPollObject;
 import commons.poll_wrapper.UIBoxPollObject;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +50,45 @@ public class MultiPlayerGameController {
         }
         return service.getQuestions(gameID);
     }
+
+    /**
+     * API endpoint to get the next question, for the individual player
+     *
+     * @param id The id of the game session
+     * @param name The name of the player within the respective game
+     * @return A ResponseEntity containing the next question. A Bad Request if there is no next question
+     */
+    @GetMapping(path ="getquestion/{id}/{name}")
+    public ResponseEntity<Question> getNextQuestion(@PathVariable("id") String id,
+                                                    @PathVariable("name") String name) {
+        long gameID = Long.parseLong(id);
+        if (id.length() == 0 || !service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(service.getNextQuestion(gameID,name));
+    }
+
+    /**
+     * Validates the answer the user provided, and adds points based on whether the user got it correct.
+     *
+     * @param answerPair A submission object which contains both the answer of the user (which varies according
+     *                   to the question type) and the time left on the timer at the time of submission.
+     *                   These are the two question types:
+     *                   MCQ: Should contain the ID of the activity that the user chose
+     *                   Estimate: Should contain the energy usage that the user inputted
+     * @param id the ID of the game session
+     * @param The name of the player within the multiplayer game session
+     * @return A ResponseEntity containing the current score of the game, will return the same score
+     * that the user previously had if the user submitted the wrong answer.
+     */
+    @PostMapping(path="validate/{id}/{name}") // "/api/game/singleplayer/validate/{id}"
+    public ResponseEntity<Long> validateAnswer(@RequestBody Submission answerPair,
+                                               @PathVariable("id") String id,
+                                               @PathVariable("name") String name) {
+        return ResponseEntity.badRequest().build();
+    }
+
+
 
     /**
      * API endpoint to be used when client wants to send something into the information box.
@@ -103,12 +146,44 @@ public class MultiPlayerGameController {
         return res;
     }
 
+    /**
+     * To be used by classes who inject this controller (like the joker class), to communicate
+     * to every other client that someone has pressed the reduce time joker
+     *
+     * @param playerData The player who initiated the joker
+     * @param gameID The game ID of the game
+     * @return true if it was executed successfully, false otherwise.
+     */
+    public boolean reduceTimeJokerInternalEndpoint(PlayerData playerData, long gameID) {
+        if (!service.isValidGame(gameID)) {
+            return false;
+        }
+        Map<Object,Consumer<MultiPlayerPollObject>> gameListener = listeners.get(gameID);
+        if (gameListener != null) {
+            gameListener.forEach((k,l) ->
+                    l.accept(new TimeReductionPollObject(playerData)));
+        }
+        return true;
+    }
 
+    /**
+     * API endpoint for deleting a game
+     *
+     * @param id The id of the game. Should not be {@literal null}
+     * @return A ResponseEntity containing the ID of the game.
+     */
+    @GetMapping(path="/delete/{id}") // "/api/game/multiplayer/delete/{id}"
+    public ResponseEntity<Long> deleteGame(@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
 
-
-
-
-
-
+        if (id.length() == 0 || !service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
+        long result = service.deleteGame(gameID);
+        if (result != -1L) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 
 }
