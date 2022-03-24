@@ -25,16 +25,27 @@
                         <Region HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-            <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
+            <HBox maxHeight="616.0" prefHeight="92.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <TextField fx:id="MPnameField" alignment="TOP_CENTER" prefHeight="105.0" prefWidth="637.0">
+                  <TextField fx:id="MPnameField" alignment="TOP_CENTER" onKeyPressed="#checkForBackspace" prefHeight="105.0" prefWidth="637.0">
                      <font>
                         <Font size="45.0" />
                      </font>
                   </TextField>
                       <Region minHeight="60.0" />
                   <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Region prefHeight="100.0" prefWidth="1553.0" />
+                  <Text fx:id="mpWarningMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alertText" text="This name is already taken! " textAlignment="CENTER">
+                     <font>
+                        <Font size="31.0" />
+                     </font>
+                  </Text>
+                  <Region prefHeight="100.0" prefWidth="1575.0" />
                </children>
             </HBox>
             <Region minHeight="60.0" />

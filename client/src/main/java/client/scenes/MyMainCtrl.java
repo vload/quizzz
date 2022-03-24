@@ -125,14 +125,18 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method attempts to enter a player into a lobby
      * @param name
+     * @return true if player can join with that name, false otherwise
      */
-    public void startMPGame(String name) {
+    public boolean startMPGame(String name) {
          playerData = new PlayerData(name);
         if(canStart(playerData)) {
             showLobbyScreen();
             connected = true;
+            return true;
+
         } else{
-            return;
+
+            return false;
         }
     }
 

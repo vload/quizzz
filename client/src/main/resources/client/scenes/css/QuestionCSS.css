@@ -4,10 +4,6 @@
     -fx-background-color: -background-color;
 }
 
-.alertText{
-    -fx-fill: orange;
-}
-
 .questionButtonCorrect {
     -fx-background-color: -correct-color;
     -fx-background-radius: 50;
