@@ -25,3 +25,7 @@
 .button:hover {
     -fx-background-color: -button-hover-color;
 }
+
+.alertText{
+    -fx-fill: orange;
+}
