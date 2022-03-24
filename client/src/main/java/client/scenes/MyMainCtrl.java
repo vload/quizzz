@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.PlayerData;
+import commons.JokerType;
 import commons.Question;
 import commons.QuestionType;
 import commons.Submission;
@@ -41,6 +42,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param leaderboardScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -49,7 +51,8 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<NameScreenCtrl, Parent> spNameScreen,
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
-                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen) {
+                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
@@ -61,6 +64,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
+        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -124,14 +128,18 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * This method attempts to enter a player into a lobby
      * @param name
+     * @return true if player can join with that name, false otherwise
      */
-    public void startMPGame(String name) {
+    public boolean startMPGame(String name) {
          playerData = new PlayerData(name);
         if(canStart(playerData)) {
             showLobbyScreen();
             connected = true;
+            return true;
+
         } else{
-            return;
+
+            return false;
         }
     }
 
@@ -161,6 +169,14 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Method that sends the joker to the server
+     * @param joker the joker type to be sent
+     */
+    public void useJokerSingleplayer(JokerType joker) {
+        server.useJokerSingleplayer(Long.parseLong(gameID), joker);
+    }
+
+    /**
      * Gets the new question and sets the scene accordingly
      * @param score
      */
@@ -168,7 +184,7 @@ public class MyMainCtrl extends AbstractCtrl {
         try {
             Question newQuestion = server.getQuestion(gameID);
             if (newQuestion == null) {
-                showMainScreen();
+                showLeaderboardScreen();
                 return;
             }
             showQuestionScene(newQuestion, score);
@@ -222,6 +238,15 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public Stage getPrimaryStage(){
         return primaryStage;
+    }
+
+    /**
+     * shows leaderboard screen
+     */
+    public void showLeaderboardScreen(){
+        setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
+        var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
+        ctrl.init();
     }
 
 }

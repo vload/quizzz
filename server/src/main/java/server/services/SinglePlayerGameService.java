@@ -73,6 +73,6 @@ public class SinglePlayerGameService extends AbstractGameService {
         }
         long incScore = currentGame.getCurrentQuestion().getScore(answerPair.getAnswerVar(),answerPair.getTimerValue());
         SinglePlayerGame curGame = (SinglePlayerGame) gameMap.get(gameID);
-        return curGame.increaseScore(incScore);
+        return curGame.addScoreFromQuestion(incScore);
     }
 }

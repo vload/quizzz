@@ -95,7 +95,7 @@ public class SinglePlayerGameController {
         }
         long r1 = service.validateAnswer(answerPair,gameID);
         if (r1 != -1L) {
-            return ResponseEntity.ok(service.validateAnswer(answerPair,gameID));
+            return ResponseEntity.ok(r1);
         }
         return ResponseEntity.badRequest().build();
     }
