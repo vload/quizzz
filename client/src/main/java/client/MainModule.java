@@ -17,5 +17,6 @@ public class MainModule implements Module {
         binder.bind(SPEstimateQuestionCtrl.class).in(Scopes.SINGLETON);
         binder.bind(SPMultipleChoiceQuestionCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
+        binder.bind(LeaderboardCtrl.class).in(Scopes.SINGLETON);
     }
 }
