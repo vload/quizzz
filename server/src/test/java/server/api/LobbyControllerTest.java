@@ -48,7 +48,7 @@ class LobbyControllerTest {
         QuestionGenerator mockQuestionGen = new QuestionGenerator(mockRepo,new Random(42));
         this.gameMap = new HashMap<>();
         service = new MultiPlayerGameService(new IdGenerator(),gameMap,mockQuestionGen);
-        sut = new LobbyController(service);
+        sut = new LobbyController(service,new MultiPlayerGameController(service));
         p1 = new PlayerData("Mack");
         p2 = new PlayerData("Ruck");
     }

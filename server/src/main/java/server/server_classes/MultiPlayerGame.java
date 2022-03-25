@@ -28,14 +28,14 @@ public class MultiPlayerGame extends AbstractGame {
      */
     public MultiPlayerGame(long gameID, List<PlayerData> playerDataList, List<Question> questions) {
         super(gameID, questions);
-        this.questionCorrectnessMap = new HashMap<>();
+        this.questionCorrectnessMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> questionCorrectnessMap.put(data.getPlayerName(),false));
         this.playerDataMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
-        this.questionQueueMap = new HashMap<>();
+        this.questionQueueMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> questionQueueMap.put(data.getPlayerName(),
                 new LinkedList<>(questions)));
-        this.currentQuestionMap = new HashMap<>();
+        this.currentQuestionMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> currentQuestionMap.put(data.getPlayerName()
                 ,null));
     }
@@ -57,6 +57,10 @@ public class MultiPlayerGame extends AbstractGame {
      * @return The next question
      */
     public Question getNextQuestion(String name) {
+        if (questionQueueMap.get(name) == null) {
+            return null;
+        }
+
         if (questionQueueMap.get(name).isEmpty()) {
             currentQuestionMap.put(name,null);
         } else {

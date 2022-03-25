@@ -158,9 +158,6 @@ public class MultiPlayerGameController {
             return res;
         }
 
-        if (listeners.get(gameID) == null) {
-            listeners.put(gameID,new ConcurrentHashMap<>());
-        }
         var key = new Object();
         listeners.get(gameID).put(key, pollObject -> {
             res.setResult(ResponseEntity.ok(pollObject));
@@ -169,6 +166,18 @@ public class MultiPlayerGameController {
             listeners.get(gameID).remove(key);
         });
         return res;
+    }
+
+    /**
+     * Internal Endpoint to be called from the lobby controller to start a game
+     *
+     * @param playerDataList The list of players associated with this multiplayer game instance
+     * @return The gameID of the newly created multiplayer game
+     */
+    public long createMultiplayerGameInternalEndpoint(List<PlayerData> playerDataList) {
+        long gameID = service.createMultiplayerGame(playerDataList);
+        listeners.put(gameID,new ConcurrentHashMap<>());
+        return gameID;
     }
 
     /**
@@ -206,6 +215,7 @@ public class MultiPlayerGameController {
         }
         long result = service.deleteGame(gameID);
         if (result != -1L) {
+            listeners.remove(gameID);
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.badRequest().build();
