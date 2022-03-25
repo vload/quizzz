@@ -47,7 +47,7 @@ public class LeaderboardCtrl extends AbstractCtrl{
         List<String> entryList = new ArrayList<String>();
 
         for(int i=0; i<listEntry.size(); i++){
-            String entry = listEntry.get(i).getScore() + " points - " + listEntry.get(i).getName();
+            String entry = listEntry.get(i).getName() + " - " + listEntry.get(i).getScore() + " points";
             entryList.add(entry);
         }
 

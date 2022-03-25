@@ -91,7 +91,6 @@ public class MyMainCtrl extends AbstractCtrl {
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreen(true);
         showMainScreen();
-        //showLeaderboardScreen();
         primaryStage.show();
     }
 
