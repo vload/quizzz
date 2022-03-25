@@ -30,21 +30,24 @@
                      <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Region prefHeight="100.0" prefWidth="0.0" />
-                           <Button fx:id="answerText1" mnemonicParsing="false" onAction="#answerPress" prefHeight="140.0" prefWidth="230.0" text="Button" />
+                           <Button fx:id="answerText1" mnemonicParsing="false" onAction="#answerPress" prefHeight="100.0" prefWidth="330.0" text="Button" />
+                           <Region prefHeight="100.0" prefWidth="56.0" />
                         </children>
                      </HBox>
                      <Region prefHeight="20.0" prefWidth="385.0" />
                      <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Region prefHeight="100.0" prefWidth="0.0" />
-                           <Button fx:id="answerText2" mnemonicParsing="false" onAction="#answerPress" prefHeight="140.0" prefWidth="230.0" text="Button" />
+                           <Button fx:id="answerText2" mnemonicParsing="false" onAction="#answerPress" prefHeight="100.0" prefWidth="330.0" text="Button" />
+                           <Region prefHeight="100.0" prefWidth="56.0" />
                         </children>
                      </HBox>
                      <Region prefHeight="20.0" prefWidth="385.0" />
                      <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Region prefHeight="100.0" prefWidth="0.0" />
-                           <Button fx:id="answerText3" mnemonicParsing="false" onAction="#answerPress" prefHeight="140.0" prefWidth="230.0" text="Button" />
+                           <Button fx:id="answerText3" mnemonicParsing="false" onAction="#answerPress" prefHeight="140.0" prefWidth="330.0" text="Button" />
+                           <Region prefHeight="100.0" prefWidth="56.0" />
                         </children>
                      </HBox>
                      <Region prefHeight="0.0" prefWidth="385.0" />
@@ -62,9 +65,9 @@
                 <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton1" mnemonicParsing="false" prefHeight="280.0" prefWidth="280.0" />
+                  <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" />
                   <Region prefHeight="300.0" prefWidth="87.0" />
-                        <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                        <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
                         <Region HBox.hgrow="ALWAYS" />
                     </children></HBox>
                 <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />

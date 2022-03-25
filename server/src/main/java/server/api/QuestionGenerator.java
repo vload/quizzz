@@ -90,7 +90,6 @@ public class QuestionGenerator {
         }
         String correctAnswer = "";
         String questionText;
-
         questionText = "How much energy does it take?";
         var activityIterator = activitySet.iterator();
         Activity activity1 = activityIterator.next();
@@ -101,16 +100,17 @@ public class QuestionGenerator {
         if(randomActivityNumber == 0){
             correctAnswer = activity1.getId();
             questionText += "." + activity1.getTitle();
+        }else{
+            if(randomActivityNumber == 1){
+                correctAnswer = activity2.getId();
+                questionText += "." + activity2.getTitle();
+            }else{
+                if(randomActivityNumber == 2){
+                    correctAnswer = activity3.getId();
+                    questionText += "." + activity3.getTitle();
+                }
+            }
         }
-        if(randomActivityNumber == 1){
-            correctAnswer = activity2.getId();
-            questionText += "." + activity2.getTitle();
-        }
-        if(randomActivityNumber == 2){
-            correctAnswer = activity3.getId();
-            questionText += "." + activity3.getTitle();
-        }
-
         return new Question(questionText,activitySet,QuestionType.SELECTIVE, correctAnswer);
     }
 

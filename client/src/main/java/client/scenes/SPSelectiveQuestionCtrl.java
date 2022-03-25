@@ -85,7 +85,6 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
             Button source = (Button) event.getSource();
             updateColors(buttonList, associatedQuestion.getCorrectAnswer());
             processAnswer(source.getId());
-
         }catch (BadRequestException e){
             myMainCtrl.showMainScreen();
             enableButtons(buttonList);
@@ -185,6 +184,7 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());
+
                 i++;
             }
         }

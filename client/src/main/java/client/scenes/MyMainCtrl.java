@@ -209,19 +209,16 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
-            System.out.println("ESTIMATE");
             setScene("spEQScreen", "EstimateScene", "QuestionCSS.css");
             var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
             ctrl.init(q, score);
         } else {
             if(q.getType() == QuestionType.MC){
-                System.out.println("MC");
                 setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
                 var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
                 ctrl.init(q, score);
             }else{
                 if(q.getType() == QuestionType.SELECTIVE){
-                    System.out.println("SELECTIVE");
                     setScene("spSelectiveScreen", "SelectiveScene", "QuestionCSS.css");
                     var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
                     ctrl.init(q, score);
