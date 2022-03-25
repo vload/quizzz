@@ -107,6 +107,23 @@ public class ServerUtils {
     }
 
 
+    public List<LeaderboardEntry> getLeaderboardEntries(){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/api/leaderboard/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<List<LeaderboardEntry>>() {});
+    }
+
+    public LeaderboardEntry addLeaderboardEntry(LeaderboardEntry leaderboardEntry){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/api/leaderboard/add/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(leaderboardEntry, APPLICATION_JSON), LeaderboardEntry.class);
+    }
+
+
     /**
      * @param gameID
      * @param submission

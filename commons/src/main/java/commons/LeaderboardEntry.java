@@ -37,8 +37,8 @@ public class LeaderboardEntry {
      * @param name The name of the player
      * @param score The score of the player
      */
-    public LeaderboardEntry(long id, String name,long score) {
-        this.id = id;
+    public LeaderboardEntry(String name,long score) {
+        //this.id = id;
         this.name = name;
         this.score = score;
     }

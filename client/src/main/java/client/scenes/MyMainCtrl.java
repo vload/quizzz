@@ -1,11 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.PlayerData;
-import commons.JokerType;
-import commons.Question;
-import commons.QuestionType;
-import commons.Submission;
+import commons.*;
 import jakarta.ws.rs.BadRequestException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +11,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class MyMainCtrl extends AbstractCtrl {
@@ -83,6 +80,7 @@ public class MyMainCtrl extends AbstractCtrl {
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreen(true);
         showMainScreen();
+        //showLeaderboardScreen();
         primaryStage.show();
     }
 
@@ -285,9 +283,12 @@ public class MyMainCtrl extends AbstractCtrl {
      * shows leaderboard screen
      */
     public void showLeaderboardScreen(){
+        List<LeaderboardEntry> listLeaderboardEntries = server.getLeaderboardEntries();
+
         setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
         var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
-        ctrl.init();
+
+        ctrl.init(listLeaderboardEntries);
     }
 
 }

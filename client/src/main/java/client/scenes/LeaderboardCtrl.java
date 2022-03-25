@@ -1,16 +1,19 @@
 package client.scenes;
 
+import commons.LeaderboardEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LeaderboardCtrl extends AbstractCtrl{
 
     @FXML
-    private ListView<String> leaderBoardList;
+    private ListView<String> leaderboardList;
 
 
     private final MyMainCtrl myMainCtrl;
@@ -37,13 +40,20 @@ public class LeaderboardCtrl extends AbstractCtrl{
     /**
      * Show the right things on the screen if it is the endgame leaderboard or the midgame leaderboard
      * Fills the leaderboard
+     * @param listEntry a list from the server with all the entries in order
      */
-    public void init(){
+    public void init(List<LeaderboardEntry> listEntry){
 
-        ObservableList<String> players = FXCollections.observableArrayList(
-                "335 points - Julia", "423 points - Ian", "123 points - Sue", "859 points - Matthew",
-                "482 points - Hannah", "123 points - Stephan", "423 points - Denise", "674 points - Matt");
-        leaderBoardList.setItems(players);
+        List<String> entryList = new ArrayList<String>();
+
+        for(int i=0; i<listEntry.size(); i++){
+            String entry = listEntry.get(i).getScore() + " points - " + listEntry.get(i).getName();
+            entryList.add(entry);
+        }
+
+        ObservableList<String> entryObservableList = FXCollections.observableList(entryList);
+        leaderboardList.setItems(entryObservableList);
+
     }
 
 

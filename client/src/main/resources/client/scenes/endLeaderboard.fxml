@@ -30,7 +30,7 @@
             <HBox maxHeight="616.0" prefHeight="616.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <ListView fx:id="leaderBoardList" prefHeight="616.0" prefWidth="650.0">
+                  <ListView fx:id="leaderboardList" prefHeight="616.0" prefWidth="650.0">
                      <padding>
                         <Insets bottom="15.0" top="15.0" />
                      </padding>
