@@ -120,6 +120,7 @@ public class ServerUtils {
 
     /**
      * Adds a leaderboard entry to the repo
+     * @param leaderboardEntry
      * @return adding checkstyle
      */
     public LeaderboardEntry addLeaderboardEntry(LeaderboardEntry leaderboardEntry){
