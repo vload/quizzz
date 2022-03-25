@@ -106,7 +106,10 @@ public class ServerUtils {
                 .get(Question.class);
     }
 
-
+    /**
+     * Gets the leaderboard entries sorted in order
+     * @return adding checkstyle
+     */
     public List<LeaderboardEntry> getLeaderboardEntries(){
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("/api/leaderboard/")
@@ -115,6 +118,10 @@ public class ServerUtils {
                 .get(new GenericType<List<LeaderboardEntry>>() {});
     }
 
+    /**
+     * Adds a leaderboard entry to the repo
+     * @return adding checkstyle
+     */
     public LeaderboardEntry addLeaderboardEntry(LeaderboardEntry leaderboardEntry){
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("/api/leaderboard/add/")
