@@ -1,15 +1,10 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.PlayerData;
-import commons.JokerType;
-import commons.Question;
-import commons.QuestionType;
-import commons.Submission;
+import commons.*;
 import jakarta.ws.rs.BadRequestException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -92,8 +87,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        //primaryStage.setFullScreen(true);
         showMainScreen();
         primaryStage.show();
     }
@@ -145,15 +140,13 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param name
      * @return true if player can join with that name, false otherwise
      */
-    public boolean startMPGame(String name) {
+    public boolean goIntoLobby(String name) {
          playerData = new PlayerData(name);
         if(canStart(playerData)) {
             showLobbyScreen();
             connected = true;
             return true;
-
-        } else{
-
+        } else {
             return false;
         }
     }
@@ -173,6 +166,35 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Sets the correct scenes at the beginning of a MP game
+     * @param data
+     */
+    public void startMPGame(LobbyData data) {
+        gameID = String.valueOf(data.getAssignedGameID());
+        setUpJokers(gameID);
+        Question q = server.getMPQuestion(gameID, playerData.getPlayerName());
+        connected = false;
+        showMPQuestionScene(q, 0L);
+    }
+
+    /**
+     * Sets the correct scene along with its CSS to the primaryStage
+     * @param score
+     * @param q the question to be displayed
+     */
+    public void showMPQuestionScene(Question q, Long score) {
+        if (q.getType() == QuestionType.ESTIMATE) {
+            setScene("mpEQScreen", "EstimateScene", "QuestionCSS.css");
+            var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
+            ctrl.init(q, score);
+        } else {
+            setScene("mpMCQScreen", "MCScene", "QuestionCSS.css");
+            var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
+            ctrl.init(q, score);
+        }
+    }
+
+    /**
      * Method that sends the submission to the server
      * @param answer
      * @param time
@@ -181,6 +203,15 @@ public class MyMainCtrl extends AbstractCtrl {
     public long sendSubmission(String answer, double time) {
         Submission s = new Submission(answer, time);
         return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Method that sends the submission to the server
+     * @param s
+     * @return score after updating
+     */
+    public long sendMPSubmission(Submission s) {
+        return server.validateMPQuestion(s, gameID, playerData.getPlayerName());
     }
 
     /**
@@ -195,6 +226,23 @@ public class MyMainCtrl extends AbstractCtrl {
                 return;
             }
             showQuestionScene(newQuestion, score);
+        } catch (BadRequestException e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * Gets the new question and sets the scene accordingly
+     * @param score
+     */
+    public void setNextMPQuestion(long score) {
+        try {
+            Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
+            if (newQuestion == null) {
+                showLeaderboardScreen();
+                return;
+            }
+            showMPQuestionScene(newQuestion, score);
         } catch (BadRequestException e) {
             System.out.println(e);
         }
@@ -225,7 +273,7 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     private void setScene(String screen, String title, String cssFile) {
         var scene = screenMap.get(screen).getScene();
-        primaryStage.setTitle(title);
+        //primaryStage.setTitle(title);
         primaryStage.getScene().setRoot(scene);
         setCSS(cssFile);
     }

@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.JokerType;
 import commons.Question;
-import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,26 +73,9 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     @FXML
     void answerPress(ActionEvent event) {
-        try {
-            Button source = (Button) event.getSource();
-            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-            processAnswer(source.getId());
-
-        }catch (BadRequestException e){
-            myMainCtrl.showMainScreen();
-            enableButtons(buttonList);
-            enableColors(buttonList);
-        }
-    }
-
-    /**
-     * Method that sends the answer that the player presses to the server and acts accordingly
-     * @param answer
-     */
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        Button source = (Button) event.getSource();
+        processAnswer(source.getId());
+        enableButtons(false);
     }
 
     /**
@@ -102,10 +84,10 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     @Override
     protected void goToNextScene(long score) {
-        enableButtons(buttonList);
+        enableButtons(true);
         enableColors(buttonList);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score));
         answerTimerTask.cancel();
     }
 
@@ -115,9 +97,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     @Override
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1);
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        super.timeOut();
     }
 
     /**
@@ -133,12 +113,12 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
 
     /**
      * Method that enables the answer buttons
-     * @param buttonList
+     * @param flag
      */
-    public void enableButtons(ArrayList<Button> buttonList){
+    public void enableButtons(boolean flag){
 
         for (Button b : buttonList) {
-            b.setDisable(false);
+            b.setDisable(!flag);
         }
     }
 

@@ -93,6 +93,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
     }
+
     /**
      * Gets the next question in the question set
      * @return Adding checkstyle
@@ -106,6 +107,19 @@ public class ServerUtils {
                 .get(Question.class);
     }
 
+    /**
+     * Gets the next question in the question set
+     * @return Adding checkstyle
+     * @param gameID
+     * @param name
+     */
+    public Question getMPQuestion(String gameID, String name) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/getquestion/"+ gameID + "/" + name)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Question.class);
+    }
 
     /**
      * @param gameID
@@ -115,6 +129,21 @@ public class ServerUtils {
     public Long validateQuestion(Submission submission,String gameID){
          return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/validate/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
+    }
+
+    /**
+     *
+     * @param submission
+     * @param gameID
+     * @param name
+     * @return validates an answer and returns the updated score
+     */
+    public Long validateMPQuestion(Submission submission,String gameID, String name){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/validate/" + gameID + "/" + name)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(submission, APPLICATION_JSON), Long.class);

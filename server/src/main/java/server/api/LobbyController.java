@@ -65,6 +65,7 @@ public class LobbyController {
         if (!checkValidPlayerData(data) || nameAlreadyExists(data)) {
             return ResponseEntity.badRequest().build();
         }
+        data = new PlayerData(data.getPlayerName());
         connectedPlayers.add(data);
         playerListeners.forEach((k,l) ->
                 l.accept(new LobbyData(connectedPlayers,false,-1L)));

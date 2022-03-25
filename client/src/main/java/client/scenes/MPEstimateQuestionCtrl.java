@@ -161,18 +161,6 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     }
 
     /**
-     * Method that sends the answer that the player presses to the server and acts accordingly
-     * @param answer
-     */
-    @Override
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
-        showCorrectAnswerTimer(score);
-    }
-
-    /**
      * Method that transitions from the current question to the next one
      * @param score
      */
@@ -182,7 +170,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerText.setDisable(false);
         submitButton.setDisable(false);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score));
         answerTimerTask.cancel();
     }
 
@@ -194,9 +182,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerText.setDisable(true);
         submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1);
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        super.timeOut();
     }
 
     /**
