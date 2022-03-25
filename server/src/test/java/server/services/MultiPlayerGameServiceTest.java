@@ -57,6 +57,28 @@ class MultiPlayerGameServiceTest {
     }
 
     @Test
+    void addMessageToInformationBox() {
+        assertNull(s1.addMessageToInformationBox(0L,"Hello"));
+        s1.createMultiplayerGame(
+                List.of(new PlayerData("Taco"),
+                        new PlayerData("Pad")));
+        assertEquals("Test",s1.addMessageToInformationBox(0L,"Test"));
+        assertNull(s1.addMessageToInformationBox(1L,"Test"));
+        assertEquals(List.of("Test"),s1.getInformationBox(0L));
+    }
+
+    @Test
+    void getInformationBox() {
+        assertNull(s1.getInformationBox(0L));
+        s1.createMultiplayerGame(
+                List.of(new PlayerData("Taco"),
+                        new PlayerData("Pad")));
+        assertEquals(new ArrayList<>(), s1.getInformationBox(0L));
+        assertEquals("Test", s1.addMessageToInformationBox(0L, "Test"));
+        assertEquals(List.of("Test"), s1.getInformationBox(0L));
+    }
+
+    @Test
     void getPlayerScores() {
         PlayerData d1 = new PlayerData("Taco");
         PlayerData d2 = new PlayerData("Michael");

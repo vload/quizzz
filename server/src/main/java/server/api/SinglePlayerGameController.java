@@ -64,7 +64,7 @@ public class SinglePlayerGameController {
      * API endpoint to get the next question
      *
      * @param id The id of the game session
-     * @return A ResponseEntity containing the next question. A Bad Request if there is no next question
+     * @return A ResponseEntity containing the next question. A null value if there is no next exception
      */
     @GetMapping(path ="getquestion/{id}") // "/api/game/singleplayer/getquestion/{id}"
     public ResponseEntity<Question> getNextQuestion(@PathVariable("id") String id) {
