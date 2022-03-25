@@ -42,11 +42,16 @@ public class MainStage extends Application {
                 "client", "scenes", "SPEstimateQuestion.fxml");
         var spMCQScreen = FXML.load(SPMultipleChoiceQuestionCtrl.class,
                 "client", "scenes", "SPMultipleChoice.fxml");
+        var mpEQScreen = FXML.load(MPEstimateQuestionCtrl.class,
+                "client", "scenes", "MPEstimateQuestion.fxml");
+        var mpMCQScreen = FXML.load(MPMultipleChoiceQuestionCtrl.class,
+                "client", "scenes", "MPMultipleChoice.fxml");
+
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
         var leaderboard = FXML.load(LeaderboardCtrl.class, "client", "scenes", "endLeaderboard.fxml");
         var server = INJECTOR.getInstance(ServerUtils.class);
         mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen,
-                      lobbyScreen, spEQScreen, spMCQScreen, leaderboard);
+                      lobbyScreen, spEQScreen, spMCQScreen, mpEQScreen, mpMCQScreen, leaderboard);
     }
 
 
