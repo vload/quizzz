@@ -2,6 +2,7 @@ package commons;
 
 public enum QuestionType {
     MC,
+    SELECTIVE,
     ESTIMATE;
 
     /**
@@ -12,6 +13,8 @@ public enum QuestionType {
     static public int getAmountOfActivities(QuestionType type) {
         switch (type) {
             case MC:
+                return 3;
+            case SELECTIVE:
                 return 3;
             case ESTIMATE:
                 return 1;

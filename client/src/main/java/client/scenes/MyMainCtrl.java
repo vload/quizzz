@@ -51,19 +51,22 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param spMCQScreen
      * @param mpEQScreen
      * @param mpMCQScreen
+
+     * @param spSelectiveScreen
      * @param leaderboardScreen
      */
     public void init(Stage primaryStage,
-                           ServerUtils server,
-                           Pair<MainScreenCtrl, Parent> mainScreen,
-                           Pair<NameScreenCtrl, Parent> mpNameScreen,
-                           Pair<NameScreenCtrl, Parent> spNameScreen,
-                           Pair<LobbyScreenCtrl, Parent> lobbyScreen,
-                           Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
-                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
-                           Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
-                           Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
-                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
+                     ServerUtils server,
+                     Pair<MainScreenCtrl, Parent> mainScreen,
+                     Pair<NameScreenCtrl, Parent> mpNameScreen,
+                     Pair<NameScreenCtrl, Parent> spNameScreen,
+                     Pair<LobbyScreenCtrl, Parent> lobbyScreen,
+                     Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
+                     Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                     Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
+                     Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
+                     Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
+                     Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
@@ -77,11 +80,10 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
+        screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
-        System.out.println(mpEQScreen.getKey());
 
         primaryStage.setOnCloseRequest(e -> {
-            lobbyScreen.getKey().stop();
             if(connected){
                 server.disconnect(playerData);
             }
@@ -207,13 +209,24 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
+            System.out.println("ESTIMATE");
             setScene("spEQScreen", "EstimateScene", "QuestionCSS.css");
             var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
             ctrl.init(q, score);
         } else {
-            setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
-            var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
-            ctrl.init(q, score);
+            if(q.getType() == QuestionType.MC){
+                System.out.println("MC");
+                setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
+                var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
+                ctrl.init(q, score);
+            }else{
+                if(q.getType() == QuestionType.SELECTIVE){
+                    System.out.println("SELECTIVE");
+                    setScene("spSelectiveScreen", "SelectiveScene", "QuestionCSS.css");
+                    var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
+                    ctrl.init(q, score);
+                }
+            }
         }
     }
 
