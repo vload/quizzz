@@ -15,6 +15,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class MyMainCtrl extends AbstractCtrl {
@@ -28,6 +29,10 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private HashMap<String, SceneCtrlPair> screenMap;
     private ArrayList<JokerData> jokerList;
+
+    //JUST FOR TESTING
+    private final List<String> l = new ArrayList<>();
+
 
     /**
      * Constructor for MyMainCtrl
@@ -44,6 +49,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param mpEQScreen
+     * @param mpMCQScreen
      * @param leaderboardScreen
      */
     public void init(Stage primaryStage,
@@ -54,6 +61,8 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
+                           Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
@@ -66,7 +75,10 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("lobbyScreen", new SceneCtrlPair(lobbyScreen.getValue(), lobbyScreen.getKey()));
         screenMap.put("spEQScreen", new SceneCtrlPair(spEQScreen.getValue(), spEQScreen.getKey()));
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
+        screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
+        screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+        System.out.println(mpEQScreen.getKey());
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -241,6 +253,9 @@ public class MyMainCtrl extends AbstractCtrl {
      * @return boolean allowed/forbidden
      */
     public boolean useJokerSingleplayer(JokerType joker) {
+        if (joker == JokerType.REMOVE_WRONG_ANSWER) {
+            return true;
+        }
         return server.useJokerSingleplayer(Long.parseLong(gameID), joker);
     }
 
@@ -285,6 +300,16 @@ public class MyMainCtrl extends AbstractCtrl {
         setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
         var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
         ctrl.init();
+    }
+
+    /**
+     * Sends the pressed emoji to the server
+     * @param emoji
+     * @param ctrl
+     */
+    public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
+        l.add(emoji);
+        ctrl.displayReactions(l);
     }
 
 }

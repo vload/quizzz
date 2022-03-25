@@ -9,11 +9,12 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
+public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
 
     @FXML
     private Button activityText1;
@@ -34,12 +35,13 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
     private ArrayList<Button> buttonList;
 
     /**
-     * Constructor for SPMultipleChoiceQuestionCtrl
-     * @param server that can communicate with backend
+     * Constructor for QuestionController
+     *
+     * @param server   that can communicate with backend
      * @param myMainCtrl
      */
     @Inject
-    public SPMultipleChoiceQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
+    public MPMultipleChoiceQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server, myMainCtrl);
     }
 
@@ -145,17 +147,17 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param buttonList
      * @param correctAnswer
      */
-     public void updateColors(ArrayList<Button> buttonList, String correctAnswer) {
-         for (Button b : buttonList) {
-             String answer = b.getId();
-             b.setDisable(true);
-             if (answer.equals(correctAnswer)) {
-                 b.getStyleClass().add("questionButtonCorrect");
-             } else {
-                 b.getStyleClass().add("questionButtonIncorrect");
-             }
-         }
-     }
+    public void updateColors(ArrayList<Button> buttonList, String correctAnswer) {
+        for (Button b : buttonList) {
+            String answer = b.getId();
+            b.setDisable(true);
+            if (answer.equals(correctAnswer)) {
+                b.getStyleClass().add("questionButtonCorrect");
+            } else {
+                b.getStyleClass().add("questionButtonIncorrect");
+            }
+        }
+    }
 
     @Override
     protected void setUpJokers() {
@@ -174,18 +176,18 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     @Override
     protected JokerType jokerPress(ActionEvent event) {
-         JokerType type = super.jokerPress(event);
+        JokerType type = super.jokerPress(event);
 
-         if (type == JokerType.REMOVE_WRONG_ANSWER) {
-             for (Button b : buttonList) {
-                 String answer = b.getId();
-                 if (!answer.equals(associatedQuestion.getCorrectAnswer())) {
-                     b.getStyleClass().add("questionButtonIncorrect");
-                     b.setDisable(true);
-                     return type;
-                 }
-             }
-         }
-         return type;
+        if (type == JokerType.REMOVE_WRONG_ANSWER) {
+            for (Button b : buttonList) {
+                String answer = b.getId();
+                if (!answer.equals(associatedQuestion.getCorrectAnswer())) {
+                    b.getStyleClass().add("questionButtonIncorrect");
+                    b.setDisable(true);
+                    return type;
+                }
+            }
+        }
+        return type;
     }
 }
