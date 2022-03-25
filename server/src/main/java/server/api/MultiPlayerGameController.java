@@ -55,7 +55,7 @@ public class MultiPlayerGameController {
      *
      * @param id The id of the game session
      * @param name The name of the player within the respective game
-     * @return A ResponseEntity containing the next question. A Bad Request if there is no next question
+     * @return A ResponseEntity containing the next question. A null value if there is no next question
      */
     @GetMapping(path ="getquestion/{id}/{name}")
     public ResponseEntity<Question> getNextQuestion(@PathVariable("id") String id,
@@ -113,7 +113,23 @@ public class MultiPlayerGameController {
         return ResponseEntity.ok(map);
     }
 
+    /**
+     * API endpoint which maps the names of people in the current game instance,
+     * to their numerical score.
+     *
+     * @param id The ID of the game to get the score from.
+     * @return The map which contains the name and score.
+     */
+    @GetMapping(path="scores/{id}")
+    public ResponseEntity<Map<String,Long>> allScores(@PathVariable("id") String id) {
+        long gameID = Long.parseLong(id);
+        if (!service.isValidGame(gameID)) {
+            return ResponseEntity.badRequest().build();
+        }
 
+        var map = service.getPlayerScores(gameID);
+        return ResponseEntity.ok(map);
+    }
 
     /**
      * API endpoint to be used when client wants to send something into the information box.

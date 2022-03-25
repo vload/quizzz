@@ -1,12 +1,16 @@
 package server.api;
 
 import commons.*;
+import commons.poll_wrapper.MultiPlayerPollObject;
+import commons.poll_wrapper.TimeReductionPollObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import server.database.MockActivityRepository;
 import server.server_classes.AbstractGame;
 import server.server_classes.IdGenerator;
+import server.server_classes.MultiPlayerGame;
 import server.services.MultiPlayerGameService;
 
 import java.util.*;
@@ -125,6 +129,33 @@ class MultiPlayerGameControllerTest {
 
     @Test
     void updater() {
+        var r1 = sut.updater("0");
+        ResponseEntity<MultiPlayerPollObject> res = (ResponseEntity<MultiPlayerPollObject>) r1.getResult();
+        assertNotNull(res);
+        assertEquals(HttpStatus.BAD_REQUEST,res.getStatusCode());
+        sut.createMultiplayerGameInternalEndpoint(List.of(new PlayerData("H"),
+                new PlayerData("Y")));
+        sut.createMultiplayerGameInternalEndpoint(List.of(new PlayerData("P"),
+                new PlayerData("Y")));
+        var r2 = sut.updater("0");
+        assertFalse(r2.hasResult());
+        var r3 = sut.updater("1");
+        assertFalse(r3.hasResult());
+        sut.informationbox("Hello","0");
+        assertTrue(r2.hasResult());
+        assertFalse(r3.hasResult());
+        ResponseEntity<MultiPlayerPollObject> content = (ResponseEntity<MultiPlayerPollObject>)
+                r2.getResult();
+        assertNotNull(content);
+        assertEquals(List.of("Hello"), Objects.requireNonNull(content.getBody()).getBody());
+        var r4 = sut.updater("0");
+        sut.reduceTimeJokerInternalEndpoint(new PlayerData("P"),1);
+        assertTrue(r3.hasResult());
+        assertFalse(r4.hasResult());
+        ResponseEntity<MultiPlayerPollObject> res2 = (ResponseEntity<MultiPlayerPollObject>)
+                r3.getResult();
+        assertNotNull(res2);
+        assertTrue(res2.getBody() instanceof TimeReductionPollObject);
     }
 
     @Test
@@ -170,5 +201,22 @@ class MultiPlayerGameControllerTest {
                 new PlayerData("P"))
         );
         assertEquals(3,gameMap.size());
+    }
+
+    @Test
+    void allScores() {
+        assertEquals(HttpStatus.BAD_REQUEST,sut.allScores("0").getStatusCode());
+        sut.createMultiplayerGameInternalEndpoint(List.of(
+                new PlayerData("H"),
+                new PlayerData("L"))
+        );
+        MultiPlayerGame game = (MultiPlayerGame) gameMap.get(0L);
+        Map<String,Long> sample = new HashMap<>();
+        sample.put("H",0L);
+        sample.put("L",0L);
+        assertEquals(sample,sut.allScores("0").getBody());
+        game.addScoreFromQuestion(100,"H");
+        sample.put("H",100L);
+        assertEquals(sample,sut.allScores("0").getBody());
     }
 }
