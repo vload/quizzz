@@ -2,6 +2,6 @@ package commons;
 
 public enum JokerType {
     DOUBLE_POINTS,
-    HALF_TIME,
+    REDUCE_TIME,
     REMOVE_WRONG_ANSWER
 }

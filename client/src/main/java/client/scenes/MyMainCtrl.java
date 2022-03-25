@@ -265,9 +265,9 @@ public class MyMainCtrl extends AbstractCtrl {
                     text = "Remove";
                     jokerList.add(new JokerData(text, JokerType.REMOVE_WRONG_ANSWER, false, true, false, true, true));
                     break;
-                case HALF_TIME:
+                case REDUCE_TIME:
                     text = "time/2";
-                    jokerList.add(new JokerData(text, JokerType.HALF_TIME, false, true, true, false, true));
+                    jokerList.add(new JokerData(text, JokerType.REDUCE_TIME, false, true, true, false, true));
                     break;
             }
         }

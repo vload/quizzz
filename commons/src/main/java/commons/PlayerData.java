@@ -28,7 +28,7 @@ public class PlayerData {
     public PlayerData(String playerName) {
         Set<JokerType> jokerSet = Set.of(
                 JokerType.DOUBLE_POINTS,
-                JokerType.HALF_TIME,
+                JokerType.REDUCE_TIME,
                 JokerType.REMOVE_WRONG_ANSWER);
         this.score = 0;
 
