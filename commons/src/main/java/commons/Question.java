@@ -48,7 +48,7 @@ public class Question {
         if(time <= 0 || time > 10) {
             return 0;
         }
-        if(type.equals(QuestionType.MC)){
+        if(type.equals(QuestionType.MC) || type.equals(QuestionType.SELECTIVE)){
             if (answer.equals(correctAnswer)) {
                 return (long) (time * 1000);
             }

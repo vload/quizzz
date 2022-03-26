@@ -21,7 +21,7 @@
                     </children>
                 </HBox>
                 <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
-                    <Region HBox.hgrow="ALWAYS" />
+                    <Region prefHeight="350.0" prefWidth="309.0" HBox.hgrow="ALWAYS" />
                     <Button fx:id="activityText" maxWidth="350.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="350.0" styleClass="estimateQuestion" text="Button" textAlignment="CENTER" wrapText="true" />
                     <Region maxWidth="60.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
                     <VBox>
