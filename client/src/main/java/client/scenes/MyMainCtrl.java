@@ -211,20 +211,16 @@ public class MyMainCtrl extends AbstractCtrl {
             setScene("spEQScreen", "EstimateScene", "QuestionCSS.css");
             var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
             ctrl.init(q, score);
-        } else {
-            if(q.getType() == QuestionType.MC){
-                setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
-                var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
-                ctrl.init(q, score);
-            }else{
-                if(q.getType() == QuestionType.SELECTIVE){
+        }else if(q.getType() == QuestionType.MC) {
+            setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
+            var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
+            ctrl.init(q, score);
+        }else if(q.getType() == QuestionType.SELECTIVE){
                     setScene("spSelectiveScreen", "SelectiveScene", "QuestionCSS.css");
                     var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
                     ctrl.init(q, score);
-                }
             }
         }
-    }
 
     /**
      * Sets the scene

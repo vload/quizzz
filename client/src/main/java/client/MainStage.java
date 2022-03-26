@@ -56,8 +56,4 @@ public class MainStage extends Application {
                 lobbyScreen, spEQScreen, spMCQScreen, mpEQScreen, mpMCQScreen,spSelectiveScreen, leaderboard);
     }
 
-
-
-
-
 }

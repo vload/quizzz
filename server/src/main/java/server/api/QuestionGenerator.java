@@ -31,12 +31,13 @@ public class QuestionGenerator {
         int randomNumber = random.nextInt(4);
         if(randomNumber == 1) {
             return generateEstimateQuestion();
+        }else{
+            if(randomNumber == 2) {
+                return generateMCQuestion();
+            }else{
+                return generateSelectiveQuestion();
+            }
         }
-        if(randomNumber == 2) {
-            return generateMCQuestion();
-        }
-        return generateSelectiveQuestion();
-
     }
 
     private Set<Activity> generateActivitySet(QuestionType type){

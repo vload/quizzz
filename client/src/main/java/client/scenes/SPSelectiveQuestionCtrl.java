@@ -63,9 +63,9 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         activityText.setText(questionSplitter[1]);
 
         var activityIterator = question.getActivitySet().iterator();
-        answerText1.setText(String.valueOf(activityIterator.next().getEnergyConsumption()) + "Wh");
-        answerText2.setText(String.valueOf(activityIterator.next().getEnergyConsumption()) + "Wh");
-        answerText3.setText(String.valueOf(activityIterator.next().getEnergyConsumption()) + "Wh");
+        answerText1.setText(activityIterator.next().getEnergyConsumption() + "Wh");
+        answerText2.setText(activityIterator.next().getEnergyConsumption() + "Wh");
+        answerText3.setText(activityIterator.next().getEnergyConsumption() + "Wh");
 
         activityIterator = question.getActivitySet().iterator();
         answerText1.setId(activityIterator.next().getId());
