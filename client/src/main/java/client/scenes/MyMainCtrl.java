@@ -368,7 +368,13 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public List<String> getPlayerScores() {
         Map<String,Long> map = server.getPlayerScores(gameID);
-        return map.keySet().stream().map(k -> k + ": " + map.get(k)).toList();
+        List<String> list = new ArrayList<>();
+        map.keySet().forEach(k -> {
+            if (!Objects.equals(k, playerData.getPlayerName())) {
+                list.add(k + ": " + map.get(k));
+            }
+        });
+        return list;
     }
 
 }
