@@ -31,12 +31,10 @@ public class QuestionGenerator {
         int randomNumber = random.nextInt(4);
         if(randomNumber == 1) {
             return generateEstimateQuestion();
+        }else if(randomNumber == 2) {
+            return generateMCQuestion();
         }else{
-            if(randomNumber == 2) {
-                return generateMCQuestion();
-            }else{
-                return generateSelectiveQuestion();
-            }
+            return generateSelectiveQuestion();
         }
     }
 
