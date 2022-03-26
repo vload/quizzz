@@ -9,6 +9,10 @@
     -fx-font-size: 40;
 }
 
+.smallText{
+    -fx-font-size: 21px;
+    -fx-fill: white;
+}
 
 .button{
     -fx-min-height: 100px;
