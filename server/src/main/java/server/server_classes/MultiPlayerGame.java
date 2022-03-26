@@ -65,7 +65,7 @@ public class MultiPlayerGame extends AbstractGame {
             currentQuestionMap.put(name,null);
         } else {
             currentQuestionMap.put(name,questionQueueMap.get(name).poll());
-            this.questionCorrectnessMap.forEach((k,l) -> l = false);
+            this.questionCorrectnessMap.replaceAll((key,value) -> false);
         }
         return currentQuestionMap.get(name);
     }
@@ -147,6 +147,8 @@ public class MultiPlayerGame extends AbstractGame {
      * @param startingPoints The number of points the player has to start, will usually be 0
      * @return true iff the player was added successfully (not already existing in game) false otherwise
      */
+    @Deprecated // This method doesn't correcly synchronize question quees with other people do not actually
+    //use it outside the contexts of tests.
     public boolean addPlayer(String name, long startingPoints) {
         if (Objects.equals(null,name) || name.length() == 0 || playerDataMap.containsKey(name)) {
             return false;
@@ -231,6 +233,9 @@ public class MultiPlayerGame extends AbstractGame {
      * @return The message itself.
      */
     public String addMesageToInformationBox(String message) {
+        if (message==null || message.length() == 0) {
+            return null;
+        }
         informationBox.add(message);
         return message;
     }
