@@ -9,7 +9,7 @@ import java.util.*;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-public class PlayerData implements Serializable {
+public class PlayerData {
 
 
     public enum JokerUsageType{
