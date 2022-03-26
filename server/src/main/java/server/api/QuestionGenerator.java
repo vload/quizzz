@@ -37,7 +37,6 @@ public class QuestionGenerator {
         }
         return generateSelectiveQuestion();
 
-
     }
 
     private Set<Activity> generateActivitySet(QuestionType type){

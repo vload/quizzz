@@ -51,7 +51,6 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param spMCQScreen
      * @param mpEQScreen
      * @param mpMCQScreen
-
      * @param spSelectiveScreen
      * @param leaderboardScreen
      */
