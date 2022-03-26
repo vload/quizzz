@@ -125,4 +125,44 @@ class MultiPlayerGameTest {
         assertTrue(actual.contains("\n"));
         assertTrue(actual.contains("playerDataMap"));
     }
+
+    @Test
+    void addMesageToInformationBox() {
+        MultiPlayerGame game = (MultiPlayerGame) s1;
+        assertEquals(new ArrayList<>(),game.getInformationBox());
+        game.addMesageToInformationBox("Henry: Used some Joker!");
+        assertEquals(List.of("Henry: Used some Joker!"),game.getInformationBox());
+        game.addMesageToInformationBox("System: Player was Disconnected!");
+        assertEquals(List.of("Henry: Used some Joker!","System: Player was Disconnected!")
+        ,game.getInformationBox());
+    }
+
+    @Test
+    void getInformationBox() {
+        MultiPlayerGame game = (MultiPlayerGame) s1;
+        assertEquals(new ArrayList<>(),game.getInformationBox());
+        assertEquals("Henry: Used some Joker!",
+                game.addMesageToInformationBox("Henry: Used some Joker!"));
+        assertEquals(List.of("Henry: Used some Joker!"),game.getInformationBox());
+        assertEquals("System: Player was Disconnected!",
+                game.addMesageToInformationBox("System: Player was Disconnected!"));
+        assertEquals(List.of("Henry: Used some Joker!","System: Player was Disconnected!")
+                ,game.getInformationBox());
+    }
+
+    @Test
+    void getPlayerDataMap() {
+        assertNotNull(sub.getPlayerDataMap());
+        sub.addPlayer("Henry",32L);
+        assertEquals(4,sub.getPlayerDataMap().size());
+        assertNotNull(sub.getPlayerDataMap().get("Henry"));
+        var r1 = sub.getPlayerDataMap().get("Henry");
+        assertNotEquals(new PlayerData("Henry"),r1);
+        assertNull(sub.getPlayerDataMap().get("Hello"));
+        sub.addPlayer("Hello",0L);
+        assertEquals(5,sub.getPlayerDataMap().size());
+        assertNotNull(sub.getPlayerDataMap().get("Hello"));
+        var r2 = sub.getPlayerDataMap().get("Hello");
+        assertEquals(new PlayerData("Hello"),r2);
+    }
 }
