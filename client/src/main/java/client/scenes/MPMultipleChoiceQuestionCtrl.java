@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import commons.JokerType;
 import commons.Question;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,11 +49,12 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      * Gets called upon init
      * @param question
      * @param score
+     * @param list
      */
-    public void init(Question question, Long score) {
+    public void init(Question question, Long score, ObservableList<String> list) {
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score);
+        init(score, list);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
 
@@ -84,11 +86,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     @Override
     protected void goToNextScene(long score) {
-        enableButtons(true);
-        enableColors(buttonList);
-        resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score));
-        answerTimerTask.cancel();
+
     }
 
     /**
@@ -98,6 +96,15 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
         super.timeOut();
+    }
+
+    @Override
+    protected void goToNextScene(long score, ObservableList<String> list) {
+        enableButtons(true);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list));
+        answerTimerTask.cancel();
     }
 
     /**

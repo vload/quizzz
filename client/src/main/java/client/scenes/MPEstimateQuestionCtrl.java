@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,14 +55,25 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     }
 
     /**
+     * Do not use, just from AbstractQuestionCtrl
+     *
+     * @param score
+     */
+    @Override
+    protected void goToNextScene(long score) {
+        return;
+    }
+
+    /**
      * Gets called upon init
      *
      * @param question
      * @param score
+     * @param list
      */
-    public void init(Question question, Long score) {
+    public void init(Question question, Long score, ObservableList<String> list) {
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score);
+        init(score, list);
         alertText.setVisible(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
@@ -165,12 +177,12 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
      * @param score
      */
     @Override
-    protected void goToNextScene(long score) {
+    protected void goToNextScene(long score, ObservableList<String> list) {
         timerText.setText(0 + " s");
         answerText.setDisable(false);
         submitButton.setDisable(false);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list));
         answerTimerTask.cancel();
     }
 

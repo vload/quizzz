@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import commons.Submission;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -67,6 +68,16 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      */
     public AbstractMPQuestionCtrl(ServerUtils server, MyMainCtrl mainCtrl) {
         super(server, mainCtrl);
+    }
+
+    /**
+     * Gets called every time a question screen is shown
+     * @param score
+     * @param list
+     */
+    public void init(Long score, ObservableList<String> list) {
+        super.init(score);
+        playerList.setItems(list);
     }
 
     /**
@@ -138,6 +149,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
             double progressTime = 4.99;
             int timer = 100;
             int textTime = 6;
+            boolean scoresShown = false;
 
             @Override
             public void run() {
@@ -149,9 +161,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
                     timer = 0;
                 }
                 timer++;
-                if (progressTime < 0) {
+                if (progressTime > 4 && progressTime < 4.5 && !scoresShown) {
+                    scoresShown = true;
+                    Platform.runLater(() -> updatePlayerList());
+                } else if (progressTime < 0) {
                     this.cancel();
-                    Platform.runLater(() -> goToNextScene(score));
+                    Platform.runLater(() -> goToNextScene(score, playerList.getItems()));
                 }
             }
         };
@@ -180,4 +195,11 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
     }
+
+    protected void updatePlayerList() {
+        var list = myMainCtrl.getPlayerScores();
+        playerList.setItems(FXCollections.observableList(list));
+    }
+
+    protected abstract void goToNextScene(long score, ObservableList<String> list);
 }

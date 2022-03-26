@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -227,6 +228,19 @@ public class ServerUtils {
      */
     public void stop(){
         EXEC.shutdownNow();
+    }
+
+    /**
+     *
+     * @param id
+     * @return map of players and their scores
+     */
+    public Map<String,Long> getPlayerScores(String id){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/scores/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<>() {});
     }
 
 

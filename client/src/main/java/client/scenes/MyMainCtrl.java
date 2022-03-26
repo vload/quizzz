@@ -3,15 +3,14 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.*;
 import jakarta.ws.rs.BadRequestException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MyMainCtrl extends AbstractCtrl {
 
@@ -174,23 +173,25 @@ public class MyMainCtrl extends AbstractCtrl {
         setUpJokers(gameID);
         Question q = server.getMPQuestion(gameID, playerData.getPlayerName());
         connected = false;
-        showMPQuestionScene(q, 0L);
+        var list = FXCollections.observableList(getPlayerScores());
+        showMPQuestionScene(q, 0L, list);
     }
 
     /**
      * Sets the correct scene along with its CSS to the primaryStage
      * @param score
      * @param q the question to be displayed
+     * @param list
      */
-    public void showMPQuestionScene(Question q, Long score) {
+    public void showMPQuestionScene(Question q, Long score, ObservableList<String> list) {
         if (q.getType() == QuestionType.ESTIMATE) {
             setScene("mpEQScreen", "EstimateScene", "QuestionCSS.css");
             var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
-            ctrl.init(q, score);
+            ctrl.init(q, score, list);
         } else {
             setScene("mpMCQScreen", "MCScene", "QuestionCSS.css");
             var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
-            ctrl.init(q, score);
+            ctrl.init(q, score, list);
         }
     }
 
@@ -234,15 +235,16 @@ public class MyMainCtrl extends AbstractCtrl {
     /**
      * Gets the new question and sets the scene accordingly
      * @param score
+     * @param list
      */
-    public void setNextMPQuestion(long score) {
+    public void setNextMPQuestion(long score, ObservableList<String> list) {
         try {
             Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
             if (newQuestion == null) {
                 showLeaderboardScreen();
                 return;
             }
-            showMPQuestionScene(newQuestion, score);
+            showMPQuestionScene(newQuestion, score, list);
         } catch (BadRequestException e) {
             System.out.println(e);
         }
@@ -358,6 +360,15 @@ public class MyMainCtrl extends AbstractCtrl {
     public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
         l.add(emoji);
         ctrl.displayReactions(l);
+    }
+
+    /**
+     * Gets a "leaderboard" for a multiplayer game
+     * @return list of players connected to their scores
+     */
+    public List<String> getPlayerScores() {
+        Map<String,Long> map = server.getPlayerScores(gameID);
+        return map.keySet().stream().map(k -> k + ": " + map.get(k)).toList();
     }
 
 }
