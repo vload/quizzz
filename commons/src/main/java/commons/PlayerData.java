@@ -112,8 +112,8 @@ public class PlayerData {
      * The reason why this was implemented, is that the server and client might modify the jokers
      * or the player score. This means that they won't be equal anymore.
      *
-     * @param data The PlayerData to be tested for the same name
-     * @return true iff the other PlayerData has the same name, false otherwise
+     * @param data The object to be tested for the same name
+     * @return true iff obj is an instanceof PlayerData and has the same name, false otherwise
      */
     public boolean hasSameName(PlayerData data) {
         if (this == data) {
@@ -127,7 +127,8 @@ public class PlayerData {
     }
 
     /**
-     * check if a joker is marked as TO_BE_EXECUTED
+     * Check if a joker is marked as TO_BE_EXECUTED
+     *
      * @param joker the joker to be checked
      * @return true iff the joker is to be executed
      */
