@@ -17,18 +17,22 @@ import server.services.SinglePlayerGameService;
 public class JokerController {
     private SinglePlayerGameService singlePlayerGameService;
     private MultiPlayerGameService multiPlayerGameService;
+    private MultiPlayerGameController multiPlayerGameController;
 
     /**
      * Constructor for JokerController.
      * @param singlePlayerGameService the singleplayer game service
      * @param multiPlayerGameService the multiplayer game service
+     * @param multiPlayerGameController the multiplayer game controller
      */
     @Autowired
     public JokerController(
             SinglePlayerGameService singlePlayerGameService,
-            MultiPlayerGameService multiPlayerGameService) {
+            MultiPlayerGameService multiPlayerGameService,
+            MultiPlayerGameController multiPlayerGameController) {
         this.singlePlayerGameService = singlePlayerGameService;
         this.multiPlayerGameService = multiPlayerGameService;
+        this.multiPlayerGameController = multiPlayerGameController;
     }
 
     /**
@@ -54,6 +58,11 @@ public class JokerController {
 
         if (!game.useJoker(playerName, jokerType)){
             return new ResponseEntity<>("Joker already used", HttpStatus.FORBIDDEN);
+        }
+
+        if(jokerType.equals(JokerType.REDUCE_TIME)){
+            multiPlayerGameController.reduceTimeJokerInternalEndpoint(
+                    game.getPlayerDataMap().get(playerName), jokerUse.getGameId());
         }
 
         return new ResponseEntity<>("", HttpStatus.OK);

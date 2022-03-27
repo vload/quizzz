@@ -23,7 +23,7 @@ public class MultiPlayerGame extends AbstractGame {
      * Constructor for a MultiPlayerGame
      *
      * @param gameID The ID of the game
-     * @param playerDataList A list containing all of the player data objects of this game
+     * @param playerDataList A list containing all the player data objects of this game
      * @param questions The list of 20 pre-generated questions to be used in this game instance.
      */
     public MultiPlayerGame(long gameID, List<PlayerData> playerDataList, List<Question> questions) {
@@ -217,13 +217,7 @@ public class MultiPlayerGame extends AbstractGame {
      * @return true iff the joker was successfully used
      */
     public boolean useJoker(String playerName, JokerType jokerType) {
-        if(!playerDataMap.get(playerName).useJoker(jokerType)){
-            return false;
-        }
-
-        // send data to all players.
-
-        return true;
+        return playerDataMap.get(playerName).useJoker(jokerType);
     }
 
     /**
