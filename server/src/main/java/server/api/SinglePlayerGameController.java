@@ -26,6 +26,8 @@ public class SinglePlayerGameController {
      * Constructor for GameController
      *
      * @param service injected component which corresponds to the business logic of this controller
+     * @param leaderBoardRepo The leaderboard repository where entries will be added
+     *                        after the completion of games
      */
     @Autowired
     public SinglePlayerGameController(SinglePlayerGameService service,
