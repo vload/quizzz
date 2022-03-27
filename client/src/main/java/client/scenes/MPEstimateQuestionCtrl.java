@@ -63,6 +63,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
         init(score);
         alertText.setVisible(false);
+        answerText.setFocusTraversable(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
@@ -218,7 +219,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
 
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setText(joker.getText());
-
+                jokerList.get(i).setFocusTraversable(false);
                 if (joker.isUsed()) {
                     jokerList.get(i).setDisable(true);
                 }
