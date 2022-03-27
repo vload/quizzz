@@ -28,7 +28,7 @@
                 <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="SPnameField" alignment="TOP_CENTER" prefHeight="105.0" prefWidth="637.0">
+                        <TextField fx:id="SPnameField" alignment="TOP_CENTER" onKeyPressed="#checkForEnterSP" prefHeight="105.0" prefWidth="637.0">
                             <font>
                                 <Font size="45.0" />
                             </font>

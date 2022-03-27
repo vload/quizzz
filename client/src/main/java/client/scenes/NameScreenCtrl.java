@@ -52,13 +52,26 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
         boolean canStart = myMainCtrl.startMPGame(MPnameField.getText());
         if(canStart){
             mpWarningMessage.setVisible(false);
-            System.out.println("Hidden");
         }else{
             mpWarningMessage.setVisible(true);
-            System.out.println("Showed");
         }
 
     }
+
+    /**
+     * Event handler for typing in the textField
+     *
+     * @param event
+     */
+    @FXML
+    void checkForEnterSP(KeyEvent event) {
+        if (event.getCode().toString().equals("ENTER")) {
+            startSPGame();
+        }
+        return;
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,6 +86,8 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
     private void checkForBackspace(KeyEvent event){
         if(event.getCode().toString().equals("BACK_SPACE")){
             mpWarningMessage.setVisible(false);
+        }else if(event.getCode().toString().equals("ENTER")){
+            startMPGame();
         }
     }
 
