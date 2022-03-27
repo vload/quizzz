@@ -1,6 +1,7 @@
 package server.server_classes;
 
 import commons.Activity;
+import commons.PlayerData;
 import commons.Question;
 import commons.QuestionType;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,5 +82,17 @@ class SinglePlayerGameTest {
     void increaseScore() {
         sub.addScoreFromQuestion(30);
         assertEquals(30,sub.getScore());
+    }
+
+    @Test
+    void addScoreFromQuestion() {
+        var r1 = sub.getNextQuestion();
+        sub.addScoreFromQuestion(90);
+        assertEquals(90,sub.getPlayerData().getScore());
+    }
+
+    @Test
+    void getPlayerData() {
+        assertEquals(new PlayerData("Marcus"),sub.getPlayerData());
     }
 }
