@@ -347,9 +347,12 @@ public class MyMainCtrl extends AbstractCtrl {
      * shows leaderboard screen
      */
     public void showLeaderboardScreen(){
+        List<LeaderboardEntry> listLeaderboardEntries = server.getLeaderboardEntries();
+
         setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
         var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
-        ctrl.init();
+
+        ctrl.init(listLeaderboardEntries);
     }
 
     /**

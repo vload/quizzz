@@ -44,4 +44,12 @@ public class MainScreenCtrl extends AbstractCtrl{
     public void goToSPName() {
         myMainCtrl.showSPNameScreen();
     }
+
+    /**
+     * Event handler for Admin button click
+     */
+    public void onAdminClick() {
+
+    }
+
 }

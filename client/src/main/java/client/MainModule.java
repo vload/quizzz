@@ -19,5 +19,6 @@ public class MainModule implements Module {
         binder.bind(MPEstimateQuestionCtrl.class).in(Scopes.SINGLETON);
         binder.bind(MPMultipleChoiceQuestionCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
+        binder.bind(LeaderboardCtrl.class).in(Scopes.SINGLETON);
     }
 }

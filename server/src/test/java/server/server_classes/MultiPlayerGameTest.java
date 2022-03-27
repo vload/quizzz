@@ -20,6 +20,8 @@ class MultiPlayerGameTest {
     AbstractGame s2;
     AbstractGame s3;
     MultiPlayerGame sub;
+    MultiPlayerGame mainSUB;
+    Question q1;
     @BeforeEach
     void init() {
         Activity a1 = new Activity("02-shower", "/shower.png",
@@ -28,17 +30,23 @@ class MultiPlayerGameTest {
                 "Shower", 10.1,"example.com");
         Activity a3 = new Activity("05-flamethrower",
                 "/flamethrower.png","Flamethrower", 99.3,"example.com");
+        Activity a4 = new Activity("09-heater","/heater.png,",
+                "heater",15.9,"heat.com");
 
-        Question question = new Question("Sample question",
+        q1 = new Question("Sample q1",
                 Stream.of(a1,a2,a3).collect(Collectors.toSet()), QuestionType.MC, a1.getId());
+
+        Question q12 = new Question("Sample",Set.of(a4),
+                QuestionType.ESTIMATE,"15.9");
 
         PlayerData p1 = new PlayerData("Marcus");
         PlayerData p2 = new PlayerData("Kanye");
         PlayerData p3 = new PlayerData("Alice");
-        s1 = new MultiPlayerGame(5,List.of(p1,p2,p3),List.of(question,question));
-        s2 = new MultiPlayerGame(5,List.of(p1,p2,p3), List.of(question,question));
+        s1 = new MultiPlayerGame(5,List.of(p1,p2,p3),List.of(q1,q1));
+        s2 = new MultiPlayerGame(5,List.of(p1,p2,p3), List.of(q1,q1));
         s3 = new MultiPlayerGame(4,List.of(p1,p2,new PlayerData("Alce")),new ArrayList<>());
         sub = (MultiPlayerGame) s1;
+        mainSUB = new MultiPlayerGame(9,List.of(p1,p2,p3),List.of(q1,q12));
     }
 
     @Test
@@ -164,5 +172,117 @@ class MultiPlayerGameTest {
         assertNotNull(sub.getPlayerDataMap().get("Hello"));
         var r2 = sub.getPlayerDataMap().get("Hello");
         assertEquals(new PlayerData("Hello"),r2);
+    }
+
+    @Test
+    void getCurrentQuestion() {
+        var g = mainSUB;
+        assertNull(g.getCurrentQuestion("Kanye"));
+        g.getNextQuestion("Kanye");
+        g.getNextQuestion("Marcus");
+        assertNotNull(g.getCurrentQuestion("Kanye"));
+        assertEquals(q1,g.getCurrentQuestion("Kanye"));
+        assertEquals(g.getCurrentQuestion("Kanye"),g.getCurrentQuestion("Marcus"));
+        g.getNextQuestion("Kanye");
+        g.getNextQuestion("Marcus");
+        assertEquals(g.getCurrentQuestion("Kanye"),g.getCurrentQuestion("Marcus"));
+        g.getNextQuestion("Kanye");
+        assertNull(g.getCurrentQuestion("Kanye"));
+        g.getNextQuestion("Alice");
+        assertNotNull(g.getCurrentQuestion("Alice"));
+        assertNotEquals(g.getCurrentQuestion("Kanye"), g.getCurrentQuestion("Alice"));
+    }
+
+    @Test
+    void getNextQuestion() {
+        var g = mainSUB;
+        assertEquals(q1,mainSUB.getNextQuestion("Kanye"));
+        assertNotNull(mainSUB.getNextQuestion("Kanye"));
+        assertNull(mainSUB.getNextQuestion("Kanye"));
+        assertNull(mainSUB.getNextQuestion("Kanye"));
+        assertEquals(q1,mainSUB.getNextQuestion("Alice"));
+    }
+
+    @Test
+    void getQuestionCorrectnessMap() {
+        var g = mainSUB;
+        Map<String,Boolean> sample = new HashMap<>();
+        sample.put("Kanye",false);
+        sample.put("Marcus",false);
+        sample.put("Alice",false);
+        Map<String,Boolean> original = new HashMap<>(sample);
+        assertEquals(sample,g.getQuestionCorrectnessMap());
+        g.getNextQuestion("Alice");
+        g.getNextQuestion("Marcus");
+        g.getNextQuestion("Kanye");
+        g.markAsCorrect("Alice");
+        sample.put("Alice",true);
+        assertEquals(sample,g.getQuestionCorrectnessMap());
+        g.getNextQuestion("Kanye");
+        assertEquals(original,g.getQuestionCorrectnessMap());
+    }
+
+    @Test
+    void useJoker() {
+        //TODO
+    }
+
+    @Test
+    void testAddMesageToInformationBox() {
+        var g = mainSUB;
+        assertNull(g.addMesageToInformationBox(""));
+        assertNull(g.addMesageToInformationBox(null));
+        assertEquals("HELLO",g.addMesageToInformationBox("HELLO"));
+        assertEquals(List.of("HELLO"),g.getInformationBox());
+        assertEquals("WHAT",g.addMesageToInformationBox("WHAT"));
+        assertEquals(List.of("HELLO","WHAT"),g.getInformationBox());
+        assertEquals(new ArrayList<>(),sub.getInformationBox());
+    }
+
+    @Test
+    void testGetInformationBox() {
+        var g = mainSUB;
+        assertNull(g.addMesageToInformationBox(""));
+        assertNull(g.addMesageToInformationBox(null));
+        assertEquals("HELLO",g.addMesageToInformationBox("HELLO"));
+        assertEquals(List.of("HELLO"),g.getInformationBox());
+        assertEquals("WHAT",g.addMesageToInformationBox("WHAT"));
+        assertEquals(List.of("HELLO","WHAT"),g.getInformationBox());
+        assertEquals(new ArrayList<>(),sub.getInformationBox());
+    }
+
+    @Test
+    void testGetPlayerDataMap() {
+        var g = mainSUB;
+        Map<String,PlayerData> sample = new HashMap<>();
+        sample.put("Kanye",new PlayerData("Kanye"));
+        sample.put("Marcus",new PlayerData("Marcus"));
+        sample.put("Alice",new PlayerData("Alice"));
+        assertEquals(sample,g.getPlayerDataMap());
+    }
+
+    @Test
+    void addScoreFromQuestion() {
+        var g = mainSUB;
+        assertEquals(90L,g.addScoreFromQuestion(90L,"Kanye"));
+        assertEquals(90L,g.getPlayerScore("Kanye"));
+        assertEquals(0L,g.getPlayerScore("Alice"));
+    }
+
+    @Test
+    void markAsCorrect() {
+        var g = mainSUB;
+        g.markAsCorrect("Kanye");
+        g.markAsCorrect("Marcus");
+        Map<String,Boolean> sample = new HashMap<>();
+        sample.put("Kanye",true);
+        sample.put("Marcus",true);
+        sample.put("Alice",false);
+        assertEquals(sample,g.getQuestionCorrectnessMap());
+        sample.put("Kanye",false);
+        sample.put("Marcus",false);
+        g.getNextQuestion("Alice");
+        assertEquals(sample,g.getQuestionCorrectnessMap());
+
     }
 }
