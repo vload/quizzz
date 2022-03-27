@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 @RequestMapping("/api/lobby")
 public class LobbyController {
 
+    private MultiPlayerGameController controller;
     private final MultiPlayerGameService service;
     private Map<Object, Consumer<LobbyData>> playerListeners = new ConcurrentHashMap<>();
     private List<PlayerData> connectedPlayers = new ArrayList<>();
@@ -25,10 +26,12 @@ public class LobbyController {
      * Constructor for WaitingRoomController
      *
      * @param service The MultiplayerGameService used to handle all business logic of MultiPlayerGames
+     * @param controller The MultiPlayerGameController to delegate the creation of the game.
      */
     @Autowired
-    public LobbyController(MultiPlayerGameService service) {
+    public LobbyController(MultiPlayerGameService service, MultiPlayerGameController controller) {
         this.service = service;
+        this.controller = controller;
     }
 
     /**
@@ -41,7 +44,8 @@ public class LobbyController {
         if (connectedPlayers.size() < 2) {
             return ResponseEntity.badRequest().build();
         }
-        long gameID = service.createMultiplayerGame(connectedPlayers);
+        long gameID = controller
+                .createMultiplayerGameInternalEndpoint(connectedPlayers);
         playerListeners.forEach((k,l) ->
                 l.accept(new LobbyData(connectedPlayers,true,gameID)));
         connectedPlayers.clear();

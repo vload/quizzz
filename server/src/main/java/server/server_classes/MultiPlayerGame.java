@@ -14,18 +14,60 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class MultiPlayerGame extends AbstractGame {
     private final Map<String, PlayerData> playerDataMap;
+    private final Map<String,Queue<Question>> questionQueueMap;
+    private final Map<String,Question> currentQuestionMap;
+    private final Map<String,Boolean> questionCorrectnessMap;
+    private final List<String> informationBox = new ArrayList<>();
 
     /**
      * Constructor for a MultiPlayerGame
      *
      * @param gameID The ID of the game
-     * @param playerDataList A list containing all the player data objects of this game
+     * @param playerDataList A list containing all of the player data objects of this game
      * @param questions The list of 20 pre-generated questions to be used in this game instance.
      */
     public MultiPlayerGame(long gameID, List<PlayerData> playerDataList, List<Question> questions) {
         super(gameID, questions);
+        this.questionCorrectnessMap = new LinkedHashMap<>();
+        playerDataList.forEach(data -> questionCorrectnessMap.put(data.getPlayerName(),false));
         this.playerDataMap = new LinkedHashMap<>();
         playerDataList.forEach(data -> playerDataMap.put(data.getPlayerName(),data));
+        this.questionQueueMap = new LinkedHashMap<>();
+        playerDataList.forEach(data -> questionQueueMap.put(data.getPlayerName(),
+                new LinkedList<>(questions)));
+        this.currentQuestionMap = new LinkedHashMap<>();
+        playerDataList.forEach(data -> currentQuestionMap.put(data.getPlayerName()
+                ,null));
+    }
+
+    /**
+     * Gets the currentQuestion for the PlayerData specified here.
+     *
+     * @param name The name of the player that needs the question retrieved.
+     * @return The question that is currently being asked
+     */
+    public Question getCurrentQuestion(String name) {
+        return currentQuestionMap.get(name);
+    }
+
+    /**
+     * Gets the next question FOR THE PLAYER with respect to the current game.
+     *
+     * @param name The name of the player
+     * @return The next question
+     */
+    public Question getNextQuestion(String name) {
+        if (questionQueueMap.get(name) == null) {
+            return null;
+        }
+
+        if (questionQueueMap.get(name).isEmpty()) {
+            currentQuestionMap.put(name,null);
+        } else {
+            currentQuestionMap.put(name,questionQueueMap.get(name).poll());
+            this.questionCorrectnessMap.replaceAll((key,value) -> false);
+        }
+        return currentQuestionMap.get(name);
     }
 
     /**
@@ -88,6 +130,16 @@ public class MultiPlayerGame extends AbstractGame {
     }
 
     /**
+     * Getter for the question correctness map: Maps names to whether people got the
+     * current question right or not
+     *
+     * @return The question correctness map
+     */
+    public Map<String, Boolean> getQuestionCorrectnessMap() {
+        return questionCorrectnessMap;
+    }
+
+    /**
      * Adds a player to the game.
      * This method is just for extensibility procedures, probably won't be used
      *
@@ -95,6 +147,8 @@ public class MultiPlayerGame extends AbstractGame {
      * @param startingPoints The number of points the player has to start, will usually be 0
      * @return true iff the player was added successfully (not already existing in game) false otherwise
      */
+    @Deprecated // This method doesn't correcly synchronize question quees with other people do not actually
+    //use it outside the contexts of tests.
     public boolean addPlayer(String name, long startingPoints) {
         if (Objects.equals(null,name) || name.length() == 0 || playerDataMap.containsKey(name)) {
             return false;
@@ -118,6 +172,9 @@ public class MultiPlayerGame extends AbstractGame {
         }
 
         playerDataMap.remove(name);
+        currentQuestionMap.remove(name);
+        questionCorrectnessMap.remove(name);
+        questionQueueMap.remove(name);
         return true;
     }
 
@@ -164,18 +221,67 @@ public class MultiPlayerGame extends AbstractGame {
             return false;
         }
 
-        if(jokerType.equals(JokerType.REDUCE_TIME)) {
-            // send data to all players.
-        }
-        
+        // send data to all players.
+
         return true;
     }
 
     /**
-     * getter for playerData
+     * Adds a message to the information box
+     *
+     * @param message The message to be added
+     * @return The message itself.
+     */
+    public String addMesageToInformationBox(String message) {
+        if (message==null || message.length() == 0) {
+            return null;
+        }
+        informationBox.add(message);
+        return message;
+    }
+
+    /**
+     * Getter for the messages in the Information Box
+     *
+     * @return The list of strings corresponding to messages in the information box
+     */
+    public List<String> getInformationBox() {
+        return informationBox;
+    }
+
+    /**
+     * Getter for playerData
+     *
      * @return the playerData
      */
     public Map<String, PlayerData> getPlayerDataMap() {
         return playerDataMap;
+    }
+
+    /**
+     * Method to increase the score of the player in the current game session
+     * Joker calculations are also made.
+     *
+     * @param inc A long representing how much you want to increase the score by.
+     * @param name The person of whos score to increase
+     * @return The (new) cumulative score
+     */
+    public long addScoreFromQuestion(long inc, String name){
+        PlayerData playerData = playerDataMap.get(name);
+        if(playerData.needsToBeExecuted(JokerType.DOUBLE_POINTS)){
+            inc *= 2;
+            playerData.markJokerAsUsed(JokerType.DOUBLE_POINTS);
+        }
+
+        playerData.addScore(inc);
+        return playerData.getScore();
+    }
+
+    /**
+     * The player is marked as getting the question correct in the map.
+     * @param name The name of the player
+     */
+    public void markAsCorrect(String name) {
+        questionCorrectnessMap.put(name,true);
     }
 }
