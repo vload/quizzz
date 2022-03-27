@@ -12,8 +12,6 @@ import java.util.*;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class SinglePlayerGame extends AbstractGame {
-
-    private final String playerName;
     private PlayerData playerData;
 
     /**
@@ -26,14 +24,12 @@ public class SinglePlayerGame extends AbstractGame {
     public SinglePlayerGame(long gameID,String playerName,List<Question> questions) {
         super(gameID,questions);
         playerData = new PlayerData(playerName);
-        this.playerName = playerName;
     }
 
     /**
      * getScore method
      * @return the score of the player
      */
-    @Deprecated
     public long getScore() {
         return playerData.getScore();
     }
@@ -43,7 +39,7 @@ public class SinglePlayerGame extends AbstractGame {
      * @return the name of the player associated to this single-player instance
      */
     public String getPlayerName() {
-        return playerName;
+        return playerData.getPlayerName();
     }
 
     /**
@@ -122,10 +118,6 @@ public class SinglePlayerGame extends AbstractGame {
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType jokerType) {
-        if(!playerData.useJoker(jokerType)){
-            return false;
-        }
-
-        return true;
+        return playerData.useJoker(jokerType);
     }
 }
