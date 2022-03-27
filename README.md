@@ -24,6 +24,10 @@ Add your own name (do not add the names for others!) to the section below.
 
 ## How to run it
 
+## How to load the activities from the JSON file
+- Uncomment the @Configuration annotation + the import in server/src/main/java/server/database/ActivityRepositoryLoader.java
+- Comment it right afterwards please
+
 ## How to contribute to it
 
 ## Copyright / License (opt.)
