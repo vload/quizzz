@@ -1,22 +1,22 @@
 @import "ScreenCommonCSS.css";
 
 .border_plane {
-    -fx-background-color: -background-color;
+    -fx-background-color: -background-color23;
 }
 
 .questionButtonCorrect {
-    -fx-background-color: -correct-color;
+    -fx-background-color: -correct-color23;
     -fx-background-radius: 50;
-    -fx-border-color: -correct-border-color;
+    -fx-border-color: -correct-border-color23;
     -fx-border-width: 6;
     -fx-border-radius: 36;
     -fx-background-insets: 0.01;
 }
 
 .questionButtonIncorrect {
-    -fx-background-color: -incorrect-color;
+    -fx-background-color: -incorrect-color23;
     -fx-background-radius: 50;
-    -fx-border-color: -incorrect-border-color;
+    -fx-border-color: -incorrect-border-color23;
     -fx-border-width: 6;
     -fx-border-radius: 36;
     -fx-background-insets: 0.02;
@@ -27,30 +27,30 @@
 }
 
 .jokerButton {
-    -fx-background-color: -joker-color;
-    -fx-border-color: -joker-border-color;
+    -fx-background-color: -joker-color23;
+    -fx-border-color: -joker-border-color23;
 }
 
 .jokerButton:hover {
-    -fx-background-color: -joker-hover-color;
+    -fx-background-color: -joker-hover-color23;
 }
 
 .jokerButton:disabled {
-    -fx-background-color: -joker-disabled-color;
-    -fx-border-color: -joker-disabled-border;
+    -fx-background-color: -joker-disabled-color23;
+    -fx-border-color: -joker-disabled-border23;
 }
 
 .reactionButton {
-    -fx-background-color: -button-color;
+    -fx-background-color: -button-color23;
     -fx-background-radius: 10;
-    -fx-border-color: -button-border-color;
+    -fx-border-color: -button-border-color23;
     -fx-border-width: 3;
     -fx-border-radius: 6;
     -fx-background-insets: 0.02;
 }
 
 .reactionButton:hover {
-    -fx-background-color: -joker-hover-color;
+    -fx-background-color: -joker-hover-color23;
 }
 
 .reactionButton .text {
@@ -70,5 +70,5 @@
 }
 
 .estimateQuestion:hover {
-    -fx-background-color: -button-color;
+    -fx-background-color: -button-color23;
 }
