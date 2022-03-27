@@ -20,14 +20,6 @@ public class PlayerData {
     private String playerName;
     private Map<JokerType, JokerUsageType> jokers;
 
-    public Map<JokerType, JokerUsageType> getJokers() {
-        return jokers;
-    }
-
-    public void setJokers(Map<JokerType, JokerUsageType> jokers) {
-        this.jokers = jokers;
-    }
-
     /**
      * Constructor for PlayerData.
      * @param playerName the name of the player
@@ -77,6 +69,22 @@ public class PlayerData {
      */
     public long getScore(){
         return score;
+    }
+
+    /**
+     * Getter for jokers field
+     * @return map of jokers
+     */
+    public Map<JokerType, JokerUsageType> getJokers() {
+        return jokers;
+    }
+
+    /**
+     * Setter for jokers field
+     * @param jokers
+     */
+    public void setJokers(Map<JokerType, JokerUsageType> jokers) {
+        this.jokers = jokers;
     }
 
     /**
