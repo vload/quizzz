@@ -99,12 +99,12 @@ public class PlayerData {
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType joker){
-        if(!jokerHasBeenUsed(joker)){
-            jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
-            return true;
+        if (jokerHasBeenUsed(joker)) {
+            return false;
         }
 
-        return false;
+        jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
+        return true;
     }
 
     /**

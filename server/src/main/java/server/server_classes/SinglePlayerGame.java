@@ -122,10 +122,6 @@ public class SinglePlayerGame extends AbstractGame {
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType jokerType) {
-        if(!playerData.useJoker(jokerType)){
-            return false;
-        }
-
-        return true;
+        return playerData.useJoker(jokerType);
     }
 }

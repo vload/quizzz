@@ -63,6 +63,7 @@ public class JokerController {
         if(jokerType.equals(JokerType.REDUCE_TIME)){
             multiPlayerGameController.reduceTimeJokerInternalEndpoint(
                     game.getPlayerDataMap().get(playerName), jokerUse.getGameId());
+            game.getPlayerDataMap().get(playerName).markJokerAsUsed(jokerType);
         }
 
         return new ResponseEntity<>("", HttpStatus.OK);
