@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.PlayerData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,9 +62,16 @@ public class JokerController {
         }
 
         if(jokerType.equals(JokerType.REDUCE_TIME)){
-            multiPlayerGameController.reduceTimeJokerInternalEndpoint(
-                    game.getPlayerDataMap().get(playerName), jokerUse.getGameId());
-            game.getPlayerDataMap().get(playerName).markJokerAsUsed(jokerType);
+            PlayerData userData = game.getPlayerDataMap().get(playerName);
+
+            for(PlayerData data: game.getPlayerDataMap().values()){
+                if(!userData.equals(data)) {
+                    multiPlayerGameController.reduceTimeJokerInternalEndpoint(
+                            game.getPlayerDataMap().get(playerName), jokerUse.getGameId());
+                }
+            }
+
+            userData.markJokerAsUsed(jokerType);
         }
 
         return new ResponseEntity<>("", HttpStatus.OK);
