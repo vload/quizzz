@@ -41,7 +41,6 @@ public abstract class AbstractGame implements Serializable {
     }
 
 
-
     /**
      * Retrieves the next question
      *
