@@ -64,6 +64,10 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText1.setId(activityIterator.next().getId());
         activityText2.setId(activityIterator.next().getId());
         activityText3.setId(activityIterator.next().getId());
+
+        activityText1.setFocusTraversable(false);
+        activityText2.setFocusTraversable(false);
+        activityText3.setFocusTraversable(false);
     }
 
     /**
@@ -166,6 +170,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());
+                jokerList.get(i).setFocusTraversable(false);
 
                 i++;
             }
