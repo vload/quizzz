@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Activity;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class ActivityRepositoryLoader {
     @Bean
     ApplicationRunner loadActivities(ActivityRepository repository) {
