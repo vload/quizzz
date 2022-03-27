@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -309,6 +310,15 @@ public class MyMainCtrl extends AbstractCtrl {
     public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
         l.add(emoji);
         ctrl.displayReactions(l);
+    }
+
+    /**
+     * Sets the IP of the server to the desired ip
+     *
+     * @param ip The ip that the user wants to use
+     */
+    public void setIP(String ip) throws ConnectException {
+        server.setIP(ip);
     }
 
 }

@@ -17,6 +17,7 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -36,8 +37,32 @@ import jakarta.ws.rs.client.Entity;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080/";
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+
+    /**
+     * Sets the IP of the desired server
+     *
+     * @param ip The IP of the server
+     * @return The newly set Server-IP
+     */
+    public String setIP(String ip) throws ConnectException {
+        SERVER = ip;
+        try {
+            testEndpoint();
+        } catch (Exception e) {
+            throw new ConnectException();
+        }
+        return SERVER;
+    }
+
+    private String testEndpoint() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+    }
 
     /**
      *

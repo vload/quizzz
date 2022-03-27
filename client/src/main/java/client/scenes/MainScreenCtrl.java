@@ -15,11 +15,26 @@
  */
 package client.scenes;
 
-import javax.inject.Inject;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.text.Text;
 
-public class MainScreenCtrl extends AbstractCtrl{
+import javax.inject.Inject;
+import javafx.scene.control.TextField;
+
+import java.net.ConnectException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainScreenCtrl extends AbstractCtrl implements Initializable {
 
     private final MyMainCtrl myMainCtrl;
+
+    @FXML
+    private TextField ipAddressField;
+
+    @FXML
+    private Text ipWarningMessage;
 
     /**
      * Constructor for the name screen controller
@@ -28,27 +43,55 @@ public class MainScreenCtrl extends AbstractCtrl{
     @Inject
     public MainScreenCtrl(MyMainCtrl myMainCtrl){
         this.myMainCtrl = myMainCtrl;
+    }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ipWarningMessage.setVisible(false);
+    }
+
+    private void setIP() throws ConnectException {
+        if (ipAddressField.getText().length() == 0) {
+            myMainCtrl.setIP("http://localhost:8080/");
+        } else {
+            myMainCtrl.setIP(ipAddressField.getText());
+        }
     }
 
     /**
      * Shows main screen
      */
     public void goToMPName() {
-        myMainCtrl.showMPNameScreen();
+        try {
+            setIP();
+            myMainCtrl.showMPNameScreen();
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
     }
 
     /**
      * Shows main screen
      */
     public void goToSPName() {
-        myMainCtrl.showSPNameScreen();
+        try {
+            setIP();
+            myMainCtrl.showSPNameScreen();
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
     }
 
     /**
      * Event handler for Admin button click
      */
     public void onAdminClick() {
+        try {
+            setIP();
+            //action here
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
 
     }
 
