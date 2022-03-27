@@ -72,6 +72,10 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         answerText2.setId(activityIterator.next().getId());
         answerText3.setId(activityIterator.next().getId());
 
+        answerText1.setFocusTraversable(false);
+        answerText2.setFocusTraversable(false);
+        answerText3.setFocusTraversable(false);
+
     }
 
     /**
@@ -183,6 +187,7 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());
+                jokerList.get(i).setFocusTraversable(false);
 
                 i++;
             }
