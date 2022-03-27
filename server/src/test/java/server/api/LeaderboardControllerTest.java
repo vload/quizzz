@@ -29,9 +29,9 @@ class LeaderboardControllerTest {
 
     @BeforeEach
     void init() {
-        e1 = new LeaderboardEntry(0,"Boris",560L);
-        e2 = new LeaderboardEntry(1,"Simon",902L);
-        e3 = new LeaderboardEntry(2,"Tyrone",2L);
+        e1 = new LeaderboardEntry("Boris",560L);
+        e2 = new LeaderboardEntry("Simon",902L);
+        e3 = new LeaderboardEntry("Tyrone",2L);
         repo = new MockLeaderboardRepository();
         mockActivityRepo = new MockActivityRepository();
         repo.saveAll(List.of(e1,e2,e3));
@@ -76,10 +76,10 @@ class LeaderboardControllerTest {
         var r1 = sutTwo.add(null);
         assertEquals(HttpStatus.BAD_REQUEST,r1.getStatusCode());
         assertEquals(2,sutTwo.getAllInOrder().getBody().size());
-        var r2 = sutTwo.add(new LeaderboardEntry(0,null,9L));
+        var r2 = sutTwo.add(new LeaderboardEntry(null,9L));
         assertEquals(HttpStatus.BAD_REQUEST,r2.getStatusCode());
         assertEquals(2,sutTwo.getAllInOrder().getBody().size());
-        var r3 = sutTwo.add(new LeaderboardEntry(1,"",3L));
+        var r3 = sutTwo.add(new LeaderboardEntry("",3L));
         assertEquals(HttpStatus.BAD_REQUEST,r3.getStatusCode());
         assertEquals(2,sutTwo.getAllInOrder().getBody().size());
     }

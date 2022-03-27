@@ -62,6 +62,31 @@ public class ServerUtils {
                 .get(Question.class);
     }
 
+    /**
+     * Gets the leaderboard entries sorted in order
+     * @return adding checkstyle
+     */
+    public List<LeaderboardEntry> getLeaderboardEntries(){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/api/leaderboard/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<List<LeaderboardEntry>>() {});
+    }
+
+    /**
+     * Adds a leaderboard entry to the repo
+     * @param leaderboardEntry
+     * @return adding checkstyle
+     */
+    public LeaderboardEntry addLeaderboardEntry(LeaderboardEntry leaderboardEntry){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/api/leaderboard/add/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(leaderboardEntry, APPLICATION_JSON), LeaderboardEntry.class);
+    }
+
 
     /**
      * @param gameID
