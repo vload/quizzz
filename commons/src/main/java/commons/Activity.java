@@ -10,10 +10,15 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Entity
 @Table(name = "activities")
 public class Activity {
+    public byte[] image;
+
     @Id
     @Column(name = "activity_id", nullable = false)
     @JsonProperty("id")
@@ -59,6 +64,26 @@ public class Activity {
         this.energyConsumption = energyConsumption;
         this.source = source;
     }
+
+    /**
+     * Creat an activity that has an image loaded into it
+     * @param activity the activity to have the image loaded into
+     * @return the activity that has the image loaded into it
+     */
+    public static Activity createActivityWithImage(Activity activity){
+        Activity result = new Activity(activity.getId(), activity.getImagePath(), activity.getTitle(),
+                activity.getEnergyConsumption(), activity.getSource());
+
+        try {
+            result.image = Files.readAllBytes(Path.of("activitybank/" + activity.imagePath));
+        } catch (IOException e) {
+            System.out.println("[ERROR] File does not exist: " + activity.imagePath);
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
     /**
      * Getter for id
