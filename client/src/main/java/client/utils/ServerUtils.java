@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 import commons.*;
 
 import org.glassfish.jersey.client.ClientConfig;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.ForbiddenException;
