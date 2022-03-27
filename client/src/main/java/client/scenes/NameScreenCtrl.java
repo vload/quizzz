@@ -52,10 +52,8 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
         boolean canStart = myMainCtrl.startMPGame(MPnameField.getText());
         if(canStart){
             mpWarningMessage.setVisible(false);
-            System.out.println("Hidden");
         }else{
             mpWarningMessage.setVisible(true);
-            System.out.println("Showed");
         }
 
     }
