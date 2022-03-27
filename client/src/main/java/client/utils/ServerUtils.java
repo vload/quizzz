@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 
 import commons.*;
 
+import commons.poll_wrapper.MultiPlayerPollObject;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
 import jakarta.ws.rs.core.Response;
@@ -39,7 +40,7 @@ public class ServerUtils {
 
     private static final String SERVER = "http://localhost:8080/";
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
-
+    private static final ExecutorService EXEC2 = Executors.newSingleThreadExecutor();
     /**
      *
      * @return returns 20 questions
@@ -201,6 +202,60 @@ public class ServerUtils {
                }
                var l = res.readEntity(LobbyData.class);
                consumer.accept(l);
+            }
+        });
+    }
+
+        /**
+     * @param gameID the gameID of the current game
+     * @param message the message to be sent
+     * @return validates an answer and returns the updated score
+     */
+    public String sendMessage(String message,String gameID){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/informationbox/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(message, APPLICATION_JSON), String.class);
+    }
+
+//    /**
+//     * @param gameID
+//     * @param consumer
+//     */
+//    public void registerMPUpdates(Consumer<MultiPlayerPollObject> consumer, String gameID){
+//        EXEC.submit(() -> {
+//            while(!Thread.interrupted()) {
+//                var res =  ClientBuilder.newClient(new ClientConfig())
+//                        .target(SERVER).path("api/game/multiplayer/update/" + gameID)
+//                        .request(APPLICATION_JSON)
+//                        .accept(APPLICATION_JSON)
+//                        .get(Response.class);
+//                if(res.getStatus() == 204){
+//                    continue;
+//                }
+//                var l = res.readEntity(MultiPlayerPollObject.class);
+//                consumer.accept(l);
+//            }
+//        });
+//    }
+
+    /**
+     * @param consumer
+     */
+    public void registerMPUpdates(Consumer<MultiPlayerPollObject> consumer){
+        EXEC2.submit(() -> {
+            while(!Thread.interrupted()) {
+                var res =  ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path("api/game/multiplayer/update/0")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+                if(res.getStatus() == 204){
+                    continue;
+                }
+                var l = res.readEntity(MultiPlayerPollObject.class);
+                consumer.accept(l);
             }
         });
     }

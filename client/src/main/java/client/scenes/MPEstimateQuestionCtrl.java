@@ -13,9 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+
+import java.util.*;
 
 public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
 
@@ -53,6 +52,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     public MPEstimateQuestionCtrl(ServerUtils server, MyMainCtrl mainCtrl) {
         super(server, mainCtrl);
     }
+
 
     /**
      * Do not use, just from AbstractQuestionCtrl

@@ -88,7 +88,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     protected void pressReaction(ActionEvent event) {
         Button b = (Button) event.getSource();
         String emoji = b.getText();
-        myMainCtrl.sendEmoji(emoji, this);
+        server.sendMessage(emoji,myMainCtrl.gameID);
     }
 
     /**
