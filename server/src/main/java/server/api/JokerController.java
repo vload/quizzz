@@ -56,21 +56,17 @@ public class JokerController {
         if (!game.getPlayerNames().contains(playerName)){
             return new ResponseEntity<>("Player does not exist", HttpStatus.BAD_REQUEST);
         }
-
         if (!game.useJoker(playerName, jokerType)){
             return new ResponseEntity<>("Joker already used", HttpStatus.FORBIDDEN);
         }
-
         if(jokerType.equals(JokerType.REDUCE_TIME)){
             PlayerData userData = game.getPlayerDataMap().get(playerName);
-
             for(PlayerData data: game.getPlayerDataMap().values()){
                 if(!userData.equals(data)) {
                     multiPlayerGameController.reduceTimeJokerInternalEndpoint(
                             game.getPlayerDataMap().get(playerName), jokerUse.getGameId());
                 }
             }
-
             userData.markJokerAsUsed(jokerType);
         }
 
