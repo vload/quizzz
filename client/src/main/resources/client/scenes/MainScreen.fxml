@@ -12,7 +12,7 @@
     <center>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <Region VBox.vgrow="ALWAYS" />
+                <Region minHeight="30.0" prefWidth="1920.0" VBox.vgrow="ALWAYS" />
                 <HBox maxHeight="616.0" prefHeight="188.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
@@ -24,31 +24,43 @@
                         <Region HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-                <Region minHeight="60.0" />
-            <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
+                <Region minHeight="30.0" prefHeight="30.0" />
+            <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="235.0" prefWidth="570.0" text="SinglePlayer">
+                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="150.0" prefWidth="500.0" text="SinglePlayer">
                      <font>
-                        <Font size="80.0" />
+                        <Font size="57.0" />
                      </font>
                   </Button>
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="60.0" />
-            <HBox maxHeight="616.0" prefHeight="216.0" prefWidth="1920.0">
-               <children>
-                  <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="216.0" prefWidth="570.0" text="MultiPlayer">
-                     <font>
-                        <Font size="80.0" />
-                     </font>
-                  </Button>
-                  <Region HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <Region VBox.vgrow="ALWAYS" />
+            <Region minHeight="30.0" prefHeight="50.0" />
+                <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
+                    <children>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="150.0" prefWidth="500.0" text="MultiPlayer">
+                            <font>
+                                <Font size="57.0" />
+                            </font>
+                        </Button>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+                <Region minHeight="30.0" prefHeight="50.0" />
+                <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
+                    <children>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#onAdminClick" prefHeight="150.0" prefWidth="500.0" text="Admin">
+                            <font>
+                                <Font size="57.0" />
+                            </font>
+                        </Button>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+            <Region minHeight="30.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </center>
