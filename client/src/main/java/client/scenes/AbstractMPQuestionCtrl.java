@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -74,10 +75,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * Gets called every time a question screen is shown
      * @param score
      * @param list
+     * @param infoList
      */
-    public void init(Long score, ObservableList<String> list) {
+    public void init(Long score, ObservableList<String> list, ObservableList<String> infoList) {
         super.init(score);
         playerList.setItems(list);
+        informationBox.setItems(infoList);
     }
 
     /**
@@ -96,15 +99,11 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * @param list
      */
     public void displayReactions(List<String> list) {
-        informationBox.setItems(FXCollections.observableList(list));
-    }
-
-    /**
-     * Method that displays a list of players in the player list
-     * @param list
-     */
-    public void displayPlayers(List<String> list) {
-        playerList.setItems(FXCollections.observableList(list));
+        LinkedList<String> l = new LinkedList<>();
+        for (String player : list) {
+            l.addFirst(player);
+        }
+        informationBox.setItems(FXCollections.observableList(l));
     }
 
     /**
@@ -166,12 +165,14 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
                     Platform.runLater(() -> updatePlayerList());
                 } else if (progressTime < 0) {
                     this.cancel();
-                    Platform.runLater(() -> goToNextScene(score, playerList.getItems()));
+                    Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
                 }
             }
         };
         this.answerTimer.schedule(answerTimerTask, 0, 10);
     }
+
+    protected abstract void goToNextScene(long score, ObservableList<String> items, ObservableList<String> items1);
 
     /**
      * Method that sends the answer that the player presses to the server and acts accordingly
