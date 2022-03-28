@@ -65,6 +65,7 @@ public class MainScreenCtrl extends AbstractCtrl implements Initializable {
         try {
             setIP();
             myMainCtrl.showMPNameScreen();
+            ipWarningMessage.setVisible(false);
         } catch (ConnectException e) {
             ipWarningMessage.setVisible(true);
         }
@@ -77,6 +78,7 @@ public class MainScreenCtrl extends AbstractCtrl implements Initializable {
         try {
             setIP();
             myMainCtrl.showSPNameScreen();
+            ipWarningMessage.setVisible(false);
         } catch (ConnectException e) {
             ipWarningMessage.setVisible(true);
         }
@@ -89,6 +91,7 @@ public class MainScreenCtrl extends AbstractCtrl implements Initializable {
         try {
             setIP();
             //action here
+            ipWarningMessage.setVisible(false);
         } catch (ConnectException e) {
             ipWarningMessage.setVisible(true);
         }

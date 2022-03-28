@@ -85,7 +85,7 @@
                   <Region prefHeight="100.0" prefWidth="1091.0" />
                </children>
             </HBox>
-            <Region prefHeight="9.0" prefWidth="1920.0" />
+            <Region prefHeight="126.0" prefWidth="1920.0" />
             <HBox prefHeight="183.0" prefWidth="1920.0">
                <children>
                   <Region prefHeight="138.0" prefWidth="815.0" />
