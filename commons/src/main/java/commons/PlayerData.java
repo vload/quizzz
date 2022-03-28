@@ -10,7 +10,6 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class PlayerData {
 
-
     public enum JokerUsageType{
         NOT_USED,
         TO_BE_EXECUTED,
@@ -70,6 +69,22 @@ public class PlayerData {
      */
     public long getScore(){
         return score;
+    }
+
+    /**
+     * Getter for jokers field
+     * @return map of jokers
+     */
+    public Map<JokerType, JokerUsageType> getJokers() {
+        return jokers;
+    }
+
+    /**
+     * Setter for jokers field
+     * @param jokers
+     */
+    public void setJokers(Map<JokerType, JokerUsageType> jokers) {
+        this.jokers = jokers;
     }
 
     /**

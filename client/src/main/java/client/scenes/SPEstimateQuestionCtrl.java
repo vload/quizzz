@@ -57,6 +57,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         init(score);
         alertText.setVisible(false);
         associatedQuestion = question;
+        answerText.setFocusTraversable(false);
         questionText.setText(question.getQuestionText());
         activityText.setText(question.getActivitySet().iterator().next().getTitle());
     }
@@ -211,7 +212,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setText(joker.getText());
-
+                jokerList.get(i).setFocusTraversable(false);
                 if (joker.isUsed()) {
                     jokerList.get(i).setDisable(true);
                 }

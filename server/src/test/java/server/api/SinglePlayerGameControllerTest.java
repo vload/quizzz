@@ -15,6 +15,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import server.database.MockActivityRepository;
+import server.database.MockLeaderboardRepository;
 import server.server_classes.*;
 import server.services.SinglePlayerGameService;
 
@@ -56,7 +57,7 @@ class SinglePlayerGameControllerTest {
         QuestionGenerator mockQuestionGen = new QuestionGenerator(mockRepo,new Random(42));
         this.games = new HashMap<>();
         SinglePlayerGameService service = new SinglePlayerGameService(new IdGenerator(),games,mockQuestionGen);
-        sut = new SinglePlayerGameController(service);
+        sut = new SinglePlayerGameController(service,new MockLeaderboardRepository());
     }
 
     @Test
@@ -154,7 +155,7 @@ class SinglePlayerGameControllerTest {
                         new IdGenerator(),
                         new HashMap<>(),
                         new QuestionGenerator(new MockActivityRepository(),new Random())
-                )
+                ), new MockLeaderboardRepository()
         );
         var r1 = fakeSut.startSinglePlayer("Cartoon");
         assertEquals(0L,r1.getBody());
@@ -177,7 +178,7 @@ class SinglePlayerGameControllerTest {
                         new IdGenerator(),
                         new HashMap<>(),
                         new QuestionGenerator(new MockActivityRepository(),new Random())
-                )
+                ), new MockLeaderboardRepository()
         );
         var r1 = fakeSut.startSinglePlayer("Cartoon");
         assertNull(fakeSut.getNextQuestion("0").getBody());

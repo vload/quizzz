@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.LeaderboardEntry;
 import commons.Question;
 import commons.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import server.database.LeaderboardRepository;
+import server.server_classes.SinglePlayerGame;
 import server.services.SinglePlayerGameService;
 
 
@@ -17,15 +20,20 @@ import server.services.SinglePlayerGameService;
 public class SinglePlayerGameController {
 
     private final SinglePlayerGameService service;
+    private final LeaderboardRepository leaderBoardRepo;
 
     /**
      * Constructor for GameController
      *
      * @param service injected component which corresponds to the business logic of this controller
+     * @param leaderBoardRepo The leaderboard repository where entries will be added
+     *                        after the completion of games
      */
     @Autowired
-    public SinglePlayerGameController(SinglePlayerGameService service) {
+    public SinglePlayerGameController(SinglePlayerGameService service,
+                                      LeaderboardRepository leaderBoardRepo) {
         this.service = service;
+        this.leaderBoardRepo = leaderBoardRepo;
     }
 
     /**
@@ -72,7 +80,14 @@ public class SinglePlayerGameController {
         if (id.length() == 0 || !service.isValidGame(gameID)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.getNextQuestion(gameID));
+        Question nextQuestion = service.getNextQuestion(gameID);
+        if (nextQuestion == null) {
+            SinglePlayerGame game = (SinglePlayerGame) service.getGame(gameID);
+            leaderBoardRepo.save(
+                    new LeaderboardEntry(game.getPlayerName(),game.getPlayerData().getScore())
+            );
+        }
+        return ResponseEntity.ok(nextQuestion);
     }
 
     /**

@@ -3,9 +3,10 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.*;
 import jakarta.ws.rs.BadRequestException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.*;
 
 public class MyMainCtrl extends AbstractCtrl {
 
@@ -89,8 +91,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        //primaryStage.setFullScreen(true);
         showMainScreen();
         primaryStage.show();
     }
@@ -142,15 +144,13 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param name
      * @return true if player can join with that name, false otherwise
      */
-    public boolean startMPGame(String name) {
+    public boolean goIntoLobby(String name) {
          playerData = new PlayerData(name);
         if(canStart(playerData)) {
             showLobbyScreen();
             connected = true;
             return true;
-
-        } else{
-
+        } else {
             return false;
         }
     }
@@ -170,6 +170,37 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Sets the correct scenes at the beginning of a MP game
+     * @param data
+     */
+    public void startMPGame(LobbyData data) {
+        gameID = String.valueOf(data.getAssignedGameID());
+        setUpJokers(gameID);
+        Question q = server.getMPQuestion(gameID, playerData.getPlayerName());
+        connected = false;
+        var list = FXCollections.observableList(getPlayerScores());
+        showMPQuestionScene(q, 0L, list);
+    }
+
+    /**
+     * Sets the correct scene along with its CSS to the primaryStage
+     * @param score
+     * @param q the question to be displayed
+     * @param list
+     */
+    public void showMPQuestionScene(Question q, Long score, ObservableList<String> list) {
+        if (q.getType() == QuestionType.ESTIMATE) {
+            setScene("mpEQScreen", "EstimateScene", "QuestionCSS.css");
+            var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
+            ctrl.init(q, score, list);
+        } else {
+            setScene("mpMCQScreen", "MCScene", "QuestionCSS.css");
+            var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
+            ctrl.init(q, score, list);
+        }
+    }
+
+    /**
      * Method that sends the submission to the server
      * @param answer
      * @param time
@@ -178,6 +209,15 @@ public class MyMainCtrl extends AbstractCtrl {
     public long sendSubmission(String answer, double time) {
         Submission s = new Submission(answer, time);
         return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Method that sends the submission to the server
+     * @param s
+     * @return score after updating
+     */
+    public long sendMPSubmission(Submission s) {
+        return server.validateMPQuestion(s, gameID, playerData.getPlayerName());
     }
 
     /**
@@ -192,6 +232,24 @@ public class MyMainCtrl extends AbstractCtrl {
                 return;
             }
             showQuestionScene(newQuestion, score);
+        } catch (BadRequestException e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * Gets the new question and sets the scene accordingly
+     * @param score
+     * @param list
+     */
+    public void setNextMPQuestion(long score, ObservableList<String> list) {
+        try {
+            Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
+            if (newQuestion == null) {
+                showLeaderboardScreen();
+                return;
+            }
+            showMPQuestionScene(newQuestion, score, list);
         } catch (BadRequestException e) {
             System.out.println(e);
         }
@@ -222,7 +280,7 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     private void setScene(String screen, String title, String cssFile) {
         var scene = screenMap.get(screen).getScene();
-        primaryStage.setTitle(title);
+        //primaryStage.setTitle(title);
         primaryStage.getScene().setRoot(scene);
         setCSS(cssFile);
     }
@@ -319,6 +377,22 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void setIP(String ip) throws ConnectException {
         server.setIP(ip);
+    }
+
+    /**
+     * Gets a "leaderboard" for a multiplayer game
+     *
+     * @return list of players connected to their scores
+     */
+    public List<String> getPlayerScores() {
+        Map<String,Long> map = server.getPlayerScores(gameID);
+        List<String> list = new ArrayList<>();
+        map.keySet().forEach(k -> {
+            if (!Objects.equals(k, playerData.getPlayerName())) {
+                list.add(k + ": " + map.get(k));
+            }
+        });
+        return list;
     }
 
 }
