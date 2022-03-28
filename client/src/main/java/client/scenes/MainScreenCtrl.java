@@ -16,17 +16,14 @@
 package client.scenes;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import javafx.scene.control.TextField;
 
 import java.net.ConnectException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class MainScreenCtrl extends AbstractCtrl implements Initializable {
+public class MainScreenCtrl extends AbstractCtrl {
 
     private final MyMainCtrl myMainCtrl;
 
@@ -45,11 +42,12 @@ public class MainScreenCtrl extends AbstractCtrl implements Initializable {
         this.myMainCtrl = myMainCtrl;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        ipWarningMessage.setVisible(false);
-    }
 
+    /**
+     * Proivate method to set the IP of serverutils to whatever is inside
+     * the IP box at that time.
+     * @throws ConnectException
+     */
     private void setIP() throws ConnectException {
         if (ipAddressField.getText().length() == 0) {
             myMainCtrl.setIP("http://localhost:8080/");

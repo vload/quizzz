@@ -20,6 +20,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -56,12 +57,22 @@ public class ServerUtils {
         return SERVER;
     }
 
-    private String testEndpoint() {
-        return ClientBuilder.newClient(new ClientConfig())
+    /**
+     * Sample Endpoint to ping, before a user actually enters any sort of game interface/
+     * admin interface
+     *
+     * @return The string from the server which makes sure that this is a valid IP
+     */
+    private String testEndpoint() throws ConnectException {
+        var r1 = ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("/")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(String.class);
+        if (!Objects.equals(r1,"1kxIEPWKIFKzjHFnnZYPHD43KFMGOP")) {
+            throw new ConnectException();
+        }
+        return r1;
     }
 
     /**
