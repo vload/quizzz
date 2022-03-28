@@ -24,6 +24,10 @@ Add your own name (do not add the names for others!) to the section below.
 
 ## How to run it
 
+## How to load the activities from activity-bank repo
+Get activities from "ZIP Archive with activities and images" at https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/releases
+Unzip the archive, rename it as "activitybank" and put it in the root of the project.
+
 ## How to load the activities from the JSON file
 - Uncomment the @Configuration annotation + the import in server/src/main/java/server/database/ActivityRepositoryLoader.java
 - Comment it right afterwards please
