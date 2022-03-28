@@ -28,7 +28,6 @@ import commons.*;
 
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
-import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.ForbiddenException;
@@ -40,6 +39,8 @@ public class ServerUtils {
 
     private static final String SERVER = "http://localhost:8080/";
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+    private static final ExecutorService EXEC2 = Executors.newSingleThreadExecutor();
+    private String gameID;
 
     /**
      *
@@ -73,6 +74,7 @@ public class ServerUtils {
      * @param name
      */
     public Question getMPQuestion(String gameID, String name) {
+        this.gameID = gameID;
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/multiplayer/getquestion/"+ gameID + "/" + name)
                 .request(APPLICATION_JSON)
@@ -189,7 +191,7 @@ public class ServerUtils {
      *
      * @param consumer
      */
-    public void registerForUpdates(Consumer<LobbyData> consumer){
+    public void longPollingLobby(Consumer<LobbyData> consumer){
         EXEC.submit(() -> {
             while(!Thread.interrupted()) {
                var res =  ClientBuilder.newClient(new ClientConfig())
@@ -208,9 +210,51 @@ public class ServerUtils {
 
     /**
      *
+     * @param consumer
      */
-    public void stop(){
+    public void longPollingMP(Consumer<PollWrapper> consumer){
+        EXEC2.submit(() -> {
+            while(!Thread.interrupted()) {
+                var res =  ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path("/api/game/multiplayer/update/" + gameID)
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+                if(res.getStatus() == 204){
+                    continue;
+                }
+                var data = res.readEntity(PollWrapper.class);
+                consumer.accept(data);
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    public void stopLobbyLP(){
         EXEC.shutdownNow();
+    }
+
+    /**
+     *
+     */
+    public void stopMainLP(){
+        EXEC2.shutdownNow();
+    }
+
+    /**
+     *
+     * @param gameID
+     * @param emoji
+     * @return String object that was removed
+     */
+    public String sendToInformationBox(String gameID, String emoji){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/informationbox/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(emoji, APPLICATION_JSON), String.class);
     }
 
     /**

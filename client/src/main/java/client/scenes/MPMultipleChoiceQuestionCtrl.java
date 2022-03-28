@@ -50,11 +50,12 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      * @param question
      * @param score
      * @param list
+     * @param infoList
      */
-    public void init(Question question, Long score, ObservableList<String> list) {
+    public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList) {
         buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score, list);
+        init(score, list, infoList);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
 
@@ -103,11 +104,11 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     }
 
     @Override
-    protected void goToNextScene(long score, ObservableList<String> list) {
+    protected void goToNextScene(long score, ObservableList<String> list, ObservableList<String> infoList) {
         enableButtons(true);
         enableColors(buttonList);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list, infoList));
         answerTimerTask.cancel();
     }
 
@@ -181,5 +182,15 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
             }
         }
         return type;
+    }
+
+    /**
+     * Don't use, used for SP
+     * @param score
+     * @param list
+     */
+    @Override
+    protected void goToNextScene(long score, ObservableList<String> list) {
+
     }
 }

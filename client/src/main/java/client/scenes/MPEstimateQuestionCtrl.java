@@ -70,10 +70,11 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
      * @param question
      * @param score
      * @param list
+     * @param infoList
      */
-    public void init(Question question, Long score, ObservableList<String> list) {
+    public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList) {
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score, list);
+        init(score, list, infoList);
         alertText.setVisible(false);
         answerText.setFocusTraversable(false);
         associatedQuestion = question;
@@ -178,12 +179,12 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
      * @param score
      */
     @Override
-    protected void goToNextScene(long score, ObservableList<String> list) {
+    protected void goToNextScene(long score, ObservableList<String> list, ObservableList<String> infoList) {
         timerText.setText(0 + " s");
         answerText.setDisable(false);
         submitButton.setDisable(false);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list, infoList));
         answerTimerTask.cancel();
     }
 
@@ -227,4 +228,14 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         }
     }
 
+
+    /**
+     * Don't use, used for SP
+     * @param score
+     * @param list
+     */
+    @Override
+    protected void goToNextScene(long score, ObservableList<String> list) {
+
+    }
 }

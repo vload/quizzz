@@ -1,11 +1,9 @@
 package server.api;
 
 import commons.PlayerData;
+import commons.PollWrapper;
 import commons.Question;
 import commons.Submission;
-import commons.poll_wrapper.MultiPlayerPollObject;
-import commons.poll_wrapper.TimeReductionPollObject;
-import commons.poll_wrapper.UIBoxPollObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ import java.util.function.Consumer;
 public class MultiPlayerGameController {
 
     private final MultiPlayerGameService service;
-    private Map<Long,Map<Object, Consumer<MultiPlayerPollObject>>> listeners = new ConcurrentHashMap<>();
+    private Map<Long,Map<Object, Consumer<PollWrapper>>> listeners = new ConcurrentHashMap<>();
 
     /**
      * Constructor for the MultiplayerGameController
@@ -148,10 +146,10 @@ public class MultiPlayerGameController {
             return ResponseEntity.badRequest().build();
         }
         service.addMessageToInformationBox(gameID,message);
-        Map<Object,Consumer<MultiPlayerPollObject>> gameListener = listeners.get(gameID);
+        Map<Object,Consumer<PollWrapper>> gameListener = listeners.get(gameID);
         if (gameListener != null) {
             gameListener.forEach((k,l) -> l.accept(
-                    new UIBoxPollObject(service.getInformationBox(gameID))));
+                    new PollWrapper(service.getInformationBox(gameID), null)));
         }
         return ResponseEntity.ok(message);
     }
@@ -164,9 +162,9 @@ public class MultiPlayerGameController {
      * when new information is available.
      */
     @GetMapping(path="/update/{id}")
-    public DeferredResult<ResponseEntity<MultiPlayerPollObject>> updater(@PathVariable("id") String id) {
+    public DeferredResult<ResponseEntity<PollWrapper>> updater(@PathVariable("id") String id) {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        var res = new DeferredResult<ResponseEntity<MultiPlayerPollObject>>(5000L,noContent);
+        var res = new DeferredResult<ResponseEntity<PollWrapper>>(5000L,noContent);
 
         long gameID = Long.parseLong(id);
         if (id.length() == 0 || !service.isValidGame(gameID)) {
@@ -208,10 +206,10 @@ public class MultiPlayerGameController {
         if (!service.isValidGame(gameID)) {
             return false;
         }
-        Map<Object,Consumer<MultiPlayerPollObject>> gameListener = listeners.get(gameID);
+        Map<Object,Consumer<PollWrapper>> gameListener = listeners.get(gameID);
         if (gameListener != null) {
             gameListener.forEach((k,l) ->
-                    l.accept(new TimeReductionPollObject(playerData)));
+                    l.accept(new PollWrapper(null, playerData)));
         }
         return true;
     }
