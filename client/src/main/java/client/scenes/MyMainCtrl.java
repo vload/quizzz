@@ -11,6 +11,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.*;
 
 public class MyMainCtrl extends AbstractCtrl {
@@ -368,7 +373,17 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Sets the IP of the server to the desired ip
+     *
+     * @param ip The ip that the user wants to use
+     */
+    public void setIP(String ip) throws ConnectException {
+        server.setIP(ip);
+    }
+
+    /**
      * Gets a "leaderboard" for a multiplayer game
+     *
      * @return list of players connected to their scores
      */
     public List<String> getPlayerScores() {

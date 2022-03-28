@@ -15,11 +15,23 @@
  */
 package client.scenes;
 
-import javax.inject.Inject;
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
 
-public class MainScreenCtrl extends AbstractCtrl{
+import javax.inject.Inject;
+import javafx.scene.control.TextField;
+
+import java.net.ConnectException;
+
+public class MainScreenCtrl extends AbstractCtrl {
 
     private final MyMainCtrl myMainCtrl;
+
+    @FXML
+    private TextField ipAddressField;
+
+    @FXML
+    private Text ipWarningMessage;
 
     /**
      * Constructor for the name screen controller
@@ -28,27 +40,59 @@ public class MainScreenCtrl extends AbstractCtrl{
     @Inject
     public MainScreenCtrl(MyMainCtrl myMainCtrl){
         this.myMainCtrl = myMainCtrl;
+    }
 
+
+    /**
+     * Proivate method to set the IP of serverutils to whatever is inside
+     * the IP box at that time.
+     * @throws ConnectException
+     */
+    private void setIP() throws ConnectException {
+        if (ipAddressField.getText().length() == 0) {
+            myMainCtrl.setIP("http://localhost:8080/");
+        } else {
+            myMainCtrl.setIP(ipAddressField.getText());
+        }
     }
 
     /**
      * Shows main screen
      */
     public void goToMPName() {
-        myMainCtrl.showMPNameScreen();
+        try {
+            setIP();
+            myMainCtrl.showMPNameScreen();
+            ipWarningMessage.setVisible(false);
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
     }
 
     /**
      * Shows main screen
      */
     public void goToSPName() {
-        myMainCtrl.showSPNameScreen();
+        try {
+            setIP();
+            myMainCtrl.showSPNameScreen();
+            ipWarningMessage.setVisible(false);
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
     }
 
     /**
      * Event handler for Admin button click
      */
     public void onAdminClick() {
+        try {
+            setIP();
+            //action here
+            ipWarningMessage.setVisible(false);
+        } catch (ConnectException e) {
+            ipWarningMessage.setVisible(true);
+        }
 
     }
 

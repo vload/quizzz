@@ -17,8 +17,10 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,10 +39,44 @@ import jakarta.ws.rs.client.Entity;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080/";
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
     private static final ExecutorService EXEC2 = Executors.newSingleThreadExecutor();
     private String gameID;
+
+    /**
+     * Sets the IP of the desired server
+     *
+     * @param ip The IP of the server
+     * @return The newly set Server-IP
+     */
+    public String setIP(String ip) throws ConnectException {
+        SERVER = ip;
+        try {
+            testEndpoint();
+        } catch (Exception e) {
+            throw new ConnectException();
+        }
+        return SERVER;
+    }
+
+    /**
+     * Sample Endpoint to ping, before a user actually enters any sort of game interface/
+     * admin interface
+     *
+     * @return The string from the server which makes sure that this is a valid IP
+     */
+    private String testEndpoint() throws ConnectException {
+        var r1 = ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+        if (!Objects.equals(r1,"1kxIEPWKIFKzjHFnnZYPHD43KFMGOP")) {
+            throw new ConnectException();
+        }
+        return r1;
+    }
 
     /**
      *

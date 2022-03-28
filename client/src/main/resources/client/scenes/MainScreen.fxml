@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -12,7 +13,7 @@
     <center>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <Region minHeight="30.0" prefWidth="1920.0" VBox.vgrow="ALWAYS" />
+                <Region minHeight="0.0" prefWidth="1920.0" VBox.vgrow="ALWAYS" />
                 <HBox maxHeight="616.0" prefHeight="188.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
@@ -60,7 +61,49 @@
                         <Region HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-            <Region minHeight="30.0" VBox.vgrow="ALWAYS" />
+            <Region minHeight="10.0" VBox.vgrow="ALWAYS" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox>
+                     <children>
+                        <Region prefHeight="177.0" prefWidth="102.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Server:" wrappingWidth="101.5941162109375">
+                           <font>
+                              <Font name="Calibri" size="34.0" />
+                           </font>
+                        </Text>
+                        <Region prefHeight="169.0" prefWidth="102.0" />
+                     </children>
+                  </VBox>
+                  <Region prefWidth="10.0" />
+                  <VBox prefHeight="100.0" prefWidth="431.0">
+                     <children>
+                        <Region prefHeight="177.0" prefWidth="102.0" />
+                        <TextField fx:id="ipAddressField" opacity="0.36" prefHeight="69.0" prefWidth="703.0" promptText="http://localhost:8080">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </TextField>
+                        <Region prefHeight="169.0" prefWidth="102.0" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region prefHeight="21.0" prefWidth="1920.0" />
+            <HBox prefHeight="45.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text fx:id="ipWarningMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alertText" text="ERROR: Server Not Found" visible="false">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Text>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region prefHeight="30.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </center>
