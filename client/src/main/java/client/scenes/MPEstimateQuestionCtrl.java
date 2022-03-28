@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,14 +55,25 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     }
 
     /**
+     * Do not use, just from AbstractQuestionCtrl
+     *
+     * @param score
+     */
+    @Override
+    protected void goToNextScene(long score) {
+        return;
+    }
+
+    /**
      * Gets called upon init
      *
      * @param question
      * @param score
+     * @param list
      */
-    public void init(Question question, Long score) {
+    public void init(Question question, Long score, ObservableList<String> list) {
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score);
+        init(score, list);
         alertText.setVisible(false);
         answerText.setFocusTraversable(false);
         associatedQuestion = question;
@@ -162,28 +174,16 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     }
 
     /**
-     * Method that sends the answer that the player presses to the server and acts accordingly
-     * @param answer
-     */
-    @Override
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
-        showCorrectAnswerTimer(score);
-    }
-
-    /**
      * Method that transitions from the current question to the next one
      * @param score
      */
     @Override
-    protected void goToNextScene(long score) {
+    protected void goToNextScene(long score, ObservableList<String> list) {
         timerText.setText(0 + " s");
         answerText.setDisable(false);
         submitButton.setDisable(false);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list));
         answerTimerTask.cancel();
     }
 
@@ -195,9 +195,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerText.setDisable(true);
         submitButton.setDisable(true);
         answerText.setText(associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1);
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        super.timeOut();
     }
 
     /**

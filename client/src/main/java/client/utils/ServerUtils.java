@@ -19,12 +19,14 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.*;
 
+import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
@@ -50,6 +52,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
     }
+
     /**
      * Gets the next question in the question set
      * @return Adding checkstyle
@@ -58,6 +61,20 @@ public class ServerUtils {
     public Question getQuestion(String gameID) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/getquestion/"+ gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Question.class);
+    }
+
+    /**
+     * Gets the next question in the question set
+     * @return Adding checkstyle
+     * @param gameID
+     * @param name
+     */
+    public Question getMPQuestion(String gameID, String name) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/getquestion/"+ gameID + "/" + name)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
@@ -88,7 +105,6 @@ public class ServerUtils {
                 .post(Entity.entity(leaderboardEntry, APPLICATION_JSON), LeaderboardEntry.class);
     }
 
-
     /**
      * @param gameID
      * @param submission
@@ -97,6 +113,21 @@ public class ServerUtils {
     public Long validateQuestion(Submission submission,String gameID){
          return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/validate/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
+    }
+
+    /**
+     *
+     * @param submission
+     * @param gameID
+     * @param name
+     * @return validates an answer and returns the updated score
+     */
+    public Long validateMPQuestion(Submission submission,String gameID, String name){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/validate/" + gameID + "/" + name)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
@@ -180,6 +211,19 @@ public class ServerUtils {
      */
     public void stop(){
         EXEC.shutdownNow();
+    }
+
+    /**
+     *
+     * @param id
+     * @return map of players and their scores
+     */
+    public Map<String,Long> getPlayerScores(String id){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/scores/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<>() {});
     }
 
 

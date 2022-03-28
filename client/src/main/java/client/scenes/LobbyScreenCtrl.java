@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.PlayerData;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,6 +46,10 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         server.registerForUpdates(l -> {
+            if (l.isInStartState()) {
+                myMainCtrl.startMPGame(l);
+                return;
+            }
             List<PlayerData> dataList = l.getPlayerDataList();
             Platform.runLater(() -> playerList.getItems().clear());
             for (PlayerData p : dataList) {
@@ -60,6 +65,15 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
         server.disconnect(myMainCtrl.playerData);
         myMainCtrl.connected = false;
         myMainCtrl.showMainScreen();
+    }
+
+    /**
+     *Event handler for Start button click
+     * @param e
+     */
+    @FXML
+    void onStartClick(ActionEvent e) {
+        server.startLobby();
     }
 
     /**

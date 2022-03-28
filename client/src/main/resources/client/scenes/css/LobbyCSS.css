@@ -1,7 +1,7 @@
 @import "ScreenCommonCSS.css";
 
 .border_plane {
-    -fx-background-color: -background-color;
+    -fx-background-color: -background-color23;
 }
 
 
@@ -13,15 +13,15 @@
     -fx-background-radius: 20;
     -fx-border-radius: 15;
     -fx-border-width: 5;
-    -fx-border-color: -button-border-color;
+    -fx-border-color: -button-border-color23;
     -fx-background-insets: 0.1;
-    -fx-background-color: -button-color;
+    -fx-background-color: -button-color23;
 }
 
 .list-cell, .list-cell:focused {
     -fx-border-width: 2;
-    -fx-border-color: -button-border-color;
-    -fx-background-color: -button-color;
+    -fx-border-color: -button-border-color23;
+    -fx-background-color: -button-color23;
 }
 
 .list-cell .text {
@@ -29,11 +29,11 @@
 }
 
 .scroll-bar{
-    -fx-background-color: -button-color;
+    -fx-background-color: -button-color23;
 }
 
 .decrement-button, .increment-button, .increment-arrow, .decrement-arrow{
-    -fx-background-color: -button-color;
+    -fx-background-color: -button-color23;
 }
 
 .scroll-bar .thumb{

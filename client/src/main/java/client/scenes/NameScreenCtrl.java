@@ -49,7 +49,7 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
      * Attempts to start a multiplayer game
      */
     public void startMPGame() {
-        boolean canStart = myMainCtrl.startMPGame(MPnameField.getText());
+        boolean canStart = myMainCtrl.goIntoLobby(MPnameField.getText());
         if(canStart){
             mpWarningMessage.setVisible(false);
         }else{
