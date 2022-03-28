@@ -77,7 +77,7 @@
                      </children>
                   </VBox>
                   <Region prefWidth="10.0" />
-                  <VBox prefHeight="69.0" prefWidth="531.0">
+                  <VBox prefHeight="100.0" prefWidth="431.0">
                      <children>
                         <Region prefHeight="177.0" prefWidth="102.0" />
                         <TextField fx:id="ipAddressField" opacity="0.36" prefHeight="69.0" prefWidth="703.0" promptText="http://localhost:8080">
@@ -95,7 +95,7 @@
             <HBox prefHeight="45.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text fx:id="ipWarningMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alertText" text="ERROR: Server Not Found">
+                  <Text fx:id="ipWarningMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alertText" text="ERROR: Server Not Found" visible="false">
                      <font>
                         <Font size="26.0" />
                      </font>
