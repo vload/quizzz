@@ -16,7 +16,7 @@ public class SinglePlayerGame extends AbstractGame {
     private final String playerName;
     private PlayerData playerData;
 
-        /**
+    /**
      * Constructor for the SinglePlayerGame class
      *
      * @param gameID The id for the class
