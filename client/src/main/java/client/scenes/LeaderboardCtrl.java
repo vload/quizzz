@@ -15,9 +15,10 @@ public class LeaderboardCtrl extends AbstractCtrl{
     @FXML
     private ListView<String> leaderboardList;
 
-
     private final MyMainCtrl myMainCtrl;
 
+    private int entriesShown = 6; //number of leaderboard entries shown
+    private int n;
 
     /**
      * Adding checkstyle
@@ -46,8 +47,13 @@ public class LeaderboardCtrl extends AbstractCtrl{
 
         List<String> entryList = new ArrayList<String>();
 
-        for(int i=0; i<listEntry.size(); i++){
-            String entry = listEntry.get(i).getName() + " - " + listEntry.get(i).getScore() + " points";
+        n = entriesShown;
+        if(entriesShown>listEntry.size()){
+            n=listEntry.size();
+        }
+
+        for(int i=0; i<n; i++){
+            String entry = i+1 + ". " + listEntry.get(i).getName() + " - " + listEntry.get(i).getScore() + " points";
             entryList.add(entry);
         }
 

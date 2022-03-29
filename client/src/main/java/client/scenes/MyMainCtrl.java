@@ -390,7 +390,6 @@ public class MyMainCtrl extends AbstractCtrl {
 
         setScene("leaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
-
         ctrl.init(listLeaderboardEntries);
     }
 
