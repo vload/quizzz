@@ -337,7 +337,7 @@ public class ServerUtils {
         //TODO: figure out the endpoint in case of more jokers
         List<JokerType> list = new ArrayList<JokerType>();
         list.add(JokerType.DOUBLE_POINTS);
-        list.add(JokerType.HALF_TIME);
+        list.add(JokerType.REDUCE_TIME);
         list.add(JokerType.REMOVE_WRONG_ANSWER);
         return list;
     }
