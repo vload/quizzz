@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.JokerType;
 import commons.Submission;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -91,7 +92,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     protected void pressReaction(ActionEvent event) {
         Button b = (Button) event.getSource();
         String emoji = b.getText();
-        myMainCtrl.sendEmoji(emoji, this);
+        myMainCtrl.sendTextToInfoBox(emoji);
     }
 
     /**
@@ -200,6 +201,29 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     protected void updatePlayerList() {
         var list = myMainCtrl.getPlayerScores();
         playerList.setItems(FXCollections.observableList(list));
+    }
+
+    /**
+     * Event handler for pressing a joker button
+     * @param event
+     * @return jokerType pressed
+     */
+    @Override
+    protected JokerType jokerPress(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        String text = button.getText();
+        switch (text) {
+            case "x2":
+                myMainCtrl.sendTextToInfoBox("Used x2 joker!");
+                break;
+            case "Remove":
+                myMainCtrl.sendTextToInfoBox("Used Remove joker!");
+                break;
+            case "time/2":
+                myMainCtrl.sendTextToInfoBox("Used Reduce time joker!");
+                break;
+        }
+        return super.jokerPress(event);
     }
 
     protected abstract void goToNextScene(long score, ObservableList<String> list);
