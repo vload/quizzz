@@ -82,7 +82,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 progressTime = progressTime - 0.01;
                 if (timer == 100) {
                     Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    changeColor(--textTime);
+                    Platform.runLater(() -> changeColor(--textTime));
                     timer = 0;
                 }
                 timer++;
@@ -126,7 +126,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
                 progressTime = progressTime - 0.01;
                 if (timer == 100) {
                     Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    changeColor(--textTime);
+                    Platform.runLater(() -> changeColor(--textTime));
                     timer = 0;
                 }
                 timer++;
