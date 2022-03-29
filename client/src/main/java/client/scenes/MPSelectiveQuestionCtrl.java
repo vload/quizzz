@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.JokerType;
 import commons.Question;
-import jakarta.ws.rs.BadRequestException;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -100,25 +99,9 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     @FXML
     void answerPress(ActionEvent event) {
-        try {
-            Button source = (Button) event.getSource();
-            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-            processAnswer(source.getId());
-        }catch (BadRequestException e){
-            myMainCtrl.showMainScreen();
-            enableButtons(true);
-            enableColors(buttonList);
-        }
-    }
-
-    /**
-     * Method that sends the answer that the player presses to the server and acts accordingly
-     * @param answer
-     */
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        Button source = (Button) event.getSource();
+        processAnswer(source.getId());
+        enableButtons(false);
     }
 
     @Override
@@ -142,9 +125,7 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
     @Override
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1);
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        super.timeOut();
     }
 
     @Override
