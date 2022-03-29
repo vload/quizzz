@@ -5,10 +5,13 @@ import com.google.inject.Inject;
 import commons.JokerType;
 import commons.Question;
 import jakarta.ws.rs.BadRequestException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,13 +28,14 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
     private Button answerText3;
 
     @FXML
-    private Button activityText;
-
-    @FXML
     private Button jokerButton0;
 
     @FXML
     private Button jokerButton1;
+
+    @FXML
+    private ImageView image;
+
 
     private Question associatedQuestion;
     private ArrayList<Button> buttonList;
@@ -57,17 +61,26 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         init(score);
         associatedQuestion = question;
 
-        String[] questionSplitter = question.getQuestionText().split("[.]+");
+        questionText.setText(question.getQuestionText());
 
-        questionText.setText(questionSplitter[0]);
-        activityText.setText(questionSplitter[1]);
+        question.getActivitySet().forEach(a -> {
+            if (a.getId().equals(question.getCorrectAnswer())) {
+                var imageBytes = a.image;
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+                Image i = new Image(bis);
+                image.setImage(i);
+            }
+        });
+        setUpUI(question);
+    }
 
-        var activityIterator = question.getActivitySet().iterator();
+    void setUpUI(Question q) {
+        var activityIterator = q.getActivitySet().iterator();
         answerText1.setText(activityIterator.next().getEnergyConsumption() + "Wh");
         answerText2.setText(activityIterator.next().getEnergyConsumption() + "Wh");
         answerText3.setText(activityIterator.next().getEnergyConsumption() + "Wh");
 
-        activityIterator = question.getActivitySet().iterator();
+        activityIterator = q.getActivitySet().iterator();
         answerText1.setId(activityIterator.next().getId());
         answerText2.setId(activityIterator.next().getId());
         answerText3.setId(activityIterator.next().getId());
@@ -75,7 +88,6 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         answerText1.setFocusTraversable(false);
         answerText2.setFocusTraversable(false);
         answerText3.setFocusTraversable(false);
-
     }
 
     /**
@@ -114,7 +126,7 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         enableButtons(buttonList);
         enableColors(buttonList);
         resetUI();
-        Platform.runLater(() -> myMainCtrl.setNextQuestion(score));
+        myMainCtrl.setNextQuestion(score);
         answerTimerTask.cancel();
     }
 
@@ -124,7 +136,7 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     protected void resetUI() {
         super.resetUI();
-        activityText.setText(null);
+        image.setImage(null);
     }
 
 
