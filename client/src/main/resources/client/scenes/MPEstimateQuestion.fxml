@@ -113,17 +113,17 @@
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="rButton0" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":D" />
-                  <Button fx:id="rButton1" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":)" GridPane.columnIndex="1" />
-                  <Button fx:id="rButton2" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":(" GridPane.columnIndex="2" />
-                  <Button fx:id="rButton3" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=";/" GridPane.columnIndex="3" />
-                  <Button fx:id="rButton4" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=";)" GridPane.rowIndex="1" />
-                  <Button fx:id="rButton5" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":}" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button fx:id="rButton6" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":{" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Button fx:id="rButton7" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":[" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Button fx:id="rButton8" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":]" GridPane.rowIndex="2" />
-                  <Button fx:id="rButton9" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":!" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button fx:id="rButton10" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":#" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="rButton0" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😃" />
+                  <Button fx:id="rButton1" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😊" GridPane.columnIndex="1" />
+                  <Button fx:id="rButton2" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😖" GridPane.columnIndex="2" />
+                  <Button fx:id="rButton3" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😕" GridPane.columnIndex="3" />
+                  <Button fx:id="rButton4" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😶" GridPane.rowIndex="1" />
+                  <Button fx:id="rButton5" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😈" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="rButton6" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😢" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="rButton7" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😕" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Button fx:id="rButton8" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😮" GridPane.rowIndex="2" />
+                  <Button fx:id="rButton9" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😒" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="rButton10" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😘" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Button fx:id="rButton11" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😀" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
