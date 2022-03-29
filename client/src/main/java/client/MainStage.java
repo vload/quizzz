@@ -54,9 +54,12 @@ public class MainStage extends Application {
         var spSelectiveScreen = FXML.load(SPSelectiveQuestionCtrl.class,
                 "client", "scenes", "SPSelectiveQuestion.fxml");
         var server = INJECTOR.getInstance(ServerUtils.class);
+        var mpSelectiveScreen = FXML.load(MPSelectiveQuestionCtrl.class,
+                "client", "scenes", "MPSelectiveQuestion.fxml");
+
         mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen, lobbyScreen,
                 spEQScreen, spMCQScreen, adminScreen,
-                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, leaderboard);
+                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, mpSelectiveScreen, leaderboard);
     }
 
 
