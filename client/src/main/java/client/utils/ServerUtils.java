@@ -80,6 +80,44 @@ public class ServerUtils {
 
     /**
      *
+     * @return returns all the activities
+     */
+    public List<Activity> getActivities() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/activities")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
+
+    /**
+     *
+     * @param activity
+     * @return returns all the activities
+     */
+    public Activity saveActivity(Activity activity) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/addactivity")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
+    }
+
+    /**
+     *
+     * @param id of the activity
+     * @return returns all the activities
+     */
+    public String deleteActivity(String id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/deleteactivity/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+    }
+
+    /**
+     *
      * @return returns 20 questions
      */
     public Question getQuestions() {

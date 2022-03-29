@@ -50,6 +50,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param adminScreen
+     * @param adminAddScreen
      * @param mpEQScreen
      * @param mpMCQScreen
      * @param leaderboardScreen
@@ -62,6 +64,8 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<LobbyScreenCtrl, Parent> lobbyScreen,
                            Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
                            Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<AdminMainCtrl, Parent> adminScreen,
+                           Pair<AdminAddCtrl, Parent> adminAddScreen,
                            Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
@@ -80,7 +84,8 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
-        System.out.println(mpEQScreen.getKey());
+        screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
+        screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -130,6 +135,25 @@ public class MyMainCtrl extends AbstractCtrl {
         setScene("lobbyScreen", "lobbyCSS.css");
         var ctrl = (LobbyScreenCtrl) screenMap.get("lobbyScreen").getCtrl();
         ctrl.init(players);
+    }
+
+    /**
+     * This method shows the name screen
+     */
+    public void showAdminScreen(){
+        setScene("adminScreen", "AdminCSS.css");
+        var ctrl = (AdminMainCtrl) screenMap.get("adminScreen").getCtrl();
+        ctrl.init();
+    }
+
+    /**
+     * This method shows the name screen
+     * @param activity to be displayed
+     */
+    public void showAdminAddScreen(Activity activity){
+        setScene("adminAddScreen", "AdminCSS.css");
+        var ctrl = (AdminAddCtrl) screenMap.get("adminAddScreen").getCtrl();
+        ctrl.init(activity);
     }
 
     /**
