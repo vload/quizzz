@@ -56,6 +56,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param mpMCQScreen
      * @param leaderboardScreen
      * @param spSelectiveScreen
+     * @param mpSelectiveScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -70,6 +71,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
+                           Pair<MPSelectiveQuestionCtrl, Parent> mpSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
@@ -89,6 +91,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
+        screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -97,7 +100,6 @@ public class MyMainCtrl extends AbstractCtrl {
                 server.disconnect(playerData);
             }
         });
-
         showUI();
     }
 
