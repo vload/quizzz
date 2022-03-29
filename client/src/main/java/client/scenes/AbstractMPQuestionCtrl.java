@@ -154,7 +154,6 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
             int timer = 100;
             int textTime = 6;
             boolean scoresShown = false;
-
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
