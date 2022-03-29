@@ -29,13 +29,7 @@
                   <HBox.margin>
                      <Insets />
                   </HBox.margin>
-                  <graphic>
-                     <ImageView fx:id="testImage" fitHeight="328.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true">
-                        <viewport>
-                           <Rectangle2D height="100.0" width="100.0" />
-                        </viewport>
-                     </ImageView>
-                  </graphic></Button>
+               </Button>
                <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
                <Button fx:id="activityText2" mnemonicParsing="false" onAction="#answerPress" prefHeight="350.0" prefWidth="350.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
                   <HBox.margin>
