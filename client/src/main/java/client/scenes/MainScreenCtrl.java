@@ -88,12 +88,11 @@ public class MainScreenCtrl extends AbstractCtrl {
     public void onAdminClick() {
         try {
             setIP();
-            //action here
+            myMainCtrl.showAdminScreen();
             ipWarningMessage.setVisible(false);
         } catch (ConnectException e) {
             ipWarningMessage.setVisible(true);
         }
-
     }
 
 }
