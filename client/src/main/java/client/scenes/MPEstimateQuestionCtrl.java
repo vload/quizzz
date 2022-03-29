@@ -10,9 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +42,9 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
 
     @FXML
     private Text alertText;
+
+    @FXML
+    private ImageView image;
 
     private Question associatedQuestion;
 
@@ -79,7 +85,10 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerText.setFocusTraversable(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
+        var imageBytes = question.getActivitySet().iterator().next().image;
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        Image i = new Image(bis);
+        image.setImage(i);
     }
 
     /**
@@ -206,6 +215,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     protected void resetUI() {
         super.resetUI();
         answerText.clear();
+        image.setImage(null);
     }
 
     @Override
