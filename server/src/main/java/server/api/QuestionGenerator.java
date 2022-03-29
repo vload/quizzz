@@ -28,10 +28,13 @@ public class QuestionGenerator {
      * @return the generated question
      */
     public Question generateQuestion(){
-        if(random.nextInt(2) == 0) {
+        int randomNumber = random.nextInt(4);
+        if(randomNumber == 1) {
             return generateEstimateQuestion();
-        } else {
+        }else if(randomNumber == 2) {
             return generateMCQuestion();
+        }else{
+            return generateSelectiveQuestion();
         }
     }
 
@@ -76,6 +79,37 @@ public class QuestionGenerator {
             }
         }
         return new Question(questionText,activitySet,QuestionType.MC, correctAnswer);
+    }
+
+    private Question generateSelectiveQuestion(){
+        Set<Activity> activitySet = generateActivitySet(QuestionType.MC);
+        if (activitySet == null) {
+            return null;
+        }
+        String correctAnswer = "";
+        String questionText;
+        questionText = "How much energy does it take?";
+        var activityIterator = activitySet.iterator();
+        Activity activity1 = activityIterator.next();
+        Activity activity2 = activityIterator.next();
+        Activity activity3 = activityIterator.next();
+
+        int randomActivityNumber = random.nextInt(3);
+        if(randomActivityNumber == 0){
+            correctAnswer = activity1.getId();
+            questionText += "." + activity1.getTitle();
+        }else{
+            if(randomActivityNumber == 1){
+                correctAnswer = activity2.getId();
+                questionText += "." + activity2.getTitle();
+            }else{
+                if(randomActivityNumber == 2){
+                    correctAnswer = activity3.getId();
+                    questionText += "." + activity3.getTitle();
+                }
+            }
+        }
+        return new Question(questionText,activitySet,QuestionType.SELECTIVE, correctAnswer);
     }
 
     private Question generateEstimateQuestion(){

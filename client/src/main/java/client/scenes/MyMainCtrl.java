@@ -55,6 +55,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param mpEQScreen
      * @param mpMCQScreen
      * @param leaderboardScreen
+     * @param spSelectiveScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -68,6 +69,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<AdminAddCtrl, Parent> adminAddScreen,
                            Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
+                           Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
@@ -86,6 +88,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
+        screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -292,9 +295,13 @@ public class MyMainCtrl extends AbstractCtrl {
             setScene("spEQScreen", "QuestionCSS.css");
             var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
             ctrl.init(q, score);
-        } else {
+        } else if (q.getType() == QuestionType.MC) {
             setScene("spMCQScreen", "QuestionCSS.css");
             var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
+            ctrl.init(q, score);
+        }else if (q.getType() == QuestionType.SELECTIVE) {
+            setScene("spSelectiveScreen", "QuestionCSS.css");
+            var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
             ctrl.init(q, score);
         }
     }
