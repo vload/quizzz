@@ -3,16 +3,20 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.*;
 import jakarta.ws.rs.BadRequestException;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.*;
 
 public class MyMainCtrl extends AbstractCtrl {
 
@@ -26,8 +30,9 @@ public class MyMainCtrl extends AbstractCtrl {
     private HashMap<String, SceneCtrlPair> screenMap;
     private ArrayList<JokerData> jokerList;
 
-    //JUST FOR TESTING
-    private final List<String> l = new ArrayList<>();
+    private AbstractMPQuestionCtrl currentCtrl;
+
+    private String css;
 
 
     /**
@@ -45,26 +50,31 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param lobbyScreen
      * @param spEQScreen
      * @param spMCQScreen
+     * @param adminScreen
+     * @param adminAddScreen
      * @param mpEQScreen
      * @param mpMCQScreen
-     * @param spSelectiveScreen
      * @param leaderboardScreen
+     * @param spSelectiveScreen
      */
     public void init(Stage primaryStage,
-                     ServerUtils server,
-                     Pair<MainScreenCtrl, Parent> mainScreen,
-                     Pair<NameScreenCtrl, Parent> mpNameScreen,
-                     Pair<NameScreenCtrl, Parent> spNameScreen,
-                     Pair<LobbyScreenCtrl, Parent> lobbyScreen,
-                     Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
-                     Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
-                     Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
-                     Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
-                     Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
-                     Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
+                           ServerUtils server,
+                           Pair<MainScreenCtrl, Parent> mainScreen,
+                           Pair<NameScreenCtrl, Parent> mpNameScreen,
+                           Pair<NameScreenCtrl, Parent> spNameScreen,
+                           Pair<LobbyScreenCtrl, Parent> lobbyScreen,
+                           Pair<SPEstimateQuestionCtrl, Parent> spEQScreen,
+                           Pair<SPMultipleChoiceQuestionCtrl, Parent> spMCQScreen,
+                           Pair<AdminMainCtrl, Parent> adminScreen,
+                           Pair<AdminAddCtrl, Parent> adminAddScreen,
+                           Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
+                           Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
+                           Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
+                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
+        this.css = "";
 
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
@@ -75,10 +85,14 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
-        screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+        screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
+        screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
+        screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
 
         primaryStage.setOnCloseRequest(e -> {
+            lobbyScreen.getKey().stop();
+            stopMPLP();
             if(connected){
                 server.disconnect(playerData);
             }
@@ -89,8 +103,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        //primaryStage.setFullScreen(true);
         showMainScreen();
         primaryStage.show();
     }
@@ -99,28 +113,50 @@ public class MyMainCtrl extends AbstractCtrl {
      * This method shows the main screen
      */
     public void showMainScreen() {
-        setScene("mainScreen", "Quizzz!", "ScreenCommonCSS.css");
+        setScene("mainScreen", "ScreenCommonCSS.css");
     }
 
     /**
      * This method shows the name screen
      */
     public void showSPNameScreen(){
-        setScene("spNameScreen", "Enter your name", "ScreenCommonCSS.css");
+        setScene("spNameScreen", "ScreenCommonCSS.css");
     }
 
     /**
      * This method shows the name screen
      */
     public void showMPNameScreen(){
-        setScene("mpNameScreen", "Enter your name", "ScreenCommonCSS.css");
+        setScene("mpNameScreen", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This method shows the name screen
+     * @param players
+     */
+    public void showLobbyScreen(List<PlayerData> players){
+        setScene("lobbyScreen", "lobbyCSS.css");
+        var ctrl = (LobbyScreenCtrl) screenMap.get("lobbyScreen").getCtrl();
+        ctrl.init(players);
     }
 
     /**
      * This method shows the name screen
      */
-    public void showLobbyScreen(){
-        setScene("lobbyScreen", "Multiplayer Lobby", "lobbyCSS.css");
+    public void showAdminScreen(){
+        setScene("adminScreen", "AdminCSS.css");
+        var ctrl = (AdminMainCtrl) screenMap.get("adminScreen").getCtrl();
+        ctrl.init();
+    }
+
+    /**
+     * This method shows the name screen
+     * @param activity to be displayed
+     */
+    public void showAdminAddScreen(Activity activity){
+        setScene("adminAddScreen", "AdminCSS.css");
+        var ctrl = (AdminAddCtrl) screenMap.get("adminAddScreen").getCtrl();
+        ctrl.init(activity);
     }
 
     /**
@@ -142,30 +178,53 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param name
      * @return true if player can join with that name, false otherwise
      */
-    public boolean startMPGame(String name) {
+    public boolean goIntoLobby(String name) {
          playerData = new PlayerData(name);
-        if(canStart(playerData)) {
-            showLobbyScreen();
-            connected = true;
-            return true;
-
-        } else{
-
+         List<PlayerData> players = null;
+        try {
+            players = server.connect(playerData).getPlayerDataList();
+        }catch (BadRequestException e){
             return false;
         }
+        showLobbyScreen(players);
+        connected = true;
+        return true;
     }
 
     /**
-     *
+     * Sets the correct scenes at the beginning of a MP game
      * @param data
-     * @return true if the game can start with the specified name, false otherwise
      */
-    public boolean canStart(PlayerData data){
-        try {
-            server.connect(data);
-            return true;
-        }catch (BadRequestException e){
-            return false;
+    public void startMPGame(LobbyData data) {
+        gameID = String.valueOf(data.getAssignedGameID());
+        setUpJokers(gameID);
+        Question q = server.getMPQuestion(gameID, playerData.getPlayerName());
+        longPollingMP();
+        connected = false;
+        var list = FXCollections.observableList(getPlayerScores());
+        showMPQuestionScene(q, 0L, list, null);
+    }
+
+    /**
+     * Sets the correct scene along with its CSS to the primaryStage
+     * @param score
+     * @param q the question to be displayed
+     * @param list
+     * @param infoList
+     */
+    public void showMPQuestionScene(Question q, Long score,
+                                    ObservableList<String> list, ObservableList<String> infoList) {
+
+        if (q.getType() == QuestionType.ESTIMATE) {
+            setScene("mpEQScreen", "QuestionCSS.css");
+            var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
+            currentCtrl = ctrl;
+            ctrl.init(q, score, list, infoList);
+        } else {
+            setScene("mpMCQScreen", "QuestionCSS.css");
+            var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
+            currentCtrl = ctrl;
+            ctrl.init(q, score, list, infoList);
         }
     }
 
@@ -178,6 +237,15 @@ public class MyMainCtrl extends AbstractCtrl {
     public long sendSubmission(String answer, double time) {
         Submission s = new Submission(answer, time);
         return server.validateQuestion(s, gameID);
+    }
+
+    /**
+     * Method that sends the submission to the server
+     * @param s
+     * @return score after updating
+     */
+    public long sendMPSubmission(Submission s) {
+        return server.validateMPQuestion(s, gameID, playerData.getPlayerName());
     }
 
     /**
@@ -198,35 +266,53 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Gets the new question and sets the scene accordingly
+     * @param score
+     * @param list
+     * @param infoList
+     */
+    public void setNextMPQuestion(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        try {
+            Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
+            if (newQuestion == null) {
+                showLeaderboardScreen();
+                stopMPLP();
+                return;
+            }
+            showMPQuestionScene(newQuestion, score, list, infoList);
+        } catch (BadRequestException e) {
+            System.out.println(e);
+        }
+    }
+
+    /**
      * Sets the correct scene along with its CSS to the primaryStage
      * @param score
      * @param q the question to be displayed
      */
     public void showQuestionScene(Question q, Long score) {
         if (q.getType() == QuestionType.ESTIMATE) {
-            setScene("spEQScreen", "EstimateScene", "QuestionCSS.css");
+            setScene("spEQScreen", "QuestionCSS.css");
             var ctrl = (SPEstimateQuestionCtrl) screenMap.get("spEQScreen").getCtrl();
             ctrl.init(q, score);
-        }else if(q.getType() == QuestionType.MC) {
-            setScene("spMCQScreen", "MCScene", "QuestionCSS.css");
+        } else if (q.getType() == QuestionType.MC) {
+            setScene("spMCQScreen", "QuestionCSS.css");
             var ctrl = (SPMultipleChoiceQuestionCtrl) screenMap.get("spMCQScreen").getCtrl();
             ctrl.init(q, score);
-        }else if(q.getType() == QuestionType.SELECTIVE){
-                    setScene("spSelectiveScreen", "SelectiveScene", "QuestionCSS.css");
-                    var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
-                    ctrl.init(q, score);
-            }
+        }else if (q.getType() == QuestionType.SELECTIVE) {
+            setScene("spSelectiveScreen", "QuestionCSS.css");
+            var ctrl = (SPSelectiveQuestionCtrl) screenMap.get("spSelectiveScreen").getCtrl();
+            ctrl.init(q, score);
         }
+    }
 
     /**
      * Sets the scene
      * @param screen
-     * @param title
      * @param cssFile
      */
-    private void setScene(String screen, String title, String cssFile) {
+    private void setScene(String screen, String cssFile) {
         var scene = screenMap.get(screen).getScene();
-        primaryStage.setTitle(title);
         primaryStage.getScene().setRoot(scene);
         setCSS(cssFile);
     }
@@ -236,8 +322,10 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param fileName with the .css
      */
     public void setCSS(String fileName) {
-        primaryStage.getScene().getStylesheets().setAll(Objects.requireNonNull(getClass()
-                .getResource("css/" + fileName)).toExternalForm());
+        primaryStage.getScene().getStylesheets().remove(css);
+        css = Objects.requireNonNull(getClass()
+                .getResource("css/" + fileName)).toExternalForm();
+        primaryStage.getScene().getStylesheets().add(css);
     }
 
     /**
@@ -278,9 +366,9 @@ public class MyMainCtrl extends AbstractCtrl {
                     text = "Remove";
                     jokerList.add(new JokerData(text, JokerType.REMOVE_WRONG_ANSWER, false, true, false, true, true));
                     break;
-                case HALF_TIME:
+                case REDUCE_TIME:
                     text = "time/2";
-                    jokerList.add(new JokerData(text, JokerType.HALF_TIME, false, true, true, false, true));
+                    jokerList.add(new JokerData(text, JokerType.REDUCE_TIME, false, true, true, false, true));
                     break;
             }
         }
@@ -300,7 +388,7 @@ public class MyMainCtrl extends AbstractCtrl {
     public void showLeaderboardScreen(){
         List<LeaderboardEntry> listLeaderboardEntries = server.getLeaderboardEntries();
 
-        setScene("leaderboardScreen", "Quizzz!", "LeaderboardCSS.css");
+        setScene("leaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (LeaderboardCtrl) screenMap.get("leaderboardScreen").getCtrl();
 
         ctrl.init(listLeaderboardEntries);
@@ -312,8 +400,54 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param ctrl
      */
     public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
-        l.add(emoji);
-        ctrl.displayReactions(l);
+        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + emoji);
+    }
+
+    /**
+     * Sets the IP of the server to the desired ip
+     *
+     * @param ip The ip that the user wants to use
+     */
+    public void setIP(String ip) throws ConnectException {
+        server.setIP(ip);
+    }
+
+    /**
+     * Gets a "leaderboard" for a multiplayer game
+     *
+     * @return list of players connected to their scores
+     */
+    public List<String> getPlayerScores() {
+        Map<String,Long> map = server.getPlayerScores(gameID);
+        List<String> list = new ArrayList<>();
+        map.keySet().forEach(k -> {
+            if (!Objects.equals(k, playerData.getPlayerName())) {
+                list.add(k + ": " + map.get(k));
+            }
+        });
+        return list;
+    }
+
+    /**
+     * Gets long-polling MP updates from the server
+     */
+    public void longPollingMP() {
+        server.longPollingMP(data -> {
+            if (data.getUiMessages() != null) {
+                Platform.runLater(() -> currentCtrl.displayReactions(data.getUiMessages()));
+            } else if (data.getWhoInitiated() != null) {
+                System.out.println("received a TimeReductionPollObject");
+            } else {
+                System.out.println("received something unexpected");
+            }
+        });
+    }
+
+    /**
+     * Stops the long polling
+     */
+    public void stopMPLP(){
+        server.stopMainLP();
     }
 
 }

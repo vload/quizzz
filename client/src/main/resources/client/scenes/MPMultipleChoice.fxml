@@ -106,7 +106,7 @@
                   <Button fx:id="rButton8" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":]" GridPane.rowIndex="2" />
                   <Button fx:id="rButton9" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":!" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="rButton10" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":#" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Button fx:id="rButton11" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text=":%" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Button fx:id="rButton11" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😀" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Region maxHeight="10.0" VBox.vgrow="ALWAYS" />

@@ -1,8 +1,6 @@
 package server.api;
 
 import commons.*;
-import commons.poll_wrapper.MultiPlayerPollObject;
-import commons.poll_wrapper.TimeReductionPollObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -130,7 +128,7 @@ class MultiPlayerGameControllerTest {
     @Test
     void updater() {
         var r1 = sut.updater("0");
-        ResponseEntity<MultiPlayerPollObject> res = (ResponseEntity<MultiPlayerPollObject>) r1.getResult();
+        ResponseEntity<PollWrapper> res = (ResponseEntity<PollWrapper>) r1.getResult();
         assertNotNull(res);
         assertEquals(HttpStatus.BAD_REQUEST,res.getStatusCode());
         sut.createMultiplayerGameInternalEndpoint(List.of(new PlayerData("H"),
@@ -144,18 +142,18 @@ class MultiPlayerGameControllerTest {
         sut.informationbox("Hello","0");
         assertTrue(r2.hasResult());
         assertFalse(r3.hasResult());
-        ResponseEntity<MultiPlayerPollObject> content = (ResponseEntity<MultiPlayerPollObject>)
+        ResponseEntity<PollWrapper> content = (ResponseEntity<PollWrapper>)
                 r2.getResult();
         assertNotNull(content);
-        assertEquals(List.of("Hello"), Objects.requireNonNull(content.getBody()).getBody());
+        assertEquals(List.of("Hello"), Objects.requireNonNull(content.getBody()).getUiMessages());
         var r4 = sut.updater("0");
         sut.reduceTimeJokerInternalEndpoint(new PlayerData("P"),1);
         assertTrue(r3.hasResult());
         assertFalse(r4.hasResult());
-        ResponseEntity<MultiPlayerPollObject> res2 = (ResponseEntity<MultiPlayerPollObject>)
+        ResponseEntity<PollWrapper> res2 = (ResponseEntity<PollWrapper>)
                 r3.getResult();
         assertNotNull(res2);
-        assertTrue(res2.getBody() instanceof TimeReductionPollObject);
+        assertTrue(res2.getBody().getWhoInitiated() != null);
     }
 
     @Test

@@ -17,16 +17,19 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.*;
 
-import org.glassfish.jersey.client.ClientConfig;
 import jakarta.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.ForbiddenException;
@@ -36,8 +39,82 @@ import jakarta.ws.rs.client.Entity;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080/";
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+    private static final ExecutorService EXEC2 = Executors.newSingleThreadExecutor();
+    private String gameID;
+
+    /**
+     * Sets the IP of the desired server
+     *
+     * @param ip The IP of the server
+     * @return The newly set Server-IP
+     */
+    public String setIP(String ip) throws ConnectException {
+        SERVER = ip;
+        try {
+            testEndpoint();
+        } catch (Exception e) {
+            throw new ConnectException();
+        }
+        return SERVER;
+    }
+
+    /**
+     * Sample Endpoint to ping, before a user actually enters any sort of game interface/
+     * admin interface
+     *
+     * @return The string from the server which makes sure that this is a valid IP
+     */
+    private String testEndpoint() throws ConnectException {
+        var r1 = ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+        if (!Objects.equals(r1,"1kxIEPWKIFKzjHFnnZYPHD43KFMGOP")) {
+            throw new ConnectException();
+        }
+        return r1;
+    }
+
+    /**
+     *
+     * @return returns all the activities
+     */
+    public List<Activity> getActivities() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/activities")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
+
+    /**
+     *
+     * @param activity
+     * @return returns all the activities
+     */
+    public Activity saveActivity(Activity activity) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/addactivity")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
+    }
+
+    /**
+     *
+     * @param id of the activity
+     * @return returns all the activities
+     */
+    public String deleteActivity(String id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/deleteactivity/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+    }
 
     /**
      *
@@ -50,6 +127,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
     }
+
     /**
      * Gets the next question in the question set
      * @return Adding checkstyle
@@ -58,6 +136,21 @@ public class ServerUtils {
     public Question getQuestion(String gameID) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/getquestion/"+ gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Question.class);
+    }
+
+    /**
+     * Gets the next question in the question set
+     * @return Adding checkstyle
+     * @param gameID
+     * @param name
+     */
+    public Question getMPQuestion(String gameID, String name) {
+        this.gameID = gameID;
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/getquestion/"+ gameID + "/" + name)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Question.class);
@@ -88,7 +181,6 @@ public class ServerUtils {
                 .post(Entity.entity(leaderboardEntry, APPLICATION_JSON), LeaderboardEntry.class);
     }
 
-
     /**
      * @param gameID
      * @param submission
@@ -97,6 +189,21 @@ public class ServerUtils {
     public Long validateQuestion(Submission submission,String gameID){
          return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/game/singleplayer/validate/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
+    }
+
+    /**
+     *
+     * @param submission
+     * @param gameID
+     * @param name
+     * @return validates an answer and returns the updated score
+     */
+    public Long validateMPQuestion(Submission submission,String gameID, String name){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/validate/" + gameID + "/" + name)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(submission, APPLICATION_JSON), Long.class);
@@ -158,7 +265,7 @@ public class ServerUtils {
      *
      * @param consumer
      */
-    public void registerForUpdates(Consumer<LobbyData> consumer){
+    public void longPollingLobby(Consumer<LobbyData> consumer){
         EXEC.submit(() -> {
             while(!Thread.interrupted()) {
                var res =  ClientBuilder.newClient(new ClientConfig())
@@ -177,9 +284,64 @@ public class ServerUtils {
 
     /**
      *
+     * @param consumer
      */
-    public void stop(){
+    public void longPollingMP(Consumer<PollWrapper> consumer){
+        EXEC2.submit(() -> {
+            while(!Thread.interrupted()) {
+                var res =  ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path("/api/game/multiplayer/update/" + gameID)
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+                if(res.getStatus() == 204){
+                    continue;
+                }
+                var data = res.readEntity(PollWrapper.class);
+                consumer.accept(data);
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    public void stopLobbyLP(){
         EXEC.shutdownNow();
+    }
+
+    /**
+     *
+     */
+    public void stopMainLP(){
+        EXEC2.shutdownNow();
+    }
+
+    /**
+     *
+     * @param gameID
+     * @param emoji
+     * @return String object that was removed
+     */
+    public String sendToInformationBox(String gameID, String emoji){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/informationbox/" + gameID)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(emoji, APPLICATION_JSON), String.class);
+    }
+
+    /**
+     *
+     * @param id
+     * @return map of players and their scores
+     */
+    public Map<String,Long> getPlayerScores(String id){
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/game/multiplayer/scores/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<>() {});
     }
 
 
@@ -213,7 +375,7 @@ public class ServerUtils {
         //TODO: figure out the endpoint in case of more jokers
         List<JokerType> list = new ArrayList<JokerType>();
         list.add(JokerType.DOUBLE_POINTS);
-        list.add(JokerType.HALF_TIME);
+        list.add(JokerType.REDUCE_TIME);
         list.add(JokerType.REMOVE_WRONG_ANSWER);
         return list;
     }

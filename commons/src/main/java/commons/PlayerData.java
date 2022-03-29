@@ -10,7 +10,6 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public class PlayerData {
 
-
     public enum JokerUsageType{
         NOT_USED,
         TO_BE_EXECUTED,
@@ -28,7 +27,7 @@ public class PlayerData {
     public PlayerData(String playerName) {
         Set<JokerType> jokerSet = Set.of(
                 JokerType.DOUBLE_POINTS,
-                JokerType.HALF_TIME,
+                JokerType.REDUCE_TIME,
                 JokerType.REMOVE_WRONG_ANSWER);
         this.score = 0;
 
@@ -73,6 +72,22 @@ public class PlayerData {
     }
 
     /**
+     * Getter for jokers field
+     * @return map of jokers
+     */
+    public Map<JokerType, JokerUsageType> getJokers() {
+        return jokers;
+    }
+
+    /**
+     * Setter for jokers field
+     * @param jokers
+     */
+    public void setJokers(Map<JokerType, JokerUsageType> jokers) {
+        this.jokers = jokers;
+    }
+
+    /**
      * Checks if the joker has been used.
      *
      * @param joker the joker to be checked
@@ -99,12 +114,12 @@ public class PlayerData {
      * @return true iff the use was successful
      */
     public boolean useJoker(JokerType joker){
-        if(!jokerHasBeenUsed(joker)){
-            jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
-            return true;
+        if (jokerHasBeenUsed(joker)) {
+            return false;
         }
 
-        return false;
+        jokers.put(joker, JokerUsageType.TO_BE_EXECUTED);
+        return true;
     }
 
     /**

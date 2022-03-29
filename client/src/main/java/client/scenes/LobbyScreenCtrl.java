@@ -3,16 +3,14 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.PlayerData;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javax.inject.Inject;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
+public class LobbyScreenCtrl extends AbstractCtrl{
 
     @FXML
     private Button backButton;
@@ -39,12 +37,18 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
 
     /**
      * Called to initialize a controller after its root element has been completely processed.
-     * @param location
-     * @param resources
+     * @param players
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        server.registerForUpdates(l -> {
+    public void init(List<PlayerData> players) {
+        for (PlayerData p : players) {
+            playerList.getItems().add(p.getPlayerName());
+        }
+        server.longPollingLobby(l -> {
+            if (l.isInStartState()) {
+                Platform.runLater(() -> myMainCtrl.startMPGame(l));
+                stop();
+                return;
+            }
             List<PlayerData> dataList = l.getPlayerDataList();
             Platform.runLater(() -> playerList.getItems().clear());
             for (PlayerData p : dataList) {
@@ -63,10 +67,19 @@ public class LobbyScreenCtrl extends AbstractCtrl implements Initializable {
     }
 
     /**
+     *Event handler for Start button click
+     * @param e
+     */
+    @FXML
+    void onStartClick(ActionEvent e) {
+        server.startLobby();
+    }
+
+    /**
      * Stops the long polling
      */
     public void stop(){
-        server.stop();
+        server.stopLobbyLP();
     }
 
 

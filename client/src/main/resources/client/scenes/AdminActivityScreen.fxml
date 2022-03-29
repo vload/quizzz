@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" stylesheets="@css/LobbyCSS.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminAddCtrl">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -17,7 +17,7 @@
             <VBox prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Region VBox.vgrow="ALWAYS" />
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" prefHeight="67.0" prefWidth="200.0" text="Back">
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" prefHeight="90.0" prefWidth="200.0" text="Back">
                      <font>
                         <Font size="29.0" />
                      </font>
@@ -35,7 +35,7 @@
             <VBox prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Region VBox.vgrow="ALWAYS" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="67.0" prefWidth="200.0" text="Save">
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="90.0" prefWidth="200.0" text="Save">
                      <font>
                         <Font size="29.0" />
                      </font>
@@ -43,11 +43,11 @@
                   <Region VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-            <Region minWidth="30.0" prefWidth="30.0" />
+            <Region minWidth="30.0" prefHeight="128.0" prefWidth="72.0" />
             <VBox prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Region VBox.vgrow="ALWAYS" />
-                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="67.0" prefWidth="200.0" text="Delete">
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="90.0" prefWidth="200.0" text="Delete">
                      <font>
                         <Font size="29.0" />
                      </font>
@@ -62,79 +62,97 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Region VBox.vgrow="ALWAYS" />
-            <HBox maxHeight="100.0">
+            <Region minHeight="30.0" VBox.vgrow="ALWAYS" />
+            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Title:" wrappingWidth="145.3017578125">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="ID:" wrappingWidth="389.3017578125">
                      <font>
-                        <Font size="61.0" />
-                     </font>
-                  </Text>
-                  <Region minWidth="390.0" />
-                  <TextField fx:id="titleTextField" prefHeight="91.0" prefWidth="649.0" promptText="title">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </TextField>
-                  <Region HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <Region minHeight="30.0" prefHeight="100.0" prefWidth="1920.0" />
-            <HBox minHeight="100.0" prefHeight="100.0" prefWidth="1920.0">
-               <children>
-                  <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Source:" wrappingWidth="199.3017578125">
-                     <font>
-                        <Font size="61.0" />
-                     </font>
-                  </Text>
-                  <Region minWidth="338.0" />
-                  <TextField fx:id="sourceTextField" prefHeight="91.0" prefWidth="647.0" promptText="source_url">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </TextField>
-                  <Region HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-            <Region minHeight="30.0" prefHeight="100.0" prefWidth="1920.0" />
-            <HBox minHeight="100.0" prefHeight="100.0" prefWidth="1920.0">
-               <children>
-                  <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Consumption (wh):" wrappingWidth="517.3017578125">
-                     <font>
-                        <Font size="61.0" />
+                        <Font size="45.0" />
                      </font>
                   </Text>
                   <Region minWidth="22.0" />
-                  <TextField fx:id="consumptionTextField" prefHeight="91.0" prefWidth="645.0" promptText="consumption_in_wh">
+                  <TextField fx:id="idTextField" prefHeight="37.0" prefWidth="789.0" promptText="ID">
                      <font>
-                        <Font size="40.0" />
+                        <Font size="35.0" />
                      </font>
                   </TextField>
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="100.0" prefWidth="1920.0" />
-            <HBox minHeight="100.0" prefHeight="100.0" prefWidth="1920.0">
+            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Image:" wrappingWidth="517.3017578125">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Title:" wrappingWidth="389.3017578125">
                      <font>
-                        <Font size="61.0" />
+                        <Font size="45.0" />
                      </font>
                   </Text>
-                  <Region minWidth="24.0" />
-                  <TextField fx:id="imageTextField" prefHeight="91.0" prefWidth="645.0" promptText="image_path">
+                  <Region minWidth="22.0" />
+                  <TextField fx:id="titleTextField" prefHeight="37.0" prefWidth="789.0" promptText="title">
                      <font>
-                        <Font size="40.0" />
+                        <Font size="35.0" />
                      </font>
                   </TextField>
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region VBox.vgrow="ALWAYS" />
+            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Source:" wrappingWidth="389.3017578125">
+                     <font>
+                        <Font size="45.0" />
+                     </font>
+                  </Text>
+                  <Region minWidth="22.0" />
+                  <TextField fx:id="sourceTextField" prefHeight="37.0" prefWidth="789.0" promptText="source_url">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </TextField>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Consumption (wh):" wrappingWidth="389.3017578125">
+                     <font>
+                        <Font size="45.0" />
+                     </font>
+                  </Text>
+                  <Region minWidth="22.0" />
+                  <TextField fx:id="consumptionTextField" prefHeight="37.0" prefWidth="789.0" promptText="consumption_in_wh">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </TextField>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Image:" wrappingWidth="389.3017578125">
+                     <font>
+                        <Font size="45.0" />
+                     </font>
+                  </Text>
+                  <Region minWidth="22.0" />
+                  <TextField fx:id="imageTextField" prefHeight="37.0" prefWidth="789.0" promptText="image_path">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </TextField>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region minHeight="30.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>

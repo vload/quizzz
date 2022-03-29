@@ -46,7 +46,7 @@ public class QuestionGenerator {
             if (randomActivity == null) {
                 return null;
             }
-            result.add(randomActivity);
+            result.add(Activity.createActivityWithImage(randomActivity));
         }
 
         return result;

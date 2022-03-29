@@ -14,8 +14,8 @@ public class SomeController {
      * @return Adding checkstyle
      */
     @GetMapping("/")
-    @ResponseBody
+    @ResponseBody // DO NOT DELETE USED TO TEST PRESENCE OF SERVER
     public String index() {
-        return "Hello world!";
+        return "1kxIEPWKIFKzjHFnnZYPHD43KFMGOP";
     }
 }

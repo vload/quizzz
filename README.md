@@ -8,13 +8,13 @@ Add your own name (do not add the names for others!) to the section below.
 
 ## Group members
 
-| Profile Picture | Name | Email |
-|---|---|---|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Henry Page | h.page@student.tudelft.nl |
+| Profile Picture                                                                                         | Name                  | Email                             |
+|---------------------------------------------------------------------------------------------------------|-----------------------|-----------------------------------|
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Henry Page            | h.page@student.tudelft.nl         |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Vlad Tudor Stefanescu | V.T.Stefanescu@student.tudelft.nl |
-| ![](https://secure.gravatar.com/avatar/d7a06f5c69ccf4f9f1f782f91c982cc6?s=50&d=identicon) | Matyas Kollert | M.Kollert@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Andrei Dascalu | A.Dascalu@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Tom Huisman | t.m.huisman@student.tudelft.nl |
+| ![](https://secure.gravatar.com/avatar/d7a06f5c69ccf4f9f1f782f91c982cc6?s=50&d=identicon)               | Matyas Kollert        | M.Kollert@student.tudelft.nl      |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Andrei Dascalu        | A.Dascalu@student.tudelft.nl      |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Tom Huisman           | t.m.huisman@student.tudelft.nl    |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
@@ -23,6 +23,10 @@ Add your own name (do not add the names for others!) to the section below.
 <!-- - (please make sure the photos have the same size) --> 
 
 ## How to run it
+
+## How to load the activities from activity-bank repo
+Get activities from "ZIP Archive with activities and images" at https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/releases
+Unzip the archive, rename it as "activitybank" and put it in the root of the project.
 
 ## How to load the activities from the JSON file
 - Uncomment the @Configuration annotation + the import in server/src/main/java/server/database/ActivityRepositoryLoader.java
