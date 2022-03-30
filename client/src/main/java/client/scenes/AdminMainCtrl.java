@@ -50,7 +50,8 @@ public class AdminMainCtrl extends AbstractCtrl{
     public void init() {
         this.activities = server.getActivities();
         var titles = activities.stream().map(Activity::getTitle).toList();
-        activitiesListView.setItems(FXCollections.observableList(titles));
+        updateVisibleActivities();
+//        activitiesListView.setItems(FXCollections.observableList(titles));
     }
 
     /**
@@ -91,6 +92,11 @@ public class AdminMainCtrl extends AbstractCtrl{
         myMainCtrl.showAdminAddScreen(activity);
     }
 
+    /**
+     * Updates Visible Activities whenever there is a key-press
+     *
+     * @param event The event on the keyboard that calls this method
+     */
     @FXML
     void updateVisibleActivities(KeyEvent event) {
         var currentActivities = server.getActivities();
@@ -104,7 +110,23 @@ public class AdminMainCtrl extends AbstractCtrl{
                     .toList();
             activitiesListView.setItems(FXCollections.observableList(newList));
         }
+    }
 
+    /**
+     * Method that gets called whenever the screen is initialised
+     */
+    void updateVisibleActivities() {
+        var currentActivities = server.getActivities();
+        var currentTitles = currentActivities.stream().map(Activity::getTitle).toList();
+        if (searchField.getText().length() == 0) {
+            activitiesListView.setItems(FXCollections.observableList(currentTitles));
+        } else {
+            var newList = currentTitles
+                    .stream()
+                    .filter(x -> StringUtils.containsIgnoreCase(x,searchField.getText()))
+                    .toList();
+            activitiesListView.setItems(FXCollections.observableList(newList));
+        }
     }
 
 
