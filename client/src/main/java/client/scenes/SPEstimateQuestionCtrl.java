@@ -40,8 +40,6 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
     private Text correctText;
-
-    private Question associatedQuestion;
     /**
      * Constructor for SPEstimateQuestionCtrl
      *
