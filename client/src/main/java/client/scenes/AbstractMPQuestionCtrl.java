@@ -115,7 +115,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         mainTimerTask = new TimerTask() {
             double progressTime = 9.99;
             int timer = 100;
-            int textTime = 11;
+            int textTime = 10;
 
             @Override
             public void run() {
@@ -147,7 +147,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         answerTimerTask = new TimerTask() {
             double progressTime = 4.99;
             int timer = 100;
-            int textTime = 6;
+            int textTime = 5;
             boolean scoresShown = false;
 
             @Override
