@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -97,7 +98,10 @@ public class AdminMainCtrl extends AbstractCtrl{
         if (searchField.getText().length() == 0) {
             activitiesListView.setItems(FXCollections.observableList(currentTitles));
         } else {
-            var newList = currentTitles.stream().filter(x -> x.contains(searchField.getText())).toList();
+            var newList = currentTitles
+                    .stream()
+                    .filter(x -> StringUtils.containsIgnoreCase(x,searchField.getText()))
+                    .toList();
             activitiesListView.setItems(FXCollections.observableList(newList));
         }
 
