@@ -33,8 +33,10 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     private Text alertText;
 
-    private Question associatedQuestion;
+    @FXML
+    private Text correctText;
 
+    private Question associatedQuestion;
     /**
      * Constructor for SPEstimateQuestionCtrl
      *
@@ -162,7 +164,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void processAnswer(String answer) {
         long score = myMainCtrl.sendSubmission(answer, cancelTimer());
         this.scoreText.setText("Score: " + score);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
+        correctText.setText(correct);
+        correctText.setVisible(true);
         showCorrectAnswerTimer(score);
     }
 
@@ -199,6 +203,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     protected void resetUI() {
         super.resetUI();
+        correctText.setVisible(false);
         answerText.clear();
     }
 

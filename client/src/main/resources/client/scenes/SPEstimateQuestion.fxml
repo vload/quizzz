@@ -27,7 +27,13 @@
                <Region maxWidth="60.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
                <VBox>
                   <children>
-                     <Region prefHeight="41.0" prefWidth="385.0" VBox.vgrow="ALWAYS" />
+                     <Region VBox.vgrow="ALWAYS" />
+                     <Text fx:id="correctText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="correctAnswerText" text="Please only input numbers!" textAlignment="CENTER" visible="false" wrappingWidth="384.13671875">
+                        <font>
+                           <Font size="30.0" />
+                        </font>
+                     </Text>
+                     <Region minHeight="5.0" />
                      <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" prefHeight="64.0" prefWidth="370.0" promptText="Enter the value ...">
                         <font>
                            <Font size="31.0" />
