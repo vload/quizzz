@@ -14,21 +14,17 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="1872.0" VBox.vgrow="ALWAYS">
+            <HBox prefHeight="0.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region minHeight="20.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                   <VBox prefHeight="197.0" prefWidth="239.0">
                      <children>
                         <Region minHeight="10.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <HBox prefHeight="200.0" prefWidth="350.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Half way there!">
-                                 <font>
-                                    <Font size="38.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Half way there!">
+                           <font>
+                              <Font size="38.0" />
+                           </font>
+                        </Text>
                         <Region minHeight="5.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                         <HBox prefHeight="200.0" prefWidth="200.0">
                            <children>
