@@ -31,7 +31,8 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      * @param myMainCtrl
      */
     @Inject
-    public MPleaderboardCtrl(MyMainCtrl myMainCtrl){ this.myMainCtrl = myMainCtrl;
+    public MPleaderboardCtrl(MyMainCtrl myMainCtrl){
+        this.myMainCtrl = myMainCtrl;
     }
 
     /**
@@ -75,7 +76,8 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      * @param items
      * @param items1
      */
-    protected void showCorrectAnswerTimer(int place, long score, ObservableList<String> items, ObservableList<String> items1) {
+    protected void showCorrectAnswerTimer(int place, long score,
+                                          ObservableList<String> items, ObservableList<String> items1) {
         Timer answerTimer = new Timer();
         TimerTask answerTimerTask = new TimerTask() {
             int progressTime = 5;

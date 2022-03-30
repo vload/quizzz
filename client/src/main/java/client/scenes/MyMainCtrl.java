@@ -77,7 +77,6 @@ public class MyMainCtrl extends AbstractCtrl {
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
-
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
         screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
@@ -93,7 +92,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
-
+        
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
             stopMPLP();
