@@ -46,6 +46,9 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     @FXML
     private ImageView image;
 
+    @FXML
+    private Text correctText;
+
     private Question associatedQuestion;
 
 
@@ -204,7 +207,9 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     public void timeOut() {
         answerText.setDisable(true);
         submitButton.setDisable(true);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
+        correctText.setText(correct);
+        correctText.setVisible(true);
         super.timeOut();
     }
 
@@ -214,6 +219,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     @Override
     protected void resetUI() {
         super.resetUI();
+        correctText.setVisible(false);
         answerText.clear();
         image.setImage(null);
     }
