@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
@@ -20,6 +22,9 @@ public class AdminMainCtrl extends AbstractCtrl{
 
     @FXML
     private Button addButton;
+
+    @FXML
+    private TextField searchField;
 
     private MyMainCtrl myMainCtrl;
     private ServerUtils server;
@@ -84,6 +89,21 @@ public class AdminMainCtrl extends AbstractCtrl{
         var activity = activities.stream().filter(a -> a.getTitle().equals(value)).toList().get(0);
         myMainCtrl.showAdminAddScreen(activity);
     }
+
+    @FXML
+    void updateVisibleActivities(KeyEvent event) {
+        var currentActivities = server.getActivities();
+        var currentTitles = currentActivities.stream().map(Activity::getTitle).toList();
+        if (searchField.getText().length() == 0) {
+            activitiesListView.setItems(FXCollections.observableList(currentTitles));
+        } else {
+            var newList = currentTitles.stream().filter(x -> x.contains(searchField.getText())).toList();
+            activitiesListView.setItems(FXCollections.observableList(newList));
+        }
+
+    }
+
+
 
 }
 

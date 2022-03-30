@@ -51,7 +51,7 @@
             <HBox prefHeight="162.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <TextField prefHeight="39.0" prefWidth="746.0" promptText="SEARCH">
+                  <TextField fx:id="searchField" onKeyTyped="#updateVisibleActivities" prefHeight="39.0" prefWidth="746.0" promptText="SEARCH ACTIVITIES">
                      <font>
                         <Font size="27.0" />
                      </font>
