@@ -277,7 +277,12 @@ public class MyMainCtrl extends AbstractCtrl {
     public void setNextMPQuestion(long score, ObservableList<String> list, ObservableList<String> infoList) {
         try {
             Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
+
             questionCounter++;
+            if(questionCounter > 20){
+                questionCounter = 0;
+            }
+
             if (newQuestion == null) {
                 showLeaderboardScreen();
                 stopMPLP();

@@ -181,7 +181,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * @param score
      */
     public void check(long score){
-        if(myMainCtrl.questionCounter == 2){
+        if(myMainCtrl.questionCounter == 10){
             Platform.runLater(() -> goToLeaderboard(score, playerList.getItems(),
                     informationBox.getItems()));
         } else{

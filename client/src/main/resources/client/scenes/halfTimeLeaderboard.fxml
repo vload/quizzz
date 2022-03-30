@@ -14,55 +14,52 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox prefHeight="100.0" prefWidth="1872.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <VBox prefHeight="206.0" prefWidth="350.0">
+                  <Region minHeight="20.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="197.0" prefWidth="239.0">
                      <children>
-                        <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <Region minHeight="10.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                         <HBox prefHeight="200.0" prefWidth="350.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Half way there!">
                                  <font>
                                     <Font size="38.0" />
                                  </font>
                               </Text>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <Region minHeight="5.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                         <HBox prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Region minHeight="5.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Current leaderboard">
                                  <font>
                                     <Font size="21.0" />
                                  </font>
                               </Text>
-                              <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Region minHeight="5.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <Region prefHeight="20.0" prefWidth="350.0" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Region minHeight="20.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox maxHeight="616.0" prefHeight="616.0" prefWidth="1920.0" styleClass="text">
                <children>
-                  <Region HBox.hgrow="ALWAYS" />
+                  <Region minHeight="30.0" HBox.hgrow="ALWAYS" />
                   <ListView fx:id="leaderboardList" prefHeight="616.0" prefWidth="650.0">
                      <padding>
                         <Insets bottom="15.0" top="15.0" />
                      </padding>
                   </ListView>
-                  <Region HBox.hgrow="ALWAYS" />
+                  <Region minHeight="30.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="0.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Region HBox.hgrow="ALWAYS" />
+                  <Region minHeight="20.0" HBox.hgrow="ALWAYS" />
                   <VBox>
                      <children>
                         <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
@@ -71,12 +68,12 @@
                               <Font size="36.0" />
                            </font>
                         </Label>
-                        <Region VBox.vgrow="ALWAYS" />
+                        <Region minHeight="20.0" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <Region HBox.hgrow="ALWAYS" />
+                  <Region minHeight="20.0" HBox.hgrow="ALWAYS" />
                </children></HBox>
-            <Region VBox.vgrow="ALWAYS" />
+            <Region minHeight="10.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>

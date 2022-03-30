@@ -61,7 +61,6 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
 
         if(!placeFound){
             items.add(myMainCtrl.playerData.getPlayerName() + ": " + score);
-            System.out.println("yoooo");
         }
 
         leaderboardList.setItems(items);
@@ -89,7 +88,7 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
 
                 if (progressTime <= 0) {
                     this.cancel();
-                    items.remove(place); //removes the player own name and score
+                    Platform.runLater(() -> items.remove(place)); //removes the player own name and score
                     Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, items, items1));
                 }
             }
