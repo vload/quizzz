@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -75,7 +74,6 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
-
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
@@ -90,9 +88,8 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
-
-        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(), MPhalfTimeLeaderboardScreen.getKey()));
-
+        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
+                MPhalfTimeLeaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
@@ -407,7 +404,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param items
      * @param items1
      */
-    public void showMPhalfTimeLeaderboardScreen(long score, ObservableList<String> items, ObservableList<String> items1){
+    public void showMPhalfTimeLeaderboardScreen(long score,ObservableList<String> items,ObservableList<String> items1){
         setScene("MPhalfTimeLeaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (MPleaderboardCtrl) screenMap.get("MPhalfTimeLeaderboardScreen").getCtrl();
         ctrl.init(score, items, items1);

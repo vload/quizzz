@@ -2,21 +2,18 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-//import commons.PlayerData;
-import commons.PlayerData;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
 import javax.inject.Inject;
 
 import java.util.*;
 
 public class  MPleaderboardCtrl extends AbstractCtrl{
 
+    public String gameID;
 
     @FXML
     private ListView<String> leaderboardList;
@@ -26,7 +23,6 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
 
     private final MyMainCtrl myMainCtrl;
     private ServerUtils server;
-    public String gameID;
     private ObservableList<String> itemsCopy;
 
 
@@ -36,7 +32,6 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      */
     @Inject
     public MPleaderboardCtrl(MyMainCtrl myMainCtrl){ this.myMainCtrl = myMainCtrl;
-
     }
 
     /**
@@ -87,7 +82,8 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
 
             @Override
             public void run() {
-                Platform.runLater(() -> bottomText.setText("Game continues in "+ progressTime-- +" seconds"));
+                Platform.runLater(() -> bottomText.setText("Game continues in "+
+                        progressTime-- +" seconds"));
 
                 if (progressTime <= 0) {
                     this.cancel();
