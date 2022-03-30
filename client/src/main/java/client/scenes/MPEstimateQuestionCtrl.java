@@ -198,7 +198,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     public void timeOut() {
         answerText.setDisable(true);
         submitButton.setDisable(true);
-        String correct = "Correct: " + associatedQuestion.getCorrectAnswer();
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
         correctText.setText(correct);
         correctText.setVisible(true);
         super.timeOut();

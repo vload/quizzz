@@ -164,7 +164,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void processAnswer(String answer) {
         long score = myMainCtrl.sendSubmission(answer, cancelTimer());
         this.scoreText.setText("Score: " + score);
-        String correct = "Correct: " + associatedQuestion.getCorrectAnswer();
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
         correctText.setText(correct);
         correctText.setVisible(true);
         showCorrectAnswerTimer(score);
