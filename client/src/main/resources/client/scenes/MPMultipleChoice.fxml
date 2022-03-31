@@ -82,6 +82,7 @@
       <VBox maxWidth="322.0" prefHeight="920.0" prefWidth="322.0" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="informationBox" prefHeight="292.0" prefWidth="322.0" />
+            <Region maxHeight="10.0" minHeight="5.0" />
             <GridPane alignment="CENTER" hgap="40.0" prefHeight="134.0" prefWidth="215.0" vgap="20.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />

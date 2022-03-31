@@ -395,11 +395,10 @@ public class MyMainCtrl extends AbstractCtrl {
 
     /**
      * Sends the pressed emoji to the server
-     * @param emoji
-     * @param ctrl
+     * @param text
      */
-    public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
-        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + emoji);
+    public void sendTextToInfoBox(String text) {
+        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + text);
     }
 
     /**
