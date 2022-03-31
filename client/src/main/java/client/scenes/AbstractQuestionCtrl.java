@@ -74,7 +74,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         mainTimerTask = new TimerTask() {
             double progressTime = 9.99;
             int timer = 100;
-            int textTime = 11;
+            int textTime = 10;
 
             @Override
             public void run() {
@@ -118,7 +118,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         answerTimerTask = new TimerTask() {
             double progressTime = 2.99;
             int timer = 100;
-            int textTime = 4;
+            int textTime = 3;
 
             @Override
             public void run() {

@@ -93,6 +93,15 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
         answerText3.setFocusTraversable(false);
     }
 
+    @Override
+    protected void goToLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        enableButtons(true);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.showMPhalfTimeLeaderboardScreen(score, list, infoList));
+        answerTimerTask.cancel();
+    }
+
     /**
      * Event handler for pressing an answer button
      * @param event

@@ -24,6 +24,7 @@ public class MyMainCtrl extends AbstractCtrl {
     public String gameID;
     public PlayerData playerData;
     public boolean connected;
+    public int questionCounter = 1;
 
     private ServerUtils server;
 
@@ -57,6 +58,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param leaderboardScreen
      * @param spSelectiveScreen
      * @param mpSelectiveScreen
+     * @param MPhalfTimeLeaderboardScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -72,12 +74,12 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<MPSelectiveQuestionCtrl, Parent> mpSelectiveScreen,
-                           Pair<LeaderboardCtrl, Parent> leaderboardScreen) {
+                           Pair<LeaderboardCtrl, Parent> leaderboardScreen,
+                           Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
 
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
-
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
         screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
@@ -88,11 +90,12 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
+                MPhalfTimeLeaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
         screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
-
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
             stopMPLP();
@@ -281,6 +284,12 @@ public class MyMainCtrl extends AbstractCtrl {
     public void setNextMPQuestion(long score, ObservableList<String> list, ObservableList<String> infoList) {
         try {
             Question newQuestion = server.getMPQuestion(gameID, playerData.getPlayerName());
+
+            questionCounter++;
+            if(questionCounter > 20){
+                questionCounter = 0;
+            }
+
             if (newQuestion == null) {
                 showLeaderboardScreen();
                 stopMPLP();
@@ -401,12 +410,25 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
-     * Sends the pressed emoji to the server
-     * @param emoji
-     * @param ctrl
+     * shows screen of half time leaderboard
+     * @param score
+     * @param items
+     * @param items1
      */
-    public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
-        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + emoji);
+    public void showMPhalfTimeLeaderboardScreen(long score,ObservableList<String> items,ObservableList<String> items1){
+        setScene("MPhalfTimeLeaderboardScreen", "LeaderboardCSS.css");
+        var ctrl = (MPleaderboardCtrl) screenMap.get("MPhalfTimeLeaderboardScreen").getCtrl();
+        ctrl.init(score, items, items1);
+    }
+
+
+
+    /**
+     * Sends the pressed emoji to the server
+     * @param text
+     */
+    public void sendTextToInfoBox(String text) {
+        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + text);
     }
 
     /**

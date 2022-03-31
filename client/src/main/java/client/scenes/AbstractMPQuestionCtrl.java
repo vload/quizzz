@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.JokerType;
 import commons.Submission;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +63,9 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     @FXML
     private ListView<String> playerList;
 
+    @FXML
+    private Text roundOverText;
+
     /**
      * Constructor for QuestionController
      *
@@ -91,7 +96,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     protected void pressReaction(ActionEvent event) {
         Button b = (Button) event.getSource();
         String emoji = b.getText();
-        myMainCtrl.sendEmoji(emoji, this);
+        myMainCtrl.sendTextToInfoBox(emoji);
     }
 
     /**
@@ -115,7 +120,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         mainTimerTask = new TimerTask() {
             double progressTime = 9.99;
             int timer = 100;
-            int textTime = 11;
+            int textTime = 10;
 
             @Override
             public void run() {
@@ -142,14 +147,14 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * @param score
      */
     protected void showCorrectAnswerTimer(long score) {
+        roundOverText.setVisible(false);
         enableJokers(false);
         answerTimer = new Timer();
         answerTimerTask = new TimerTask() {
             double progressTime = 4.99;
             int timer = 100;
-            int textTime = 6;
+            int textTime = 5;
             boolean scoresShown = false;
-
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
@@ -165,7 +170,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
                     Platform.runLater(() -> updatePlayerList());
                 } else if (progressTime < 0) {
                     this.cancel();
-                    Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
+                    check(score);
                 }
             }
         };
@@ -174,12 +179,29 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
 
     protected abstract void goToNextScene(long score, ObservableList<String> items, ObservableList<String> items1);
 
+    protected abstract void goToLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
+
+    /**
+     * checkstyle
+     * @param score
+     */
+    public void check(long score){
+        if(myMainCtrl.questionCounter == 10){
+            Platform.runLater(() -> goToLeaderboard(score, playerList.getItems(),
+                    informationBox.getItems()));
+        } else{
+            Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
+        }
+    }
+
+
     /**
      * Method that sends the answer that the player presses to the server and acts accordingly
      * @param answer
      */
     protected void processAnswer(String answer) {
         submission = new Submission(answer, timerBar.getProgress());
+        roundOverText.setVisible(true);
     }
 
     /**
@@ -200,6 +222,29 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     protected void updatePlayerList() {
         var list = myMainCtrl.getPlayerScores();
         playerList.setItems(FXCollections.observableList(list));
+    }
+
+    /**
+     * Event handler for pressing a joker button
+     * @param event
+     * @return jokerType pressed
+     */
+    @Override
+    protected JokerType jokerPress(ActionEvent event) {
+        Button button = (Button) event.getSource();
+        String text = button.getText();
+        switch (text) {
+            case "x2":
+                myMainCtrl.sendTextToInfoBox("Used x2 joker!");
+                break;
+            case "Remove":
+                myMainCtrl.sendTextToInfoBox("Used Remove joker!");
+                break;
+            case "time/2":
+                myMainCtrl.sendTextToInfoBox("Used Reduce time joker!");
+                break;
+        }
+        return super.jokerPress(event);
     }
 
     protected abstract void goToNextScene(long score, ObservableList<String> list);

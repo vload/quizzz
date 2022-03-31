@@ -29,3 +29,7 @@
 .alertText{
     -fx-fill: orange;
 }
+
+.correctAnswerText{
+    -fx-fill: -correct-color;
+}
