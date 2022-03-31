@@ -198,6 +198,11 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerTimerTask.cancel();
     }
 
+    @Override
+    protected void goToEndLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        Platform.runLater(() -> myMainCtrl.showMPendLeaderboard(score, list, infoList));
+    }
+
     /**
      * Method that submits the question to backend
      */

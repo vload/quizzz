@@ -176,6 +176,8 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
 
     protected abstract void goToLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
 
+    protected abstract void goToEndLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
+
     /**
      * checkstyle
      * @param score
@@ -184,7 +186,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         if(myMainCtrl.questionCounter == 10){
             Platform.runLater(() -> goToLeaderboard(score, playerList.getItems(),
                     informationBox.getItems()));
-        } else{
+        } else if(myMainCtrl.questionCounter == 2){
+            Platform.runLater(() -> goToEndLeaderboard(score, playerList.getItems(),
+                    informationBox.getItems()));
+        }
+
+        else{
             Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
         }
     }

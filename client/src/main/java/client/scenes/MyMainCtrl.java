@@ -73,7 +73,8 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
-                           Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
+                           Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
+                           Pair<MPleaderboardCtrl, Parent> MPendLeaderboardScreen) {
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
@@ -89,6 +90,8 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
         screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
                 MPhalfTimeLeaderboardScreen.getKey()));
+        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboardScreen.getValue(),
+                MPendLeaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
@@ -284,7 +287,7 @@ public class MyMainCtrl extends AbstractCtrl {
             }
 
             if (newQuestion == null) {
-                showLeaderboardScreen();
+                //showMPendLeaderboard(playerData.getScore(), server.getPlayerScores(gameID));
                 stopMPLP();
                 return;
             }
@@ -411,7 +414,13 @@ public class MyMainCtrl extends AbstractCtrl {
     public void showMPhalfTimeLeaderboardScreen(long score,ObservableList<String> items,ObservableList<String> items1){
         setScene("MPhalfTimeLeaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (MPleaderboardCtrl) screenMap.get("MPhalfTimeLeaderboardScreen").getCtrl();
-        ctrl.init(score, items, items1);
+        ctrl.init_halfTime(score, items, items1);
+    }
+
+    public void showMPendLeaderboard(long score,ObservableList<String> items,ObservableList<String> items1){
+        setScene("MPendLeaderboardScreen", "LeaderboardCSS.css");
+        var ctrl = (MPleaderboardCtrl) screenMap.get("MPendLeaderboardScreen").getCtrl();
+        ctrl.init_end(score, items, items1);
     }
 
 
