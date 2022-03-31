@@ -9,17 +9,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
-
-    @FXML
-    private Button activityText;
 
     @FXML
     private TextField answerText;
@@ -34,9 +34,12 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     private Text alertText;
 
     @FXML
-    private Text correctText;
+    private ImageView image;
 
     private Question associatedQuestion;
+
+    @FXML
+    private Text correctText;
     /**
      * Constructor for SPEstimateQuestionCtrl
      *
@@ -61,7 +64,10 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         associatedQuestion = question;
         answerText.setFocusTraversable(false);
         questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
+        var imageBytes = question.getActivitySet().iterator().next().image;
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        Image i = new Image(bis);
+        image.setImage(i);
     }
 
     /**
@@ -205,6 +211,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
         super.resetUI();
         correctText.setVisible(false);
         answerText.clear();
+        image.setImage(null);
     }
 
     @Override
