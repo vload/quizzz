@@ -57,6 +57,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param mpMCQScreen
      * @param leaderboardScreen
      * @param spSelectiveScreen
+     * @param quitScreen
      * @param MPhalfTimeLeaderboardScreen
      */
     public void init(Stage primaryStage,
@@ -73,6 +74,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
+                           Pair<QuitScreenCtrl,Parent> quitScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
         this.primaryStage = primaryStage;
         this.server = server;
@@ -92,7 +94,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
-        
+        screenMap.put("quitScreen",new SceneCtrlPair(quitScreen.getValue(),quitScreen.getKey()));
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
             stopMPLP();
@@ -100,7 +102,6 @@ public class MyMainCtrl extends AbstractCtrl {
                 server.disconnect(playerData);
             }
         });
-
         showUI();
     }
 
@@ -131,6 +132,13 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void showMPNameScreen(){
         setScene("mpNameScreen", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This is the method that shows the quit screen
+     */
+    public void showQuitScreen() {
+        setScene("quitScreen","ScreenCommonCSS.css");
     }
 
     /**
