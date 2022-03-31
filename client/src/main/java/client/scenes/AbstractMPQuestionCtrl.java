@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +62,9 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
 
     @FXML
     private ListView<String> playerList;
+
+    @FXML
+    private Text roundOverText;
 
     /**
      * Constructor for QuestionController
@@ -143,6 +147,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * @param score
      */
     protected void showCorrectAnswerTimer(long score) {
+        roundOverText.setVisible(false);
         enableJokers(false);
         answerTimer = new Timer();
         answerTimerTask = new TimerTask() {
@@ -150,7 +155,6 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
             int timer = 100;
             int textTime = 5;
             boolean scoresShown = false;
-
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
@@ -181,6 +185,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      */
     protected void processAnswer(String answer) {
         submission = new Submission(answer, timerBar.getProgress());
+        roundOverText.setVisible(true);
     }
 
     /**

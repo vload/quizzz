@@ -82,3 +82,8 @@
 .estimateQuestion:hover {
     -fx-background-color: -button-color;
 }
+
+#roundText {
+    -fx-fill: -correct-color;
+    -fx-font-size: 21;
+}
