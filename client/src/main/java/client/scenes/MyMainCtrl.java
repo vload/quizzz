@@ -76,9 +76,11 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
                            Pair<MPleaderboardCtrl, Parent> MPendLeaderboard) {
+
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
+
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
         screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
@@ -88,13 +90,11 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
-        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
-        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
-                MPhalfTimeLeaderboardScreen.getKey()));
-        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboard.getValue(), MPendLeaderboard.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
+        init_leaderboard(leaderboardScreen, MPhalfTimeLeaderboardScreen, MPendLeaderboard);
+
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
             stopMPLP();
@@ -105,6 +105,23 @@ public class MyMainCtrl extends AbstractCtrl {
 
         showUI();
     }
+
+    /**
+     * init for leaderboard, the other init function was to long
+     * @param leaderboardScreen
+     * @param MPhalfTimeLeaderboardScreen
+     * @param MPendLeaderboard
+     */
+    private void init_leaderboard(Pair<LeaderboardCtrl, Parent> leaderboardScreen,
+                                  Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
+                                  Pair<MPleaderboardCtrl, Parent> MPendLeaderboard){
+        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
+                MPhalfTimeLeaderboardScreen.getKey()));
+        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboard.getValue(),
+                MPendLeaderboard.getKey()));
+    }
+
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
