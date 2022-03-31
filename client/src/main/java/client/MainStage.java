@@ -59,7 +59,8 @@ public class MainStage extends Application {
         var server = INJECTOR.getInstance(ServerUtils.class);
         mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen, lobbyScreen,
                 spEQScreen, spMCQScreen, adminScreen,
-                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, leaderboard, MPhalfTimeLeaderboard, MPendLeaderboard);
+                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen,
+                leaderboard, MPhalfTimeLeaderboard, MPendLeaderboard);
     }
 
 

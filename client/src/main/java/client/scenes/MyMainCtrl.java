@@ -58,7 +58,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param leaderboardScreen
      * @param spSelectiveScreen
      * @param MPhalfTimeLeaderboardScreen
-     * @param MPendLeaderboardScreen
+     * @param MPendLeaderboard
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
