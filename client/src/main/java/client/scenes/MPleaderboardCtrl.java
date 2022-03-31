@@ -41,6 +41,7 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      * init function endhalftime
      * @param score
      * @param items
+     * @param items1
      */
     public void init_end(long score, ObservableList<String> items, ObservableList<String> items1){
 
@@ -65,7 +66,9 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
         leaderboardList.setItems(items);
     }
 
-
+    /**
+     * function for lobby button
+     */
     public void lobbyButton(){
         myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
     }

@@ -58,6 +58,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param leaderboardScreen
      * @param spSelectiveScreen
      * @param MPhalfTimeLeaderboardScreen
+     * @param MPendLeaderboardScreen 
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -90,12 +91,10 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
         screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
                 MPhalfTimeLeaderboardScreen.getKey()));
-        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboardScreen.getValue(),
-                MPendLeaderboardScreen.getKey()));
+        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboardScreen.getValue(), MPendLeaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
-        
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
             stopMPLP();
@@ -417,6 +416,12 @@ public class MyMainCtrl extends AbstractCtrl {
         ctrl.init_halfTime(score, items, items1);
     }
 
+    /**
+     * show endgame leaderboard
+     * @param score
+     * @param items
+     * @param items1
+     */
     public void showMPendLeaderboard(long score,ObservableList<String> items,ObservableList<String> items1){
         setScene("MPendLeaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (MPleaderboardCtrl) screenMap.get("MPendLeaderboardScreen").getCtrl();
