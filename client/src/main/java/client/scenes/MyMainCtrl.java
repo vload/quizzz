@@ -58,7 +58,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param leaderboardScreen
      * @param spSelectiveScreen
      * @param MPhalfTimeLeaderboardScreen
-     * @param MPendLeaderboardScreen 
+     * @param MPendLeaderboardScreen
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -75,7 +75,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
-                           Pair<MPleaderboardCtrl, Parent> MPendLeaderboardScreen) {
+                           Pair<MPleaderboardCtrl, Parent> MPendLeaderboard) {
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
@@ -91,7 +91,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
         screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
                 MPhalfTimeLeaderboardScreen.getKey()));
-        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboardScreen.getValue(), MPendLeaderboardScreen.getKey()));
+        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboard.getValue(), MPendLeaderboard.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
