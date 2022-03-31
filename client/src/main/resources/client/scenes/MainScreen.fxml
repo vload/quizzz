@@ -107,4 +107,23 @@
             </children>
         </VBox>
     </center>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Region prefWidth="1763.0" HBox.hgrow="ALWAYS" />
+            <VBox prefHeight="130.0" prefWidth="200.0">
+               <children>
+                  <Region VBox.vgrow="ALWAYS" />
+                  <Button id="sampleButton" mnemonicParsing="false" onAction="#goToQuitScreen" prefHeight="90.0" prefWidth="201.0" styleClass="sampleButton" text="QUIT">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
+                  <Region VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <Region maxWidth="100.0" minWidth="30.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
