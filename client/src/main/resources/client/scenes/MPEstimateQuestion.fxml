@@ -19,6 +19,17 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
+            <HBox maxHeight="200.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Text id="roundText" fx:id="roundOverText" fill="#35f227" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for the round to end" textAlignment="CENTER" visible="false" wrappingWidth="1000.0">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             <HBox maxHeight="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -39,7 +50,13 @@
                <Region maxWidth="60.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
                <VBox>
                   <children>
-                     <Region prefHeight="41.0" prefWidth="385.0" VBox.vgrow="ALWAYS" />
+                     <Region VBox.vgrow="ALWAYS" />
+                     <Text fx:id="correctText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="correctAnswerText" text="Please only input numbers!" textAlignment="CENTER" visible="false" wrappingWidth="384.13671875">
+                        <font>
+                           <Font size="30.0" />
+                        </font>
+                     </Text>
+                     <Region minHeight="5.0" />
                      <TextField fx:id="answerText" alignment="CENTER" onKeyPressed="#checkForEnter" prefHeight="64.0" prefWidth="370.0" promptText="Enter the value ...">
                         <font>
                            <Font size="31.0" />

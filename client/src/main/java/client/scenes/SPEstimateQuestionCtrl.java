@@ -22,6 +22,9 @@ import java.util.HashMap;
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
+    private Button activityText;
+
+    @FXML
     private TextField answerText;
 
     @FXML
@@ -35,6 +38,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
     private ImageView image;
+
+    @FXML
+    private Text correctText;
 
     private Question associatedQuestion;
 
@@ -168,7 +174,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     protected void processAnswer(String answer) {
         long score = myMainCtrl.sendSubmission(answer, cancelTimer());
         this.scoreText.setText("Score: " + score);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
+        correctText.setText(correct);
+        correctText.setVisible(true);
         showCorrectAnswerTimer(score);
     }
 
@@ -205,6 +213,7 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     protected void resetUI() {
         super.resetUI();
+        correctText.setVisible(false);
         answerText.clear();
         image.setImage(null);
     }

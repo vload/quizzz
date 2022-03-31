@@ -15,6 +15,10 @@
     -fx-fill: white;
 }
 
+.bottomText{
+    -fx-fill: white;
+}
+
 .button{
     -fx-min-height: 100px;
 }

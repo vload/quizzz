@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -47,6 +48,18 @@
         <VBox BorderPane.alignment="CENTER">
             <children>
                 <Region minHeight="30.0" prefHeight="0.0" prefWidth="1920.0" />
+            <HBox prefHeight="162.0">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchField" onKeyTyped="#updateVisibleActivities" prefHeight="39.0" prefWidth="746.0" promptText="SEARCH ACTIVITIES">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </TextField>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Region minHeight="20.0" />
                 <HBox maxHeight="1006.0" prefHeight="872.0" prefWidth="1920.0">
                     <children>
                         <Region minWidth="10.0" HBox.hgrow="ALWAYS" />
