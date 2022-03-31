@@ -31,10 +31,10 @@
                   <graphic>
                      <BorderPane prefHeight="200.0" prefWidth="200.0">
                         <center>
-                           <ImageView fx:id="image1" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                           <ImageView fx:id="image1" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Text fx:id="activityText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
@@ -43,10 +43,10 @@
                   <graphic>
                      <BorderPane prefHeight="200.0" prefWidth="200.0">
                         <center>
-                           <ImageView fx:id="image2" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                           <ImageView fx:id="image2" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Text fx:id="activityText2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
@@ -55,10 +55,10 @@
                   <graphic>
                      <BorderPane prefHeight="200.0" prefWidth="200.0">
                         <center>
-                           <ImageView fx:id="image3" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                           <ImageView fx:id="image3" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Text fx:id="activityText3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
