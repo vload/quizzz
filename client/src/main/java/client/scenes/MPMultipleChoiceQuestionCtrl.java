@@ -112,6 +112,15 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         answerTimerTask.cancel();
     }
 
+    @Override
+    protected void goToLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        enableButtons(true);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.showMPhalfTimeLeaderboardScreen(score, list, infoList));
+        answerTimerTask.cancel();
+    }
+
     /**
      * Method that returns the button colors back to normal
      * @param buttonList

@@ -191,6 +191,16 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerTimerTask.cancel();
     }
 
+    @Override
+    protected void goToLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        timerText.setText(0 + " s");
+        answerText.setDisable(false);
+        submitButton.setDisable(false);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.showMPhalfTimeLeaderboardScreen(score, list, infoList));
+        answerTimerTask.cancel();
+    }
+
     /**
      * Method that submits the question to backend
      */

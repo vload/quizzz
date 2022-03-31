@@ -170,7 +170,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
                     Platform.runLater(() -> updatePlayerList());
                 } else if (progressTime < 0) {
                     this.cancel();
-                    Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
+                    check(score);
                 }
             }
         };
@@ -178,6 +178,22 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     }
 
     protected abstract void goToNextScene(long score, ObservableList<String> items, ObservableList<String> items1);
+
+    protected abstract void goToLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
+
+    /**
+     * checkstyle
+     * @param score
+     */
+    public void check(long score){
+        if(myMainCtrl.questionCounter == 10){
+            Platform.runLater(() -> goToLeaderboard(score, playerList.getItems(),
+                    informationBox.getItems()));
+        } else{
+            Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
+        }
+    }
+
 
     /**
      * Method that sends the answer that the player presses to the server and acts accordingly
