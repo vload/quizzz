@@ -80,7 +80,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <Region minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" />
             <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -98,7 +98,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <Region minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" />
             <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -116,7 +116,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
+            <Region minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" />
             <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -134,21 +134,16 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="70.0" prefWidth="1920.0" />
-            <HBox minHeight="72.0" prefHeight="82.0" prefWidth="1920.0">
+            <Region minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" />
+            <Region minHeight="30.0" prefHeight="30.0" prefWidth="1920.0" />
+            <HBox minHeight="72.0" prefHeight="118.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Image:" wrappingWidth="389.3017578125">
+                  <Button fx:id="uploadButton" mnemonicParsing="false" onAction="#onUploadClick" prefHeight="125.0" prefWidth="594.0" text="Upload new image">
                      <font>
-                        <Font size="45.0" />
+                        <Font size="41.0" />
                      </font>
-                  </Text>
-                  <Region minWidth="22.0" />
-                  <TextField fx:id="imageTextField" prefHeight="37.0" prefWidth="789.0" promptText="image_path">
-                     <font>
-                        <Font size="35.0" />
-                     </font>
-                  </TextField>
+                  </Button>
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
