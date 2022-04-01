@@ -48,10 +48,8 @@ public class MainStage extends Application {
                 "client", "scenes", "MPMultipleChoice.fxml");
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
         var leaderboard = FXML.load(LeaderboardCtrl.class, "client", "scenes", "endLeaderboard.fxml");
-
         var MPhalfTimeLeaderboard = FXML.load(MPleaderboardCtrl.class, "client", "scenes", "halfTimeLeaderboard.fxml");
         var MPendLeaderboard = FXML.load(MPleaderboardCtrl.class, "client", "scenes", "MPendLeaderboard.fxml");
-
         var adminAddScreen = FXML.load(AdminAddCtrl.class, "client", "scenes", "AdminActivityScreen.fxml");
         var adminScreen = FXML.load(AdminMainCtrl.class, "client", "scenes", "AdminScreen.fxml");
         var spSelectiveScreen = FXML.load(SPSelectiveQuestionCtrl.class,

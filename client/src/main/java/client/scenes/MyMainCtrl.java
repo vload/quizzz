@@ -84,7 +84,6 @@ public class MyMainCtrl extends AbstractCtrl {
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
-
         screenMap = new HashMap<>();
         screenMap.put("mainScreen", new SceneCtrlPair(mainScreen.getValue(), mainScreen.getKey()));
         screenMap.put("mpNameScreen", new SceneCtrlPair(mpNameScreen.getValue(), mpNameScreen.getKey()));
