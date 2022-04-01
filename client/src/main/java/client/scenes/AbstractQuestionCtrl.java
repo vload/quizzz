@@ -30,9 +30,6 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     @FXML
     protected Text timerText;
 
-    @FXML
-    private Label counter;
-
     protected final ServerUtils server;
     protected final MyMainCtrl myMainCtrl;
 
@@ -43,6 +40,9 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
 
     protected HashMap<String, JokerData> jokerMap;
     protected ArrayList<Button> jokerList;
+
+    @FXML
+    private Label counter;
 
     /**
      * Constructor for QuestionController
