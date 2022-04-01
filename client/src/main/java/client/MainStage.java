@@ -46,7 +46,6 @@ public class MainStage extends Application {
                 "client", "scenes", "MPEstimateQuestion.fxml");
         var mpMCQScreen = FXML.load(MPMultipleChoiceQuestionCtrl.class,
                 "client", "scenes", "MPMultipleChoice.fxml");
-
         var mainCtrl = INJECTOR.getInstance(MyMainCtrl.class);
         var leaderboard = FXML.load(LeaderboardCtrl.class, "client", "scenes", "endLeaderboard.fxml");
         var MPhalfTimeLeaderboard = FXML.load(MPleaderboardCtrl.class, "client", "scenes", "halfTimeLeaderboard.fxml");
@@ -54,14 +53,14 @@ public class MainStage extends Application {
         var adminScreen = FXML.load(AdminMainCtrl.class, "client", "scenes", "AdminScreen.fxml");
         var spSelectiveScreen = FXML.load(SPSelectiveQuestionCtrl.class,
                 "client", "scenes", "SPSelectiveQuestion.fxml");
+        var quitScreen = FXML.load(QuitScreenCtrl.class,"client","scenes","QuitScreen.fxml");
         var server = INJECTOR.getInstance(ServerUtils.class);
         var mpSelectiveScreen = FXML.load(MPSelectiveQuestionCtrl.class,
                 "client", "scenes", "MPSelectiveQuestion.fxml");
-
         mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen, lobbyScreen,
                 spEQScreen, spMCQScreen, adminScreen,
-                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, mpSelectiveScreen,
-                leaderboard,MPhalfTimeLeaderboard);
+                adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, mpSelectiveScreen, leaderboard,
+                quitScreen, MPhalfTimeLeaderboard);
     }
 
 
