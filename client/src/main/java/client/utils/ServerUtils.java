@@ -40,8 +40,8 @@ import jakarta.ws.rs.client.Entity;
 public class ServerUtils {
 
     private static String SERVER = "http://localhost:8080/";
-    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
-    private static final ExecutorService EXEC2 = Executors.newSingleThreadExecutor();
+    private static ExecutorService EXEC;
+    private static ExecutorService EXEC2;
     private String gameID;
 
     /**
@@ -266,6 +266,7 @@ public class ServerUtils {
      * @param consumer
      */
     public void longPollingLobby(Consumer<LobbyData> consumer){
+        EXEC = Executors.newSingleThreadExecutor();
         EXEC.submit(() -> {
             while(!Thread.interrupted()) {
                var res =  ClientBuilder.newClient(new ClientConfig())
@@ -287,6 +288,7 @@ public class ServerUtils {
      * @param consumer
      */
     public void longPollingMP(Consumer<PollWrapper> consumer){
+        EXEC2 = Executors.newSingleThreadExecutor();
         EXEC2.submit(() -> {
             while(!Thread.interrupted()) {
                 var res =  ClientBuilder.newClient(new ClientConfig())
