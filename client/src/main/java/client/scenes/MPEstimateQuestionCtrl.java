@@ -212,6 +212,10 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
 
     @Override
     protected void goToEndLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        timerText.setText(0 + " s");
+        answerText.setDisable(false);
+        submitButton.setDisable(false);
+        resetUI();
         Platform.runLater(() -> myMainCtrl.showMPendLeaderboard(score, list, infoList));
     }
 

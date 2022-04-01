@@ -70,7 +70,10 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      * function for lobby button
      */
     public void lobbyButton(){
-        myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
+        boolean canStart = myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
+        if(!canStart){
+            myMainCtrl.showMPNameScreen();
+        }
     }
 
 

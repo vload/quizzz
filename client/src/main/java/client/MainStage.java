@@ -63,7 +63,7 @@ public class MainStage extends Application {
         mainCtrl.init(primaryStage, server, mainScreen, MPnameScreen, SPnameScreen, lobbyScreen,
                 spEQScreen, spMCQScreen, adminScreen,
                 adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, mpSelectiveScreen, leaderboard,
-                quitScreen, MPhalfTimeLeaderboard);
+                quitScreen, MPhalfTimeLeaderboard, MPendLeaderboard);
     }
 
 
