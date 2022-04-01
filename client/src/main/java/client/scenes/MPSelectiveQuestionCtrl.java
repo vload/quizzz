@@ -4,7 +4,8 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.JokerType;
 import commons.Question;
-import jakarta.ws.rs.BadRequestException;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
+public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
 
     @FXML
     private Button answerText1;
@@ -46,7 +47,7 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
      * @param myMainCtrl
      */
     @Inject
-    public SPSelectiveQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
+    public MPSelectiveQuestionCtrl(ServerUtils server, MyMainCtrl myMainCtrl) {
         super(server, myMainCtrl);
     }
 
@@ -54,11 +55,13 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
      * Gets called upon init
      * @param question
      * @param score
+     * @param infoList
+     * @param list
      */
-    public void init(Question question, Long score) {
+    public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList){
         buttonList = new ArrayList<>(Arrays.asList(answerText1, answerText2, answerText3));
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
-        init(score);
+        init(score, list, infoList);
         associatedQuestion = question;
 
         questionText.setText(question.getQuestionText());
@@ -90,44 +93,29 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         answerText3.setFocusTraversable(false);
     }
 
+    @Override
+    protected void goToLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        enableButtons(true);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.showMPhalfTimeLeaderboardScreen(score, list, infoList));
+        answerTimerTask.cancel();
+    }
+
     /**
      * Event handler for pressing an answer button
      * @param event
      */
     @FXML
     void answerPress(ActionEvent event) {
-        try {
-            Button source = (Button) event.getSource();
-            updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-            processAnswer(source.getId());
-        }catch (BadRequestException e){
-            myMainCtrl.showMainScreen();
-            enableButtons(buttonList);
-            enableColors(buttonList);
-        }
+        Button source = (Button) event.getSource();
+        processAnswer(source.getId());
+        enableButtons(false);
     }
 
-    /**
-     * Method that sends the answer that the player presses to the server and acts accordingly
-     * @param answer
-     */
-    protected void processAnswer(String answer) {
-        long score = myMainCtrl.sendSubmission(answer, cancelTimer());
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
-    }
-
-    /**
-     * Method that transitions from the current question to the next one
-     * @param score
-     */
     @Override
     protected void goToNextScene(long score) {
-        enableButtons(buttonList);
-        enableColors(buttonList);
-        resetUI();
-        myMainCtrl.setNextQuestion(score);
-        answerTimerTask.cancel();
+
     }
 
     /**
@@ -146,9 +134,27 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
     @Override
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
-        long score = myMainCtrl.sendSubmission("late", -1);
-        this.scoreText.setText("Score: " + score);
-        showCorrectAnswerTimer(score);
+        super.timeOut();
+    }
+
+    @Override
+    protected void goToNextScene(long score, ObservableList<String> list) {
+
+    }
+
+    /**
+     *
+     * @param score
+     * @param list
+     * @param infoList
+     */
+    @Override
+    protected void goToNextScene(long score, ObservableList<String> list, ObservableList<String> infoList) {
+        enableButtons(true);
+        enableColors(buttonList);
+        resetUI();
+        Platform.runLater(() -> myMainCtrl.setNextMPQuestion(score, list, infoList));
+        answerTimerTask.cancel();
     }
 
     /**
@@ -164,12 +170,12 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
 
     /**
      * Method that enables the answer buttons
-     * @param buttonList
+     * @param flag
      */
-    public void enableButtons(ArrayList<Button> buttonList){
+    public void enableButtons(boolean flag){
 
         for (Button b : buttonList) {
-            b.setDisable(false);
+            b.setDisable(!flag);
         }
     }
 

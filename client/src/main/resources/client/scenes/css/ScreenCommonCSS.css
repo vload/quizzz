@@ -29,3 +29,11 @@
 .alertText{
     -fx-fill: orange;
 }
+
+.sampleButton, #sampleButton {
+    -fx-font-size: 30;
+}
+
+.correctAnswerText {
+    -fx-fill: -correct-color;
+}

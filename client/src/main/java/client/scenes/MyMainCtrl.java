@@ -57,6 +57,8 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param mpMCQScreen
      * @param leaderboardScreen
      * @param spSelectiveScreen
+     * @param mpSelectiveScreen
+     * @param quitScreen
      * @param MPhalfTimeLeaderboardScreen
      * @param MPendLeaderboard
      */
@@ -73,7 +75,9 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
+                           Pair<MPSelectiveQuestionCtrl, Parent> mpSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
+                           Pair<QuitScreenCtrl,Parent> quitScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
                            Pair<MPleaderboardCtrl, Parent> MPendLeaderboard) {
 
@@ -93,6 +97,8 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
+        screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
+        screenMap.put("quitScreen",new SceneCtrlPair(quitScreen.getValue(),quitScreen.getKey()));
         init_leaderboard(leaderboardScreen, MPhalfTimeLeaderboardScreen, MPendLeaderboard);
 
         primaryStage.setOnCloseRequest(e -> {
@@ -102,7 +108,6 @@ public class MyMainCtrl extends AbstractCtrl {
                 server.disconnect(playerData);
             }
         });
-
         showUI();
     }
 
@@ -150,6 +155,13 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void showMPNameScreen(){
         setScene("mpNameScreen", "ScreenCommonCSS.css");
+    }
+
+    /**
+     * This is the method that shows the quit screen
+     */
+    public void showQuitScreen() {
+        setScene("quitScreen","ScreenCommonCSS.css");
     }
 
     /**
@@ -242,9 +254,14 @@ public class MyMainCtrl extends AbstractCtrl {
             var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
             currentCtrl = ctrl;
             ctrl.init(q, score, list, infoList);
-        } else {
+        } else if (q.getType() == QuestionType.MC){
             setScene("mpMCQScreen", "QuestionCSS.css");
             var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
+            currentCtrl = ctrl;
+            ctrl.init(q, score, list, infoList);
+        } else if (q.getType() == QuestionType.SELECTIVE) {
+            setScene("mpSelectiveScreen", "QuestionCSS.css");
+            var ctrl = (MPSelectiveQuestionCtrl) screenMap.get("mpSelectiveScreen").getCtrl();
             currentCtrl = ctrl;
             ctrl.init(q, score, list, infoList);
         }
@@ -449,11 +466,10 @@ public class MyMainCtrl extends AbstractCtrl {
 
     /**
      * Sends the pressed emoji to the server
-     * @param emoji
-     * @param ctrl
+     * @param text
      */
-    public void sendEmoji(String emoji, AbstractMPQuestionCtrl ctrl) {
-        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + emoji);
+    public void sendTextToInfoBox(String text) {
+        server.sendToInformationBox(gameID, playerData.getPlayerName() + ": " + text);
     }
 
     /**

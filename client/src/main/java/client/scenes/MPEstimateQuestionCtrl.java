@@ -10,9 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +42,12 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
 
     @FXML
     private Text alertText;
+
+    @FXML
+    private ImageView image;
+
+    @FXML
+    private Text correctText;
 
     private Question associatedQuestion;
 
@@ -79,7 +88,10 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerText.setFocusTraversable(false);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
-        activityText.setText(question.getActivitySet().iterator().next().getTitle());
+        var imageBytes = question.getActivitySet().iterator().next().image;
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        Image i = new Image(bis);
+        image.setImage(i);
     }
 
     /**
@@ -210,7 +222,9 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     public void timeOut() {
         answerText.setDisable(true);
         submitButton.setDisable(true);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
+        correctText.setText(correct);
+        correctText.setVisible(true);
         super.timeOut();
     }
 
@@ -220,7 +234,9 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
     @Override
     protected void resetUI() {
         super.resetUI();
+        correctText.setVisible(false);
         answerText.clear();
+        image.setImage(null);
     }
 
     @Override

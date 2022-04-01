@@ -8,8 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -20,6 +23,9 @@ public class AdminMainCtrl extends AbstractCtrl{
 
     @FXML
     private Button addButton;
+
+    @FXML
+    private TextField searchField;
 
     private MyMainCtrl myMainCtrl;
     private ServerUtils server;
@@ -44,7 +50,8 @@ public class AdminMainCtrl extends AbstractCtrl{
     public void init() {
         this.activities = server.getActivities();
         var titles = activities.stream().map(Activity::getTitle).toList();
-        activitiesListView.setItems(FXCollections.observableList(titles));
+        updateVisibleActivities();
+//        activitiesListView.setItems(FXCollections.observableList(titles));
     }
 
     /**
@@ -84,6 +91,45 @@ public class AdminMainCtrl extends AbstractCtrl{
         var activity = activities.stream().filter(a -> a.getTitle().equals(value)).toList().get(0);
         myMainCtrl.showAdminAddScreen(activity);
     }
+
+    /**
+     * Updates Visible Activities whenever there is a key-press
+     *
+     * @param event The event on the keyboard that calls this method
+     */
+    @FXML
+    void updateVisibleActivities(KeyEvent event) {
+        var currentActivities = server.getActivities();
+        var currentTitles = currentActivities.stream().map(Activity::getTitle).toList();
+        if (searchField.getText().length() == 0) {
+            activitiesListView.setItems(FXCollections.observableList(currentTitles));
+        } else {
+            var newList = currentTitles
+                    .stream()
+                    .filter(x -> StringUtils.containsIgnoreCase(x,searchField.getText()))
+                    .toList();
+            activitiesListView.setItems(FXCollections.observableList(newList));
+        }
+    }
+
+    /**
+     * Method that gets called whenever the screen is initialised
+     */
+    void updateVisibleActivities() {
+        var currentActivities = server.getActivities();
+        var currentTitles = currentActivities.stream().map(Activity::getTitle).toList();
+        if (searchField.getText().length() == 0) {
+            activitiesListView.setItems(FXCollections.observableList(currentTitles));
+        } else {
+            var newList = currentTitles
+                    .stream()
+                    .filter(x -> StringUtils.containsIgnoreCase(x,searchField.getText()))
+                    .toList();
+            activitiesListView.setItems(FXCollections.observableList(newList));
+        }
+    }
+
+
 
 }
 

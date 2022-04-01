@@ -92,6 +92,21 @@ public class ServerUtils {
 
     /**
      *
+     * @param path
+     * @param image
+     * @return boolean
+     */
+    public boolean uploadImage(String path, byte[] image) {
+        //all / in path are replaced by [+] to work with the url
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/uploadimage/" + path.replace("/", "[+]"))
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(image, APPLICATION_JSON), Boolean.class);
+    }
+
+    /**
+     *
      * @param activity
      * @return returns all the activities
      */
