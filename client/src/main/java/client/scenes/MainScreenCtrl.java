@@ -83,6 +83,13 @@ public class MainScreenCtrl extends AbstractCtrl {
     }
 
     /**
+     * Method which gets called when the quit button is pressed.
+     */
+    public void goToQuitScreen() {
+        myMainCtrl.showQuitScreen();
+    }
+
+    /**
      * Event handler for Admin button click
      */
     public void onAdminClick() {

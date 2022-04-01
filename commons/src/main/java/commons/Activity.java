@@ -94,6 +94,14 @@ public class Activity {
     }
 
     /**
+     * Setter for imagePath
+     * @param imagePath
+     */
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    /**
      * Getter for imagePath
      * @return the imagePath
      */

@@ -35,6 +35,10 @@
     -fx-fill: orange;
 }
 
-.correctAnswerText{
+.sampleButton, #sampleButton {
+    -fx-font-size: 30;
+}
+
+.correctAnswerText {
     -fx-fill: -correct-color;
 }
