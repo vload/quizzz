@@ -66,13 +66,15 @@
                         <VBox>
                             <children>
                                 <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButton" prefHeight="54.0" prefWidth="230.0" styleClass="jokerButton" text="Back" />
                                 <Region VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
+                  <Region prefHeight="151.0" prefWidth="182.0" />
                         <VBox>
                             <children>
                                 <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
-                                <Button fx:id="LobbyButton" mnemonicParsing="false" onAction="#lobbyButton" prefHeight="54.0" prefWidth="148.0" styleClass="jokerButton" text="Lobby" />
+                                <Button fx:id="LobbyButton" mnemonicParsing="false" onAction="#lobbyButton" prefHeight="54.0" prefWidth="230.0" styleClass="jokerButton" text="Lobby" />
                                 <Region VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
