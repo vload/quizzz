@@ -57,6 +57,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param mpMCQScreen
      * @param leaderboardScreen
      * @param spSelectiveScreen
+     * @param mpSelectiveScreen
      * @param quitScreen
      * @param MPhalfTimeLeaderboardScreen
      */
@@ -73,6 +74,7 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPEstimateQuestionCtrl, Parent> mpEQScreen,
                            Pair<MPMultipleChoiceQuestionCtrl, Parent> mpMCQScreen,
                            Pair<SPSelectiveQuestionCtrl, Parent> spSelectiveScreen,
+                           Pair<MPSelectiveQuestionCtrl, Parent> mpSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
                            Pair<QuitScreenCtrl,Parent> quitScreen,
                            Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
@@ -94,6 +96,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
+        screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
         screenMap.put("quitScreen",new SceneCtrlPair(quitScreen.getValue(),quitScreen.getKey()));
         primaryStage.setOnCloseRequest(e -> {
             lobbyScreen.getKey().stop();
@@ -231,9 +234,14 @@ public class MyMainCtrl extends AbstractCtrl {
             var ctrl = (MPEstimateQuestionCtrl) screenMap.get("mpEQScreen").getCtrl();
             currentCtrl = ctrl;
             ctrl.init(q, score, list, infoList);
-        } else {
+        } else if (q.getType() == QuestionType.MC){
             setScene("mpMCQScreen", "QuestionCSS.css");
             var ctrl = (MPMultipleChoiceQuestionCtrl) screenMap.get("mpMCQScreen").getCtrl();
+            currentCtrl = ctrl;
+            ctrl.init(q, score, list, infoList);
+        } else if (q.getType() == QuestionType.SELECTIVE) {
+            setScene("mpSelectiveScreen", "QuestionCSS.css");
+            var ctrl = (MPSelectiveQuestionCtrl) screenMap.get("mpSelectiveScreen").getCtrl();
             currentCtrl = ctrl;
             ctrl.init(q, score, list, infoList);
         }
