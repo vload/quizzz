@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.text.Text;
 
@@ -28,6 +29,9 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
 
     @FXML
     protected Text timerText;
+
+    @FXML
+    private Label counter;
 
     protected final ServerUtils server;
     protected final MyMainCtrl myMainCtrl;
@@ -63,6 +67,8 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         scoreText.setText("Score: " + score);
         timerText.setText("10s");
         timerBar.setProgress(10);
+
+        counter.setText(String.valueOf(myMainCtrl.questionCounter));
         timer();
     }
 

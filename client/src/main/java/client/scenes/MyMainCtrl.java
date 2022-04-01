@@ -274,6 +274,12 @@ public class MyMainCtrl extends AbstractCtrl {
     public void setNextQuestion(long score) {
         try {
             Question newQuestion = server.getQuestion(gameID);
+
+            questionCounter++;
+            if(questionCounter > 20){
+                questionCounter = 1;
+            }
+
             if (newQuestion == null) {
                 showLeaderboardScreen();
                 return;
@@ -296,7 +302,7 @@ public class MyMainCtrl extends AbstractCtrl {
 
             questionCounter++;
             if(questionCounter > 20){
-                questionCounter = 0;
+                questionCounter = 1;
             }
 
             if (newQuestion == null) {
