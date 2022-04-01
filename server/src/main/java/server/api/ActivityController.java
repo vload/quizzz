@@ -5,6 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.ActivityRepository;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +69,31 @@ public class ActivityController {
         repo.deleteById(id);
         System.out.println("[INFO] Deleted activity, count: " + repo.count());
         return ResponseEntity.ok("Activity " + id + " deleted");
+    }
+
+    /**
+     * API endpoint for adding/updating an activity
+     * @param path to give the image
+     * @param image to put on the server
+     * @return BadRequest if activity is null, the activity otherwise
+     */
+    @PostMapping(path="/uploadimage/{path}") // "/api/admin/addactivity"
+    public ResponseEntity<Boolean> addActivity (@PathVariable("path") String path, @RequestBody byte[] image) {
+        if (image == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        //all / in path were replaced by [+] to work with the url
+        path = path.replace( "[+]", "/");
+        System.out.println("[INFO] Adding image, path: " + path);
+        InputStream inputStream = new ByteArrayInputStream(image);
+
+        try {
+            File file = new File("activitybank/" + path);
+            Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(true);
     }
 }
