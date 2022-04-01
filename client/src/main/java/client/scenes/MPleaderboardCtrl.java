@@ -73,6 +73,10 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
         myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
     }
 
+
+    /**
+     * function for back button
+     */
     public void backButton(){
         myMainCtrl.showMainScreen();
     }
