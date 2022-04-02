@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -30,13 +30,13 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     private Button activityButton3;
 
     @FXML
-    private Text activityText1;
+    private Label activityText1;
 
     @FXML
-    private Text activityText2;
+    private Label activityText2;
 
     @FXML
-    private Text activityText3;
+    private Label activityText3;
 
     @FXML
     private Button jokerButton0;
@@ -85,6 +85,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         activityText1.setText(activityIterator.next().getTitle());
         activityText2.setText(activityIterator.next().getTitle());
         activityText3.setText(activityIterator.next().getTitle());
+
 
         activityIterator = question.getActivitySet().iterator();
         activityButton1.setId(activityIterator.next().getId());

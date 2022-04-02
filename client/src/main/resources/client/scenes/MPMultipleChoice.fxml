@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.ImageView?>
@@ -45,7 +46,7 @@
                            <ImageView fx:id="image1" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Label fx:id="activityText1" prefHeight="100.0" prefWidth="280.0" text="Label" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
@@ -57,7 +58,7 @@
                            <ImageView fx:id="image2" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Label fx:id="activityText2" prefHeight="100.0" prefWidth="280.0" text="Label" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
@@ -69,7 +70,7 @@
                            <ImageView fx:id="image3" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
                         </center>
                         <bottom>
-                           <Text fx:id="activityText3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="250.0" BorderPane.alignment="CENTER" />
+                           <Label fx:id="activityText3" prefHeight="100.0" prefWidth="280.0" text="Label" BorderPane.alignment="CENTER" />
                         </bottom>
                      </BorderPane>
                   </graphic></Button>
