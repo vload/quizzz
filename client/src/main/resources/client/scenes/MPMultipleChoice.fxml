@@ -83,7 +83,7 @@
                   <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
                   <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
                   <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton11" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
+                  <Button fx:id="jokerButton2" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />

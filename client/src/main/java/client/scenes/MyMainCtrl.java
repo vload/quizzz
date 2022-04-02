@@ -55,9 +55,9 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param adminAddScreen
      * @param mpEQScreen
      * @param mpMCQScreen
-     * @param leaderboardScreen
      * @param spSelectiveScreen
      * @param mpSelectiveScreen
+     * @param leaderboardScreen
      * @param quitScreen
      * @param MPhalfTimeLeaderboardScreen
      */
@@ -98,13 +98,7 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
         screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
         screenMap.put("quitScreen",new SceneCtrlPair(quitScreen.getValue(),quitScreen.getKey()));
-        primaryStage.setOnCloseRequest(e -> {
-            lobbyScreen.getKey().stop();
-            stopMPLP();
-            if(connected){
-                server.disconnect(playerData);
-            }
-        });
+        setUpQuit();
         showUI();
     }
 
@@ -374,6 +368,18 @@ public class MyMainCtrl extends AbstractCtrl {
     }
 
     /**
+     * Method that sends the joker to the server
+     * @param joker the joker type to be sent
+     * @return boolean allowed/forbidden
+     */
+    public boolean useJokerMultiplayer(JokerType joker) {
+        if (joker == JokerType.REMOVE_WRONG_ANSWER) {
+            return true;
+        }
+        return server.useJokerMultiplayer(Long.parseLong(gameID), playerData.getPlayerName(), joker);
+    }
+
+    /**
      * Sets up the game's jokers
      * @param gameID
      */
@@ -472,8 +478,9 @@ public class MyMainCtrl extends AbstractCtrl {
         server.longPollingMP(data -> {
             if (data.getUiMessages() != null) {
                 Platform.runLater(() -> currentCtrl.displayReactions(data.getUiMessages()));
-            } else if (data.getWhoInitiated() != null) {
-                System.out.println("received a TimeReductionPollObject");
+            } else if (data.getWhoInitiated() != null &&
+                    !data.getWhoInitiated().getPlayerName().equals(playerData.getPlayerName())) {
+                Platform.runLater(() -> currentCtrl.reduceTimeJokerPlayer());
             } else {
                 System.out.println("received something unexpected");
             }
@@ -485,6 +492,17 @@ public class MyMainCtrl extends AbstractCtrl {
      */
     public void stopMPLP(){
         server.stopMainLP();
+    }
+
+    private void setUpQuit(){
+        primaryStage.setOnCloseRequest(e -> {
+            var ctrl = (LobbyScreenCtrl) screenMap.get("lobbyScreen").getCtrl();
+            ctrl.stop();
+            stopMPLP();
+            if(connected){
+                server.disconnect(playerData);
+            }
+        });
     }
 
 }

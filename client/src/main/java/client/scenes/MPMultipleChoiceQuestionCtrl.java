@@ -45,6 +45,9 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     private Button jokerButton1;
 
     @FXML
+    private Button jokerButton2;
+
+    @FXML
     private ImageView image1;
 
     @FXML
@@ -76,7 +79,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList) {
         buttonList = new ArrayList<>(Arrays.asList(activityButton1, activityButton2, activityButton3));
-        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
+        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1, jokerButton2));
         init(score, list, infoList);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
@@ -150,6 +153,12 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     }
 
     @Override
+    protected void disableControls() {
+        super.disableControls();
+        enableButtons(false);
+    }
+
+    @Override
     protected void goToNextScene(long score, ObservableList<String> list, ObservableList<String> infoList) {
         enableButtons(true);
         enableColors(buttonList);
@@ -211,7 +220,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         int i = 0;
         jokerMap = new HashMap<>();
         for (JokerData joker : myMainCtrl.getJokerList()) {
-            if (joker != null && joker.isSp() && joker.isMc()) {
+            if (joker != null && joker.isMp() && joker.isMc()) {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());
