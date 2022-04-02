@@ -35,6 +35,9 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
     private Button jokerButton1;
 
     @FXML
+    private Button jokerButton2;
+
+    @FXML
     private ImageView image;
 
 
@@ -60,7 +63,7 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList){
         buttonList = new ArrayList<>(Arrays.asList(answerText1, answerText2, answerText3));
-        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
+        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1, jokerButton2));
         init(score, list, infoList);
         associatedQuestion = question;
 
@@ -133,8 +136,14 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
      */
     @Override
     public void timeOut() {
-        updateColors(buttonList, associatedQuestion.getCorrectAnswer());
+        updateColors(associatedQuestion.getCorrectAnswer());
         super.timeOut();
+    }
+
+    @Override
+    protected void disableControls() {
+        super.disableControls();
+        enableButtons(false);
     }
 
     @Override
@@ -181,13 +190,11 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
 
     /**
      *  Method that shows the incorrect and correct answers
-     * @param buttonList
      * @param correctAnswer
      */
-    public void updateColors(ArrayList<Button> buttonList, String correctAnswer) {
+    public void updateColors(String correctAnswer) {
         for (Button b : buttonList) {
             String answer = b.getId();
-            b.setDisable(true);
             if (answer.equals(correctAnswer)) {
                 b.getStyleClass().add("questionButtonCorrect");
             } else {
@@ -201,7 +208,7 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
         int i = 0;
         jokerMap = new HashMap<>();
         for (JokerData joker : myMainCtrl.getJokerList()) {
-            if (joker != null && joker.isSp() && joker.isMc()) {
+            if (joker != null && joker.isMp() && joker.isMc()) {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());

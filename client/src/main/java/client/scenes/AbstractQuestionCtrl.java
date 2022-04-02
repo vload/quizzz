@@ -78,19 +78,17 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
     public void timer() {
         mainTimer = new Timer();
         mainTimerTask = new TimerTask() {
-            double progressTime = 9.99;
+            double progressTime = 10;
             int timer = 100;
-            int textTime = 10;
 
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
-                progressTime = progressTime - 0.01;
                 if (timer == 100) {
-                    Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    Platform.runLater(() -> changeColor(--textTime));
+                    changeTimerTime(progressTime);
                     timer = 0;
                 }
+                progressTime = progressTime - 0.01;
                 timer++;
                 if (progressTime < 0) {
                     Platform.runLater(() -> timerText.setText(0 + " s"));
@@ -100,6 +98,12 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
             }
         };
         this.mainTimer.schedule(mainTimerTask, 0, 10);
+    }
+
+    protected void changeTimerTime(double progressTime) {
+        var textTime = (int) progressTime;
+        Platform.runLater(() -> timerText.setText(textTime + " s"));
+        Platform.runLater(() -> changeColor(textTime));
     }
 
     /**
@@ -122,19 +126,17 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         enableJokers(false);
         answerTimer = new Timer();
         answerTimerTask = new TimerTask() {
-            double progressTime = 2.99;
+            double progressTime = 3;
             int timer = 100;
-            int textTime = 3;
 
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
-                progressTime = progressTime - 0.01;
                 if (timer == 100) {
-                    Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    Platform.runLater(() -> changeColor(--textTime));
+                    changeTimerTime(progressTime);
                     timer = 0;
                 }
+                progressTime = progressTime - 0.01;
                 timer++;
                 if (progressTime < 0) {
                     this.cancel();

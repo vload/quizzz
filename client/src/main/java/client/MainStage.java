@@ -62,8 +62,4 @@ public class MainStage extends Application {
                 adminAddScreen, mpEQScreen, mpMCQScreen, spSelectiveScreen, mpSelectiveScreen, leaderboard,
                 quitScreen, MPhalfTimeLeaderboard);
     }
-
-
-
-
 }

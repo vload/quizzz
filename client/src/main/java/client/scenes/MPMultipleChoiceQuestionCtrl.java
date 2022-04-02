@@ -9,7 +9,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,19 +21,40 @@ import java.util.HashMap;
 public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
 
     @FXML
-    private Button activityText1;
+    private Button activityButton1;
 
     @FXML
-    private Button activityText2;
+    private Button activityButton2;
 
     @FXML
-    private Button activityText3;
+    private Button activityButton3;
+
+    @FXML
+    private Text activityText1;
+
+    @FXML
+    private Text activityText2;
+
+    @FXML
+    private Text activityText3;
 
     @FXML
     private Button jokerButton0;
 
     @FXML
     private Button jokerButton1;
+
+    @FXML
+    private Button jokerButton2;
+
+    @FXML
+    private ImageView image1;
+
+    @FXML
+    private ImageView image2;
+
+    @FXML
+    private ImageView image3;
 
     private Question associatedQuestion;
     private ArrayList<Button> buttonList;
@@ -53,8 +78,8 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
      * @param infoList
      */
     public void init(Question question, Long score, ObservableList<String> list, ObservableList<String> infoList) {
-        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
-        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
+        buttonList = new ArrayList<>(Arrays.asList(activityButton1, activityButton2, activityButton3));
+        jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1, jokerButton2));
         init(score, list, infoList);
         associatedQuestion = question;
         questionText.setText(question.getQuestionText());
@@ -65,13 +90,15 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         activityText3.setText(activityIterator.next().getTitle());
 
         activityIterator = question.getActivitySet().iterator();
-        activityText1.setId(activityIterator.next().getId());
-        activityText2.setId(activityIterator.next().getId());
-        activityText3.setId(activityIterator.next().getId());
+        activityButton1.setId(activityIterator.next().getId());
+        activityButton2.setId(activityIterator.next().getId());
+        activityButton3.setId(activityIterator.next().getId());
 
-        activityText1.setFocusTraversable(false);
-        activityText2.setFocusTraversable(false);
-        activityText3.setFocusTraversable(false);
+        activityButton1.setFocusTraversable(false);
+        activityButton2.setFocusTraversable(false);
+        activityButton3.setFocusTraversable(false);
+
+        setPictures(associatedQuestion);
     }
 
     /**
@@ -85,6 +112,8 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         enableButtons(false);
     }
 
+
+
     /**
      * Method that transitions from the current question to the next one
      * @param score
@@ -94,6 +123,26 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
 
     }
 
+    @FXML
+    void setPictures(Question question){
+        var activityIterator = question.getActivitySet().iterator();
+
+        for(int i=1;i<=3;i++) {
+            var bytes = activityIterator.next().image;
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            Image img = new Image(bis);
+            if(i == 1){
+                image1.setImage(img);
+            }
+            if(i == 2){
+                image2.setImage(img);
+            }
+            if(i == 3){
+                image3.setImage(img);
+            }
+        }
+    }
+
     /**
      * Method that submits an empty answer with time 0 to the server
      */
@@ -101,6 +150,12 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
     public void timeOut() {
         updateColors(buttonList, associatedQuestion.getCorrectAnswer());
         super.timeOut();
+    }
+
+    @Override
+    protected void disableControls() {
+        super.disableControls();
+        enableButtons(false);
     }
 
     @Override
@@ -165,7 +220,7 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         int i = 0;
         jokerMap = new HashMap<>();
         for (JokerData joker : myMainCtrl.getJokerList()) {
-            if (joker != null && joker.isSp() && joker.isMc()) {
+            if (joker != null && joker.isMp() && joker.isMc()) {
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setDisable(joker.isUsed());
                 jokerList.get(i).setText(joker.getText());

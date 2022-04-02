@@ -188,7 +188,8 @@ public class MultiPlayerGameController {
      * @param playerDataList The list of players associated with this multiplayer game instance
      * @return The gameID of the newly created multiplayer game
      */
-    public long createMultiplayerGameInternalEndpoint(List<PlayerData> playerDataList) {
+    @PostMapping(path="/create")
+    public long createMultiplayerGameInternalEndpoint(@RequestBody List<PlayerData> playerDataList) {
         long gameID = service.createMultiplayerGame(playerDataList);
         listeners.put(gameID,new ConcurrentHashMap<>());
         return gameID;

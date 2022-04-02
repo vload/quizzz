@@ -66,6 +66,9 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     @FXML
     private Text roundOverText;
 
+    private double mainProgressTime;
+    private double actualProgressTime;
+
     /**
      * Constructor for QuestionController
      *
@@ -83,9 +86,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      * @param infoList
      */
     public void init(Long score, ObservableList<String> list, ObservableList<String> infoList) {
+        mainProgressTime = 10;
+        actualProgressTime = mainProgressTime;
         super.init(score);
         playerList.setItems(list);
         informationBox.setItems(infoList);
+
     }
 
     /**
@@ -118,28 +124,44 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     public void timer() {
         mainTimer = new Timer();
         mainTimerTask = new TimerTask() {
-            double progressTime = 9.99;
             int timer = 100;
-            int textTime = 10;
+            boolean finish = false;
 
             @Override
             public void run() {
-                Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
-                progressTime = progressTime - 0.01;
+                if (actualProgressTime < 0.1) {
+                    if (!finish) {
+                        finish = true;
+                        disableControls();
+                    }
+                    actualProgressTime = 0.1;
+                }
+                Platform.runLater(() -> timerBar.setProgress(actualProgressTime / 10));
                 if (timer == 100) {
-                    Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    Platform.runLater(() -> changeColor(--textTime));
+                    changeTimerTime();
                     timer = 0;
                 }
+                actualProgressTime = actualProgressTime - 0.01;
+                mainProgressTime = mainProgressTime - 0.01;
                 timer++;
-                if (progressTime < 0) {
-                    Platform.runLater(() -> timerText.setText(0 + " s"));
-                    this.cancel();
-                    Platform.runLater(() -> timeOut());
+                if (mainProgressTime < 0) {
+                    endOfRound();
                 }
             }
         };
         this.mainTimer.schedule(mainTimerTask, 0, 10);
+    }
+
+    protected void changeTimerTime() {
+        var textTime = (int) actualProgressTime;
+        Platform.runLater(() -> timerText.setText(textTime + " s"));
+        Platform.runLater(() -> changeColor(textTime));
+    }
+
+    private void endOfRound() {
+        Platform.runLater(() -> timerText.setText(0 + " s"));
+        mainTimerTask.cancel();
+        Platform.runLater(this::timeOut);
     }
 
     /**
@@ -148,22 +170,21 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
      */
     protected void showCorrectAnswerTimer(long score) {
         roundOverText.setVisible(false);
-        enableJokers(false);
         answerTimer = new Timer();
         answerTimerTask = new TimerTask() {
-            double progressTime = 4.99;
+            double progressTime = 5;
             int timer = 100;
-            int textTime = 5;
             boolean scoresShown = false;
             @Override
             public void run() {
                 Platform.runLater(() -> timerBar.setProgress(progressTime / 10));
-                progressTime = progressTime - 0.01;
                 if (timer == 100) {
+                    int textTime = (int) progressTime;
                     Platform.runLater(() -> timerText.setText(textTime + " s"));
-                    Platform.runLater(() -> changeColor(--textTime));
+                    Platform.runLater(() -> changeColor(textTime));
                     timer = 0;
                 }
+                progressTime = progressTime - 0.01;
                 timer++;
                 if (progressTime > 4 && progressTime < 4.5 && !scoresShown) {
                     scoresShown = true;
@@ -175,6 +196,10 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
             }
         };
         this.answerTimer.schedule(answerTimerTask, 0, 10);
+    }
+
+    protected void disableControls() {
+        enableJokers(false);
     }
 
     protected abstract void goToNextScene(long score, ObservableList<String> items, ObservableList<String> items1);
@@ -224,28 +249,46 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         playerList.setItems(FXCollections.observableList(list));
     }
 
+    protected abstract void goToNextScene(long score, ObservableList<String> list);
+
     /**
      * Event handler for pressing a joker button
      * @param event
      * @return jokerType pressed
      */
-    @Override
+    @FXML
     protected JokerType jokerPress(ActionEvent event) {
         Button button = (Button) event.getSource();
-        String text = button.getText();
-        switch (text) {
-            case "x2":
-                myMainCtrl.sendTextToInfoBox("Used x2 joker!");
-                break;
-            case "Remove":
-                myMainCtrl.sendTextToInfoBox("Used Remove joker!");
-                break;
-            case "time/2":
-                myMainCtrl.sendTextToInfoBox("Used Reduce time joker!");
-                break;
+        String buttonId = button.getId();
+        JokerData jokerData = jokerMap.get(buttonId);
+        if (jokerData.isUsed()) {
+            return null;
         }
-        return super.jokerPress(event);
+        button.setDisable(true);
+
+        myMainCtrl.useJokerMultiplayer(jokerData.getType());
+        removeJokerFromList(jokerData.getType());
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String text = button.getText();
+                switch (text) {
+                    case "x2" -> myMainCtrl.sendTextToInfoBox("Used x2 joker!");
+                    case "Remove" -> myMainCtrl.sendTextToInfoBox("Used Remove joker!");
+                    case "time/2" -> myMainCtrl.sendTextToInfoBox("Used Reduce time joker!");
+                }
+            }
+        }, 100);
+
+        return jokerData.getType();
     }
 
-    protected abstract void goToNextScene(long score, ObservableList<String> list);
+    /**
+     * Method used to reduce the time for the player by 30%
+     */
+    public void reduceTimeJokerPlayer() {
+        System.out.println("reducing time");
+        actualProgressTime = actualProgressTime * 0.7;
+    }
 }

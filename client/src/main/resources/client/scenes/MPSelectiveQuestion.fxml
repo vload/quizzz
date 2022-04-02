@@ -19,7 +19,7 @@
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-            <HBox maxHeight="200.0" prefHeight="50.0" prefWidth="1598.0">
+            <HBox maxHeight="200.0" prefHeight="50.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <Text id="roundText" fx:id="roundOverText" fill="#35f227" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for the round to end" textAlignment="CENTER" visible="false" wrappingWidth="1000.0">
@@ -47,7 +47,7 @@
                                 </center>
                             </BorderPane>
                         </graphic></Button>
-                    <Region maxWidth="60.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
+                    <Region maxWidth="60.0" minWidth="10.0" prefHeight="350.0" prefWidth="60.0" HBox.hgrow="ALWAYS" />
                     <VBox>
                         <children>
                             <Region prefHeight="0.0" prefWidth="385.0" />
@@ -85,16 +85,18 @@
                     </VBox>
                     <Region HBox.hgrow="ALWAYS" />
                 </HBox>
-                <Region VBox.vgrow="ALWAYS" />
-                <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
+                <Region minHeight="10.0" VBox.vgrow="ALWAYS" />
+                <HBox maxHeight="300.0" prefHeight="196.0" prefWidth="1598.0" VBox.vgrow="ALWAYS">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" />
-                        <Region prefHeight="300.0" prefWidth="87.0" />
-                        <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                        <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" />
+                        <Region prefWidth="30.0" />
+                        <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
+                  <Region prefWidth="30.0" />
+                  <Button fx:id="jokerButton2" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
                         <Region HBox.hgrow="ALWAYS" />
                     </children></HBox>
-                <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
+                <Region maxHeight="120.0" minHeight="10.0" VBox.vgrow="ALWAYS" />
             </children>
         </VBox>
     </center>

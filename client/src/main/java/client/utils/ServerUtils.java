@@ -92,6 +92,21 @@ public class ServerUtils {
 
     /**
      *
+     * @param path
+     * @param image
+     * @return boolean
+     */
+    public boolean uploadImage(String path, byte[] image) {
+        //all / in path are replaced by [+] to work with the url
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/admin/uploadimage/" + path.replace("/", "[+]"))
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(image, APPLICATION_JSON), Boolean.class);
+    }
+
+    /**
+     *
      * @param activity
      * @return returns all the activities
      */
@@ -362,6 +377,28 @@ public class ServerUtils {
                     .post(Entity.entity(use, APPLICATION_JSON), JokerUse.class);
         } catch (ForbiddenException | BadRequestException e) {
             return false;
+        }
+        return true;
+    }
+
+    /** Sends a message to the server to use a joker in singleplayer
+     * @param gameId The id of the game session
+     * @param playerName The name of the player
+     * @param jokerType The type of joker it is
+     * @return true iff joker has been use successfully
+     */
+    public boolean useJokerMultiplayer(long gameId,String playerName, JokerType jokerType) {
+        JokerUse use = new JokerUse(gameId, playerName, jokerType);
+
+        try {
+            ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/joker/multiplayer/use/")
+                    .request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
+                    .post(Entity.entity(use, APPLICATION_JSON), JokerUse.class);
+        } catch (ForbiddenException | BadRequestException e) {
+            throw e;
+            //return false;
         }
         return true;
     }

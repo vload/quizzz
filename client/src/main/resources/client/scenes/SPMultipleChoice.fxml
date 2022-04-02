@@ -13,44 +13,82 @@
 
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SPMultipleChoiceQuestionCtrl">
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="808.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox maxHeight="200.0" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="100.0" prefHeight="35.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" textAlignment="CENTER" wrappingWidth="1000.0" />
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="400.0" VBox.vgrow="ALWAYS">
                <Region HBox.hgrow="ALWAYS" />
-               <Button fx:id="activityText1" mnemonicParsing="false" onAction="#answerPress" prefHeight="350.0" prefWidth="350.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
+               <Button fx:id="activityButton1" mnemonicParsing="false" onAction="#answerPress" prefHeight="400.0" prefWidth="350.0" styleClass="questionButton" textAlignment="CENTER" wrapText="true">
                   <HBox.margin>
                      <Insets />
                   </HBox.margin>
+                  <graphic>
+                     <BorderPane prefHeight="200.0" prefWidth="200.0">
+                        <center>
+                           <ImageView fx:id="image1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
+                        </center>
+                        <bottom>
+                           <Text fx:id="activityText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="300.0" BorderPane.alignment="CENTER">
+                              <BorderPane.margin>
+                                 <Insets bottom="20.0" />
+                              </BorderPane.margin></Text>
+                        </bottom>
+                     </BorderPane>
+                  </graphic>
                </Button>
                <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
-               <Button fx:id="activityText2" mnemonicParsing="false" onAction="#answerPress" prefHeight="350.0" prefWidth="350.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
+               <Button fx:id="activityButton2" mnemonicParsing="false" onAction="#answerPress" prefHeight="400.0" prefWidth="350.0" styleClass="questionButton" textAlignment="CENTER" wrapText="true">
                   <HBox.margin>
                      <Insets />
-                  </HBox.margin></Button>
+                  </HBox.margin>
+                  <graphic>
+                     <BorderPane prefHeight="200.0" prefWidth="334.0">
+                        <center>
+                           <ImageView fx:id="image2" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
+                        </center>
+                        <bottom>
+                           <Text fx:id="activityText2" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="300.0" BorderPane.alignment="CENTER">
+                              <BorderPane.margin>
+                                 <Insets bottom="20.0" />
+                              </BorderPane.margin></Text>
+                        </bottom>
+                     </BorderPane>
+                  </graphic></Button>
                <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
-               <Button fx:id="activityText3" mnemonicParsing="false" onAction="#answerPress" prefHeight="350.0" prefWidth="350.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
+               <Button fx:id="activityButton3" mnemonicParsing="false" onAction="#answerPress" prefHeight="400.0" prefWidth="350.0" styleClass="questionButton" textAlignment="CENTER" wrapText="true">
                   <HBox.margin>
                      <Insets />
-                  </HBox.margin></Button>
+                  </HBox.margin>
+                  <graphic>
+                     <BorderPane prefHeight="200.0" prefWidth="200.0">
+                        <center>
+                           <ImageView fx:id="image3" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" BorderPane.alignment="CENTER" />
+                        </center>
+                        <bottom>
+                           <Text fx:id="activityText3" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" textAlignment="CENTER" wrappingWidth="300.0" BorderPane.alignment="CENTER">
+                              <BorderPane.margin>
+                                 <Insets bottom="20.0" />
+                              </BorderPane.margin></Text>
+                        </bottom>
+                     </BorderPane>
+                  </graphic></Button>
                <Region HBox.hgrow="ALWAYS" />
             </HBox>
-            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
-            <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
+            <Region maxHeight="131.0" prefHeight="20.0" prefWidth="1920.0" VBox.vgrow="ALWAYS" />
+            <HBox maxHeight="300.0" prefHeight="74.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton0" layoutY="10.0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                  <Button fx:id="jokerButton0" layoutY="10.0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="250.0" prefWidth="250.0" styleClass="jokerButton" text=" " />
                   <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                  <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="250.0" prefWidth="250.0" styleClass="jokerButton" text=" " />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
-            <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>
@@ -87,4 +125,7 @@
          </children>
       </VBox>
    </top>
+   <bottom>
+      <Region prefHeight="17.0" prefWidth="1920.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

@@ -9,26 +9,47 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+
+import java.io.ByteArrayInputStream;
+import java.util.*;
 
 public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
-    private Button activityText1;
+    private Button activityButton1;
 
     @FXML
-    private Button activityText2;
+    private Button activityButton2;
 
     @FXML
-    private Button activityText3;
+    private Button activityButton3;
+
+    @FXML
+    private Text activityText1;
+
+    @FXML
+    private Text activityText2;
+
+    @FXML
+    private Text activityText3;
 
     @FXML
     private Button jokerButton0;
 
     @FXML
     private Button jokerButton1;
+
+    @FXML
+    private ImageView image1;
+
+    @FXML
+    private ImageView image2;
+
+    @FXML
+    private ImageView image3;
 
     private Question associatedQuestion;
     private ArrayList<Button> buttonList;
@@ -49,7 +70,7 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
      * @param score
      */
     public void init(Question question, Long score) {
-        buttonList = new ArrayList<>(Arrays.asList(activityText1, activityText2, activityText3));
+        buttonList = new ArrayList<>(Arrays.asList(activityButton1, activityButton2, activityButton3));
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
         init(score);
         associatedQuestion = question;
@@ -61,14 +82,37 @@ public class SPMultipleChoiceQuestionCtrl extends AbstractQuestionCtrl {
         activityText3.setText(activityIterator.next().getTitle());
 
         activityIterator = question.getActivitySet().iterator();
-        activityText1.setId(activityIterator.next().getId());
-        activityText2.setId(activityIterator.next().getId());
-        activityText3.setId(activityIterator.next().getId());
+        activityButton1.setId(activityIterator.next().getId());
+        activityButton2.setId(activityIterator.next().getId());
+        activityButton3.setId(activityIterator.next().getId());
 
-        activityText1.setFocusTraversable(false);
-        activityText2.setFocusTraversable(false);
-        activityText3.setFocusTraversable(false);
+        activityButton1.setFocusTraversable(false);
+        activityButton2.setFocusTraversable(false);
+        activityButton3.setFocusTraversable(false);
+
+        setPictures(question);
     }
+
+    @FXML
+    void setPictures(Question question){
+        var activityIterator = question.getActivitySet().iterator();
+
+        for(int i=1;i<=3;i++) {
+            var bytes = activityIterator.next().image;
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            Image img = new Image(bis);
+            if(i == 1){
+                image1.setImage(img);
+            }
+            if(i == 2){
+                image2.setImage(img);
+            }
+            if(i == 3){
+                image3.setImage(img);
+            }
+        }
+    }
+
 
     /**
      * Event handler for pressing an answer button
