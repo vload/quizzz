@@ -165,24 +165,13 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
      */
     public void changeColor(int textTime) {
         switch (textTime) {
-            case 10:
-                timerBar.setStyle("-fx-accent: #4D8C57");
-                break;
-            case 7:
-                timerBar.setStyle("-fx-accent: #A3B56B");
-                break;
-            case 5:
-                timerBar.setStyle("-fx-accent: #FD9A01");
-                break;
-            case 3:
-                timerBar.setStyle("-fx-accent: #FD6104");
-                break;
-            case 2:
-                timerBar.setStyle("-fx-accent: #FF2C05");
-                break;
-            case 1:
-                timerBar.setStyle("-fx-accent: #F00505");
-                break;
+            case 10, 9, 8 -> timerBar.setStyle("-fx-accent: #4D8C57");
+            case 7, 6 -> timerBar.setStyle("-fx-accent: #A3B56B");
+            case 5, 4 -> timerBar.setStyle("-fx-accent: #FD9A01");
+            case 3 -> timerBar.setStyle("-fx-accent: #FD6104");
+            case 2 -> timerBar.setStyle("-fx-accent: #FF2C05");
+            case 1 -> timerBar.setStyle("-fx-accent: #F00505");
+            default -> timerBar.setStyle("-fx-accent: #4D8C57");
         }
     }
 

@@ -14,7 +14,7 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Region VBox.vgrow="ALWAYS" />
+            <Region maxHeight="120.0" prefHeight="120.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="300.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -26,11 +26,11 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region minHeight="30.0" prefHeight="29.0" prefWidth="1920.0" />
+            <Region maxHeight="50.0" minHeight="40.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="616.0" prefHeight="616.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <ListView fx:id="playerList" prefHeight="300.0" prefWidth="712.0">
+                  <ListView fx:id="playerList" prefWidth="712.0">
                      <padding>
                         <Insets bottom="15.0" top="15.0" />
                      </padding>
@@ -38,24 +38,13 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox prefHeight="0.0" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+            <Region maxHeight="30.0" minHeight="20.0" VBox.vgrow="ALWAYS" />
+            <HBox VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <VBox>
-                     <children>
-                        <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
-                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBackToMainScreen" prefHeight="90.0" prefWidth="395.0" styleClass="jokerButton" text="Back" />
-                        <Region VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="backButton" minHeight="100.0" mnemonicParsing="false" onAction="#goBackToMainScreen" prefWidth="400.0" styleClass="jokerButton" text="Back" HBox.hgrow="ALWAYS" />
                   <Region minWidth="50.0" />
-                  <VBox>
-                     <children>
-                        <Region minHeight="20.0" minWidth="0.0" VBox.vgrow="ALWAYS" />
-                        <Button fx:id="startButton1" mnemonicParsing="false" onAction="#onStartClick" prefHeight="90.0" prefWidth="395.0" styleClass="jokerButton" text="Start" />
-                        <Region VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="startButton1" mnemonicParsing="false" onAction="#onStartClick" prefHeight="100.0" prefWidth="400.0" styleClass="jokerButton" text="Start" HBox.hgrow="ALWAYS" />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region VBox.vgrow="ALWAYS" />

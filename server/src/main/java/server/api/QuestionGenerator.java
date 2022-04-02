@@ -101,15 +101,15 @@ public class QuestionGenerator {
         switch (randomActivityNumber) {
             case 0 -> {
                 correctAnswer = activity1.getId();
-                questionText += activity1.getTitle();
+                questionText += " " + activity1.getTitle();
             }
             case 1 -> {
                 correctAnswer = activity2.getId();
-                questionText += activity2.getTitle();
+                questionText += " " + activity2.getTitle();
             }
             case 2 -> {
                 correctAnswer = activity3.getId();
-                questionText += activity3.getTitle();
+                questionText += " " + activity3.getTitle();
             }
         }
         return new Question(questionText,activitySet,QuestionType.SELECTIVE, correctAnswer);

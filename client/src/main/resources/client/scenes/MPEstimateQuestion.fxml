@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,7 +16,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.image.ImageView?>
 <BorderPane prefHeight="1080.0" prefWidth="1920.0" styleClass="border_plane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPEstimateQuestionCtrl">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -85,9 +86,9 @@
             <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                  <Button fx:id="jokerButton0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " textAlignment="CENTER" wrapText="true" />
                   <Region prefHeight="300.0" prefWidth="90.0" />
-                  <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " />
+                  <Button fx:id="jokerButton1" mnemonicParsing="false" onAction="#jokerPress" prefHeight="280.0" prefWidth="280.0" styleClass="jokerButton" text=" " textAlignment="CENTER" wrapText="true" />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
             <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
@@ -124,7 +125,11 @@
    <left>
       <VBox maxWidth="322.0" prefHeight="920.0" prefWidth="322.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="informationBox" prefHeight="292.0" prefWidth="322.0" />
+            <ListView fx:id="informationBox" prefHeight="292.0" prefWidth="322.0">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding></ListView>
+            <Region maxHeight="10.0" minHeight="10.0" />
             <GridPane alignment="CENTER" hgap="40.0" prefHeight="134.0" prefWidth="215.0" vgap="20.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
@@ -152,10 +157,13 @@
                   <Button fx:id="rButton11" mnemonicParsing="false" onAction="#pressReaction" prefHeight="40.0" prefWidth="40.0" styleClass="reactionButton" text="😀" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <Region maxHeight="10.0" VBox.vgrow="ALWAYS" />
+            <Region maxHeight="10.0" minHeight="5.0" VBox.vgrow="ALWAYS" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Players:" />
-            <ListView fx:id="playerList" prefHeight="422.0" prefWidth="322.0" />
-            <Region VBox.vgrow="ALWAYS" />
+            <ListView fx:id="playerList" prefHeight="422.0" prefWidth="322.0">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding></ListView>
+            <Region minHeight="5.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </left>

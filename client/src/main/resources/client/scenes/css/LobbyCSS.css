@@ -28,6 +28,10 @@
     -fx-font-size: 50;
 }
 
+.button .text {
+    -fx-font-size:33;
+}
+
 .scroll-bar{
     -fx-background-color: -button-color;
 }

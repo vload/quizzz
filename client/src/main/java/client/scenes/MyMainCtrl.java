@@ -398,7 +398,7 @@ public class MyMainCtrl extends AbstractCtrl {
                     jokerList.add(new JokerData(text, JokerType.REMOVE_WRONG_ANSWER, false, true, false, true, true));
                     break;
                 case REDUCE_TIME:
-                    text = "time/2";
+                    text = "Reduce Time";
                     jokerList.add(new JokerData(text, JokerType.REDUCE_TIME, false, true, true, false, true));
                     break;
             }
