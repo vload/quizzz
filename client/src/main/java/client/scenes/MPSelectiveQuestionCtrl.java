@@ -102,13 +102,7 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
         answerTimerTask.cancel();
     }
 
-    @Override
-    protected void goToEndLeaderboard(long score, ObservableList<String> list, ObservableList<String> infoList) {
-        enableButtons(true);
-        enableColors(buttonList);
-        resetUI();
-        Platform.runLater(() -> myMainCtrl.showMPendLeaderboard(score, list, infoList));
-    }
+
 
     /**
      * Event handler for pressing an answer button

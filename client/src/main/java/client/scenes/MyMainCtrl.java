@@ -319,7 +319,7 @@ public class MyMainCtrl extends AbstractCtrl {
             }
 
             if (newQuestion == null) {
-                Platform.runLater(() -> showMPendLeaderboard(score, list, infoList));
+                showMPendLeaderboard(score, list, infoList);
                 stopMPLP();
                 return;
             }

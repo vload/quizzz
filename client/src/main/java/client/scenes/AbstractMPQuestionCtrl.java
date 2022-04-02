@@ -181,8 +181,6 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
 
     protected abstract void goToLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
 
-    protected abstract void goToEndLeaderboard(long score, ObservableList<String> items, ObservableList<String> items1);
-
     /**
      * checkstyle
      * @param score
