@@ -32,6 +32,7 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
     /**
      * constructor
      * @param myMainCtrl
+     * @param nameScreenCtrl 
      */
     @Inject
     public MPleaderboardCtrl(MyMainCtrl myMainCtrl, NameScreenCtrl nameScreenCtrl){
