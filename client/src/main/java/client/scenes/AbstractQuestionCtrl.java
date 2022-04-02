@@ -68,7 +68,7 @@ public abstract class AbstractQuestionCtrl extends AbstractCtrl {
         timerText.setText("10s");
         timerBar.setProgress(10);
 
-        counter.setText(String.valueOf(myMainCtrl.questionCounter));
+        counter.setText("Q: " + String.valueOf(myMainCtrl.questionCounter) + "/20");
         timer();
     }
 
