@@ -191,8 +191,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         if(myMainCtrl.questionCounter == 10){
             Platform.runLater(() -> goToLeaderboard(score, playerList.getItems(),
                     informationBox.getItems()));
-        }
-        else{
+        } else{
             Platform.runLater(() -> goToNextScene(score, playerList.getItems(), informationBox.getItems()));
         }
     }
