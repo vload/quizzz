@@ -17,6 +17,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
+            <Region minHeight="10.0" VBox.vgrow="ALWAYS" />
             <HBox maxHeight="200.0" prefHeight="50.0" prefWidth="1598.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
@@ -28,27 +29,29 @@
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox maxHeight="200.0" prefHeight="0.0" prefWidth="1598.0" VBox.vgrow="ALWAYS">
+            <Region minHeight="10.0" />
+            <HBox maxHeight="200.0" prefHeight="0.0" prefWidth="1598.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Question Text ... ?" textAlignment="CENTER" wrappingWidth="1000.0" />
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox maxHeight="350.0" VBox.vgrow="ALWAYS">
+            <Region minHeight="10.0" />
+            <HBox maxHeight="350.0" prefHeight="123.0" prefWidth="1598.0" VBox.vgrow="ALWAYS">
                <Region HBox.hgrow="ALWAYS" />
                <Button fx:id="activityText1" mnemonicParsing="false" onAction="#answerPress" prefHeight="296.0" prefWidth="296.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
                   </Button>
-               <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
+               <Region maxWidth="40.0" minWidth="10.0" HBox.hgrow="ALWAYS" />
                <Button fx:id="activityText2" mnemonicParsing="false" onAction="#answerPress" prefHeight="296.0" prefWidth="296.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
                   </Button>
-               <Region maxWidth="40.0" HBox.hgrow="ALWAYS" />
+               <Region maxWidth="40.0" minWidth="10.0" HBox.hgrow="ALWAYS" />
                <Button fx:id="activityText3" mnemonicParsing="false" onAction="#answerPress" prefHeight="296.0" prefWidth="296.0" styleClass="questionButton" text="Button" textAlignment="CENTER" wrapText="true">
                   </Button>
                <Region HBox.hgrow="ALWAYS" />
             </HBox>
-            <Region maxHeight="30.0" VBox.vgrow="ALWAYS" />
-            <HBox maxHeight="300.0" VBox.vgrow="ALWAYS">
+            <Region maxHeight="50.0" minHeight="10.0" VBox.vgrow="ALWAYS" />
+            <HBox maxHeight="300.0" prefHeight="111.0" prefWidth="1598.0" VBox.vgrow="ALWAYS">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <Button fx:id="jokerButton0" layoutY="10.0" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
@@ -58,34 +61,50 @@
                   <Button fx:id="jokerButton11" mnemonicParsing="false" onAction="#jokerPress" prefHeight="260.0" prefWidth="260.0" styleClass="jokerButton" text=" " />
                   <Region HBox.hgrow="ALWAYS" />
                </children></HBox>
-            <Region maxHeight="120.0" VBox.vgrow="ALWAYS" />
+            <Region VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Region prefHeight="30.0" VBox.vgrow="ALWAYS" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="78.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Text fx:id="scoreText" fill="#8a2222" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Score: xxx" wrappingWidth="215.80859375">
-                     <font>
-                        <Font size="31.0" />
-                     </font>
-                  </Text>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <Text fx:id="scoreText" fill="#8a2222" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Score: xxx" wrappingWidth="215.80859375">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Text>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
                   <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <ProgressBar id="timer" fx:id="timerBar" prefHeight="76.0" prefWidth="914.0" progress="0.0" style="-fx-accent: #4D8C57;" />
-                  <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
-                  <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s" wrappingWidth="185.263916015625">
-                     <font>
-                        <Font size="31.0" />
-                     </font>
-                  </Text>
+                  <VBox prefHeight="78.0" prefWidth="812.0">
+                     <children>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <ProgressBar id="timer" fx:id="timerBar" prefHeight="64.0" prefWidth="812.0" progress="0.0" style="-fx-accent: #4D8C57;" VBox.vgrow="ALWAYS" />
+                        <Region VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <Region maxWidth="50.0" minWidth="5.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s" wrappingWidth="185.263916015625">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Text>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
                   <Region HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Region prefHeight="30.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </top>

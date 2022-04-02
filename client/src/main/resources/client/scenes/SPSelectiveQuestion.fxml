@@ -85,7 +85,7 @@
     <top>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <Region prefHeight="30.0" VBox.vgrow="ALWAYS" />
+                <Region prefHeight="30.0" minWidth="5.0" VBox.vgrow="ALWAYS" />
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
@@ -96,7 +96,7 @@
                         </Text>
                         <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
                         <ProgressBar id="timer" fx:id="timerBar" prefHeight="76.0" prefWidth="914.0" progress="0.53" style="-fx-accent: #4D8C57;" />
-                        <Region maxWidth="50.0" HBox.hgrow="ALWAYS" />
+                        <Region maxWidth="50.0" minWidth="5.0" HBox.hgrow="ALWAYS" />
                         <Text fx:id="timerText" fill="#cd3636" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X s" wrappingWidth="185.263916015625">
                             <font>
                                 <Font size="31.0" />
