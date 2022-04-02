@@ -126,15 +126,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         mainTimerTask = new TimerTask() {
             int timer = 100;
             boolean finish = false;
-
             @Override
             public void run() {
                 if (actualProgressTime < 0.1) {
                     if (!finish) {
                         finish = true;
-                        if (mainProgressTime > 0.5) {
-                            Platform.runLater(() -> roundOverText.setVisible(true));
-                        }
+                        Platform.runLater(() -> roundOverText.setVisible(mainProgressTime > 0.5));
                         disableControls();
                     }
                     actualProgressTime = 0.1;
