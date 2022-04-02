@@ -22,6 +22,9 @@ import java.util.HashMap;
 public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
 
     @FXML
+    private Button activityText;
+
+    @FXML
     private TextField answerText;
 
     @FXML
@@ -36,10 +39,11 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     @FXML
     private ImageView image;
 
-    private Question associatedQuestion;
-
     @FXML
     private Text correctText;
+
+    private Question associatedQuestion;
+
     /**
      * Constructor for SPEstimateQuestionCtrl
      *
