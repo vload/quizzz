@@ -26,14 +26,17 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
 
     private final MyMainCtrl myMainCtrl;
 
+    private NameScreenCtrl nameScreenCtrl;
+
 
     /**
      * constructor
      * @param myMainCtrl
      */
     @Inject
-    public MPleaderboardCtrl(MyMainCtrl myMainCtrl){
+    public MPleaderboardCtrl(MyMainCtrl myMainCtrl, NameScreenCtrl nameScreenCtrl){
         this.myMainCtrl = myMainCtrl;
+        this.nameScreenCtrl = nameScreenCtrl;
     }
 
 
@@ -73,6 +76,9 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
         boolean canStart = myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
         if(!canStart){
             myMainCtrl.showMPNameScreen();
+            nameScreenCtrl.mpWarningMessage.setVisible(true);
+        }else {
+            nameScreenCtrl.mpWarningMessage.setVisible(false);
         }
     }
 

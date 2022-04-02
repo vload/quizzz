@@ -20,7 +20,7 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
     private TextField MPnameField;
 
     @FXML
-    private Text mpWarningMessage;
+    public Text mpWarningMessage;
 
     /**
      * Constructor for the name screen controller
