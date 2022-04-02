@@ -46,7 +46,10 @@ public class QuestionGenerator {
             if (randomActivity == null) {
                 return null;
             }
-            result.add(Activity.createActivityWithImage(randomActivity));
+
+            if (Activity.isAppropriate(randomActivity)){
+                result.add(Activity.createActivityWithImage(randomActivity));
+            }
         }
 
         return result;
@@ -95,18 +98,18 @@ public class QuestionGenerator {
         Activity activity3 = activityIterator.next();
 
         int randomActivityNumber = random.nextInt(3);
-        if(randomActivityNumber == 0){
-            correctAnswer = activity1.getId();
-            questionText += "." + activity1.getTitle();
-        }else{
-            if(randomActivityNumber == 1){
+        switch (randomActivityNumber) {
+            case 0 -> {
+                correctAnswer = activity1.getId();
+                questionText += activity1.getTitle();
+            }
+            case 1 -> {
                 correctAnswer = activity2.getId();
-                questionText += "." + activity2.getTitle();
-            }else{
-                if(randomActivityNumber == 2){
-                    correctAnswer = activity3.getId();
-                    questionText += "." + activity3.getTitle();
-                }
+                questionText += activity2.getTitle();
+            }
+            case 2 -> {
+                correctAnswer = activity3.getId();
+                questionText += activity3.getTitle();
             }
         }
         return new Question(questionText,activitySet,QuestionType.SELECTIVE, correctAnswer);
