@@ -9,6 +9,11 @@
     -fx-font-size: 40;
 }
 
+.smallText{
+    -fx-font-size: 34px;
+    -fx-fill: white;
+}
+
 .title {
     -fx-fill: white;
 }

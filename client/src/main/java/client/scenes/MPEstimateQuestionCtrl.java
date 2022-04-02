@@ -225,6 +225,13 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         super.timeOut();
     }
 
+    @Override
+    protected void disableControls() {
+        super.disableControls();
+        answerText.setDisable(true);
+        submitButton.setDisable(true);
+    }
+
     /**
      * Method that resets all the UI elements to their base state
      */
@@ -242,7 +249,7 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         jokerMap = new HashMap<>();
         for (JokerData joker : myMainCtrl.getJokerList()) {
 
-            if (joker != null && joker.isSp() && joker.isEstimate()) {
+            if (joker != null && joker.isMp() && joker.isEstimate()) {
 
                 jokerMap.put("jokerButton" + i, joker);
                 jokerList.get(i).setText(joker.getText());

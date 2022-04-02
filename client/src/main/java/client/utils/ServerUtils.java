@@ -383,6 +383,28 @@ public class ServerUtils {
         return true;
     }
 
+    /** Sends a message to the server to use a joker in singleplayer
+     * @param gameId The id of the game session
+     * @param playerName The name of the player
+     * @param jokerType The type of joker it is
+     * @return true iff joker has been use successfully
+     */
+    public boolean useJokerMultiplayer(long gameId,String playerName, JokerType jokerType) {
+        JokerUse use = new JokerUse(gameId, playerName, jokerType);
+
+        try {
+            ClientBuilder.newClient(new ClientConfig())
+                    .target(SERVER).path("api/joker/multiplayer/use/")
+                    .request(APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
+                    .post(Entity.entity(use, APPLICATION_JSON), JokerUse.class);
+        } catch (ForbiddenException | BadRequestException e) {
+            throw e;
+            //return false;
+        }
+        return true;
+    }
+
     /**
      * Gets all the jokers for a game (Will change if there are more jokers in the future)
      * @param gameId

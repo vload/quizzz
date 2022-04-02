@@ -84,7 +84,6 @@ public class Activity {
         return result;
     }
 
-
     /**
      * Getter for id
      * @return the id
@@ -131,6 +130,18 @@ public class Activity {
      */
     public String getSource() {
         return source;
+    }
+
+    /**
+     * Checks if the activity respects some criteria.
+     * @param activity the activity to be checked
+     * @return true iff the activity is appropriate for the game
+     */
+    public static boolean isAppropriate(Activity activity) {
+        return  !activity.id.startsWith("60-") &&
+                activity.energyConsumption > 0 &&
+                activity.title.length() < 50 &&      // MAX_TEXT_LENGTH
+                activity.energyConsumption < 1.0E8;  // DOUBLE
     }
 
     /**
