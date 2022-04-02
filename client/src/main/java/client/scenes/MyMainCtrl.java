@@ -319,7 +319,7 @@ public class MyMainCtrl extends AbstractCtrl {
             }
 
             if (newQuestion == null) {
-                //showMPendLeaderboard(playerData.getScore(), server.getPlayerScores(gameID));
+                Platform.runLater(() -> showMPendLeaderboard(score, list, infoList));
                 stopMPLP();
                 return;
             }
