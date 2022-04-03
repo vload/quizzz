@@ -21,7 +21,7 @@ It supports singleplayer and multiplayer.
 ## Installation & Launch
 The following are installation & launch instructions for Quizzz!. Pre-requisite knowledge about the utilisation
 of git and bash is assumed. 
-- All referenced commands are for a windows based environment. Append `./` to the start of every gradle command if you are using a linux distribution.
+- All referenced commands are for a windows based environment. Append `./` to the start of every gradle command if you are using git bash or a linux distribution.
 
 ### Clone this Repository
 To run or contribute to this project, you must first clone this repository
