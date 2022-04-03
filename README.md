@@ -23,21 +23,21 @@ The following are installation & launch instructions for Quizzz!. Pre-requisite 
 of git and bash is assumed. 
 - All referenced commands are for a windows based environment. Append `./` to the start of every gradle command if you are using a linux distribution.
 
-###Clone this Repository
+### Clone this Repository
 To run or contribute to this project, you must first clone this repository
-####SSH
+#### SSH
 ```
 git clone git@gitlab.ewi.tudelft.nl:cse1105/2021-2022/team-repositories/oopp-group-63/repository-template.git
 ```
 - The most common errors that occur here are related to authentication errors. Fixes for them can be found [here](https://docs.gitlab.com/ee/user/ssh.html)
 
-####HTTP (Not Recommended)
+#### HTTP (Not Recommended)
 ```
 git clone https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/team-repositories/oopp-group-63/repository-template.git
 ```
 
  
-###Verifying the Build Integrity
+### Verifying the Build Integrity
 Before proceeding to the next step, ensure that you have a stable build of the product, 
 by typing the folllowing into your console (cmd/bash):
 ```
@@ -45,17 +45,17 @@ gradlew build
 ```
 If the build is stable, `BUILD SUCCESSFUL` should be seen on the console, if this is not the case,
 wait for a stable release, or go back to a previous stable release.
-###Loading the Activities in from the Main Activity Repository
+### Loading the Activities in from the Main Activity Repository
 
 This is a very crucial step, as the game will not serve it's function
 properly without any activities.
 
-####Downloading the Activities
+#### Downloading the Activities
 The compressed activity archive can be downloaded from  [here](https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/jobs/2444739/artifacts/raw/20220311-oopp-activity-bank.zip)
 
 Unzip the archive, rename the directory as "activitybank" and put it in the root directory of the project.
 
-####Loading the Activities from the JSON file
+#### Loading the Activities from the JSON file
 Within the `ActivityRepositoryLoader` class, (which can be found at `server/src/main/java/server/database/ActivityRepositoryLoader.java`)
 - Uncomment the `@Configuration` annotation 
 - Uncomment `import org.springframework.context.annotation.Configuration;`
@@ -63,14 +63,14 @@ Within the `ActivityRepositoryLoader` class, (which can be found at `server/src/
 After starting the server for the first time (**_[explained in next section](#starting-the-application)_**), the activities should be loaded in. 
 Comment it right afterwards to ensure that activities don't get reloaded/overwritten.
 
-###Starting the Application
-####Starting the Server
+### Starting the Application
+#### Starting the Server
 
 To start the server type the following into your console:
 ```
 gradlew bootRun
 ```
-####Starting the Client
+#### Starting the Client
 To start the client, type the following into your console:
 ```
 gradlew run
