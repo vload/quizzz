@@ -29,7 +29,7 @@ To run or contribute to this project, you must first clone this repository
 ```
 git clone git@gitlab.ewi.tudelft.nl:cse1105/2021-2022/team-repositories/oopp-group-63/repository-template.git
 ```
-- The most common errors that occur here are related to authentication errors. Fixes for them can be found [here](https://docs.gitlab.com/ee/user/ssh.html)
+- **Warning:** You must have a valid SSH key. The set-up instructions & most common errors can be found [here](https://docs.gitlab.com/ee/user/ssh.html)
 
 #### HTTP (Not Recommended)
 ```
