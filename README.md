@@ -82,5 +82,8 @@ You should be all set to play the game! Have Fun!
 
 
 ## How to contribute to it
+- Create an Issue on GitLab 
+- Create a new branch/draft-MR
+- Make feature
+- Open an Merge Request!
 
-## Copyright / License (opt.)
