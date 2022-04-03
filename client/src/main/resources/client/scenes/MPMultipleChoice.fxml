@@ -154,7 +154,7 @@
                </children>
             </GridPane>
             <Region maxHeight="10.0" minHeight="5.0" VBox.vgrow="ALWAYS" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Players:" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Leaderboard:" />
             <ListView fx:id="playerList" prefHeight="422.0" prefWidth="322.0">
                <padding>
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
