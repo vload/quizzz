@@ -5,7 +5,7 @@ This information can be added throughout the course, except for the names of the
 Add your own name (do not add the names for others!) to the section below.
 
 ## Description of project
-Quizzz is a intense, high-paced, quiz-esque game aimed to educate people about energy usages of different activities. 
+Quizzz is an intense, high-paced, quiz-esque game aimed to educate people about energy usages of different activities. 
 It supports singleplayer and multiplayer.
 
 ## Group members
@@ -84,6 +84,6 @@ You should be all set to play the game! Have Fun!
 ## How to contribute to it
 - Create an Issue on GitLab 
 - Create a new branch/draft-MR
-- Make feature
-- Open an Merge Request!
+- Make/Develop a feature
+- Open a Merge Request!
 
