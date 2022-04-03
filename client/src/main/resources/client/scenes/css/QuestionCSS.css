@@ -79,6 +79,10 @@
     -fx-background-color: -button-color;
 }
 
+.corner {
+    -fx-background-color: -button-color;
+}
+
 .estimateQuestion:hover {
     -fx-background-color: -button-color;
 }

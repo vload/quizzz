@@ -126,12 +126,12 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
         mainTimerTask = new TimerTask() {
             int timer = 100;
             boolean finish = false;
-
             @Override
             public void run() {
                 if (actualProgressTime < 0.1) {
                     if (!finish) {
                         finish = true;
+                        Platform.runLater(() -> roundOverText.setVisible(mainProgressTime > 0.5));
                         disableControls();
                     }
                     actualProgressTime = 0.1;
@@ -153,7 +153,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
     }
 
     protected void changeTimerTime() {
-        var textTime = (int) actualProgressTime;
+        int textTime = (int) Math.round(actualProgressTime);
         Platform.runLater(() -> timerText.setText(textTime + " s"));
         Platform.runLater(() -> changeColor(textTime));
     }
@@ -276,7 +276,7 @@ public abstract class AbstractMPQuestionCtrl extends AbstractQuestionCtrl{
                 switch (text) {
                     case "x2" -> myMainCtrl.sendTextToInfoBox("Used x2 joker!");
                     case "Remove" -> myMainCtrl.sendTextToInfoBox("Used Remove joker!");
-                    case "time/2" -> myMainCtrl.sendTextToInfoBox("Used Reduce time joker!");
+                    case "Reduce Time" -> myMainCtrl.sendTextToInfoBox("Used Reduce Time joker!");
                 }
             }
         }, 100);
