@@ -203,6 +203,8 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
         answerTimerTask.cancel();
     }
 
+
+
     /**
      * Method that returns the button colors back to normal
      * @param buttonList

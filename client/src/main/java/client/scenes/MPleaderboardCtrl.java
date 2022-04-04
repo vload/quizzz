@@ -1,10 +1,10 @@
 
 package client.scenes;
 
-import client.utils.ServerUtils;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javax.inject.Inject;
@@ -13,26 +13,82 @@ import java.util.*;
 
 public class  MPleaderboardCtrl extends AbstractCtrl{
 
-    public String gameID;
+
 
     @FXML
     private ListView<String> leaderboardList;
 
     @FXML
+    private Button LobbyButton;
+
+    @FXML
     private Label bottomText;
 
     private final MyMainCtrl myMainCtrl;
-    private ServerUtils server;
-    private ObservableList<String> itemsCopy;
+
+    private NameScreenCtrl nameScreenCtrl;
 
 
     /**
      * constructor
      * @param myMainCtrl
+     * @param nameScreenCtrl 
      */
     @Inject
-    public MPleaderboardCtrl(MyMainCtrl myMainCtrl){
+    public MPleaderboardCtrl(MyMainCtrl myMainCtrl, NameScreenCtrl nameScreenCtrl){
         this.myMainCtrl = myMainCtrl;
+        this.nameScreenCtrl = nameScreenCtrl;
+    }
+
+
+    /**
+     * init function endhalftime
+     * @param score
+     * @param items
+     * @param items1
+     */
+    public void init_end(long score, ObservableList<String> items, ObservableList<String> items1){
+
+        boolean placeFound = false;
+
+        for(int i=0; i<items.size(); i++){
+
+            String[] stringParts = items.get(i).split(": ");
+            int otherScore = Integer.parseInt(stringParts[1]);
+
+            if(score >= otherScore){
+                items.add(i, myMainCtrl.playerData.getPlayerName() + ": " + score);
+                placeFound = true;
+                break;
+            }
+        }
+
+        if(!placeFound){
+            items.add(myMainCtrl.playerData.getPlayerName() + ": " + score);
+        }
+
+        leaderboardList.setItems(items);
+    }
+
+    /**
+     * function for lobby button
+     */
+    public void lobbyButton(){
+        boolean canStart = myMainCtrl.goIntoLobby(myMainCtrl.playerData.getPlayerName());
+        if(!canStart){
+            myMainCtrl.showMPNameScreen();
+            nameScreenCtrl.mpWarningMessage.setVisible(true);
+        }else {
+            nameScreenCtrl.mpWarningMessage.setVisible(false);
+        }
+    }
+
+
+    /**
+     * function for back button
+     */
+    public void backButton(){
+        myMainCtrl.showMainScreen();
     }
 
     /**
@@ -41,7 +97,7 @@ public class  MPleaderboardCtrl extends AbstractCtrl{
      * @param items
      * @param items1
      */
-    public void init(long score, ObservableList<String> items, ObservableList<String> items1){
+    public void init_halfTime(long score, ObservableList<String> items, ObservableList<String> items1){
 
         boolean placeFound = false;
         int place = items.size();

@@ -40,6 +40,7 @@ public class LobbyScreenCtrl extends AbstractCtrl{
      * @param players
      */
     public void init(List<PlayerData> players) {
+        playerList.getItems().clear();
         for (PlayerData p : players) {
             playerList.getItems().add(p.getPlayerName());
         }

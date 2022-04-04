@@ -109,6 +109,8 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
         answerTimerTask.cancel();
     }
 
+
+
     /**
      * Event handler for pressing an answer button
      * @param event

@@ -214,6 +214,8 @@ public class MPEstimateQuestionCtrl extends AbstractMPQuestionCtrl{
         answerTimerTask.cancel();
     }
 
+
+
     /**
      * Method that submits the question to backend
      */
