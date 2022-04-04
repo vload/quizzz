@@ -60,6 +60,7 @@ public class MyMainCtrl extends AbstractCtrl {
      * @param leaderboardScreen
      * @param quitScreen
      * @param MPhalfTimeLeaderboardScreen
+     * @param MPendLeaderboard
      */
     public void init(Stage primaryStage,
                            ServerUtils server,
@@ -77,7 +78,9 @@ public class MyMainCtrl extends AbstractCtrl {
                            Pair<MPSelectiveQuestionCtrl, Parent> mpSelectiveScreen,
                            Pair<LeaderboardCtrl, Parent> leaderboardScreen,
                            Pair<QuitScreenCtrl,Parent> quitScreen,
-                           Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen) {
+                           Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
+                           Pair<MPleaderboardCtrl, Parent> MPendLeaderboard) {
+
         this.primaryStage = primaryStage;
         this.server = server;
         this.css = "";
@@ -90,17 +93,32 @@ public class MyMainCtrl extends AbstractCtrl {
         screenMap.put("spMCQScreen", new SceneCtrlPair(spMCQScreen.getValue(), spMCQScreen.getKey()));
         screenMap.put("mpEQScreen", new SceneCtrlPair(mpEQScreen.getValue(), mpEQScreen.getKey()));
         screenMap.put("mpMCQScreen", new SceneCtrlPair(mpMCQScreen.getValue(), mpMCQScreen.getKey()));
-        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
-        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
-                MPhalfTimeLeaderboardScreen.getKey()));
         screenMap.put("adminScreen", new SceneCtrlPair(adminScreen.getValue(), adminScreen.getKey()));
         screenMap.put("adminAddScreen", new SceneCtrlPair(adminAddScreen.getValue(), adminAddScreen.getKey()));
         screenMap.put("spSelectiveScreen", new SceneCtrlPair(spSelectiveScreen.getValue(), spSelectiveScreen.getKey()));
         screenMap.put("mpSelectiveScreen", new SceneCtrlPair(mpSelectiveScreen.getValue(), mpSelectiveScreen.getKey()));
         screenMap.put("quitScreen",new SceneCtrlPair(quitScreen.getValue(),quitScreen.getKey()));
         setUpQuit();
+        init_leaderboard(leaderboardScreen, MPhalfTimeLeaderboardScreen, MPendLeaderboard);
         showUI();
     }
+
+    /**
+     * init for leaderboard, the other init function was to long
+     * @param leaderboardScreen
+     * @param MPhalfTimeLeaderboardScreen
+     * @param MPendLeaderboard
+     */
+    private void init_leaderboard(Pair<LeaderboardCtrl, Parent> leaderboardScreen,
+                                  Pair<MPleaderboardCtrl, Parent> MPhalfTimeLeaderboardScreen,
+                                  Pair<MPleaderboardCtrl, Parent> MPendLeaderboard){
+        screenMap.put("leaderboardScreen", new SceneCtrlPair(leaderboardScreen.getValue(), leaderboardScreen.getKey()));
+        screenMap.put("MPhalfTimeLeaderboardScreen", new SceneCtrlPair(MPhalfTimeLeaderboardScreen.getValue(),
+                MPhalfTimeLeaderboardScreen.getKey()));
+        screenMap.put("MPendLeaderboardScreen", new SceneCtrlPair(MPendLeaderboard.getValue(),
+                MPendLeaderboard.getKey()));
+    }
+
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
@@ -300,7 +318,7 @@ public class MyMainCtrl extends AbstractCtrl {
             }
 
             if (newQuestion == null) {
-                showLeaderboardScreen();
+                showMPendLeaderboard(score, list, infoList);
                 stopMPLP();
                 return;
             }
@@ -439,7 +457,19 @@ public class MyMainCtrl extends AbstractCtrl {
     public void showMPhalfTimeLeaderboardScreen(long score,ObservableList<String> items,ObservableList<String> items1){
         setScene("MPhalfTimeLeaderboardScreen", "LeaderboardCSS.css");
         var ctrl = (MPleaderboardCtrl) screenMap.get("MPhalfTimeLeaderboardScreen").getCtrl();
-        ctrl.init(score, items, items1);
+        ctrl.init_halfTime(score, items, items1);
+    }
+
+    /**
+     * show endgame leaderboard
+     * @param score
+     * @param items
+     * @param items1
+     */
+    public void showMPendLeaderboard(long score,ObservableList<String> items,ObservableList<String> items1){
+        setScene("MPendLeaderboardScreen", "LeaderboardCSS.css");
+        var ctrl = (MPleaderboardCtrl) screenMap.get("MPendLeaderboardScreen").getCtrl();
+        ctrl.init_end(score, items, items1);
     }
 
 

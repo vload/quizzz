@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 
 public class NameScreenCtrl extends AbstractCtrl implements Initializable {
 
+    @FXML
+    public Text mpWarningMessage;
+
     private final MyMainCtrl myMainCtrl;
 
     @FXML
@@ -19,8 +22,6 @@ public class NameScreenCtrl extends AbstractCtrl implements Initializable {
     @FXML
     private TextField MPnameField;
 
-    @FXML
-    private Text mpWarningMessage;
 
     /**
      * Constructor for the name screen controller
