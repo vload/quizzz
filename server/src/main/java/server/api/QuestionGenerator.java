@@ -67,6 +67,10 @@ public class QuestionGenerator {
         List<Activity> activities = activityRepository.findAll().stream().filter(
                 x -> x.getEnergyConsumption() > minConsumption && x.getEnergyConsumption() < maxConsumption).toList();
 
+        if(activities.size() < QuestionType.getAmountOfActivities(type)){
+            return generateActivitySet(type);
+        }
+
         while(result.size() < QuestionType.getAmountOfActivities(type)){
             if (addActivityToSetIfAppropriate(result, activities)) {
                 return null;
