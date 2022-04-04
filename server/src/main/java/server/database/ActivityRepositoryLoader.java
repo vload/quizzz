@@ -21,6 +21,7 @@ public class ActivityRepositoryLoader {
                         new File("activitybank/activities.json"),
                         new TypeReference<>() {
                         });
+                activities = activities.stream().filter(Activity::isAppropriate).toList();
                 repository.saveAll(activities);
 
                 System.out.println("[INFO] Activity repository loaded with " + repository.count() + " entries.");

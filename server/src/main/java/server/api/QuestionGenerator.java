@@ -41,12 +41,24 @@ public class QuestionGenerator {
     private Set<Activity> generateActivitySet(QuestionType type){
         Set<Activity> result = new HashSet<>();
 
+        Activity mainActivity =  activityRepository.getRandom(random);
+        result.add(mainActivity);
+
+        if(QuestionType.getAmountOfActivities(type) == 1){
+            return result;
+        }
+
+        double minConsumption = Math.sqrt(mainActivity.getEnergyConsumption());
+        double maxConsumption = Math.max(100, mainActivity.getEnergyConsumption() * minConsumption);
+        List<Activity> activities = activityRepository.findAll().stream().filter(
+                x -> x.getEnergyConsumption() > minConsumption && x.getEnergyConsumption() < maxConsumption).toList();
+
         while(result.size() < QuestionType.getAmountOfActivities(type)){
-            var randomActivity = activityRepository.getRandom(random);
+            var randomActivity = activities.get(random.nextInt(activities.size()));
+
             if (randomActivity == null) {
                 return null;
             }
-
             if (Activity.isAppropriate(randomActivity)){
                 result.add(Activity.createActivityWithImage(randomActivity));
             }
