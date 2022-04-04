@@ -59,7 +59,6 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
         init(score);
         associatedQuestion = question;
-
         questionText.setText(question.getQuestionText());
 
         question.getActivitySet().forEach(a -> {
