@@ -74,7 +74,11 @@ public class MPSelectiveQuestionCtrl extends AbstractMPQuestionCtrl {
                 var imageBytes = a.image;
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
                 Image i = new Image(bis);
-                image.setImage(i);
+                if(i.isError()){
+                    image.setImage(new Image("file:client/src/main/resources/client/scenes/Energy-Placeholder.png"));
+                }else{
+                    image.setImage(i);
+                }
             }
         });
         setUpUI(question);
