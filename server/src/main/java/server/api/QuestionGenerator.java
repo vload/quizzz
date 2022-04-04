@@ -56,6 +56,9 @@ public class QuestionGenerator {
         Set<Activity> result = new HashSet<>();
 
         Activity mainActivity =  activityRepository.getRandom(random);
+        if(mainActivity == null){
+            return null;
+        }
         result.add(Activity.createActivityWithImage(mainActivity));
 
         if(QuestionType.getAmountOfActivities(type) == 1){
