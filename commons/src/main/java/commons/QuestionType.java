@@ -11,15 +11,9 @@ public enum QuestionType {
      * @return the amount of activities required for said question
      */
     static public int getAmountOfActivities(QuestionType type) {
-        switch (type) {
-            case MC:
-                return 3;
-            case SELECTIVE:
-                return 3;
-            case ESTIMATE:
-                return 1;
-            default:
-                return 0;
-        }
+        return switch (type) {
+            case MC, SELECTIVE -> 3;
+            case ESTIMATE -> 1;
+        };
     }
 }
