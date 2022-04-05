@@ -17,7 +17,7 @@
                 <HBox maxHeight="616.0" prefHeight="188.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Quizzzz!">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="maintitle" text="Quizzzz!">
                      <font>
                         <Font name="Bookman Old Style" size="150.0" />
                      </font>
