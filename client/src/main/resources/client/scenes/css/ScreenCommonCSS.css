@@ -18,6 +18,16 @@
     -fx-fill: white;
 }
 
+/*The difference between the above and below is that titles are used everywhere and maintitle
+should only be used for occasions such as the main screen, really big ones*/
+
+.maintitle {
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 4px;
+    -fx-font-weight: bold;
+}
+
 .button {
     -fx-background-color: -button-color;
     -fx-background-radius: 50;
