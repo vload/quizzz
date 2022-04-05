@@ -55,13 +55,13 @@ The compressed activity archive can be downloaded from  [here](https://gitlab.ew
 
 Unzip the archive, rename the directory as "activitybank" and put it in the root directory of the project.
 
+
 #### Loading the Activities from the JSON file
 Within the `ActivityRepositoryLoader` class, (which can be found at `server/src/main/java/server/database/ActivityRepositoryLoader.java`)
-- Uncomment the `@Configuration` annotation 
-- Uncomment `import org.springframework.context.annotation.Configuration;`
+- set `LOAD_ACTIVITIES` to `true`
 
 After starting the server for the first time (**_[explained in next section](#starting-the-application)_**), the activities should be loaded in. 
-Comment it right afterwards to ensure that activities don't get reloaded/overwritten.
+Set it back to `false` right afterwards to ensure that activities don't get reloaded/overwritten.
 
 ### Starting the Application
 #### Starting the Server

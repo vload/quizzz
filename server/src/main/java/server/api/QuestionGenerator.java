@@ -65,8 +65,8 @@ public class QuestionGenerator {
             return result;
         }
 
-        double minConsumption = mainActivity.getEnergyConsumption() * 60 / 100;
-        double maxConsumption = Math.max(mainActivity.getEnergyConsumption() * 300 / 100, 300);
+        double minConsumption = mainActivity.getEnergyConsumption() * 0.6;
+        double maxConsumption = Math.max(mainActivity.getEnergyConsumption() * 3, 300);
         List<Activity> activities = activityRepository.findAll().stream().filter(
                 x -> x.getEnergyConsumption() > minConsumption && x.getEnergyConsumption() < maxConsumption).toList();
 
