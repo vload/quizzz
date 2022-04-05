@@ -324,14 +324,18 @@ public class ServerUtils {
      *
      */
     public void stopLobbyLP(){
-        EXEC.shutdownNow();
+        if (EXEC != null) {
+            EXEC.shutdownNow();
+        }
     }
 
     /**
      *
      */
     public void stopMainLP(){
-        EXEC2.shutdownNow();
+        if (EXEC2 != null) {
+            EXEC2.shutdownNow();
+        }
     }
 
     /**

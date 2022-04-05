@@ -201,7 +201,9 @@ public class SPEstimateQuestionCtrl extends AbstractQuestionCtrl {
     public void timeOut() {
         answerText.setDisable(true);
         submitButton.setDisable(true);
-        answerText.setText(associatedQuestion.getCorrectAnswer());
+        String correct = "Correct answer: " + associatedQuestion.getCorrectAnswer();
+        correctText.setText(correct);
+        correctText.setVisible(true);
         long score = myMainCtrl.sendSubmission("late", -1);
         this.scoreText.setText("Score: " + score);
         showCorrectAnswerTimer(score);
