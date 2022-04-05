@@ -129,15 +129,42 @@ public class MPMultipleChoiceQuestionCtrl extends AbstractMPQuestionCtrl {
 
         for(int i=1;i<=3;i++) {
             var bytes = activityIterator.next().image;
+            boolean error = false;
             ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
             Image img = new Image(bis);
-            if(i == 1){
+            if(img.isError()){
+                error = true;
+            }
+            checkAndSet(error,i,img);
+        }
+    }
+
+    /**
+     *
+     * @param error
+     * @param index
+     * @param img
+     */
+    public void checkAndSet(boolean error, int index, Image img){
+        if(index == 1){
+            if(error){
+                image1.setImage(new Image("file:client/src/main/resources/client/scenes/Energy-Placeholder.png"));
+            }else{
                 image1.setImage(img);
             }
-            if(i == 2){
+        }
+        if(index == 2){
+            if(error){
+                image2.setImage(new Image("file:client/src/main/resources/client/scenes/Energy-Placeholder.png"));
+                System.out.println("Error");
+            }else{
                 image2.setImage(img);
             }
-            if(i == 3){
+        }
+        if(index == 3){
+            if(error){
+                image3.setImage(new Image("file:client/src/main/resources/client/scenes/Energy-Placeholder.png"));
+            }else{
                 image3.setImage(img);
             }
         }

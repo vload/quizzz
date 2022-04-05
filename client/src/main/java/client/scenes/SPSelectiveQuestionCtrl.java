@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +59,6 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
         jokerList = new ArrayList<>(Arrays.asList(jokerButton0, jokerButton1));
         init(score);
         associatedQuestion = question;
-
         questionText.setText(question.getQuestionText());
 
         question.getActivitySet().forEach(a -> {
@@ -68,7 +66,11 @@ public class SPSelectiveQuestionCtrl extends AbstractQuestionCtrl {
                 var imageBytes = a.image;
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
                 Image i = new Image(bis);
-                image.setImage(i);
+                if(i.isError()){
+                    image.setImage(new Image("file:client/src/main/resources/client/scenes/Energy-Placeholder.png"));
+                }else{
+                    image.setImage(i);
+                }
             }
         });
         setUpUI(question);
