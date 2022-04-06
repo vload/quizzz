@@ -55,9 +55,7 @@ public class QuestionGenerator {
 
     private Set<Activity> generateActivitySet(QuestionType type){
         Set<Activity> result = new HashSet<>();
-
         Activity mainActivity;
-
         do {
             mainActivity = activityRepository.getRandom(random);
             if (mainActivity == null) {
@@ -70,7 +68,6 @@ public class QuestionGenerator {
         if(QuestionType.getAmountOfActivities(type) == 1){
             return result;
         }
-
         double minConsumption = mainActivity.getEnergyConsumption() * 0.6;
         double maxConsumption = Math.max(mainActivity.getEnergyConsumption() * 3, 300);
         List<Activity> activities = activityRepository.findAll().stream().filter(
@@ -79,13 +76,11 @@ public class QuestionGenerator {
         if(activities.size() < QuestionType.getAmountOfActivities(type)){
             return generateActivitySet(type);
         }
-
         while(result.size() < QuestionType.getAmountOfActivities(type)){
             if (addActivityToSetIfAppropriate(result, activities)) {
                 return null;
             }
         }
-
         return result;
     }
 
