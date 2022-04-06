@@ -38,17 +38,45 @@ public class QuestionGenerator {
         }
     }
 
+    private boolean addActivityToSetIfAppropriate(Set<Activity> result, List<Activity> activities) {
+        var randomActivity = activities.get(random.nextInt(activities.size()));
+
+        if (randomActivity == null) {
+            return true;
+        }
+        if (!result.stream().map(Activity::getEnergyConsumption)
+                .toList().contains(randomActivity.getEnergyConsumption()) &&
+                Activity.isAppropriate(randomActivity)){
+            result.add(Activity.createActivityWithImage(randomActivity));
+        }
+        return false;
+    }
+
     private Set<Activity> generateActivitySet(QuestionType type){
         Set<Activity> result = new HashSet<>();
 
-        while(result.size() < QuestionType.getAmountOfActivities(type)){
-            var randomActivity = activityRepository.getRandom(random);
-            if (randomActivity == null) {
-                return null;
-            }
+        Activity mainActivity =  activityRepository.getRandom(random);
+        if(mainActivity == null){
+            return null;
+        }
+        result.add(Activity.createActivityWithImage(mainActivity));
 
-            if (Activity.isAppropriate(randomActivity)){
-                result.add(Activity.createActivityWithImage(randomActivity));
+        if(QuestionType.getAmountOfActivities(type) == 1){
+            return result;
+        }
+
+        double minConsumption = mainActivity.getEnergyConsumption() * 0.6;
+        double maxConsumption = Math.max(mainActivity.getEnergyConsumption() * 3, 300);
+        List<Activity> activities = activityRepository.findAll().stream().filter(
+                x -> x.getEnergyConsumption() > minConsumption && x.getEnergyConsumption() < maxConsumption).toList();
+
+        if(activities.size() < QuestionType.getAmountOfActivities(type)){
+            return generateActivitySet(type);
+        }
+
+        while(result.size() < QuestionType.getAmountOfActivities(type)){
+            if (addActivityToSetIfAppropriate(result, activities)) {
+                return null;
             }
         }
 
@@ -85,7 +113,7 @@ public class QuestionGenerator {
     }
 
     private Question generateSelectiveQuestion(){
-        Set<Activity> activitySet = generateActivitySet(QuestionType.MC);
+        Set<Activity> activitySet = generateActivitySet(QuestionType.SELECTIVE);
         if (activitySet == null) {
             return null;
         }
