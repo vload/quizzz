@@ -44,9 +44,10 @@ public class QuestionGenerator {
         if (randomActivity == null) {
             return true;
         }
-        if (!result.stream().map(Activity::getEnergyConsumption)
-                .toList().contains(randomActivity.getEnergyConsumption()) &&
-                Activity.isAppropriate(randomActivity)){
+        var consumptions = result.stream().map(Activity::getEnergyConsumption).toList();
+        var consumptionAlreadyInSet = consumptions.contains(randomActivity.getEnergyConsumption());
+        var appropriate = Activity.isAppropriate(randomActivity);
+        if (!consumptionAlreadyInSet && appropriate){
             result.add(Activity.createActivityWithImage(randomActivity));
         }
         return false;
@@ -55,10 +56,15 @@ public class QuestionGenerator {
     private Set<Activity> generateActivitySet(QuestionType type){
         Set<Activity> result = new HashSet<>();
 
-        Activity mainActivity =  activityRepository.getRandom(random);
-        if(mainActivity == null){
-            return null;
-        }
+        Activity mainActivity;
+
+        do {
+            mainActivity = activityRepository.getRandom(random);
+            if (mainActivity == null) {
+                return null;
+            }
+        } while (!Activity.isAppropriate(mainActivity));
+
         result.add(Activity.createActivityWithImage(mainActivity));
 
         if(QuestionType.getAmountOfActivities(type) == 1){
