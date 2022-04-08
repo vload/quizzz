@@ -63,6 +63,7 @@ public class LobbyScreenCtrl extends AbstractCtrl{
      */
     public void goBackToMainScreen(){
         server.disconnect(myMainCtrl.playerData);
+        stop();
         myMainCtrl.connected = false;
         myMainCtrl.showMainScreen();
     }
