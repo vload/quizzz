@@ -69,12 +69,14 @@ Set it back to `false` right afterwards to ensure that activities don't get relo
 
 To start the server do the following:
 
-- Through your IDE, Go to the `Client.Main` class found at `client/src/main/java/client` and run `Main.jar`
+- Through your IDE, Go to the `Main` class found at `server/src/main/java/server` and run `Main.jar`
+
+
 
 #### Starting the Client
 To start the client, type the following into your console:
 
-- Through your IDE, Go to the `Main` class found at `server/src/main/java/server` and run `Main.jar`
+- Through your IDE, Go to the `Client.Main` class found at `client/src/main/java/client` and run `Main.jar`
 
 
 
