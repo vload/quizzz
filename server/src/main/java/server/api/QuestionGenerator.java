@@ -44,9 +44,10 @@ public class QuestionGenerator {
         if (randomActivity == null) {
             return true;
         }
-        if (!result.stream().map(Activity::getEnergyConsumption)
-                .toList().contains(randomActivity.getEnergyConsumption()) &&
-                Activity.isAppropriate(randomActivity)){
+        var consumptions = result.stream().map(Activity::getEnergyConsumption).toList();
+        var consumptionAlreadyInSet = consumptions.contains(randomActivity.getEnergyConsumption());
+        var appropriate = Activity.isAppropriate(randomActivity);
+        if (!consumptionAlreadyInSet && appropriate){
             result.add(Activity.createActivityWithImage(randomActivity));
         }
         return false;
@@ -54,17 +55,19 @@ public class QuestionGenerator {
 
     private Set<Activity> generateActivitySet(QuestionType type){
         Set<Activity> result = new HashSet<>();
+        Activity mainActivity;
+        do {
+            mainActivity = activityRepository.getRandom(random);
+            if (mainActivity == null) {
+                return null;
+            }
+        } while (!Activity.isAppropriate(mainActivity));
 
-        Activity mainActivity =  activityRepository.getRandom(random);
-        if(mainActivity == null){
-            return null;
-        }
         result.add(Activity.createActivityWithImage(mainActivity));
 
         if(QuestionType.getAmountOfActivities(type) == 1){
             return result;
         }
-
         double minConsumption = mainActivity.getEnergyConsumption() * 0.6;
         double maxConsumption = Math.max(mainActivity.getEnergyConsumption() * 3, 300);
         List<Activity> activities = activityRepository.findAll().stream().filter(
@@ -73,13 +76,11 @@ public class QuestionGenerator {
         if(activities.size() < QuestionType.getAmountOfActivities(type)){
             return generateActivitySet(type);
         }
-
         while(result.size() < QuestionType.getAmountOfActivities(type)){
             if (addActivityToSetIfAppropriate(result, activities)) {
                 return null;
             }
         }
-
         return result;
     }
 
