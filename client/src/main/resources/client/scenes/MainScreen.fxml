@@ -29,7 +29,7 @@
             <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="150.0" prefWidth="500.0" text="SinglePlayer">
+                  <Button mnemonicParsing="false" onAction="#goToSPName" prefHeight="150.0" prefWidth="500.0" styleClass="buttonMainScreen" text="SinglePlayer">
                      <font>
                         <Font size="57.0" />
                      </font>
@@ -41,7 +41,7 @@
                 <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="150.0" prefWidth="500.0" text="MultiPlayer">
+                        <Button mnemonicParsing="false" onAction="#goToMPName" prefHeight="150.0" prefWidth="500.0" styleClass="buttonMainScreen" text="MultiPlayer">
                             <font>
                                 <Font size="57.0" />
                             </font>
@@ -53,7 +53,7 @@
                 <HBox maxHeight="616.0" prefHeight="110.0" prefWidth="1920.0">
                     <children>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#onAdminClick" prefHeight="150.0" prefWidth="500.0" text="Admin">
+                        <Button mnemonicParsing="false" onAction="#onAdminClick" prefHeight="150.0" prefWidth="500.0" styleClass="buttonMainScreen" text="Admin">
                             <font>
                                 <Font size="57.0" />
                             </font>
