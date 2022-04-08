@@ -13,7 +13,7 @@ import java.util.List;
 
 @Configuration
 public class ActivityRepositoryLoader {
-    private boolean LOAD_ACTIVITIES = true;
+    private boolean LOAD_ACTIVITIES = false; // CHANGE THIS WHEN LOADING ACTIVITIES
 
     @Bean
     ApplicationRunner loadActivities(ActivityRepository repository) {
