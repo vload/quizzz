@@ -54,7 +54,8 @@ properly without any activities.
 #### Downloading the Activities
 The compressed activity archive can be downloaded from  [here](https://gitlab.ewi.tudelft.nl/cse1105/2021-2022/activity-bank/-/jobs/2444739/artifacts/raw/20220311-oopp-activity-bank.zip)
 
-Unzip the archive, rename the directory as "activitybank" and put it in the root directory of the project.
+Unzip the archive, rename the directory as `activitybank` and put it in the root directory of the project.
+If there is already a directory called `activitybank`, replace the directory with the new one. 
 
 
 #### Loading the Activities from the JSON file
@@ -69,7 +70,7 @@ Set it back to `false` right afterwards to ensure that activities don't get relo
 
 To start the server do the following:
 
-- Through your IDE, Go to the `Main` class found at `server/src/main/java/server` and run `Main.jar`
+- Through your IDE, Go to the `Server.Main` class found at `server/src/main/java/server` and run `Main.jar`
 
 
 
