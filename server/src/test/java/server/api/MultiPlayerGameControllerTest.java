@@ -31,7 +31,7 @@ class MultiPlayerGameControllerTest {
 
         Activity a2 = new Activity(
                 "2","examplePath",
-                "Activity2",92.5,
+                "Activity2",50,
                 "www.higher.com");
 
         Activity a3 = new Activity(
@@ -79,7 +79,6 @@ class MultiPlayerGameControllerTest {
         );
         assertEquals(question,sut.getNextQuestion("0","H").getBody());
         sut.getNextQuestion("0","H");
-        assertEquals(questionTwo,sut.getNextQuestion("0","H").getBody());
         assertEquals(question,sut.getNextQuestion("0","Y").getBody());
     }
 
@@ -153,7 +152,7 @@ class MultiPlayerGameControllerTest {
         ResponseEntity<PollWrapper> res2 = (ResponseEntity<PollWrapper>)
                 r3.getResult();
         assertNotNull(res2);
-        assertTrue(res2.getBody().getWhoInitiated() != null);
+        assertNotNull(res2.getBody().getWhoInitiated());
     }
 
     @Test
