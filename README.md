@@ -21,7 +21,8 @@ It supports singleplayer and multiplayer.
 ## Installation & Launch
 The following are installation & launch instructions for Quizzz!. Pre-requisite knowledge about the utilisation
 of git and bash is assumed. 
-- All referenced commands are for a windows based environment. Append `./` to the start of every gradle command if you are using git bash or a linux distribution.
+- All referenced commands are for a windows based environment. Append `./` to the start of any gradle command(s) if you are using git bash or a linux distribution.
+- You must have JDK16+ installed
 
 ### Clone this Repository
 To run or contribute to this project, you must first clone this repository
@@ -60,21 +61,23 @@ Unzip the archive, rename the directory as "activitybank" and put it in the root
 Within the `ActivityRepositoryLoader` class, (which can be found at `server/src/main/java/server/database/ActivityRepositoryLoader.java`)
 - set `LOAD_ACTIVITIES` to `true`
 
-After starting the server for the first time (**_[explained in next section](#starting-the-application)_**), the activities should be loaded in. 
+Start the server one time through your **DEVELOPMENT ENVIRONMENT** (important as the filepath is not recognised if you use `gradlew bootRun`), and wait for the activities to load. 
 Set it back to `false` right afterwards to ensure that activities don't get reloaded/overwritten.
 
 ### Starting the Application
 #### Starting the Server
 
-To start the server type the following into your console:
-```
-gradlew bootRun
-```
+To start the server do the following:
+
+- Through your IDE, Go to the `Main` class found at `server/src/main/java/server` and run `Main.jar`
+
+
+
 #### Starting the Client
 To start the client, type the following into your console:
-```
-gradlew run
-```
+
+- Through your IDE, Go to the `Client.Main` class found at `client/src/main/java/client` and run `Main.jar`
+
 
 
 You should be all set to play the game! Have Fun!
