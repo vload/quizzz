@@ -35,6 +35,15 @@ should only be used for occasions such as the main screen, really big ones*/
     -fx-border-width: 6;
     -fx-border-radius: 36;
     -fx-background-insets: 0.02;
+}
+
+.buttonMainScreen {
+    -fx-background-color: -button-color;
+    -fx-background-radius: 50;
+    -fx-border-color: -button-border-color;
+    -fx-border-width: 6;
+    -fx-border-radius: 36;
+    -fx-background-insets: 0.02;
     -fx-min-height: 100px;
 }
 
