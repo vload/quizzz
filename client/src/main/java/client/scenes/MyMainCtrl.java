@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -122,8 +123,8 @@ public class MyMainCtrl extends AbstractCtrl {
 
     private void showUI() {
         primaryStage.setScene(new Scene(screenMap.get("mainScreen").getScene()));
-        //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        //primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setFullScreen(true);
         showMainScreen();
         primaryStage.show();
     }
